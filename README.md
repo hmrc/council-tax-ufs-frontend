@@ -49,7 +49,7 @@ sbt
 
 Toggle features via `application.conf`:
 
-- `features.propertyDetailsJourney` — Release 2 property details journey
+- `features.propertyDetailsJourney` — Release-2 property details Journey
 
 ## License
 
