@@ -1,8 +1,56 @@
-
 # council-tax-ufs-frontend
 
-This is a placeholder README.md for a new repository
+Frontend for the Council Tax Unaligned Filing Service (UFS) — allows citizens
+to check their Council Tax band and submit a challenge if the details are wrong.
 
-### License
+## Running locally
 
-This code is open source software licensed under the [Apache 2.0 License]("http://www.apache.org/licenses/LICENSE-2.0.html").
+### Prerequisites
+
+- JDK 11+
+- sbt 1.9+
+- MongoDB (via `sm2 --start MONGO` or Docker)
+- HMRC Service Manager (`sm2`)
+
+### Start dependencies
+
+```bash
+sm2 --start COUNCIL_TAX_UFS_ALL
+```
+
+### Start the service
+
+```bash
+sbt run
+```
+
+Then visit `http://localhost:60001/council-tax-ufs` (port from `conf/application.conf`).
+
+## Testing
+
+```bash
+sbt clean test            # unit tests
+sbt clean it/test         # integration tests
+sbt scalafmtAll           # format code
+```
+
+## Adding new pages
+
+This service uses `hmrc-frontend-scaffold.g8` scaffolds. To add a new page:
+
+```bash
+sbt
+> g8Scaffold yesNoPage       # or stringPage, intPage, radioButtonPage, datePage, checkboxPage
+> exit
+./migrate.sh
+```
+
+## Feature flags
+
+Toggle features via `application.conf`:
+
+- `features.propertyDetailsJourney` — Release-2 property details Journey
+
+## License
+
+This code is open source software licensed under the Apache 2.0 License.
