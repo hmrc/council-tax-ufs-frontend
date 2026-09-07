@@ -1,4 +1,4 @@
-service.name = council-tax-ufs-frontend
+service.name = Review your Council Tax band
 
 site.back = Back
 site.remove = Remove
@@ -47,3 +47,43 @@ signedOut.guidance = We did not save your answers.
 
 unauthorised.title = You can’t access this service with this account
 unauthorised.heading = You can’t access this service with this account
+
+postcodeSearch.title = Enter the property postcode
+postcodeSearch.heading = Enter the property postcode
+postcodeSearch.description = You can search for any home in England and Wales by entering the postcode.
+postcodeSearch.label = Postcode
+postcodeSearch.hint = For example CF5 4GP
+postcodeSearch.checkYourAnswersLabel = postcodeSearch
+postcodeSearch.error.required = Enter a postcode, like AA1 1AA
+postcodeSearch.error.length = PostcodeSearch must be 10 characters or less
+postcodeSearch.change.hidden = PostcodeSearch
+
+# Search Results
+searchResults.title                      = Search results for {0}
+searchResults.title.paged                = Search results for {0} (page {1} of {2})
+searchResults.heading                    = Search results for {0}
+searchResults.showing                    = Showing {0} to {1} of {2} results
+searchResults.column.address             = Address
+searchResults.column.band                = Council Tax band
+searchResults.column.localAuthority      = Local authority
+searchResults.cannotFind                 = I cannot find my property
+searchResults.cannotFind.check           = Check the details you have entered are correct or search for a property using the
+searchResults.cannotFind.otherOptions    = other search options
+searchResults.cannotFind.contactCouncil  = Contact your local council
+searchResults.cannotFind.contactCouncilDescription = if you still cannot find your property. They will provide the Valuation Office with the information they need to allocate a Council Tax band.
+searchResults.commercialUse              = This data is not to be used for commercial use
+searchResults.searchAgain                = Search again
+searchResults.searchAgain.label          = Enter a postcode
+searchResults.searchAgain.button         = Search
+searchResults.otherSearchOptions         = Other search options
+searchResults.error                      = There was a problem with your search. Please try again.
+
+# No Results
+noResults.title                          = No results for {0}
+noResults.heading                        = No results for {0}
+noResults.label                          = Enter a postcode
+noResults.button                         = Search again
+noResults.cannotFind.check               = Check the details you have entered are correct or search for a property using the
+noResults.cannotFind.otherOptions        = other search options
+noResults.contactCouncil                 = Contact your local council
+noResults.contactCouncilDescription      = if you still cannot find your property. They will provide the Valuation Office with the information they need to allocate a Council Tax band.

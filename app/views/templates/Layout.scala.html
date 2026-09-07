@@ -20,6 +20,7 @@
 @import uk.gov.hmrc.hmrcfrontend.views.html.components._
 @import uk.gov.hmrc.govukfrontend.views.html.components._
 @import uk.gov.hmrc.hmrcfrontend.views.viewmodels.hmrcstandardpage._
+@import models.requests.RequestSupport.isLoggedIn
 
 @this(
     appConfig: FrontendAppConfig,
@@ -60,7 +61,7 @@
     ),
     serviceURLs = ServiceURLs(
         serviceUrl = Some(routes.IndexController.onPageLoad().url),
-        signOutUrl = if(showSignOut) Some(controllers.auth.routes.AuthController.signOut().url) else None
+        signOutUrl = if(isLoggedIn) Some(controllers.auth.routes.AuthController.signOut().url) else None
     ),
     banners = Banners(
         displayHmrcBanner = showHmrcBanner,
