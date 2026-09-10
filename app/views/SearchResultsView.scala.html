@@ -1,0 +1,129 @@
+@*
+ * Copyright 2026 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *@
+
+@import models.SearchResultsViewModel
+@import utils.PaginationHelper
+@import uk.gov.hmrc.govukfrontend.views.viewmodels.pagination.Pagination
+
+@this(
+  layout:          templates.Layout,
+  govukTable:      GovukTable,
+  govukPagination: GovukPagination,
+  govukDetails:    GovukDetails,
+  govukInput:      GovukInput,
+  govukButton:     GovukButton,
+  formHelper:      FormWithCSRF
+)
+
+@(
+  viewModel:       SearchResultsViewModel,
+  encodedPostcode: String,
+  pagination:      Pagination
+)(implicit request: Request[_], messages: Messages)
+
+@pageTitle = @{
+  if (viewModel.totalPages > 1)
+    messages("searchResults.title.paged", viewModel.postcode, viewModel.currentPage, viewModel.totalPages)
+  else
+    messages("searchResults.title", viewModel.postcode)
+}
+
+@layout(
+  pageTitle    = pageTitle,
+  fullWidth = true
+) {
+
+  <h1 class="govuk-heading-xl">
+    @messages("searchResults.heading", viewModel.postcode)
+  </h1>
+  <p class="govuk-body">
+    @Html(messages("searchResults.voa"))
+  </p>
+  <p class="govuk-body">
+    @messages("searchResults.bands")
+  </p>
+  <p class="govuk-body">
+    @messages("searchResults.showing", viewModel.startIndex, viewModel.endIndex, viewModel.totalItems)
+  </p>
+
+
+  @govukTable(Table(
+    head = Some(Seq(
+      HeadCell(content = Text(messages("searchResults.column.address"))),
+      HeadCell(content = Text(messages("searchResults.column.band"))),
+      HeadCell(content = Text(messages("searchResults.column.localAuthority")))
+    )),
+    rows = viewModel.entries.map { entry =>
+      Seq(
+        TableRow(
+          content = HtmlContent({
+            val encAddr = java.net.URLEncoder.encode(entry.address, "UTF-8")
+            val href = "#"
+            s"""<a href="$href" class="govuk-link">${entry.address}</a>"""
+          })
+        ),
+        TableRow(content = Text(entry.band)),
+        TableRow(content = Text(entry.localAuthority))
+      )
+    }
+  ))
+
+  @govukPagination(pagination)
+
+  @* "I cannot find my property" disclosure *@
+  @govukDetails(Details(
+    summary = Text(messages("searchResults.cannotFind")),
+    content = HtmlContent(
+      s"""<p class="govuk-body">
+         |  ${messages("searchResults.cannotFind.check")}
+         |  <a href="#" class="govuk-link">
+         |    ${messages("searchResults.cannotFind.otherOptions")}
+         |  </a>.
+         |</p>
+         |<p class="govuk-body">
+         |  <a href="https://www.gov.uk/find-local-council" target="_blank" class="govuk-link">${messages("searchResults.cannotFind.contactCouncil")}</a>
+         |  ${messages("searchResults.cannotFind.contactCouncilDescription")}
+         |</p>""".stripMargin
+    )
+  ))
+
+  <p class="govuk-body">@messages("searchResults.commercialUse")</p>
+
+  <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+  <h2 class="govuk-heading-m">@messages("searchResults.searchAgain")</h2>
+
+  @formHelper(action = routes.PostcodeSearchController.onSubmit(models.NormalMode)) {
+    @govukInput(Input(
+      id    = "value",
+      name  = "value",
+      label = Label(content = Text(messages("searchResults.searchAgain.label"))),
+      classes      = "govuk-input--width-10",
+      autocomplete = Some("postal-code"),
+      value        = Some(viewModel.postcode)
+    ))
+    @govukButton(Button(
+      content    = Text(messages("searchResults.searchAgain.button")),
+      attributes = Map("id" -> "search-again")
+    ))
+  }
+
+  <p class="govuk-body">
+      <a href="#" class="govuk-link">
+      @messages("searchResults.otherSearchOptions")
+    </a>
+  </p>
+}

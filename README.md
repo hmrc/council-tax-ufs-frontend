@@ -24,7 +24,7 @@ sm2 --start COUNCIL_TAX_UFS_ALL
 sbt run
 ```
 
-Then visit `http://localhost:60001/council-tax-ufs` (port from `conf/application.conf`).
+Then visit `http://localhost:60002/council-tax-ufs` (port from `conf/application.conf`).
 
 ## Testing
 
