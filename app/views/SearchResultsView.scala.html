@@ -43,15 +43,22 @@
 
 @layout(
   pageTitle    = pageTitle,
+  fullWidth = true
 ) {
 
   <h1 class="govuk-heading-xl">
     @messages("searchResults.heading", viewModel.postcode)
   </h1>
-
+  <p class="govuk-body">
+    @Html(messages("searchResults.voa"))
+  </p>
+  <p class="govuk-body">
+    @messages("searchResults.bands")
+  </p>
   <p class="govuk-body">
     @messages("searchResults.showing", viewModel.startIndex, viewModel.endIndex, viewModel.totalItems)
   </p>
+
 
   @govukTable(Table(
     head = Some(Seq(
@@ -87,7 +94,7 @@
          |  </a>.
          |</p>
          |<p class="govuk-body">
-         |  <a href="#" class="govuk-link">${messages("searchResults.cannotFind.contactCouncil")}</a>
+         |  <a href="https://www.gov.uk/find-local-council" target="_blank" class="govuk-link">${messages("searchResults.cannotFind.contactCouncil")}</a>
          |  ${messages("searchResults.cannotFind.contactCouncilDescription")}
          |</p>""".stripMargin
     )

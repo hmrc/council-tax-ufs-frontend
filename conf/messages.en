@@ -54,6 +54,7 @@ postcodeSearch.description = You can search for any home in England and Wales by
 postcodeSearch.label = Postcode
 postcodeSearch.hint = For example CF5 4GP
 postcodeSearch.checkYourAnswersLabel = postcodeSearch
+postcodeSearch.dontKnowPostcode = I do not know the postcode
 postcodeSearch.error.required = Enter a postcode, like AA1 1AA
 postcodeSearch.error.length = PostcodeSearch must be 10 characters or less
 postcodeSearch.change.hidden = PostcodeSearch
@@ -77,6 +78,8 @@ searchResults.searchAgain.label          = Enter a postcode
 searchResults.searchAgain.button         = Search
 searchResults.otherSearchOptions         = Other search options
 searchResults.error                      = There was a problem with your search. Please try again.
+searchResults.voa                        = The <a class="govuk-link" href="https://www.gov.uk/government/organisations/valuation-office-agency">Valuation Office (VO)</a> puts every home in England into a group called a 'band', based on the value of the property on 1 April 1991.
+searchResults.bands                      = The lowest band is ''A'', and the highest band is ''H''.
 
 # No Results
 noResults.title                          = No results for {0}

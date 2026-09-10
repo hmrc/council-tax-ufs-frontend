@@ -130,5 +130,5 @@ case class SearchResultsViewModel(
   pageSize:    Int
 ) {
   val startIndex: Int = if (totalItems == 0) 0 else (currentPage - 1) * pageSize + 1
-  val endIndex:   Int = Math.min(startIndex + entries.size - 1, totalItems)
+  val endIndex:   Int = if (entries.isEmpty) startIndex - 1 else Math.min(startIndex + entries.size - 1, totalItems)
 }

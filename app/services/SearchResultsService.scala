@@ -45,44 +45,62 @@ class SearchResultsService @Inject()(
     page:     Int
   )(implicit hc: HeaderCarrier): Future[Either[String, Option[SearchResultsViewModel]]] = {
 
-    connector.postcodeSearch(postcode, page).map {
+    // Always call API without page param — it returns everything
 
+    connector.postcodeSearch(postcode).map {
       case Left(error) =>
-        logger.warn(s"[SearchResultsService][search] API error for postcode=$postcode page=$page: ${error.message}")
+        logger.warn(s"[SearchResultsService][search] API error postcode=$postcode: ${error.message}")
         Left(error.message)
 
       case Right(result) =>
         val r = result.results
-
         if (r.records.isEmpty) {
-          Right(None)  // No results — show no results page
-        } else {
-          val entries = r.records.flatMap { record =>
-            for {
-              listEntry <- record.list_entry
-              property  <- listEntry.property
-              address   <- property.address
-              full      <- address.full
-              valuation <- listEntry.valuation
-              band      <- valuation.value
-              authority <- record.list.flatMap(_.collection_authority).flatMap(_.code)
-            } yield PropertyEntry(
-              address        = full,
-              band           = band,
-              localAuthority = authority
-            )
-          }
+          Right(None)
+        } else {     
+        //Build all entries from the full response
 
-          val viewModel = SearchResultsViewModel(
-            postcode    = postcode,
-            entries     = entries,
-            currentPage = r.current_page.getOrElse(page),
-            totalPages  = r.total_pages.getOrElse(1),
-            totalItems  = r.total_results.getOrElse(entries.size),
-            pageSize    = r.page_size.getOrElse(10)
+        val allEntries = r.records.flatMap { record =>
+        val maybeAddress = for {
+          listEntry <- record.list_entry
+          property  <- listEntry.property
+          address   <- property.address
+          full      <- address.full
+        } yield full
+        val band = (for {
+          listEntry <- record.list_entry
+          valuation <- listEntry.valuation
+          value         <- valuation.value
+        } yield value).getOrElse("Unknown")
+        val authority = record.list
+          .flatMap(_.collection_authority)
+          .flatMap(_.code)
+          .getOrElse("Unknown")
+        maybeAddress.map { full =>
+          PropertyEntry(
+            address        = full,
+            band           = band,
+            localAuthority = authority
           )
+        }
+        }
+          logger.info(s"[SearchResultsService] r.records=${r.records.size} allEntries=${allEntries.size} total_results=${r.total_results}")
 
-          Right(Some(viewModel))
+          val pageSize   = r.page_size.getOrElse(20)
+          val totalItems = r.total_results.getOrElse(allEntries.size)   // use actual mapped count
+          val totalPages = Math.ceil(totalItems.toDouble / pageSize).toInt.max(1)
+          val safePage   = page.max(1).min(totalPages)
+          val from        = (safePage - 1) * pageSize
+          val pageEntries = allEntries.slice(from, from + pageSize)
+
+          Right(Some(SearchResultsViewModel(
+            postcode    = postcode,
+            entries     = pageEntries, 
+            currentPage = safePage,
+            totalPages  = totalPages,
+            totalItems  = totalItems,
+            pageSize    = pageSize
+          )))
+
         }
     }
   }

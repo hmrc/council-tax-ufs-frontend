@@ -39,7 +39,7 @@ class BridgeIntegrationConnector @Inject()(
   private def uri(path: String) = new URI(s"${appConfig.bridgeIntegration}/bridge-integration/$path")
 
   // ← returns PostcodeSearchResult (the raw API model), not SearchResultsViewModel
-  def postcodeSearch(postcode: String, page: Int = 1)
+  def postcodeSearch(postcode: String, page: Int = 1, pageSize: Int = 20)
     (implicit hc: HeaderCarrier): Future[Either[ErrorResponse, PostcodeSearchResult]] = {
 
     val normalisedPostcode = postcode.trim.toUpperCase.replaceAll("\\s+", "")

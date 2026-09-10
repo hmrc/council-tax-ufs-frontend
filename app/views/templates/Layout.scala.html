@@ -27,10 +27,12 @@
     hmrcTimeoutDialog: HmrcTimeoutDialog,
     hmrcReportTechnicalIssueHelper: HmrcReportTechnicalIssueHelper,
     alphaBanner: StandardAlphaBanner,
-    hmrcStandardPage: HmrcStandardPage
+    hmrcStandardPage: HmrcStandardPage,
+    fullWidthLayout: FullWidthLayout,
+    twoThirdsLayout: TwoThirdLayout
 )
 
-@(pageTitle: String, showBackLink: Boolean = true, timeout: Boolean = true, showSignOut: Boolean = true, showHmrcBanner: Boolean = false)(contentBlock: Html)(implicit rh: RequestHeader, messages: Messages)
+@(pageTitle: String, fullWidth: Boolean = false,showBackLink: Boolean = true, timeout: Boolean = true, showSignOut: Boolean = true, showHmrcBanner: Boolean = false)(contentBlock: Html)(implicit rh: RequestHeader, messages: Messages)
 
 @head = {
 
@@ -57,6 +59,11 @@
 @hmrcStandardPage(HmrcStandardPageParams(
     pageTitle = Some(pageTitle),
     templateOverrides = TemplateOverrides(
+        mainContentLayout =
+            if (fullWidth)
+                Some((_: Html) => fullWidthLayout(contentBlock))
+            else
+                Some((_: Html) => twoThirdsLayout(contentBlock)),
         additionalHeadBlock = Some(head)
     ),
     serviceURLs = ServiceURLs(
