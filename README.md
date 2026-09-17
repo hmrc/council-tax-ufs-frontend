@@ -24,14 +24,16 @@ sm2 --start COUNCIL_TAX_UFS_ALL
 sbt run
 ```
 
-Then visit `http://localhost:60001/council-tax-ufs` (port from `conf/application.conf`).
+Then visit `http://localhost:60002/council-tax-ufs` (port from `conf/application.conf`).
 
 ## Testing
 
 ```bash
-sbt clean test            # unit tests
-sbt clean it/test         # integration tests
-sbt scalafmtAll           # format code
+sbt clean test                                                    # unit tests
+sbt clean it/test                                                 # integration tests
+sbt "scalafmtOnly filepath"                                       # format scala code
+example: "scalafmtOnly app/models/PropertyDetailResult.scala "
+sbt clean coverage test coverageReport                            # code coverage with test cases
 ```
 
 ## Adding new pages

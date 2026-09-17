@@ -19,3 +19,13 @@ GET         /account/sign-out                            controllers.auth.AuthCo
 GET         /account/signed-out                          controllers.auth.SignedOutController.onPageLoad()
 
 GET         /unauthorised                                controllers.UnauthorisedController.onPageLoad()
+
+GET        /postcode-search                              controllers.PostcodeSearchController.onPageLoad(mode: Mode = NormalMode)
+POST       /postcode-search                              controllers.PostcodeSearchController.onSubmit(mode: Mode = NormalMode)
+GET        /changePostcodeSearch                         controllers.PostcodeSearchController.onPageLoad(mode: Mode = CheckMode)
+POST       /changePostcodeSearch                         controllers.PostcodeSearchController.onSubmit(mode: Mode = CheckMode)
+
+GET        /search-results                 controllers.SearchResultsController.show(postcode: String, page: Int ?= 1)
+GET        /property/:id                                 controllers.PropertyDetailController.onPageLoad(id: String)
+ 
+

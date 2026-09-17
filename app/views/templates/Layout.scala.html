@@ -20,16 +20,19 @@
 @import uk.gov.hmrc.hmrcfrontend.views.html.components._
 @import uk.gov.hmrc.govukfrontend.views.html.components._
 @import uk.gov.hmrc.hmrcfrontend.views.viewmodels.hmrcstandardpage._
+@import models.requests.RequestSupport.isLoggedIn
 
 @this(
     appConfig: FrontendAppConfig,
     hmrcTimeoutDialog: HmrcTimeoutDialog,
     hmrcReportTechnicalIssueHelper: HmrcReportTechnicalIssueHelper,
     alphaBanner: StandardAlphaBanner,
-    hmrcStandardPage: HmrcStandardPage
+    hmrcStandardPage: HmrcStandardPage,
+    fullWidthLayout: FullWidthLayout,
+    twoThirdsLayout: TwoThirdLayout
 )
 
-@(pageTitle: String, showBackLink: Boolean = true, timeout: Boolean = true, showSignOut: Boolean = true, showHmrcBanner: Boolean = false)(contentBlock: Html)(implicit rh: RequestHeader, messages: Messages)
+@(pageTitle: String, fullWidth: Boolean = false,showBackLink: Boolean = true, timeout: Boolean = true, showSignOut: Boolean = true, showHmrcBanner: Boolean = false)(contentBlock: Html)(implicit rh: RequestHeader, messages: Messages)
 
 @head = {
 
@@ -56,11 +59,16 @@
 @hmrcStandardPage(HmrcStandardPageParams(
     pageTitle = Some(pageTitle),
     templateOverrides = TemplateOverrides(
+        mainContentLayout =
+            if (fullWidth)
+                Some((_: Html) => fullWidthLayout(contentBlock))
+            else
+                Some((_: Html) => twoThirdsLayout(contentBlock)),
         additionalHeadBlock = Some(head)
     ),
     serviceURLs = ServiceURLs(
         serviceUrl = Some(routes.IndexController.onPageLoad().url),
-        signOutUrl = if(showSignOut) Some(controllers.auth.routes.AuthController.signOut().url) else None
+        signOutUrl = if(isLoggedIn) Some(controllers.auth.routes.AuthController.signOut().url) else None
     ),
     banners = Banners(
         displayHmrcBanner = showHmrcBanner,
