@@ -23,7 +23,7 @@ import play.api.libs.json.{JsError, JsSuccess}
 import uk.gov.hmrc.http.HttpReads.Implicits.*
 import uk.gov.hmrc.http.client.HttpClientV2
 import uk.gov.hmrc.http.{HeaderCarrier, HttpResponse}
-import models.PostcodeSearchResult   // ← PostcodeSearchResult not SearchResultsViewModel
+import models.{PostcodeSearchResult ,PropertyDetailResult, PropertyDetailResponse}
 
 import java.net.URI
 import javax.inject.Inject
@@ -38,28 +38,27 @@ class BridgeIntegrationConnector @Inject()(
 
   private def uri(path: String) = new URI(s"${appConfig.bridgeIntegration}/bridge-integration/$path")
 
-  // ← returns PostcodeSearchResult (the raw API model), not SearchResultsViewModel
   def postcodeSearch(postcode: String, page: Int = 1, pageSize: Int = 20)
     (implicit hc: HeaderCarrier): Future[Either[ErrorResponse, PostcodeSearchResult]] = {
 
     val normalisedPostcode = postcode.trim.toUpperCase.replaceAll("\\s+", "")
     val url = uri(s"postcode/$normalisedPostcode/CVW?page=$page").toURL
-
     logger.info(s"[BridgeIntegrationConnector][postcodeSearch] Calling url=$url")
 
     http.get(url)
       .execute[HttpResponse]
       .map { response =>
+        logger.warn(s"[DEBUG] Raw body : ${response.body}")
         response.status match {
           case OK =>
-            response.json.validate[PostcodeSearchResult] match {   // ← PostcodeSearchResult
+            response.json.validate[PostcodeSearchResult] match {  
               case JsSuccess(result, _) => Right(result)
               case JsError(errors)      =>
                 logger.info(s"[BridgeIntegrationConnector][postcodeSearch] JSON validation failed: $errors")
                 Left(ErrorResponse(BAD_REQUEST, s"Json Validation Error: $errors"))
             }
           case NOT_FOUND =>
-            response.json.validate[PostcodeSearchResult] match {   // ← PostcodeSearchResult
+            response.json.validate[PostcodeSearchResult] match {  
               case JsSuccess(result, _) => Right(result)
               case JsError(_)           => Left(ErrorResponse(NOT_FOUND, response.body))
             }
@@ -77,4 +76,41 @@ class BridgeIntegrationConnector @Inject()(
           Left(ErrorResponse(INTERNAL_SERVER_ERROR, "Call to Bridge postcode search failed"))
       }
   }
+
+
+  def propertyDetail(propertyId: String)(implicit hc: HeaderCarrier): Future[Either[ErrorResponse, PropertyDetailResponse]] = {
+
+    val url = uri(s"explore/$propertyId/CVW").toURL
+    logger.info(s"[BridgeIntegrationConnector][propertyDetail:] Calling url=$url")
+    http.get(url)
+      .execute[HttpResponse]
+      .map { response =>
+        response.status match {
+          case OK =>
+            logger.warn(s"[DEBUG] property detail raw body: ${response.body}")
+            response.json.validate[PropertyDetailResponse] match {
+              case JsSuccess(result, _) =>
+                Right(result)
+              case JsError(errors) =>
+                logger.warn(s"[BridgeIntegrationConnector][property detail] JSON validation failed: $errors")
+                Left(ErrorResponse(BAD_REQUEST, s"Json Validation Error: $errors"))
+            }
+          case NOT_FOUND =>
+            logger.warn(s"[BridgeIntegrationConnector][property detail] Not found: ${response.body}")
+            Left(ErrorResponse(NOT_FOUND, response.body))
+          case BAD_REQUEST =>
+            logger.warn(s"[BridgeIntegrationConnector][property detail] Bad request: ${response.body}")
+            Left(ErrorResponse(BAD_REQUEST, response.body))
+          case status =>
+            logger.error(s"[BridgeIntegrationConnector][property detail] Unexpected status=$status")
+            Left(ErrorResponse(status, response.body))
+        }
+      }
+      .recover {
+        case NonFatal(ex) =>
+          logger.error(s"[BridgeIntegrationConnector][property detail] Failed: ${ex.getMessage}", ex)
+          Left(ErrorResponse(INTERNAL_SERVER_ERROR, "Call to bridge-integration property detail failed"))
+      }
+  }
+ 
 }

@@ -107,9 +107,10 @@ object Address {
  * Extracted from Record by SearchResultsService.
  */
 case class PropertyEntry(
+  propertyId:     String,
+  localAuthority: String,
   address:       String,
   band:          String,
-  localAuthority: String
 )
 
 /**

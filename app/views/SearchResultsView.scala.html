@@ -41,6 +41,19 @@
     messages("searchResults.title", viewModel.postcode)
 }
 
+@tableRows = @{
+ viewModel.entries.map { entry =>
+   val href = if (entry.propertyId.nonEmpty)
+     routes.PropertyDetailController.onPageLoad(entry.propertyId).url
+   else "#"
+   Seq(
+     TableRow(content = HtmlContent(s"""<a href="$href" class="govuk-link">${entry.address}</a>""")),
+     TableRow(content = Text(entry.band)),
+     TableRow(content = Text(entry.localAuthority))
+   )
+ }
+}
+
 @layout(
   pageTitle    = pageTitle,
   fullWidth = true
@@ -66,19 +79,7 @@
       HeadCell(content = Text(messages("searchResults.column.band"))),
       HeadCell(content = Text(messages("searchResults.column.localAuthority")))
     )),
-    rows = viewModel.entries.map { entry =>
-      Seq(
-        TableRow(
-          content = HtmlContent({
-            val encAddr = java.net.URLEncoder.encode(entry.address, "UTF-8")
-            val href = "#"
-            s"""<a href="$href" class="govuk-link">${entry.address}</a>"""
-          })
-        ),
-        TableRow(content = Text(entry.band)),
-        TableRow(content = Text(entry.localAuthority))
-      )
-    }
+    rows = tableRows
   ))
 
   @govukPagination(pagination)

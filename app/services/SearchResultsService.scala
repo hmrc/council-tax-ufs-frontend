@@ -17,7 +17,7 @@
 package services
 
 import connectors.BridgeIntegrationConnector
-import models._
+import models.*
 import play.api.Logging
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.http.ErrorResponse
@@ -26,24 +26,22 @@ import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class SearchResultsService @Inject()(
+class SearchResultsService @Inject() (
   connector: BridgeIntegrationConnector
-)(implicit ec: ExecutionContext) extends Logging {
+)(implicit ec: ExecutionContext)
+    extends Logging {
 
-  /**
-   * Search by postcode for a given page.
-   *
-   * Delegates to the API via BridgeIntegrationConnector.
-   * Pagination is SERVER-SIDE — the API returns only the records for
-   * the requested page. We do NOT slice locally.
-   *
-   * Returns Right(SearchResultsViewModel) on success.
-   * Returns Left(errorMessage) on API error.
-   */
+  /** Search by postcode for a given page.
+    *
+    * Delegates to the API via BridgeIntegrationConnector. Pagination is SERVER-SIDE — the API returns only the records for the requested page. We do
+    * NOT slice locally.
+    *
+    * Returns Right(SearchResultsViewModel) on success. Returns Left(errorMessage) on API error.
+    */
   def search(
     postcode: String,
     page:     Int
-  )(implicit hc: HeaderCarrier): Future[Either[String, Option[SearchResultsViewModel]]] = {
+  )(implicit hc: HeaderCarrier): Future[Either[String, Option[SearchResultsViewModel]]] =
 
     // Always call API without page param — it returns everything
 
@@ -54,54 +52,64 @@ class SearchResultsService @Inject()(
 
       case Right(result) =>
         val r = result.results
-        if (r.records.isEmpty) {
+        if r.records.isEmpty then {
           Right(None)
-        } else {     
-        //Build all entries from the full response
+        } else {
+          // Build all entries from the full response
 
-        val allEntries = r.records.flatMap { record =>
-        val maybeAddress = for {
-          listEntry <- record.list_entry
-          property  <- listEntry.property
-          address   <- property.address
-          full      <- address.full
-        } yield full
-        val band = (for {
-          listEntry <- record.list_entry
-          valuation <- listEntry.valuation
-          value         <- valuation.value
-        } yield value).getOrElse("Unknown")
-        val authority = record.list
-          .flatMap(_.collection_authority)
-          .flatMap(_.code)
-          .getOrElse("Unknown")
-        maybeAddress.map { full =>
-          PropertyEntry(
-            address        = full,
-            band           = band,
-            localAuthority = authority
-          )
-        }
-        }
+          val allEntries = r.records.flatMap { record =>
+            val maybeAddress = for {
+              listEntry <- record.list_entry
+              property  <- listEntry.property
+              address   <- property.address
+              full      <- address.full
+            } yield full
+            val band = (for {
+              listEntry <- record.list_entry
+              valuation <- listEntry.valuation
+              value     <- valuation.value
+            } yield value).getOrElse("Unknown")
+            val authority = record.list
+              .flatMap(_.collection_authority)
+              .flatMap(_.code)
+              .getOrElse("Unknown")
+
+            val propertyId = record.list_entry
+              .flatMap(_.property)
+              .flatMap(_.id)
+              .flatMap(_.value)
+              .getOrElse("")
+            maybeAddress.map { full =>
+              PropertyEntry(
+                propertyId = propertyId,
+                address = full,
+                band = band,
+                localAuthority = authority
+              )
+            }
+          }
           logger.info(s"[SearchResultsService] r.records=${r.records.size} allEntries=${allEntries.size} total_results=${r.total_results}")
 
-          val pageSize   = r.page_size.getOrElse(20)
-          val totalItems = r.total_results.getOrElse(allEntries.size)   // use actual mapped count
-          val totalPages = Math.ceil(totalItems.toDouble / pageSize).toInt.max(1)
-          val safePage   = page.max(1).min(totalPages)
+          val pageSize    = r.page_size.getOrElse(20)
+          val totalItems  = r.total_results.getOrElse(allEntries.size) // use actual mapped count
+          val totalPages  = Math.ceil(totalItems.toDouble / pageSize).toInt.max(1)
+          val safePage    = page.max(1).min(totalPages)
           val from        = (safePage - 1) * pageSize
           val pageEntries = allEntries.slice(from, from + pageSize)
 
-          Right(Some(SearchResultsViewModel(
-            postcode    = postcode,
-            entries     = pageEntries, 
-            currentPage = safePage,
-            totalPages  = totalPages,
-            totalItems  = totalItems,
-            pageSize    = pageSize
-          )))
+          Right(
+            Some(
+              SearchResultsViewModel(
+                postcode = postcode,
+                entries = pageEntries,
+                currentPage = safePage,
+                totalPages = totalPages,
+                totalItems = totalItems,
+                pageSize = pageSize
+              )
+            )
+          )
 
         }
     }
-  }
 }

@@ -90,3 +90,77 @@ noResults.cannotFind.check               = Check the details you have entered ar
 noResults.cannotFind.otherOptions        = other search options
 noResults.contactCouncil                 = Contact your local council
 noResults.contactCouncilDescription      = if you still cannot find your property. They will provide the Valuation Office with the information they need to allocate a Council Tax band.
+
+
+propertyDetail.informationFor                    = Information for:
+propertyDetail.publicInformation                 = Public information
+propertyDetail.publicInformation.anybody         = Anybody can view this information
+propertyDetail.band                              = Council Tax band
+propertyDetail.band.hint                         = The current band for the property. This is based on the property value on 01 April 1991.
+propertyDetail.band.expand                       = Council Tax bands England
+propertyDetail.band.table.band                   = Band
+propertyDetail.band.table.value                  = Property value at 1 April 1991
+propertyDetail.band.current                      = current band
+propertyDetail.band.range.A                      = up to £40,000
+propertyDetail.band.range.B                      = £40,001 to £52,000
+propertyDetail.band.range.C                      = £52,001 to £68,000
+propertyDetail.band.range.D                      = £68,001 to £88,000
+propertyDetail.band.range.E                      = £88,001 to £120,000
+propertyDetail.band.range.F                      = £120,001 to £160,000
+propertyDetail.band.range.G                      = £160,001 to £320,000
+propertyDetail.band.range.H                      = More than £320,000
+propertyDetail.effectiveFrom                     = With effect from
+propertyDetail.effectiveFrom.hint                = The date the current band came into effect.
+propertyDetail.localCouncil                      = Local Council
+propertyDetail.localCouncil.hint                 = The Local Council sets the amount of Council Tax you pay each year, based on the band.
+propertyDetail.councilRef                        = Local Council reference number
+propertyDetail.councilRef.hint                   = A reference number for the property.
+propertyDetail.improvement                       = Improvement indicator
+propertyDetail.improvement.hint                  = If a property has been improved or extended since it was placed in a Council Tax band, a Yes will be shown. This means the band will be reviewed and may increase following the sale of the property.
+propertyDetail.mixedUse                          = Mixed-use property
+propertyDetail.mixedUse.hint                     = A property which is used as a home and a business. For example, a working farm or a flat above a shop.
+propertyDetail.courtCode                         = Court code
+propertyDetail.courtCode.hint                    = If the Council Tax band has been reviewed by a Valuation Tribunal or High Court, a court code will be shown.
+propertyDetail.courtCode.none                    = None
+propertyDetail.courtCode.expand                  = What the codes mean
+propertyDetail.courtCode.meaning                 = Court codes indicate the outcome of a tribunal or court review of the Council Tax band.
+propertyDetail.courtCode.V                       = Valuation Tribunal determination
+propertyDetail.courtCode.C                       = Valuation Tribunal confirmation
+propertyDetail.courtCode.R                       = Valuation Tribunal redetermination following High Court referral
+propertyDetail.courtCode.D                       = High Court determination
+propertyDetail.courtCode.H                       = High Court confirmation
+propertyDetail.courtCode.E                       = High Court consent order
+propertyDetail.beforeYouContinue                 = Before you continue
+propertyDetail.beforeYouContinue.youCan          = You can:
+propertyDetail.beforeYouContinue.viewPrevious    = View previous Council Tax bands for this property
+propertyDetail.beforeYouContinue.challenge       = tell us if you think the Council Tax band is wrong if you pay Council Tax for the property, or have permission from the Council Tax payer
+propertyDetail.beforeYouContinue.remove          = ask us to remove the property from the Council Tax list if it has been demolished, is derelict, or is undergoing major renovation.
+propertyDetail.beforeYouContinue.signIn          = You''ll need a GOV Gateway or GOV.UK One Login Account to sign in.
+propertyDetail.print                             = Print this page
+propertyDetail.continue                          = Continue
+ 
+# England
+
+propertyDetail.band.expand.england        = Council Tax bands England
+propertyDetail.band.range.england.A       = up to £40,000
+propertyDetail.band.range.england.B       = £40,001 to £52,000
+propertyDetail.band.range.england.C       = £52,001 to £68,000
+propertyDetail.band.range.england.D       = £68,001 to £88,000
+propertyDetail.band.range.england.E       = £88,001 to £120,000
+propertyDetail.band.range.england.F       = £120,001 to £160,000
+propertyDetail.band.range.england.G       = £160,001 to £320,000
+propertyDetail.band.range.england.H       = More than £320,000
+
+# Wales
+
+propertyDetail.band.expand.wales          = Council Tax bands Wales
+propertyDetail.band.range.wales.A         = up to £44,000
+propertyDetail.band.range.wales.B         = £44,001 to £65,000
+propertyDetail.band.range.wales.C         = £65,001 to £91,000
+propertyDetail.band.range.wales.D         = £91,001 to £123,000
+propertyDetail.band.range.wales.E         = £123,001 to £162,000
+propertyDetail.band.range.wales.F         = £162,001 to £223,000
+propertyDetail.band.range.wales.G         = £223,001 to £324,000
+propertyDetail.band.range.wales.H         = £324,001 to £424,000
+propertyDetail.band.range.wales.I         = more than £424,000
+ 
