@@ -26,13 +26,12 @@ import play.api.data.validation.{Constraint => PlayConstraint, Invalid => PlayIn
 class PostcodeSearchFormProvider @Inject() extends Mappings {
 
   private val postcodePattern = "^[A-Z]{1,2}[0-9][A-Z0-9]?( ?[0-9][A-Z]{2})?$".r
+  private val maxLength = 10
 
   private val validPostcode: PlayConstraint[String] =
     PlayConstraint("constraints.postcode") { value =>
-      if (value.length < 3)
-        PlayInvalid("postcodeSearch.error.invalid")
-      else if (value.length > 10)
-        PlayInvalid("postcodeSearch.error.invalid")
+      if (value.length > maxLength)
+        PlayInvalid("postcodeSearch.error.length", maxLength)
       else if (!postcodePattern.matches(value))
         PlayInvalid("postcodeSearch.error.invalid")
       else
