@@ -16,16 +16,33 @@
 
 package forms
 
-import javax.inject.Inject
-
 import forms.mappings.Mappings
+import javax.inject.Inject
 import play.api.data.Form
+import play.api.data.Forms._
+import play.api.data.validation.Constraints
+import play.api.data.validation.{Constraint => PlayConstraint, Invalid => PlayInvalid, Valid => PlayValid}
 
 class PostcodeSearchFormProvider @Inject() extends Mappings {
+
+  private val postcodePattern = "^[A-Z]{1,2}[0-9][A-Z0-9]?( ?[0-9][A-Z]{2})?$".r
+
+  private val validPostcode: PlayConstraint[String] =
+    PlayConstraint("constraints.postcode") { value =>
+      if (value.length < 3)
+        PlayInvalid("postcodeSearch.error.invalid")
+      else if (value.length > 10)
+        PlayInvalid("postcodeSearch.error.invalid")
+      else if (!postcodePattern.matches(value))
+        PlayInvalid("postcodeSearch.error.invalid")
+      else
+        PlayValid
+    }
 
   def apply(): Form[String] =
     Form(
       "value" -> text("postcodeSearch.error.required")
-        .verifying(maxLength(10, "postcodeSearch.error.length"))
+        .transform[String](_.trim.toUpperCase, identity)
+        .verifying(validPostcode)
     )
 }
