@@ -25,7 +25,7 @@ POST       /postcode-search                              controllers.PostcodeSea
 GET        /changePostcodeSearch                         controllers.PostcodeSearchController.onPageLoad(mode: Mode = CheckMode)
 POST       /changePostcodeSearch                         controllers.PostcodeSearchController.onSubmit(mode: Mode = CheckMode)
 
-GET        /search-results                 controllers.SearchResultsController.show(postcode: String, page: Int ?= 1)
+GET        /search-results                               controllers.SearchResultsController.show(postcode: String, page: Int ?= 1)
 GET        /property/:id                                 controllers.PropertyDetailController.onPageLoad(id: String)
  
 

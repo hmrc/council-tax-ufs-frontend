@@ -22,7 +22,7 @@
         govukTable:  GovukTable,
         govukDetails: GovukDetails,
         govukButton: GovukButton
-    )
+        )
 
     @(viewModel: PropertyDetailViewModel)(implicit request: Request[_], messages: Messages)
 
@@ -126,24 +126,32 @@
         <span class="govuk-caption-l">@messages("propertyDetail.informationFor")</span>
                 @viewModel.address
         </h1>
-        <h2 class="govuk-heading-m">@messages("propertyDetail.publicInformation")</h2>
-        <p class="govuk-caption-m">@messages("propertyDetail.publicInformation.anybody")</p>
+        <h2 class="govuk-heading-m">
+          @messages("propertyDetail.publicInformation")
+          <span class="govuk-caption-m">@messages("propertyDetail.publicInformation.anybody")</span>
+        </h2>
        <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
 
         @* Main property details table — matching prototype structure *@
        <table class="govuk-table">
             <tbody class="govuk-table__body">
-                @* Band row *@
-                @tableRow( "propertyDetail.band","propertyDetail.band.hint",viewModel.band)
 
-                @* Band expand inside its own row *@
+                @* Band row with expand inside same row *@
                 <tr class="govuk-table__row">
-                    <td class="govuk-table__cell" colspan="2">
+                    <th scope="row" class="govuk-table__header govuk-!-width-two-thirds">
+                        <div class="govuk-!-margin-bottom-1">
+                            @messages("propertyDetail.band")
+                        </div>
+
+                        <div class="govuk-hint govuk-!-margin-bottom-3">
+                            @messages("propertyDetail.band.hint")
+                        </div>
+
                         @govukDetails(Details(
                             summary = Text(messages(s"propertyDetail.band.expand.$countryKey")),
                             content = HtmlContent(
                                 govukTable(Table(
-                                    caption        = Some(messages(s"propertyDetail.band.expand.$countryKey")),
+                                    caption = Some(messages(s"propertyDetail.band.expand.$countryKey")),
                                     captionClasses = "govuk-visually-hidden",
                                     head = Some(Seq(
                                         HeadCell(content = Text(messages("propertyDetail.band.table.band"))),
@@ -153,6 +161,10 @@
                                 )).toString
                             )
                         ))
+                    </th>
+
+                    <td class="govuk-table__cell govuk-!-width-one-third">
+                        @viewModel.band
                     </td>
                 </tr>
 
