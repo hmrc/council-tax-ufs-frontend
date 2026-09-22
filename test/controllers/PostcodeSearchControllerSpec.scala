@@ -65,7 +65,7 @@ class PostcodeSearchControllerSpec extends SpecBase with MockitoSugar {
 
       val userAnswers =
         UserAnswers(userAnswersId)
-          .set(PostcodeSearchPage, "answer")
+          .set(PostcodeSearchPage, "CF14 1AA")
           .success
           .value
 
@@ -82,7 +82,7 @@ class PostcodeSearchControllerSpec extends SpecBase with MockitoSugar {
 
         status(result) mustEqual OK
         contentAsString(result) mustEqual
-          view(form.fill("answer"), NormalMode)(request, messages(application)).toString
+          view(form.fill("CF14 1AA"), NormalMode)(request, messages(application)).toString
       }
     }
 
@@ -104,7 +104,7 @@ class PostcodeSearchControllerSpec extends SpecBase with MockitoSugar {
 
         val request =
           FakeRequest(POST, postcodeSearchRoute)
-            .withFormUrlEncodedBody(("value", "answer"))
+            .withFormUrlEncodedBody(("value", "CF14 1AA"))
 
         val result = route(application, request).value
 
@@ -113,7 +113,7 @@ class PostcodeSearchControllerSpec extends SpecBase with MockitoSugar {
 
         val expectedUrl =
           routes.SearchResultsController
-            .show(encryptor.encrypt("answer"), 1)
+            .show(encryptor.encrypt("CF14 1AA"), 1)
             .url
 
         status(result) mustEqual SEE_OTHER
@@ -121,7 +121,42 @@ class PostcodeSearchControllerSpec extends SpecBase with MockitoSugar {
       }
     }
 
-    "must return a Bad Request and errors when invalid data is submitted" in {
+    "must redirect to search results when a valid partial postcode is submitted" in {
+
+      val mockSessionRepository = mock[SessionRepository]
+
+      when(mockSessionRepository.set(any()))
+        .thenReturn(Future.successful(true))
+
+      val application =
+        applicationBuilder(userAnswers = Some(emptyUserAnswers))
+          .overrides(
+            bind[SessionRepository].toInstance(mockSessionRepository)
+          )
+          .build()
+
+      running(application) {
+
+        val request =
+          FakeRequest(POST, postcodeSearchRoute)
+            .withFormUrlEncodedBody(("value", "BR3"))
+
+        val result = route(application, request).value
+
+        val encryptor =
+          application.injector.instanceOf[UrlEncryptor]
+
+        val expectedUrl =
+          routes.SearchResultsController
+            .show(encryptor.encrypt("BR3"), 1)
+            .url
+
+        status(result) mustEqual SEE_OTHER
+        redirectLocation(result).value mustEqual expectedUrl
+      }
+    }
+
+    "must return a Bad Request and errors when blank data is submitted" in {
 
       val application =
         applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
@@ -133,6 +168,29 @@ class PostcodeSearchControllerSpec extends SpecBase with MockitoSugar {
             .withFormUrlEncodedBody(("value", ""))
 
         val boundForm = form.bind(Map("value" -> ""))
+
+        val view = application.injector.instanceOf[PostcodeSearchView]
+
+        val result = route(application, request).value
+
+        status(result) mustEqual BAD_REQUEST
+        contentAsString(result) mustEqual
+          view(boundForm, NormalMode)(request, messages(application)).toString
+      }
+    }
+
+    "must return a Bad Request and errors when an invalid-format postcode is submitted" in {
+
+      val application =
+        applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+
+      running(application) {
+
+        val request =
+          FakeRequest(POST, postcodeSearchRoute)
+            .withFormUrlEncodedBody(("value", "123"))
+
+        val boundForm = form.bind(Map("value" -> "123"))
 
         val view = application.injector.instanceOf[PostcodeSearchView]
 
@@ -181,7 +239,7 @@ class PostcodeSearchControllerSpec extends SpecBase with MockitoSugar {
 
         val request =
           FakeRequest(POST, postcodeSearchRoute)
-            .withFormUrlEncodedBody(("value", "answer"))
+            .withFormUrlEncodedBody(("value", "CF14 1AA"))
 
         val result = route(application, request).value
 
@@ -190,7 +248,7 @@ class PostcodeSearchControllerSpec extends SpecBase with MockitoSugar {
 
         val expectedUrl =
           routes.SearchResultsController
-            .show(encryptor.encrypt("answer"), 1)
+            .show(encryptor.encrypt("CF14 1AA"), 1)
             .url
 
         status(result) mustEqual SEE_OTHER

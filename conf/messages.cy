@@ -1,4 +1,4 @@
-service.name = Adolygwch fand eich Treth Gyngor
+service.name = Gwirio eich band Treth Gyngor a’i herio
 
 site.back = Yn ôl
 site.remove = Dileu
@@ -56,6 +56,7 @@ postcodeSearch.hint = Er enghraifft CF5 4GP
 postcodeSearch.checkYourAnswersLabel = postcodeSearch
 postcodeSearch.dontKnowPostcode = Nid wyf yn gwybod y cod post
 postcodeSearch.error.required = Nodwch god post, er enghraifft AA1 1AA
+postcodeSearch.error.invalid = Nodwch god post go iawn
 postcodeSearch.error.length = Rhaid i'r cod post fod yn 10 nod neu lai
 postcodeSearch.change.hidden = PostcodeSearch
 
@@ -84,12 +85,12 @@ searchResults.bands                      = Y band isaf yw ''A'', a'r band uchaf 
 # No Results
 noResults.title                          = Dim canlyniadau ar gyfer {0}
 noResults.heading                        = Dim canlyniadau ar gyfer {0}
-noResults.label                          = Nodwch god post
+noResults.label                          = Nodwch y cod post
 noResults.button                         = Chwilio eto
-noResults.cannotFind.check               = Gwiriwch fod y manylion rydych wedi'u nodi yn gywir neu chwiliwch am eiddo gan ddefnyddio'r
+noResults.cannotFind.check               = Gwiriwch fod y manylion rydych chi wedi’u nodi yn gywir, neu chwiliwch am eiddo gan ddefnyddio’r
 noResults.cannotFind.otherOptions        = opsiynau chwilio eraill
 noResults.contactCouncil                 = Cysylltwch â'ch cyngor lleol
-noResults.contactCouncilDescription      = os na allwch ddod o hyd i'ch eiddo o hyd. Byddant yn rhoi'r wybodaeth sydd ei hangen ar Asiantaeth y Swyddfa Brisio i ddyrannu band Treth Gyngor.
+noResults.contactCouncilDescription      = os na allwch ddod o hyd i’ch eiddo o hyd. Byddant yn rhoi’r wybodaeth sydd ei hangen ar Swyddfa Brisio i bennu band Treth Gyngor.
 
 
 propertyDetail.informationFor                    = Dyma'r wybodaeth ar gyfer:
@@ -163,3 +164,4 @@ propertyDetail.band.range.wales.G         = £223,001 to £324,000
 propertyDetail.band.range.wales.H         = £324,001 to £424,000
 propertyDetail.band.range.wales.I         = more than £424,000
  
+

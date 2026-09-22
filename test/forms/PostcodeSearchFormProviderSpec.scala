@@ -17,6 +17,7 @@
 package forms
 
 import forms.behaviours.StringFieldBehaviours
+import org.scalacheck.Gen
 import play.api.data.FormError
 
 class PostcodeSearchFormProviderSpec extends StringFieldBehaviours {
@@ -27,6 +28,30 @@ class PostcodeSearchFormProviderSpec extends StringFieldBehaviours {
 
   val form = new PostcodeSearchFormProvider()()
 
+  // Generates strings that match PostcodeSearchFormProvider's postcodePattern:
+  // ^[A-Z]{1,2}[0-9][A-Z0-9]?( ?[0-9][A-Z]{2})?$
+  val validPostcodeGen: Gen[String] = {
+    val outward: Gen[String] = for {
+      letters <- Gen.choose(1, 2).flatMap(n => Gen.listOfN(n, Gen.alphaUpperChar))
+      digit   <- Gen.numChar
+      suffix  <- Gen.option(Gen.oneOf(Gen.numChar, Gen.alphaUpperChar))
+    } yield letters.mkString + digit + suffix.map(_.toString).getOrElse("")
+
+    val inward: Gen[String] = for {
+      digit   <- Gen.numChar
+      letters <- Gen.listOfN(2, Gen.alphaUpperChar)
+    } yield digit.toString + letters.mkString
+
+    for {
+      out       <- outward
+      withSpace <- Gen.oneOf(true, false)
+      in        <- Gen.option(inward)
+    } yield in match {
+      case Some(i) => out + (if (withSpace) " " else "") + i
+      case None    => out
+    }
+  }
+
   ".value" - {
 
     val fieldName = "value"
@@ -34,7 +59,7 @@ class PostcodeSearchFormProviderSpec extends StringFieldBehaviours {
     behave like fieldThatBindsValidData(
       form,
       fieldName,
-      stringsWithMaxLength(maxLength)
+      validPostcodeGen
     )
 
     behave like fieldWithMaxLength(

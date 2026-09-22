@@ -20,6 +20,7 @@ import controllers.actions.{DataRetrievalAction, SessionIdentifierAction}
 import models.{Mode, NormalMode}
 import play.api.i18n.I18nSupport
 import play.api.mvc._
+import utils.PostcodeFormatter
 import services.SearchResultsService
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import utils.{UrlEncryptor, PaginationHelper}
@@ -60,7 +61,7 @@ class SearchResultsController @Inject()(
 
         case Right(None) =>
           // No results for this postcode
-          Ok(noResultsView(postcode))
+          Ok(noResultsView(PostcodeFormatter.format(postcode)))
 
         case Right(Some(viewModel)) =>
           // Cap page to valid range
