@@ -18,7 +18,7 @@ package controllers
 
 import controllers.actions.SessionIdentifierAction
 import models.NormalMode
-import play.api.i18n.I18nSupport
+import play.api.i18n.{I18nSupport, Lang}
 import play.api.mvc._
 import play.api.Logging
 import services.PropertyDetailService
@@ -41,13 +41,16 @@ class PropertyDetailController @Inject()(
     with Logging {
 
   def onPageLoad(propertyId: String): Action[AnyContent] =
-      Action.async { implicit request =>
-     logger.info(s"PropertyDetailController invoked: $propertyId")
+    Action.async { implicit request =>
+      logger.info(s"PropertyDetailController invoked: $propertyId")
+
       implicit val hc =
         HeaderCarrierConverter.fromRequestAndSession(
           request,
           request.session
         )
+
+      implicit val lang: Lang = request.lang
 
       propertyDetailService.getPropertyDetail(propertyId).map {
         case Left(_) =>

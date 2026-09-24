@@ -48,6 +48,10 @@ signedOut.guidance = Ni wnaethom gadw eich atebion.
 unauthorised.title = Ni allwch gael mynediad at y gwasanaeth hwn gyda'r cyfrif hwn
 unauthorised.heading = Ni allwch gael mynediad at y gwasanaeth hwn gyda'r cyfrif hwn
 
+# Buttons
+button.print    = Argraffu’r dudalen hon
+button.continue = Parhau
+
 postcodeSearch.title = Nodwch god post yr eiddo
 postcodeSearch.heading = Nodwch god post yr eiddo
 postcodeSearch.description = Gallwch chwilio am unrhyw gartref yng Nghymru a Lloegr drwy nodi'r cod post.
@@ -136,8 +140,7 @@ propertyDetail.beforeYouContinue.viewPrevious    = weld bandiau Treth Gyngor bla
 propertyDetail.beforeYouContinue.challenge       = rhoi gwybod i ni os ydych yn credu bod y band Treth Gyngor yn anghywir os ydych naill ai yn talu Treth Gyngor ar gyfer yr eiddo neu os oes gennych ganiatâd gan dalwr y Dreth Gyngor
 propertyDetail.beforeYouContinue.remove          = gofyn i ni dynnu’r eiddo oddi ar restr y Dreth Gyngor os yw wedi’i ddymchwel, yn adfeiliedig, neu’n destun gwaith adnewyddu mawr
 propertyDetail.beforeYouContinue.signIn          = Bydd angen cyfrif Porth y Llywodraeth neu gyfrif GOV.UK One Login arnoch i fewngofnodi.
-propertyDetail.print                             = Argraffu’r dudalen hon
-propertyDetail.continue                          = Parhau
+
  
 # England
 

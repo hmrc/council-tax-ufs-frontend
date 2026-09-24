@@ -32,7 +32,7 @@
     twoThirdsLayout: TwoThirdLayout
 )
 
-@(pageTitle: String, fullWidth: Boolean = false,showBackLink: Boolean = true, timeout: Boolean =  false, showSignOut: Boolean = true, showHmrcBanner: Boolean = false)(contentBlock: Html)(implicit rh: RequestHeader, messages: Messages)
+@(pageTitle: String, fullWidth: Boolean = false,showBackLink: Boolean = true, timeout: Boolean =  false, showSignOut: Boolean = true, showHmrcBanner: Boolean = false, scripts: Option[Html] = None)(contentBlock: Html)(implicit rh: RequestHeader, messages: Messages)
 
 @head = {
 
@@ -51,6 +51,10 @@
     }
 }
 
+@scriptsBlock = {
+    @scripts
+}
+
 @content = {
     @contentBlock
     @hmrcReportTechnicalIssueHelper()
@@ -64,6 +68,7 @@
                 Some((_: Html) => fullWidthLayout(contentBlock))
             else
                 Some((_: Html) => twoThirdsLayout(contentBlock)),
+        additionalScriptsBlock = Some(scriptsBlock),
         additionalHeadBlock = Some(head)
     ),
     serviceURLs = ServiceURLs(

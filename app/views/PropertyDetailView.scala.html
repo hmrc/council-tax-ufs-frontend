@@ -16,227 +16,226 @@
 
 @import models.PropertyDetailViewModel
 @import uk.gov.hmrc.govukfrontend.views.html.components._
+@import views.html.helper.CSPNonce
+@import views.html.components.PrintLink
 
-    @this(
-        layout:      templates.Layout,
-        govukTable:  GovukTable,
-        govukDetails: GovukDetails,
-        govukButton: GovukButton
-        )
+@this(
+    layout:      templates.Layout,
+    govukTable:  GovukTable,
+    govukDetails: GovukDetails,
+    govukButton: GovukButton
+)
 
-    @(viewModel: PropertyDetailViewModel)(implicit request: Request[_], messages: Messages)
+@(viewModel: PropertyDetailViewModel)(implicit request: Request[_], messages: Messages)
 
-    @countryKey = @{
-        viewModel.country match {
-            case "W92000004" => "wales"
-            case "E92000001" => "england"
-            case _           => "england"
-        }
+@scripts = {
+   <script @CSPNonce.attr src='@controllers.routes.Assets.versioned("javascripts/print.js")'></script>
+ }
+
+@countryKey = @{
+    viewModel.country match {
+        case "W92000004" => "wales"
+        case "E92000001" => "england"
+        case _           => "england"
     }
+}
 
-    @bandLetters = @{
-        countryKey match {
-            case "wales" => Seq("A", "B", "C", "D", "E", "F", "G", "H", "I")
-            case _       => Seq("A", "B", "C", "D", "E", "F", "G", "H")
-        }
+@bandLetters = @{
+    countryKey match {
+        case "wales" => Seq("A", "B", "C", "D", "E", "F", "G", "H", "I")
+        case _       => Seq("A", "B", "C", "D", "E", "F", "G", "H")
     }
+}
 
-    @* DRY: single table row with 70/30 split matching prototype *@
-
-    @tableRow(keyMsg: String, hintMsg: String, value: String) = {
-        <tr class="govuk-table__row">
-            <th scope="row" class="govuk-table__header govuk-!-width-two-thirds" >
-                        @messages(keyMsg)<br>
-                <span class="govuk-hint">
-                        @messages(hintMsg)
-                </span>
-            </th>
-            <td class="govuk-table__cell govuk-!-width-one-third">
-                        @value
-            </td>
-        </tr>
-
-    }
-
-    @* DRY: table row with HTML value (for links) *@
-
-    @tableRowHtml(keyMsg: String, hintMsg: String, valueHtml: Html) = {
+@* DRY: single table row with 70/30 split matching prototype *@
+@tableRow(keyMsg: String, hintMsg: String, value: String) = {
     <tr class="govuk-table__row">
-        <th scope="row" class="govuk-table__header govuk-!-width-two-thirds">
-                        @messages(keyMsg)<br>
+        <th scope="row" class="govuk-table__header govuk-!-width-two-thirds" >
+                    @messages(keyMsg)<br>
             <span class="govuk-hint">
-                        @messages(hintMsg)
+                    @messages(hintMsg)
             </span>
         </th>
         <td class="govuk-table__cell govuk-!-width-one-third">
-                         @valueHtml
+                    @value
         </td>
     </tr>
+}
 
-    }
+@* DRY: table row with HTML value (for links) *@
+@tableRowHtml(keyMsg: String, hintMsg: String, valueHtml: Html) = {
+    <tr class="govuk-table__row">
+        <th scope="row" class="govuk-table__header govuk-!-width-two-thirds">
+                    @messages(keyMsg)<br>
+            <span class="govuk-hint">
+                    @messages(hintMsg)
+            </span>
+        </th>
+        <td class="govuk-table__cell govuk-!-width-one-third">
+                     @valueHtml
+        </td>
+    </tr>
+}
 
-    @bandRows = @{
-        bandLetters.map { band =>
-            val isCurrent = band == viewModel.band
-            Seq(
-                TableRow(
-                    content = HtmlContent(
-                        if (isCurrent)
-                            s"""$band <span class="govuk-visually-hidden">
-                            |(${messages("propertyDetail.band.current")})
-                            |</span>""".stripMargin
-                        else band
-                    ),
-                    classes = if (isCurrent) "govuk-!-font-weight-bold" else ""
-                ),
-                TableRow(
-                    content = Text(messages(s"propertyDetail.band.range.$countryKey.$band")),
-                    classes = if (isCurrent) "govuk-!-font-weight-bold" else ""
-                )
-            )
-        }
-    }
-
-    @courtCodeContent = {
-    <p class="govuk-body">@messages("propertyDetail.courtCode.meaning")</p>
-    <ul class="govuk-list">
-            @Seq("V", "C", "R", "D", "H", "E").map { code =>
-                <li>
-                <abbr title="@messages(s"propertyDetail.courtCode.$code")">@code</abbr>
-                     - @messages(s"propertyDetail.courtCode.$code")
-                </li>
-            }
-    </ul>
-
-    }
-
-    @beforeYouContinueItems = @{
+@bandRows = @{
+    bandLetters.map { band =>
+        val isCurrent = band == viewModel.band
         Seq(
-            ("propertyDetail.beforeYouContinue.viewPrevious", true),
-            ("propertyDetail.beforeYouContinue.challenge",    false),
-            ("propertyDetail.beforeYouContinue.remove",       false)
+            TableRow(
+                content = HtmlContent(
+                    if (isCurrent)
+                        s"""$band <span class="govuk-visually-hidden">
+                        |(${messages("propertyDetail.band.current")})
+                        |</span>""".stripMargin
+                    else band
+                ),
+                classes = if (isCurrent) "govuk-!-font-weight-bold" else ""
+            ),
+            TableRow(
+                content = Text(messages(s"propertyDetail.band.range.$countryKey.$band")),
+                classes = if (isCurrent) "govuk-!-font-weight-bold" else ""
+            )
         )
     }
+}
 
-    @layout(
-        pageTitle = messages("service.name"),
-        fullWidth = true
-    ) {
-        <h1 class="govuk-heading-l">
+@courtCodeEntries = @{
+    Seq("V", "C", "R", "D", "H", "E")
+}
+
+@courtCodeContent = {
+    <p class="govuk-body">@messages("propertyDetail.courtCode.meaning")</p>
+    <ul class="govuk-list">
+        @for(code <- courtCodeEntries) {
+            <li>
+                <abbr title="@messages(s"propertyDetail.courtCode.$code")">@code</abbr>
+                - @messages(s"propertyDetail.courtCode.$code")
+            </li>
+        }
+    </ul>
+}
+
+@beforeYouContinueItems = @{
+    Seq(
+        ("propertyDetail.beforeYouContinue.viewPrevious", true),
+        ("propertyDetail.beforeYouContinue.challenge",    false),
+        ("propertyDetail.beforeYouContinue.remove",       false)
+    )
+}
+
+@layout(
+    pageTitle = messages("service.name"),
+    fullWidth = true,
+    scripts = Some(scripts)
+) {
+    <link href='@routes.Assets.versioned("stylesheets/print_page.css")' rel="stylesheet" type="text/css" />
+    <h1 class="govuk-heading-l">
         <span class="govuk-caption-l">@messages("propertyDetail.informationFor")</span>
-                @viewModel.address
-        </h1>
-        <h2 class="govuk-heading-m">
-          @messages("propertyDetail.publicInformation")
-          <span class="govuk-caption-m">@messages("propertyDetail.publicInformation.anybody")</span>
-        </h2>
-       <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+        @viewModel.address
+    </h1>
+    <h2 class="govuk-heading-m">
+      @messages("propertyDetail.publicInformation")
+      <span class="govuk-caption-m">@messages("propertyDetail.publicInformation.anybody")</span>
+    </h2>
+    <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
 
-        @* Main property details table — matching prototype structure *@
-       <table class="govuk-table">
-            <tbody class="govuk-table__body">
+    @* Main property details table — matching prototype structure *@
+    <table class="govuk-table">
+        <tbody class="govuk-table__body">
 
-                @* Band row with expand inside same row *@
-                <tr class="govuk-table__row">
-                    <th scope="row" class="govuk-table__header govuk-!-width-two-thirds">
-                        <div class="govuk-!-margin-bottom-1">
-                            @messages("propertyDetail.band")
-                        </div>
+            @* Band row with expand inside same row *@
+            <tr class="govuk-table__row">
+                <th scope="row" class="govuk-table__header govuk-!-width-two-thirds">
+                    <div class="govuk-!-margin-bottom-1">
+                        @messages("propertyDetail.band")
+                    </div>
 
-                        <div class="govuk-hint govuk-!-margin-bottom-3">
-                            @messages("propertyDetail.band.hint")
-                        </div>
+                    <div class="govuk-hint govuk-!-margin-bottom-3">
+                        @messages("propertyDetail.band.hint")
+                    </div>
 
-                        @govukDetails(Details(
-                            summary = Text(messages(s"propertyDetail.band.expand.$countryKey")),
-                            content = HtmlContent(
-                                govukTable(Table(
-                                    caption = Some(messages(s"propertyDetail.band.expand.$countryKey")),
-                                    captionClasses = "govuk-visually-hidden",
-                                    head = Some(Seq(
-                                        HeadCell(content = Text(messages("propertyDetail.band.table.band"))),
-                                        HeadCell(content = Text(messages("propertyDetail.band.table.value")))
-                                    )),
-                                    rows = bandRows
-                                )).toString
-                            )
-                        ))
-                    </th>
+                    @govukDetails(Details(
+                        summary = Text(messages(s"propertyDetail.band.expand.$countryKey")),
+                        content = HtmlContent(
+                            govukTable(Table(
+                                caption = Some(messages(s"propertyDetail.band.expand.$countryKey")),
+                                captionClasses = "govuk-visually-hidden",
+                                head = Some(Seq(
+                                    HeadCell(content = Text(messages("propertyDetail.band.table.band"))),
+                                    HeadCell(content = Text(messages("propertyDetail.band.table.value")))
+                                )),
+                                rows = bandRows
+                            )).toString
+                        )
+                    ))
+                </th>
 
-                    <td class="govuk-table__cell govuk-!-width-one-third">
-                        @viewModel.band
-                    </td>
-                </tr>
+                <td class="govuk-table__cell govuk-!-width-one-third">
+                    @viewModel.band
+                </td>
+            </tr>
 
-                @* Remaining rows *@
+            @* Remaining rows *@
+            @tableRow(
+                "propertyDetail.effectiveFrom",
+                "propertyDetail.effectiveFrom.hint",
+                viewModel.effectiveFromDate
+            )
+            @tableRowHtml(
+                "propertyDetail.localCouncil",
+                "propertyDetail.localCouncil.hint",
+                Html(s"""<a href="#" class="govuk-link">${viewModel.localCouncil}</a>""")
+            )
+            @tableRow(
+                "propertyDetail.councilRef",
+                "propertyDetail.councilRef.hint",
+                viewModel.councilRefNumber
+            )
+            @tableRow(
+                "propertyDetail.improvement",
+                "propertyDetail.improvement.hint",
+                viewModel.improvementInd
+            )
+            @tableRow(
+                "propertyDetail.mixedUse",
+                "propertyDetail.mixedUse.hint",
+                viewModel.mixedUse
+            )
+            @tableRow(
+                "propertyDetail.courtCode",
+                "propertyDetail.courtCode.hint",
+                if (viewModel.courtCode.isEmpty) messages("propertyDetail.courtCode.none")
+                else viewModel.courtCode
+            )
+        </tbody>
+    </table>
 
-                @tableRow(
-                    "propertyDetail.effectiveFrom",
-                    "propertyDetail.effectiveFrom.hint",
-                    viewModel.effectiveFromDate
-                )
-                @tableRowHtml(
-                    "propertyDetail.localCouncil",
-                    "propertyDetail.localCouncil.hint",
-                    Html(s"""<a href="#" class="govuk-link">${viewModel.localCouncil}</a>""")
-                )
-                @tableRow(
-                    "propertyDetail.councilRef",
-                    "propertyDetail.councilRef.hint",
-                    viewModel.councilRefNumber
-                )
-                @tableRow(
-                    "propertyDetail.improvement",
-                    "propertyDetail.improvement.hint",
-                    viewModel.improvementInd
-                )
-                @tableRow(
-                    "propertyDetail.mixedUse",
-                    "propertyDetail.mixedUse.hint",
-                    viewModel.mixedUse
+    @* Court code expand — sits outside table *@
+    @govukDetails(Details(
+        summary = Text(messages("propertyDetail.courtCode.expand")),
+        content = HtmlContent(courtCodeContent.toString)
+    ))
 
-                )
-                @tableRow(
-                    "propertyDetail.courtCode",
-                    "propertyDetail.courtCode.hint",
-                    if (viewModel.courtCode.isEmpty) messages("propertyDetail.courtCode.none")
-                    else viewModel.courtCode
-                )
-            </tbody>
-        </table>
-
-        @* Court code expand — sits outside table *@
-
-        @govukDetails(Details(
-            summary = Text(messages("propertyDetail.courtCode.expand")),
-            content = HtmlContent(courtCodeContent.toString)
-
-        ))
-        <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
-        <h2 class="govuk-heading-m">@messages("propertyDetail.beforeYouContinue")</h2>
-        <p class="govuk-body">@messages("propertyDetail.beforeYouContinue.youCan")</p>
-        <ul class="govuk-list govuk-list--bullet">
-            @beforeYouContinueItems.map { case (msgKey, isLink) =>
-                <li>
-                    @if(isLink) {
+    <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+    <h2 class="govuk-heading-m">@messages("propertyDetail.beforeYouContinue")</h2>
+    <p class="govuk-body">@messages("propertyDetail.beforeYouContinue.youCan")</p>
+    <ul class="govuk-list govuk-list--bullet">
+        @for((msgKey, isLink) <- beforeYouContinueItems) {
+            <li>
+                @if(isLink) {
                     <a href="#" class="govuk-link">@messages(msgKey)</a>
-                        } else {
-                        @messages(msgKey)
-                        }
-                </li>
-             }
-        </ul>
-        <p class="govuk-body">@messages("propertyDetail.beforeYouContinue.signIn")</p>
-        <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
-        <p class="govuk-body">
-          <a class="govuk-link print-link" href="javascript:window.print();" aria-label="@messages("propertyDetail.print")">
-          @messages("propertyDetail.print")
-          </a>
-       </p>
-        @govukButton(Button(
-            content    = Text(messages("propertyDetail.continue")),
-            attributes = Map("id" -> "continue")
-        ))
+                } else {
+                    @messages(msgKey)
+                }
+            </li>
+        }
+    </ul>
+    <p class="govuk-body">@messages("propertyDetail.beforeYouContinue.signIn")</p>
+    <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
 
-    }
-    
+    @PrintLink(messages("button.print"))
+    @govukButton(Button(
+        content    = Text(messages("button.continue")),
+        attributes = Map("id" -> "continue")
+    ))
+}
