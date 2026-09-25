@@ -64,6 +64,10 @@ postcodeSearch.error.invalid = Enter a real postcode
 postcodeSearch.error.length = PostcodeSearch must be 10 characters or less
 postcodeSearch.change.hidden = PostcodeSearch
 
+error.title    = Sorry, there is a problem with the service
+error.heading  = Sorry, there is a problem with the service
+error.guidance = Try again later.
+
 # Search Results
 searchResults.title                      = Search results for {0}
 searchResults.title.paged                = Search results for {0} (page {1} of {2})

@@ -19,12 +19,14 @@ package controllers
 import controllers.actions.{DataRetrievalAction, SessionIdentifierAction}
 import models.{Mode, NormalMode}
 import play.api.i18n.I18nSupport
-import play.api.mvc._
+import play.api.i18n.Lang.logger
+import play.api.mvc.*
 import utils.PostcodeFormatter
 import services.SearchResultsService
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
-import utils.{UrlEncryptor, PaginationHelper}
+import utils.{PaginationHelper, UrlEncryptor}
 import views.html.{NoResultsView, SearchResultsView}
+import views.html.errors.ApiErrorView
 import uk.gov.hmrc.play.http.HeaderCarrierConverter
 
 import javax.inject.{Inject, Singleton}
@@ -32,17 +34,21 @@ import scala.concurrent.ExecutionContext
 
 @Singleton
 class SearchResultsController @Inject()(
-  override val messagesApi:     play.api.i18n.MessagesApi,
-  sessionIdentify:              SessionIdentifierAction,
-  urlEncryptor:                 UrlEncryptor,
-  getData:                      DataRetrievalAction,
-  searchResultsService:         SearchResultsService,
-  searchResultsView:            SearchResultsView,
-  noResultsView:                NoResultsView,
-  val controllerComponents:     MessagesControllerComponents
-)(implicit ec: ExecutionContext)
-    extends FrontendBaseController
+                                         override val messagesApi: play.api.i18n.MessagesApi,
+                                         sessionIdentify:          SessionIdentifierAction,
+                                         urlEncryptor:             UrlEncryptor,
+                                         getData:                  DataRetrievalAction,
+                                         searchResultsService:     SearchResultsService,
+                                         searchResultsView:        SearchResultsView,
+                                         noResultsView:            NoResultsView,
+                                         apiErrorView:             ApiErrorView,
+                                         val controllerComponents: MessagesControllerComponents
+                                       )(implicit ec: ExecutionContext)
+  extends FrontendBaseController
     with I18nSupport {
+
+  private def searchError(statusCode: Int, message: String)(implicit request: Request[_]): Result =
+    Status(statusCode)(apiErrorView(models.ApiError(statusCode, message)))
 
   def show(encodedPostcode: String, page: Int): Action[AnyContent] =
     (sessionIdentify andThen getData).async { implicit request =>
@@ -54,17 +60,19 @@ class SearchResultsController @Inject()(
 
       searchResultsService.search(postcode, safePage).map {
 
-        case Left(_) =>
-          // API error — show no results page
-          Redirect(routes.PostcodeSearchController.onPageLoad(NormalMode))
-            .flashing("error" -> "searchResults.error")
+        case Left(error) =>
+          error.statusCode match {
+            case 404 =>
+              Ok(noResultsView(PostcodeFormatter.format(postcode)))
+            case status =>
+              logger.error(s"[SearchResultsController] API error status=$status for postcode=$postcode")
+              searchError(status, error.message)
+          }
 
         case Right(None) =>
-          // No results for this postcode
           Ok(noResultsView(PostcodeFormatter.format(postcode)))
 
         case Right(Some(viewModel)) =>
-          // Cap page to valid range
           val cappedPage = Math.min(safePage, viewModel.totalPages)
           if (cappedPage != safePage) {
             Redirect(routes.SearchResultsController.show(encodedPostcode, cappedPage))

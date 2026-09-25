@@ -39,16 +39,19 @@ class SearchResultsService @Inject() (
     * Returns Right(SearchResultsViewModel) on success. Returns Left(errorMessage) on API error.
     */
   def search(
-    postcode: String,
-    page:     Int
-  )(implicit hc: HeaderCarrier): Future[Either[String, Option[SearchResultsViewModel]]] =
-
-    // Always call API without page param — it returns everything
-
+              postcode: String,
+              page:     Int
+            )(implicit hc: HeaderCarrier): Future[Either[ErrorResponse, Option[SearchResultsViewModel]]] =
     connector.postcodeSearch(postcode).map {
+
+      // Always call API without page param — it returns everything
+
       case Left(error) =>
         logger.warn(s"[SearchResultsService][search] API error postcode=$postcode: ${error.message}")
-        Left(error.message)
+        Left(error)
+
+      //case Right(_) => Left(ErrorResponse(500, "Test error"))
+      // case Right(_) => Left(ErrorResponse(404, "Not found"))
 
       case Right(result) =>
         val r = result.results
