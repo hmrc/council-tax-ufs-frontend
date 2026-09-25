@@ -19,7 +19,12 @@ package services
 import connectors.BridgeIntegrationConnector
 import models._
 import play.api.Logging
+import play.api.i18n.Lang
 import uk.gov.hmrc.http.HeaderCarrier
+import utils.DateTimeFormats
+
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -28,85 +33,67 @@ class PropertyDetailService @Inject() (connector: BridgeIntegrationConnector)(im
     extends Logging {
 
   def getPropertyDetail(propertyId: String)(implicit
-      hc: HeaderCarrier
-  ): Future[Either[String, Option[PropertyDetailViewModel]]] = connector.propertyDetail(propertyId).map {
-    case Left(error) =>
-      logger.warn(s"[PropertyDetailService] API error for propertyId=$propertyId: ${error.message}")
-      Left(error.message)
+      hc: HeaderCarrier,
+      lang: Lang
+  ): Future[Either[String, Option[PropertyDetailViewModel]]] =
+    connector.propertyDetail(propertyId).map {
+      case Left(error) =>
+        logger.warn(s"[PropertyDetailService] API error for propertyId=$propertyId: ${error.message}")
+        Left(error.message)
 
-    case Right(result) =>
+      case Right(result) =>
+        result.results.records.headOption.map(_.data) match {
+          case None =>
+            Right(None)
 
-      result.results.records.headOption.map(_.data) match {
+          case Some(detail) =>
+            val entry = detail.list_entry
+            val list = detail.list
 
-        case None => Right(None)
+            val address = entry.property.flatMap(_.address).flatMap(_.full).getOrElse("Address not available")
+            val band = entry.valuation.flatMap(_.value).getOrElse("Not available")
+            val effectiveFrom = entry.period
+              .flatMap(_.effective_from_date)
+              .map(formatDate)
+              .getOrElse("Not available")
 
-        case Some(detail) =>
-          val entry   = detail.list_entry
-          val list    = detail.list
-          val address = entry.property.flatMap(_.address).flatMap(_.full).getOrElse("Address not available")
+            val localCouncil = list.collection_authority.flatMap(_.code).getOrElse("Not available")
+            val localCouncilCode = list.collection_authority.flatMap(_.code).getOrElse("")
+            val councilRef = entry.administration.flatMap(_.collection_authority_ref).getOrElse("Not available")
+            val improvement = entry.property.flatMap(_.workflow).flatMap(_.improvement_ind).map(indicatorToYesNo).getOrElse("Not available")
+            val mixedUse = entry.use.flatMap(_.composite_ind).map(indicatorToYesNo).getOrElse("Not available")
+            val courtCode = "None"
+            val country = list.country.flatMap(_.code).getOrElse("W92000004")
 
-          val band = entry.valuation.flatMap(_.value).getOrElse("Not available")
+            Right(
+              Some(
+                PropertyDetailViewModel(
+                  propertyId = propertyId,
+                  address = address,
+                  band = band,
+                  effectiveFromDate = effectiveFrom,
+                  localCouncil = localCouncil,
+                  localCouncilCode = localCouncilCode,
+                  councilRefNumber = councilRef,
+                  improvementInd = improvement,
+                  mixedUse = mixedUse,
+                  courtCode = courtCode,
+                  country = country
+                )
+              )
+            )
+        }
+    }
 
-          val effectiveFrom = entry.period.flatMap(_.effective_from_date).map(formatDate).getOrElse("Not available")
-
-          val localCouncil = list.collection_authority.flatMap(_.code).getOrElse("Not available")
-
-          val localCouncilCode = list.collection_authority.flatMap(_.code).getOrElse("")
-
-          val councilRef = entry.administration.flatMap(_.collection_authority_ref).getOrElse("Not available")
-
-          val improvement = entry.property.flatMap(_.workflow).flatMap(_.improvement_ind).map(indicatorToYesNo).getOrElse("Not available")
-
-          val mixedUse = entry.use.flatMap(_.composite_ind).map(indicatorToYesNo).getOrElse("Not available")
-
-          val courtCode = "None"
-
-          val country = list.country.flatMap(_.code).getOrElse("W92000004")
-
-          Right(Some(PropertyDetailViewModel(
-            propertyId = propertyId,
-            address = address,
-            band = band,
-            effectiveFromDate = effectiveFrom,
-            localCouncil = localCouncil,
-            localCouncilCode = localCouncilCode,
-            councilRefNumber = councilRef,
-            improvementInd = improvement,
-            mixedUse = mixedUse,
-            courtCode = courtCode,
-            country = country
-          )))
-
-      }
-
-  }
-
-  // Format ISO date "20081009T000000Z" -> "9 October 2008"
-
-  private def formatDate(raw: String): String =
+  private def formatDate(raw: String)(implicit lang: Lang): String =
     try {
-      val datePart = raw.take(8)
-      val year     = datePart.substring(0, 4).toInt
-      val month    = datePart.substring(4, 6).toInt
-      val day      = datePart.substring(6, 8).toInt
-      val months   = Seq(
-        "January",
-        "February",
-        "March",
-        "April",
-        "May",
-        "June",
-        "July",
-        "August",
-        "September",
-        "October",
-        "November",
-        "December"
-      )
-      s"$day ${months(month - 1)} $year"
-    } catch { case _: Exception => raw }
+      val dateOnly = raw.take(8)
+      LocalDate.parse(dateOnly, DateTimeFormatter.BASIC_ISO_DATE)
+        .format(DateTimeFormats.dateTimeFormat())
+    } catch {
+      case _: Exception => raw
+    }
 
   private def indicatorToYesNo(value: String): String =
     if (value.trim.equalsIgnoreCase("Y") || value.trim.equalsIgnoreCase("yes")) "Yes" else "No"
-
 }
