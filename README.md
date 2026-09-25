@@ -15,7 +15,7 @@ to check their Council Tax band and submit a challenge if the details are wrong.
 ### Start dependencies
 
 ```bash
-sm2 --start COUNCIL_TAX_UFS_ALL
+sm2 --start UFS_ALL
 ```
 
 ### Start the service
@@ -24,7 +24,8 @@ sm2 --start COUNCIL_TAX_UFS_ALL
 sbt run
 ```
 
-Then visit `http://localhost:60002/council-tax-ufs` (port from `conf/application.conf`).
+Then visit `http://localhost:60002/council-tax-ufs/postcode-search` (port from `conf/application.conf`).
+The service root, `http://localhost:60002/council-tax-ufs`, redirects to this first journey page.
 
 ## Testing
 
