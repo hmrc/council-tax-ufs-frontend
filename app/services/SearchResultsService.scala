@@ -36,7 +36,7 @@ class SearchResultsService @Inject() (
     * Delegates to the API via BridgeIntegrationConnector. Pagination is SERVER-SIDE — the API returns only the records for the requested page. We do
     * NOT slice locally.
     *
-    * Returns Right(SearchResultsViewModel) on success. Returns Left(errorMessage) on API error.
+    * Returns Right(SearchResultsViewModel) on success and Left(ErrorResponse) on API error.
     */
   def search(
               postcode: String,
@@ -47,7 +47,7 @@ class SearchResultsService @Inject() (
       // Always call API without page param — it returns everything
 
       case Left(error) =>
-        logger.warn(s"[SearchResultsService][search] API error postcode=$postcode: ${error.message}")
+        logger.warn(s"[SearchResultsService][search] API error status=${error.statusCode}")
         Left(error)
 
       //case Right(_) => Left(ErrorResponse(500, "Test error"))

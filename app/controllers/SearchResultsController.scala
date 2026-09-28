@@ -17,7 +17,6 @@
 package controllers
 
 import controllers.actions.{DataRetrievalAction, SessionIdentifierAction}
-import models.{Mode, NormalMode}
 import play.api.i18n.I18nSupport
 import play.api.i18n.Lang.logger
 import play.api.mvc.*
@@ -48,7 +47,7 @@ class SearchResultsController @Inject()(
     with I18nSupport {
 
   private def searchError(statusCode: Int, message: String)(implicit request: Request[_]): Result =
-    Status(statusCode)(apiErrorView(models.ApiError(statusCode, message)))
+    InternalServerError(apiErrorView(models.ApiError(statusCode, message)))
 
   def show(encodedPostcode: String, page: Int): Action[AnyContent] =
     (sessionIdentify andThen getData).async { implicit request =>
@@ -65,7 +64,7 @@ class SearchResultsController @Inject()(
             case 404 =>
               Ok(noResultsView(PostcodeFormatter.format(postcode)))
             case status =>
-              logger.error(s"[SearchResultsController] API error status=$status for postcode=$postcode")
+              logger.error(s"[SearchResultsController] API error status=$status")
               searchError(status, error.message)
           }
 
