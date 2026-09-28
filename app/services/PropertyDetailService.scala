@@ -21,6 +21,7 @@ import models._
 import play.api.Logging
 import play.api.i18n.Lang
 import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.play.bootstrap.http.ErrorResponse
 import utils.DateTimeFormats
 
 import java.time.LocalDate
@@ -35,11 +36,11 @@ class PropertyDetailService @Inject() (connector: BridgeIntegrationConnector)(im
   def getPropertyDetail(propertyId: String)(implicit
       hc: HeaderCarrier,
       lang: Lang
-  ): Future[Either[String, Option[PropertyDetailViewModel]]] =
+  ): Future[Either[ErrorResponse, Option[PropertyDetailViewModel]]] =
     connector.propertyDetail(propertyId).map {
       case Left(error) =>
-        logger.warn(s"[PropertyDetailService] API error for propertyId=$propertyId: ${error.message}")
-        Left(error.message)
+        logger.warn(s"[PropertyDetailService] API error status=${error.statusCode}")
+        Left(error)
 
       case Right(result) =>
         result.results.records.headOption.map(_.data) match {

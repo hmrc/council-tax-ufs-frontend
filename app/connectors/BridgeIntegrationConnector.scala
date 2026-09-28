@@ -43,18 +43,17 @@ class BridgeIntegrationConnector @Inject()(
 
     val normalisedPostcode = postcode.trim.toUpperCase.replaceAll("\\s+", "")
     val url = uri(s"postcode/$normalisedPostcode/CVW?page=$page").toURL
-    logger.info(s"[BridgeIntegrationConnector][postcodeSearch] Calling url=$url")
+    logger.info("[BridgeIntegrationConnector][postcodeSearch] Calling postcode search API")
 
     http.get(url)
       .execute[HttpResponse]
       .map { response =>
-        logger.warn(s"[DEBUG] Raw body : ${response.body}")
         response.status match {
           case OK =>
             response.json.validate[PostcodeSearchResult] match {  
               case JsSuccess(result, _) => Right(result)
               case JsError(errors)      =>
-                logger.info(s"[BridgeIntegrationConnector][postcodeSearch] JSON validation failed: $errors")
+                logger.info("[BridgeIntegrationConnector][postcodeSearch] JSON validation failed")
                 Left(ErrorResponse(BAD_REQUEST, s"Json Validation Error: $errors"))
             }
           case NOT_FOUND =>
@@ -63,7 +62,7 @@ class BridgeIntegrationConnector @Inject()(
               case JsError(_)           => Left(ErrorResponse(NOT_FOUND, response.body))
             }
           case BAD_REQUEST =>
-            logger.info(s"[BridgeIntegrationConnector][postcodeSearch] Bad request: ${response.body}")
+            logger.info(s"[BridgeIntegrationConnector][postcodeSearch] Bad request status=${response.status}")
             Left(ErrorResponse(BAD_REQUEST, response.body))
           case status =>
             logger.error(s"[BridgeIntegrationConnector][postcodeSearch] Unexpected status=$status")
@@ -72,7 +71,7 @@ class BridgeIntegrationConnector @Inject()(
       }
       .recover {
         case NonFatal(ex) =>
-          logger.error(s"[BridgeIntegrationConnector][postcodeSearch] Failed: ${ex.getMessage}", ex)
+          logger.error(s"[BridgeIntegrationConnector][postcodeSearch] Request failed: ${ex.getClass.getSimpleName}")
           Left(ErrorResponse(INTERNAL_SERVER_ERROR, "Call to Bridge postcode search failed"))
       }
   }
@@ -81,25 +80,24 @@ class BridgeIntegrationConnector @Inject()(
   def propertyDetail(propertyId: String)(implicit hc: HeaderCarrier): Future[Either[ErrorResponse, PropertyDetailResponse]] = {
 
     val url = uri(s"explore/$propertyId/CVW").toURL
-    logger.info(s"[BridgeIntegrationConnector][propertyDetail:] Calling url=$url")
+    logger.info("[BridgeIntegrationConnector][propertyDetail] Calling property detail API")
     http.get(url)
       .execute[HttpResponse]
       .map { response =>
         response.status match {
           case OK =>
-            logger.warn(s"[DEBUG] property detail raw body: ${response.body}")
             response.json.validate[PropertyDetailResponse] match {
               case JsSuccess(result, _) =>
                 Right(result)
               case JsError(errors) =>
-                logger.warn(s"[BridgeIntegrationConnector][property detail] JSON validation failed: $errors")
+                logger.warn("[BridgeIntegrationConnector][property detail] JSON validation failed")
                 Left(ErrorResponse(BAD_REQUEST, s"Json Validation Error: $errors"))
             }
           case NOT_FOUND =>
-            logger.warn(s"[BridgeIntegrationConnector][property detail] Not found: ${response.body}")
+            logger.warn("[BridgeIntegrationConnector][property detail] Not found")
             Left(ErrorResponse(NOT_FOUND, response.body))
           case BAD_REQUEST =>
-            logger.warn(s"[BridgeIntegrationConnector][property detail] Bad request: ${response.body}")
+            logger.warn("[BridgeIntegrationConnector][property detail] Bad request")
             Left(ErrorResponse(BAD_REQUEST, response.body))
           case status =>
             logger.error(s"[BridgeIntegrationConnector][property detail] Unexpected status=$status")
@@ -108,7 +106,7 @@ class BridgeIntegrationConnector @Inject()(
       }
       .recover {
         case NonFatal(ex) =>
-          logger.error(s"[BridgeIntegrationConnector][property detail] Failed: ${ex.getMessage}", ex)
+          logger.error(s"[BridgeIntegrationConnector][property detail] Request failed: ${ex.getClass.getSimpleName}")
           Left(ErrorResponse(INTERNAL_SERVER_ERROR, "Call to bridge-integration property detail failed"))
       }
   }
