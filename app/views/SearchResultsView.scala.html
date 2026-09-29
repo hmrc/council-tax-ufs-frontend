@@ -30,7 +30,7 @@
 
 @(
   viewModel:       SearchResultsViewModel,
-  encodedPostcode: String,
+  postcode:        String,
   pagination:      Pagination
 )(implicit request: Request[_], messages: Messages)
 
@@ -43,11 +43,12 @@
 
 @tableRows = @{
  viewModel.entries.map { entry =>
+   val propertyId = entry.propertyId.toLowerCase(java.util.Locale.ROOT)
    val href = if (entry.propertyId.nonEmpty)
-     routes.PropertyDetailController.onPageLoad(entry.propertyId).url
+    routes.PropertyDetailController.onPageLoad(propertyId).url
    else "#"
    Seq(
-     TableRow(content = HtmlContent(s"""<a href="$href" class="govuk-link">${entry.address}</a>""")),
+    TableRow(content = HtmlContent(s"""<a href="${href.replace("&", "&amp;")}" class="govuk-link">${entry.address}</a>""")),
      TableRow(content = Text(entry.band)),
      TableRow(content = Text(entry.localAuthority))
    )

@@ -32,7 +32,7 @@ import scala.concurrent.Future
 
 class SearchResultsControllerSpec extends SpecBase with MockitoSugar {
 
-  private val encodedPostcode = "encrypted-postcode"
+  private val postcodeToken = "encrypted-postcode"
   private val decodedPostcode = "CF14 1AA"
 
   "SearchResults Controller" - {
@@ -41,7 +41,7 @@ class SearchResultsControllerSpec extends SpecBase with MockitoSugar {
       val searchResultsService = mock[SearchResultsService]
       val urlEncryptor         = mock[UrlEncryptor]
 
-      when(urlEncryptor.decrypt(encodedPostcode)).thenReturn(decodedPostcode)
+      when(urlEncryptor.decrypt(postcodeToken)).thenReturn(decodedPostcode)
       when(searchResultsService.search(any[String], any[Int])(any[HeaderCarrier]))
         .thenReturn(Future.successful(Left(ErrorResponse(SERVICE_UNAVAILABLE, "upstream detail"))))
 
@@ -55,7 +55,7 @@ class SearchResultsControllerSpec extends SpecBase with MockitoSugar {
       running(application) {
         val request = FakeRequest(
           GET,
-          routes.SearchResultsController.show(encodedPostcode, 1).url
+          routes.SearchResultsController.show(postcodeToken, 1).url
         ).withSession(SessionKeys.sessionId -> "test-session")
 
         val result = route(application, request).value
@@ -70,7 +70,7 @@ class SearchResultsControllerSpec extends SpecBase with MockitoSugar {
       val searchResultsService = mock[SearchResultsService]
       val urlEncryptor         = mock[UrlEncryptor]
 
-      when(urlEncryptor.decrypt(encodedPostcode)).thenReturn(decodedPostcode)
+      when(urlEncryptor.decrypt(postcodeToken)).thenReturn(decodedPostcode)
       when(searchResultsService.search(any[String], any[Int])(any[HeaderCarrier]))
         .thenReturn(Future.successful(Left(ErrorResponse(NOT_FOUND, "not found"))))
 
@@ -84,7 +84,7 @@ class SearchResultsControllerSpec extends SpecBase with MockitoSugar {
       running(application) {
         val request = FakeRequest(
           GET,
-          routes.SearchResultsController.show(encodedPostcode, 1).url
+          routes.SearchResultsController.show(postcodeToken, 1).url
         ).withSession(SessionKeys.sessionId -> "test-session")
 
         val result = route(application, request).value

@@ -15,9 +15,6 @@
  */
 
 package controllers
-
-import controllers.actions.SessionIdentifierAction
-import models.NormalMode
 import play.api.i18n.{I18nSupport, Lang}
 import play.api.mvc._
 import play.api.Logging
@@ -29,10 +26,11 @@ import views.html.errors.ApiErrorView
 
 import javax.inject.{Inject, Singleton}
 import scala.concurrent.ExecutionContext
+import java.util.Locale
+import scala.concurrent.Future
 
 @Singleton
 class PropertyDetailController @Inject()(
-  sessionIdentify: SessionIdentifierAction,
   propertyDetailService: PropertyDetailService,
   propertyDetailView: PropertyDetailView,
   apiErrorView: ApiErrorView,
@@ -44,27 +42,32 @@ class PropertyDetailController @Inject()(
 
   def onPageLoad(propertyId: String): Action[AnyContent] =
     Action.async { implicit request =>
-      implicit val hc =
-        HeaderCarrierConverter.fromRequestAndSession(
-          request,
-          request.session
-        )
+      val lowerCasePropertyId = propertyId.toLowerCase(Locale.ROOT)
+      if (propertyId != lowerCasePropertyId) {
+        Future.successful(Redirect(routes.PropertyDetailController.onPageLoad(lowerCasePropertyId)))
+      } else {
+        implicit val hc =
+          HeaderCarrierConverter.fromRequestAndSession(
+            request,
+            request.session
+          )
 
-      implicit val lang: Lang = request.lang
+        implicit val lang: Lang = request.lang
 
-      propertyDetailService.getPropertyDetail(propertyId).map {
-        case Left(error) if error.statusCode == NOT_FOUND =>
-          Redirect(routes.JourneyRecoveryController.onPageLoad())
+        propertyDetailService.getPropertyDetail(propertyId).map {
+          case Left(error) if error.statusCode == NOT_FOUND =>
+            Redirect(routes.JourneyRecoveryController.onPageLoad())
 
-        case Left(error) =>
-          logger.error(s"[PropertyDetailController] API error status=${error.statusCode}")
-          InternalServerError(apiErrorView(models.ApiError(error.statusCode, error.message)))
+          case Left(error) =>
+            logger.error(s"[PropertyDetailController] API error status=${error.statusCode}")
+            InternalServerError(apiErrorView(models.ApiError(error.statusCode, error.message)))
 
-        case Right(None) =>
-          Redirect(routes.JourneyRecoveryController.onPageLoad())
+          case Right(None) =>
+            Redirect(routes.JourneyRecoveryController.onPageLoad())
 
-        case Right(Some(viewModel)) =>
-          Ok(propertyDetailView(viewModel))
+          case Right(Some(viewModel)) =>
+            Ok(propertyDetailView(viewModel))
+        }
       }
     }
 }

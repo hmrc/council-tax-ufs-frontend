@@ -14,7 +14,6 @@
  * limitations under the License.
  *@
 
-@import models.PropertyDetailViewModel
 @import uk.gov.hmrc.govukfrontend.views.html.components._
 @import views.html.helper.CSPNonce
 @import views.html.components.PrintLink
@@ -123,9 +122,12 @@
     )
 }
 
+@propertyId = @{ viewModel.propertyId.toLowerCase(java.util.Locale.ROOT) }
+
 @layout(
     pageTitle = messages("service.name"),
     fullWidth = true,
+    metaDescription = Some(messages("propertyDetail.metaDescription")),
     scripts = Some(scripts)
 ) {
     <link href='@routes.Assets.versioned("stylesheets/print_page.css")' rel="stylesheet" type="text/css" />
@@ -223,7 +225,7 @@
         @for((msgKey, isLink) <- beforeYouContinueItems) {
             <li>
                 @if(isLink) {
-                    <a href="#" class="govuk-link">@messages(msgKey)</a>
+                    <a href="@routes.HistoricBandsController.onPageLoad(propertyId).url" class="govuk-link">@messages(msgKey)</a>
                 } else {
                     @messages(msgKey)
                 }

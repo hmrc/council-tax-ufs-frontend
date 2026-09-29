@@ -65,6 +65,20 @@ class PropertyDetailViewSpec extends AnyWordSpec with Matchers {
       html should include("id=\"continue\"")
     }
 
+    "render the shared browser-history back link" in {
+      val html = template.render(viewModel, request, messages).body
+
+      html should include("data-module=\"hmrc-back-link\"")
+      html.split("class=\"govuk-back-link\"", -1).length - 1 shouldBe 1
+    }
+
+    "link to the historic bands for this property" in {
+      val html = template.render(viewModel, request, messages).body
+
+      html should include(s"href=\"${controllers.routes.HistoricBandsController.onPageLoad(viewModel.propertyId.toLowerCase).url}\"")
+      html should include("View previous Council Tax bands for this property")
+    }
+
     "render a local council link" in {
       val html = template.render(viewModel, request, messages).body
 

@@ -29,5 +29,7 @@ POST       /changePostcodeSearch                         controllers.PostcodeSea
 
 GET        /search-results                               controllers.SearchResultsController.show(postcode: String, page: Int ?= 1)
 GET        /property/:id                                 controllers.PropertyDetailController.onPageLoad(id: String)
+GET        /historic-bands/:propertyId                   controllers.HistoricBandsController.onPageLoad(propertyId: String)
+GET        /historic-bands-full/:propertyId/:bandIndex   controllers.HistoricBandsController.onBandPageLoad(propertyId: String, bandIndex: Int)
  
 

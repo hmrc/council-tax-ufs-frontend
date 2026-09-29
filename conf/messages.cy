@@ -98,6 +98,7 @@ noResults.contactCouncilDescription      = os na allwch ddod o hyd i’ch eiddo 
 
 
 propertyDetail.informationFor                    = Dyma'r wybodaeth ar gyfer:
+propertyDetail.metaDescription                   = Gweld band Treth Gyngor a gwybodaeth eiddo ar gyfer y cyfeiriad hwn.
 propertyDetail.publicInformation                 = Gwybodaeth gyhoeddus
 propertyDetail.publicInformation.anybody         = Gall unrhyw un weld yr wybodaeth hon
 propertyDetail.band                              = Band Treth Gyngor
@@ -140,6 +141,32 @@ propertyDetail.beforeYouContinue.viewPrevious    = weld bandiau Treth Gyngor bla
 propertyDetail.beforeYouContinue.challenge       = rhoi gwybod i ni os ydych yn credu bod y band Treth Gyngor yn anghywir os ydych naill ai yn talu Treth Gyngor ar gyfer yr eiddo neu os oes gennych ganiatâd gan dalwr y Dreth Gyngor
 propertyDetail.beforeYouContinue.remove          = gofyn i ni dynnu’r eiddo oddi ar restr y Dreth Gyngor os yw wedi’i ddymchwel, yn adfeiliedig, neu’n destun gwaith adnewyddu mawr
 propertyDetail.beforeYouContinue.signIn          = Bydd angen cyfrif Porth y Llywodraeth neu gyfrif GOV.UK One Login arnoch i fewngofnodi.
+
+historicBands.title                              = Bandiau Treth Gyngor blaenorol
+historicBands.metaDescription                    = Gweld bandiau Treth Gyngor blaenorol yr eiddo hwn.
+historicBands.fullTitle                         = Manylion band Treth Gyngor hanesyddol
+historicBands.fullHeading                       = Band Treth Gyngor {0}
+historicBands.band                               = Band Treth Gyngor
+historicBands.effectiveFrom                      = Yn weithredol o
+historicBands.effectiveTo                        = Hyd at
+historicBands.none                               = Nid oes bandiau Treth Gyngor blaenorol ar gael ar gyfer yr eiddo hwn.
+historicBands.details.summary                    = Beth mae gwybodaeth fy eiddo yn ei olygu?
+historicBands.details.band                       = Band Treth Gyngor
+historicBands.details.bandDescription            = Y band yr oedd yr eiddo ynddo. Mae hyn yn pennu faint o Dreth Gyngor sy’n cael ei thalu.
+historicBands.details.effectiveFrom               = Yn weithredol o
+historicBands.details.effectiveFromDescription   = Y dyddiad y daeth y band Treth Gyngor i rym.
+
+historicBandFull.localAuthority                  = Awdurdod lleol
+historicBandFull.metaDescription                 = Gweld manylion hanesyddol band Treth Gyngor yr eiddo hwn, gan gynnwys pryd oedd y band yn berthnasol.
+historicBandFull.valuationList                   = Rhestr brisio
+historicBandFull.valuationListDescription        = Mae hyn yn nodi'r holl eiddo sydd wedi'u bandio at ddibenion Treth Gyngor. Crëwyd rhestrau bandiau Treth Gyngor ar gyfer Cymru a Lloegr yn 1993 ac eto yng Nghymru yn 2005.
+historicBandFull.challenge.summary               = Herio band Treth Gyngor blaenorol
+historicBandFull.challenge.telephone              = Ffôn
+historicBandFull.challenge.england               = 03000 501 501 ar gyfer Lloegr
+historicBandFull.challenge.wales                 = 03000 505 505 ar gyfer Cymru
+historicBandFull.challenge.hours                 = Dydd Llun i ddydd Gwener, 9:00am i 4:30pm (ac eithrio gwyliau cyhoeddus)
+historicBandFull.challenge.email                 = E-bost
+historicBandFull.challenge.emailAddress          = ctinboxvo@hmrc.gov.uk
 
  
 # England

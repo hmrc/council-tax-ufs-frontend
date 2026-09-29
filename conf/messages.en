@@ -102,6 +102,7 @@ noResults.contactCouncilDescription      = if you still cannot find your propert
 
 
 propertyDetail.informationFor                    = Information for:
+propertyDetail.metaDescription                   = View the Council Tax band and property information for this address.
 propertyDetail.publicInformation                 = Public information
 propertyDetail.publicInformation.anybody         = Anybody can view this information
 propertyDetail.band                              = Council Tax band
@@ -145,6 +146,32 @@ propertyDetail.beforeYouContinue.viewPrevious    = View previous Council Tax ban
 propertyDetail.beforeYouContinue.challenge       = tell us if you think the Council Tax band is wrong if you pay Council Tax for the property, or have permission from the Council Tax payer
 propertyDetail.beforeYouContinue.remove          = ask us to remove the property from the Council Tax list if it has been demolished, is derelict, or is undergoing major renovation.
 propertyDetail.beforeYouContinue.signIn          = You''ll need a GOV Gateway or GOV.UK One Login Account to sign in.
+
+historicBands.title                              = Previous Council Tax bands
+historicBands.metaDescription                    = View the previous Council Tax bands for this property.
+historicBands.fullTitle                         = Historic Council Tax band details
+historicBands.fullHeading                       = Council Tax band {0}
+historicBands.band                               = Council Tax band
+historicBands.effectiveFrom                      = With effect from
+historicBands.effectiveTo                        = Until
+historicBands.none                               = No previous Council Tax bands are available for this property.
+historicBands.details.summary                    = What does my property information mean?
+historicBands.details.band                       = Council Tax band
+historicBands.details.bandDescription            = The band the property was in. This determines how much Council Tax is paid.
+historicBands.details.effectiveFrom               = With effect from
+historicBands.details.effectiveFromDescription   = The date the Council Tax band became effective from.
+
+historicBandFull.localAuthority                  = Local Authority
+historicBandFull.metaDescription                 = View historic Council Tax band details for this property, including when the band applied.
+historicBandFull.valuationList                   = Valuation list
+historicBandFull.valuationListDescription        = This identifies all properties banded for Council Tax purposes. Lists of Council Tax bands were originally created for England and Wales in 1993 and again in Wales in 2005.
+historicBandFull.challenge.summary               = Challenge your previous Council Tax band
+historicBandFull.challenge.telephone              = Telephone
+historicBandFull.challenge.england               = 03000 501 501 for England
+historicBandFull.challenge.wales                 = 03000 505 505 for Wales
+historicBandFull.challenge.hours                 = Monday to Friday, 9:00am to 4:30pm (except public holidays)
+historicBandFull.challenge.email                 = Email
+historicBandFull.challenge.emailAddress          = ctinboxvo@hmrc.gov.uk
 
  
 # England

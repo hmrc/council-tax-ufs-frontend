@@ -171,4 +171,28 @@ case class PropertyDetailViewModel(
   courtCode:         String,
   country:           String
 )
+
+case class HistoricBandEntry(
+  band:              String,
+  effectiveFromDate: String,
+  effectiveToDate:   String,
+  localAuthority:    String,
+  councilRefNumber:  String,
+  improvementInd:    String,
+  mixedUse:          String,
+  courtCode:         String,
+  valuationList:     String
+)
+
+case class HistoricBandsViewModel(
+  propertyId: String,
+  address: String,
+  bands:   Seq[HistoricBandEntry]
+)
+
+case class HistoricBandFullViewModel(
+  propertyId: String,
+  address:    String,
+  band:       HistoricBandEntry
+)
  

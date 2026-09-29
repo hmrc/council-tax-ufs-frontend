@@ -1,0 +1,70 @@
+@*
+ * Copyright 2026 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *@
+
+@this(layout: templates.Layout)
+
+@(viewModel: models.HistoricBandsViewModel)(implicit request: Request[_], messages: Messages)
+
+@propertyId = @{ viewModel.propertyId.toLowerCase(java.util.Locale.ROOT) }
+
+@layout(
+    pageTitle = messages("historicBands.title"),
+    backLinkUrl = Some(routes.PropertyDetailController.onPageLoad(propertyId).url),
+    metaDescription = Some(messages("historicBands.metaDescription"))
+) {
+
+    <h1 class="govuk-heading-l">
+        <span class="govuk-caption-l">@messages("propertyDetail.informationFor")</span>
+        @viewModel.address
+    </h1>
+
+    <table class="govuk-table">
+        <thead class="govuk-table__head">
+            <tr class="govuk-table__row">
+                <th scope="col" class="govuk-table__header">@messages("historicBands.band")</th>
+                <th scope="col" class="govuk-table__header">@messages("historicBands.effectiveFrom")</th>
+            </tr>
+        </thead>
+        <tbody class="govuk-table__body">
+            @if(viewModel.bands.isEmpty) {
+                <tr class="govuk-table__row">
+                    <td class="govuk-table__cell" colspan="2">@messages("historicBands.none")</td>
+                </tr>
+            } else {
+                @for((band, index) <- viewModel.bands.zipWithIndex) {
+                    <tr class="govuk-table__row">
+                        <td class="govuk-table__cell">
+                            <a class="govuk-link" href="@routes.HistoricBandsController.onBandPageLoad(propertyId, index).url">@band.band</a>
+                        </td>
+                        <td class="govuk-table__cell">@band.effectiveFromDate</td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+
+    <details class="govuk-details">
+        <summary class="govuk-details__summary">
+            <span class="govuk-details__summary-text">@messages("historicBands.details.summary")</span>
+        </summary>
+        <div class="govuk-details__text">
+            <h2 class="govuk-heading-s">@messages("historicBands.details.band")</h2>
+            <p class="govuk-body">@messages("historicBands.details.bandDescription")</p>
+            <h2 class="govuk-heading-s">@messages("historicBands.details.effectiveFrom")</h2>
+            <p class="govuk-body">@messages("historicBands.details.effectiveFromDescription")</p>
+        </div>
+    </details>
+}
