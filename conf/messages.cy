@@ -167,4 +167,17 @@ propertyDetail.band.range.wales.G         = £223,001 to £324,000
 propertyDetail.band.range.wales.H         = £324,001 to £424,000
 propertyDetail.band.range.wales.I         = more than £424,000
  
+councilTaxResponsible.title = Ydych chi'n gyfrifol am y Dreth Gyngor ar yr eiddo hwn?
+councilTaxResponsible.heading = Ydych chi'n gyfrifol am y Dreth Gyngor ar yr eiddo hwn?
+councilTaxResponsible.yes = Ydw
+councilTaxResponsible.no = Nac ydw
+councilTaxResponsible.actingFor = Rydw i'n gweithredu dros rywun sy'n gyfrifol
+councilTaxResponsible.hint = Dim ond pobl sy'n gyfrifol am y Dreth Gyngor ar eiddo sydd â chaniatâd i weld rhagor o fanylion. Mae hyn yn cynnwys pobl sy'n gweithredu dros rywun sydd yn gyfrifol.
+
+councilTaxResponsible.actingFor.hint = Bydd angen i chi gael eu caniatâd ysgrifenedig
+site.warning = Warning
+councilTaxResponsible.warning = Os nad ydych chi'n gyfrifol am y Dreth Gyngor ar yr eiddo hwn, dylech chi ddim barhau gyda'r gwasanaeth hwn.
+councilTaxResponsible.checkYourAnswersLabel = Ydych chi'n gyfrifol am y Dreth Gyngor ar yr eiddo hwn?
+councilTaxResponsible.error.required = Select councilTaxResponsible
+councilTaxResponsible.change.hidden = CouncilTaxResponsible
 

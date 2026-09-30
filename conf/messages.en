@@ -171,3 +171,16 @@ propertyDetail.band.range.wales.F         = £162,001 to £223,000
 propertyDetail.band.range.wales.G         = £223,001 to £324,000
 propertyDetail.band.range.wales.H         = £324,001 to £424,000
 propertyDetail.band.range.wales.I         = more than £424,000
+
+councilTaxResponsible.title = Are you responsible for the Council Tax on this property?
+councilTaxResponsible.heading = Are you responsible for the Council Tax on this property?
+councilTaxResponsible.yes = Yes
+councilTaxResponsible.no = No
+councilTaxResponsible.actingFor = I am acting for someone who is responsible
+councilTaxResponsible.hint = Only People who are responsible for the Council Tax on this property have permission to view more details. This includes people acting for someone who is responsible.
+councilTaxResponsible.actingFor.hint = You will need their written permission
+site.warning = Warning
+councilTaxResponsible.warning = If you are not responsible for the Council Tax on this property, you should not continue with this service.
+councilTaxResponsible.checkYourAnswersLabel = Are you responsible for the Council Tax on this property?
+councilTaxResponsible.error.required = Select councilTaxResponsible
+councilTaxResponsible.change.hidden = CouncilTaxResponsible

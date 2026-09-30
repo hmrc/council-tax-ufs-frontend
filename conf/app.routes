@@ -31,3 +31,8 @@ GET        /search-results                               controllers.SearchResul
 GET        /property/:id                                 controllers.PropertyDetailController.onPageLoad(id: String)
  
 
+
+GET        /councilTaxResponsible                        controllers.CouncilTaxResponsibleController.onPageLoad(mode: Mode = NormalMode)
+POST       /councilTaxResponsible                        controllers.CouncilTaxResponsibleController.onSubmit(mode: Mode = NormalMode)
+GET        /changeCouncilTaxResponsible                  controllers.CouncilTaxResponsibleController.onPageLoad(mode: Mode = CheckMode)
+POST       /changeCouncilTaxResponsible                  controllers.CouncilTaxResponsibleController.onSubmit(mode: Mode = CheckMode)
