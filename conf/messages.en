@@ -184,3 +184,33 @@ councilTaxResponsible.warning = If you are not responsible for the Council Tax o
 councilTaxResponsible.checkYourAnswersLabel = Are you responsible for the Council Tax on this property?
 councilTaxResponsible.error.required = Select councilTaxResponsible
 councilTaxResponsible.change.hidden = CouncilTaxResponsible
+
+requestCouncilTaxBandReview.title = Request a Council Tax band review
+requestCouncilTaxBandReview.heading = Request a Council Tax band review
+requestCouncilTaxBandReview.p1.1 = You can ask the VO (Valuation Office) for a Council Tax band review at any time.
+requestCouncilTaxBandReview.p1.2 = There is no charge for this service
+requestCouncilTaxBandReview.p1.3 = You will need to tell us why you think the band should be reviewed. We may ask you for more details, and you may be required to provide evidence to support your request.
+requestCouncilTaxBandReview.subheading1 = When you can request a Council Tax band review
+
+requestCouncilTaxBandReview.p2.1 =You can request a review of your Council Tax band if:
+requestCouncilTaxBandReview.subheading2.bullet1 = you became the new taxpayer within the last 6 months
+requestCouncilTaxBandReview.subheading2.bullet2 = the council tax band has changed in the last 6 months
+requestCouncilTaxBandReview.subheading2.bullet3 = the local area has physically changed
+requestCouncilTaxBandReview.p2.2 = You can also request a review if something has changed. For example the property;
+requestCouncilTaxBandReview.subheading2.bullet4 = has been demolished
+requestCouncilTaxBandReview.subheading2.bullet5 = property is derelict and cannot be lived in
+requestCouncilTaxBandReview.subheading2.bullet6 = is undergoing major renovations or repairs
+requestCouncilTaxBandReview.subheading2.bullet7 = is partly used for business
+requestCouncilTaxBandReview.subheading2.bullet8 = has been split into multiple properties or merged into one
+requestCouncilTaxBandReview.p2.3 = If you request a review for one of these reasons, but don't agree with the outcome, you can appeal the decision.
+requestCouncilTaxBandReview.p2.4 = We will take any improvements into account when setting the new band, which could be higher than the previous one. The new band will usually take effect from the date the property becomes fit to live in again.
+
+requestCouncilTaxBandReview.subheading2 = Contacting your Local Council
+requestCouncilTaxBandReview.p3.1 = You should also check with your local council for advice and information about Council Tax. Visit your local council's website for more details.
+requestCouncilTaxBandReview.subheading3 = Reviewing the band for any other reason
+requestCouncilTaxBandReview.p4.1 = If none of the above apply, we will only review your band if you provide supporting evidence. Your request for a band review will be rejected without this.
+requestCouncilTaxBandReview.p4.2 = You won't have any legal rights to appeal the outcome of a review.
+requestCouncilTaxBandReview.readContent.label = I have read this page and want to continue
+requestCouncilTaxBandReview.checkYourAnswersLabel = Request a Council Tax band review
+requestCouncilTaxBandReview.error.required = Select requestCouncilTaxBandReview
+requestCouncilTaxBandReview.change.hidden = RequestCouncilTaxBandReview

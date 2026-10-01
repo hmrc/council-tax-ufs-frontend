@@ -181,3 +181,22 @@ councilTaxResponsible.checkYourAnswersLabel = Ydych chi'n gyfrifol am y Dreth Gy
 councilTaxResponsible.error.required = Select councilTaxResponsible
 councilTaxResponsible.change.hidden = CouncilTaxResponsible
 
+requestCouncilTaxBandReview.title = Gwneud cais am adolygiad o fand Treth Gyngor
+requestCouncilTaxBandReview.heading = Gwneud cais am adolygiad o fand Treth Gyngor
+requestCouncilTaxBandReview.p1.1 = Gallwch ofyn i'r Swyddfa Brisio (VO) am adolygiad o fand Treth Gyngor ar unrhyw adeg.
+requestCouncilTaxBandReview.p1.2 = Nid oes tâl am y gwasanaeth hwn.
+requestCouncilTaxBandReview.p1.3 = Bydd angen i chi ddweud wrthym pam rydych yn meddwl y dylid adolygu’r band. Efallai y byddwn yn gofyn i chi am ragor o fanylion, ac efallai y bydd angen i chi ddarparu tystiolaeth i gefnogi'ch cais.
+requestCouncilTaxBandReview.subheading1 = Pryd y gallwch ofyn am adolygiad o fand Treth Gyngor
+requestCouncilTaxBandReview.p2.1 = Rydych yn gallu gofyn i ni adolygu eich band Treth Gyngor os:
+requestCouncilTaxBandReview.subheading2.bullet1 = ydych wedi dod yn drethdalwr newydd o fewn y 6 mis diwethaf
+requestCouncilTaxBandReview.subheading2.bullet2 = mae’r band Treth Gyngor wedi newid yn ystod y 6 mis diwethaf
+requestCouncilTaxBandReview.subheading2.bullet3 = mae’r ardal leol wedi newid yn gorfforol
+requestCouncilTaxBandReview.p2.2 = Rydych yn gallu hefyd ofyn am adolygiad os yw rhywbeth wedi newid. Er enghraifft, mae’r eiddo:
+
+requestCouncilTaxBandReview.subheading2 = Contacting your Local Council
+requestCouncilTaxBandReview.p3.1 = You should also check with your local council for advice and information about Council Tax. Visit your local council's website for more details.
+requestCouncilTaxBandReview.subheading3 = Reviewing the band for any other reason
+requestCouncilTaxBandReview.p4.1 = If none of the above apply, we will only review your band if you provide supporting evidence. Your request for a band review will be rejected without this.
+requestCouncilTaxBandReview.p4.2 = You won't have any legal rights to appeal the outcome of a review.
+requestCouncilTaxBandReview.readContent.label = Ni fydd gennych unrhyw hawliau cyfreithiol i apelio yn erbyn canlyniad adolygiad.
+requestCouncilTaxBandReview.checkYourAnswersLabel = Gwneud cais am adolygiad o fand Treth Gyngor

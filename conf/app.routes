@@ -36,3 +36,8 @@ GET        /councilTaxResponsible                        controllers.CouncilTaxR
 POST       /councilTaxResponsible                        controllers.CouncilTaxResponsibleController.onSubmit(mode: Mode = NormalMode)
 GET        /changeCouncilTaxResponsible                  controllers.CouncilTaxResponsibleController.onPageLoad(mode: Mode = CheckMode)
 POST       /changeCouncilTaxResponsible                  controllers.CouncilTaxResponsibleController.onSubmit(mode: Mode = CheckMode)
+
+GET        /requestCouncilTaxBandReview                        controllers.RequestCouncilTaxBandReviewController.onPageLoad(mode: Mode = NormalMode)
+POST       /requestCouncilTaxBandReview                        controllers.RequestCouncilTaxBandReviewController.onSubmit(mode: Mode = NormalMode)
+GET        /changeRequestCouncilTaxBandReview                  controllers.RequestCouncilTaxBandReviewController.onPageLoad(mode: Mode = CheckMode)
+POST       /changeRequestCouncilTaxBandReview                  controllers.RequestCouncilTaxBandReviewController.onSubmit(mode: Mode = CheckMode)
