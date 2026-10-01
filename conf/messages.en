@@ -214,3 +214,8 @@ requestCouncilTaxBandReview.readContent.label = I have read this page and want t
 requestCouncilTaxBandReview.checkYourAnswersLabel = Request a Council Tax band review
 requestCouncilTaxBandReview.error.required = Select requestCouncilTaxBandReview
 requestCouncilTaxBandReview.change.hidden = RequestCouncilTaxBandReview
+
+nopermission.title = You do not have permission to view more details
+nopermission.heading = You do not have permission to view more details
+nopermission.body = Only people who are responsible for the Council Tax on this property have permission to view more details. This includes people acting for someone who is responsible.
+nopermission.backToPropertyDetails = Back to property details

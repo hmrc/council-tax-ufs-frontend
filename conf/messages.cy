@@ -200,3 +200,8 @@ requestCouncilTaxBandReview.p4.1 = If none of the above apply, we will only revi
 requestCouncilTaxBandReview.p4.2 = You won't have any legal rights to appeal the outcome of a review.
 requestCouncilTaxBandReview.readContent.label = Ni fydd gennych unrhyw hawliau cyfreithiol i apelio yn erbyn canlyniad adolygiad.
 requestCouncilTaxBandReview.checkYourAnswersLabel = Gwneud cais am adolygiad o fand Treth Gyngor
+
+nopermission.title = Does gennych chi ddim caniatâd i weld rhagor o fanylion
+nopermission.heading = Does gennych chi ddim caniatâd i weld rhagor o fanylion
+nopermission.body = Dim ond pobl sy’n gyfrifol am y Dreth Gyngor ar eiddo sydd â chaniatâd i weld rhagor o fanylion. Mae hyn yn cynnwys pobl sy’n gweithredu dros rywun sydd yn gyfrifol.
+nopermission.backToPropertyDetails = Yn ôl at fanylion yr eiddo
