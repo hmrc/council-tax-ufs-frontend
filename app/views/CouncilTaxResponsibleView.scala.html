@@ -50,8 +50,8 @@
 
         @govukRadios(
             Radios(
-                idPrefix = Some("councilTax"),
-                name = "councilTax",
+                idPrefix = Some("value"),
+                name = "value",
                 items = Seq(
             RadioItem(
                 value = Some("yes"),
@@ -62,7 +62,7 @@
                 content = Text(messages("councilTaxResponsible.no"))
             ),
             RadioItem(
-                value = Some("actingFor"),
+                value = Some("actingfor"),
                 content = Text(messages("councilTaxResponsible.actingFor")),
                 hint = Some(
             Hint(

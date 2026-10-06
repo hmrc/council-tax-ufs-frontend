@@ -27,7 +27,8 @@ import models._
 class Navigator @Inject()() {
 
   private val normalRoutes: Page => UserAnswers => Call = {
-    case _ => _ => routes.PostcodeSearchController.onPageLoad(NormalMode)
+    case CouncilTaxResponsiblePage => councilTaxResponsibleRoutes
+    case _                         => _ => routes.PostcodeSearchController.onPageLoad(NormalMode)
   }
 
   private val checkRouteMap: Page => UserAnswers => Call = {
@@ -40,4 +41,13 @@ class Navigator @Inject()() {
     case CheckMode =>
       checkRouteMap(page)(userAnswers)
   }
+
+  private def councilTaxResponsibleRoutes(answers: UserAnswers): Call =
+    answers.get(CouncilTaxResponsiblePage) match {
+      case Some(CouncilTaxResponsible.Yes)       => routes.RequestCouncilTaxBandReviewController.onPageLoad(NormalMode)
+      case Some(CouncilTaxResponsible.No)        => routes.PermissionController.onPageLoad()
+      case Some(CouncilTaxResponsible.ActingFor) => routes.RequestCouncilTaxBandReviewController.onPageLoad(NormalMode)
+      case _                                     => routes.IndexController.onPageLoad()
+    }
 }
+
