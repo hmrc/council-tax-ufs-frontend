@@ -17,6 +17,7 @@
 package controllers
 
 import controllers.actions.{DataRetrievalAction, SessionIdentifierAction}
+import models.SearchQuery
 import play.api.i18n.I18nSupport
 import play.api.i18n.Lang.logger
 import play.api.mvc.*
@@ -57,7 +58,14 @@ class SearchResultsController @Inject()(
       val searchPostcode = urlEncryptor.decrypt(postcode)
       val safePage = Math.max(1, page)
 
-      searchResultsService.search(searchPostcode, safePage).map {
+      val query = SearchQuery(
+        postcode = searchPostcode,
+        listType = "CVW,CVE",
+        page = Some(safePage.toString),
+        pageSize = Some("20")
+      )
+
+      searchResultsService.search(query).map {
 
         case Left(error) =>
           error.statusCode match {

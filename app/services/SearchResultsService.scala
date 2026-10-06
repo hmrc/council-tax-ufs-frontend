@@ -31,20 +31,15 @@ class SearchResultsService @Inject() (
 )(implicit ec: ExecutionContext)
     extends Logging {
 
-  /** Search by postcode for a given page.
+  /** Search using the Bridge Integration query parameters.
     *
-    * Delegates to the API via BridgeIntegrationConnector. Pagination is SERVER-SIDE — the API returns only the records for the requested page. We do
-    * NOT slice locally.
+    * The API performs pagination and returns the records and metadata for the requested page.
     *
     * Returns Right(SearchResultsViewModel) on success and Left(ErrorResponse) on API error.
     */
-  def search(
-              postcode: String,
-              page:     Int
-            )(implicit hc: HeaderCarrier): Future[Either[ErrorResponse, Option[SearchResultsViewModel]]] =
-    connector.postcodeSearch(postcode).map {
-
-      // Always call API without page param — it returns everything
+  def search(query: SearchQuery)
+    (implicit hc: HeaderCarrier): Future[Either[ErrorResponse, Option[SearchResultsViewModel]]] =
+    connector.postcodeSearch(query).map {
 
       case Left(error) =>
         logger.warn(s"[SearchResultsService][search] API error status=${error.statusCode}")
@@ -55,11 +50,9 @@ class SearchResultsService @Inject() (
 
       case Right(result) =>
         val r = result.results
-        if r.records.isEmpty then {
+        if r.records.isEmpty && r.total_results.getOrElse(0) == 0 then {
           Right(None)
         } else {
-          // Build all entries from the full response
-
           val allEntries = r.records.flatMap { record =>
             val maybeAddress = for {
               listEntry <- record.list_entry
@@ -93,22 +86,27 @@ class SearchResultsService @Inject() (
           }
           logger.info(s"[SearchResultsService] r.records=${r.records.size} allEntries=${allEntries.size} total_results=${r.total_results}")
 
-          val pageSize    = r.page_size.getOrElse(20)
-          val totalItems  = r.total_results.getOrElse(allEntries.size) // use actual mapped count
-          val totalPages  = Math.ceil(totalItems.toDouble / pageSize).toInt.max(1)
-          val safePage    = page.max(1).min(totalPages)
-          val from        = (safePage - 1) * pageSize
-          val pageEntries = allEntries.slice(from, from + pageSize)
+          val pageSize    = r.page_size.filter(_ > 0).getOrElse(20)
+          val totalItems  = r.total_results.getOrElse(allEntries.size)
+          val totalPages  = r.total_pages.filter(_ > 0).getOrElse(Math.ceil(totalItems.toDouble / pageSize).toInt.max(1))
+          val currentPage = r.current_page.orElse(query.page.flatMap(_.toIntOption)).getOrElse(1).max(1)
+          val countries = r.records
+            .flatMap(_.list.flatMap(_.country).flatMap(country => SearchCountry.fromLabel(country.label)))
+            .distinct match {
+              case Seq() => Seq(SearchCountry.England)
+              case values => values
+            }
 
           Right(
             Some(
               SearchResultsViewModel(
-                postcode = postcode,
-                entries = pageEntries,
-                currentPage = safePage,
+                postcode = query.postcode,
+                entries = allEntries,
+                currentPage = currentPage,
                 totalPages = totalPages,
                 totalItems = totalItems,
-                pageSize = pageSize
+                pageSize = pageSize,
+                countries = countries
               )
             )
           )

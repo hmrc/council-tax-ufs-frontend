@@ -34,6 +34,25 @@ class SearchResultsViewSpec extends AnyWordSpec with Matchers {
   private val template = app.injector.instanceOf[views.html.SearchResultsView]
 
   "SearchResultsView" should {
+    "show Wales-specific band guidance when results are from Wales" in {
+      val viewModel = SearchResultsViewModel(
+        postcode = "CF14 1AA",
+        entries = Seq(PropertyEntry("PROP-123", "Cardiff Council", "1 Test Street", "C")),
+        currentPage = 1,
+        totalPages = 1,
+        totalItems = 1,
+        pageSize = 20,
+        countries = Seq(models.SearchCountry.Wales)
+      )
+      val pagination = PaginationHelper.buildPagination(1, 1, _ => "/search-results?page=1")
+
+      val html = template.render(viewModel, "postcode-token", pagination, request, messages).body
+
+      html should include("every home in Wales")
+      html should include("1 April 2003")
+      html should include("highest band is &#x27;I&#x27;")
+    }
+
     "use a lowercase property ID without search parameters in property links" in {
       val propertyId = "PROP-123"
       val currentPage = 3

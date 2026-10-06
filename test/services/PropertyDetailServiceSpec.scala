@@ -103,4 +103,45 @@ class PropertyDetailServiceSpec extends SpecBase with MockitoSugar {
       )
     }
   }
+
+  "PropertyDetailService.getPropertyDetail" - {
+    "must use the country label when the country code is shared" in {
+      val connector = mock[BridgeIntegrationConnector]
+      val response = Json.parse(
+        """
+          |{
+          |  "results": {
+          |    "records": [{
+          |      "data": {
+          |        "list": {
+          |          "country": { "code": "W92000004", "label": "England" },
+          |          "collection_authority": { "code": "TEST" }
+          |        },
+          |        "list_entry": {
+          |          "valuation": { "value": "C" },
+          |          "period": { "effective_from_date": "2024-01-01" },
+          |          "administration": { "collection_authority_ref": "REF-123" },
+          |          "property": {
+          |            "id": { "value": "PROP-123" },
+          |            "address": { "full": "1 Test Street" },
+          |            "workflow": { "improvement_ind": "N" }
+          |          },
+          |          "use": { "composite_ind": "N" }
+          |        }
+          |      }
+          |    }]
+          |  }
+          |}
+          |""".stripMargin
+      ).as[PropertyDetailResponse]
+
+      when(connector.propertyDetail(eqTo("PROP-123"))(any[HeaderCarrier]))
+        .thenReturn(Future.successful(Right(response)))
+
+      val result = new PropertyDetailService(connector)
+        .getPropertyDetail("PROP-123")(HeaderCarrier(), Lang("en")).futureValue
+
+      result.toOption.flatten.map(_.country) mustBe Some("England")
+    }
+  }
 }

@@ -35,7 +35,7 @@ class PropertyDetailResultSpec extends AnyWordSpec with Matchers {
           |            "id": { "value": "LIST-123" },
           |            "classification": { "code": "A", "meaning": "Band A" },
           |            "collection_authority": { "code": "ABC" },
-          |            "country": { "code": "E92000001" }
+          |            "country": { "code": "E92000001", "label": "England" }
           |          },
           |          "list_entry": {
           |            "valuation": { "value": "C" },
@@ -80,6 +80,7 @@ class PropertyDetailResultSpec extends AnyWordSpec with Matchers {
       record.list.classification.flatMap(_.code) shouldBe Some("A")
       record.list.collection_authority.flatMap(_.code) shouldBe Some("ABC")
       record.list.country.flatMap(_.code) shouldBe Some("E92000001")
+      record.list.country.flatMap(_.label) shouldBe Some("England")
 
       record.list_entry.valuation.flatMap(_.value) shouldBe Some("C")
       record.list_entry.period.flatMap(_.effective_from_date) shouldBe Some("2024-01-01")

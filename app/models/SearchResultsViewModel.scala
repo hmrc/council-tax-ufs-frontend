@@ -52,10 +52,16 @@ object Record {
 case class ValuationList(
   id:                   Option[Id],
   `class`:              Option[Classification],
-  collection_authority: Option[CollectionAuthority]
+  collection_authority: Option[CollectionAuthority],
+  country:              Option[Country]
 )
 object ValuationList {
   implicit val format: OFormat[ValuationList] = Json.format
+}
+
+case class Country(code: Option[String], label: Option[String])
+object Country {
+  implicit val format: OFormat[Country] = Json.format
 }
 
 case class Id(value: Option[String])
@@ -122,13 +128,28 @@ case class PropertyEntry(
  *
  * startIndex / endIndex are 1-based for "Showing X to Y of Z" display.
  */
+enum SearchCountry(val messageKey: String) {
+  case England extends SearchCountry("england")
+  case Wales extends SearchCountry("wales")
+}
+
+object SearchCountry {
+  def fromLabel(label: Option[String]): Option[SearchCountry] =
+    label.map(_.trim.toLowerCase(java.util.Locale.ROOT)).flatMap {
+      case "england" => Some(England)
+      case "wales"   => Some(Wales)
+      case _          => None
+    }
+}
+
 case class SearchResultsViewModel(
   postcode:    String,
   entries:     Seq[PropertyEntry],
   currentPage: Int,
   totalPages:  Int,
   totalItems:  Int,
-  pageSize:    Int
+  pageSize:    Int,
+  countries:   Seq[SearchCountry] = Seq(SearchCountry.England)
 ) {
   val startIndex: Int = if (totalItems == 0) 0 else (currentPage - 1) * pageSize + 1
   val endIndex:   Int = if (entries.isEmpty) startIndex - 1 else Math.min(startIndex + entries.size - 1, totalItems)

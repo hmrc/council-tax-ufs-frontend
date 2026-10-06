@@ -40,7 +40,7 @@ object PropertyDetailResult {
   implicit val format: OFormat[PropertyDetailResult] = Json.format
 }
 
-case class PropertyDetailCountry(code: Option[String])
+case class PropertyDetailCountry(code: Option[String], label: Option[String])
 object PropertyDetailCountry {
    implicit val format: OFormat[PropertyDetailCountry] = Json.format
 }

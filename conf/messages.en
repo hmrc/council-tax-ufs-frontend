@@ -87,8 +87,10 @@ searchResults.searchAgain.label          = Enter a postcode
 searchResults.searchAgain.button         = Search
 searchResults.otherSearchOptions         = Other search options
 searchResults.error                      = There was a problem with your search. Please try again.
-searchResults.voa                        = The <a class="govuk-link" href="https://www.gov.uk/government/organisations/valuation-office-agency">Valuation Office (VO)</a> puts every home in England into a group called a 'band', based on the value of the property on 1 April 1991.
-searchResults.bands                      = The lowest band is ''A'', and the highest band is ''H''.
+searchResults.voa.england                = The <a class="govuk-link" href="https://www.gov.uk/government/organisations/valuation-office-agency">Valuation Office (VO)</a> puts every home in England into a group called a 'band', based on the value of the property on 1 April 1991.
+searchResults.bands.england              = The lowest band is ''A'', and the highest band is ''H''.
+searchResults.voa.wales                  = The <a class="govuk-link" href="https://www.gov.uk/government/organisations/valuation-office-agency">Valuation Office (VO)</a> puts every home in Wales into a group called a 'band', based on the value of the property on 1 April 2003.
+searchResults.bands.wales                = The lowest band is ''A'', and the highest band is ''I''.
 
 # No Results
 noResults.title                          = No results for {0}
@@ -106,10 +108,12 @@ propertyDetail.metaDescription                   = View the Council Tax band and
 propertyDetail.publicInformation                 = Public information
 propertyDetail.publicInformation.anybody         = Anybody can view this information
 propertyDetail.band                              = Council Tax band
-propertyDetail.band.hint                         = The current band for the property. This is based on the property value on 01 April 1991.
+propertyDetail.band.hint.england                 = The current band for the property. This is based on the property value on 1 April 1991.
+propertyDetail.band.hint.wales                   = The current band for the property. This is based on the property value on 1 April 2003.
 propertyDetail.band.expand                       = Council Tax bands England
 propertyDetail.band.table.band                   = Band
-propertyDetail.band.table.value                  = Property value at 1 April 1991
+propertyDetail.band.table.value.england          = Property value at 1 April 1991
+propertyDetail.band.table.value.wales            = Property value at 1 April 2003
 propertyDetail.band.current                      = current band
 propertyDetail.band.range.A                      = up to £40,000
 propertyDetail.band.range.B                      = £40,001 to £52,000

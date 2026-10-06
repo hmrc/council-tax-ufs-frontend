@@ -128,7 +128,9 @@ class PropertyDetailService @Inject() (connector: BridgeIntegrationConnector)(im
             val improvement = entry.property.flatMap(_.workflow).flatMap(_.improvement_ind).map(indicatorToYesNo).getOrElse("Not available")
             val mixedUse = entry.use.flatMap(_.composite_ind).map(indicatorToYesNo).getOrElse("Not available")
             val courtCode = "None"
-            val country = list.country.flatMap(_.code).getOrElse("W92000004")
+            val country = list.country
+              .flatMap(country => country.label.orElse(country.code))
+              .getOrElse("England")
 
             Right(
               Some(

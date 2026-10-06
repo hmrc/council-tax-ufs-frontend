@@ -83,8 +83,10 @@ searchResults.searchAgain.label          = Nodwch god post
 searchResults.searchAgain.button         = Chwilio
 searchResults.otherSearchOptions         = Opsiynau chwilio eraill
 searchResults.error                      = Roedd problem gyda'ch chwiliad. Rhowch gynnig arall arni.
-searchResults.voa                        = Mae'r <a class="govuk-link" href="https://www.gov.uk/government/organisations/valuation-office-agency"> Swyddfa Brisio (VO)</a> yn gosod pob cartref yng Nghymru a Lloegr mewn grŵp o'r enw 'band', yn seiliedig ar werth yr eiddo ar 1 Ebrill 1991.
-searchResults.bands                      = Y band isaf yw ''A'', a'r band uchaf yw ''H''.
+searchResults.voa.england                = Mae'r <a class="govuk-link" href="https://www.gov.uk/government/organisations/valuation-office-agency">Swyddfa Brisio (VO)</a> yn gosod pob cartref yn Lloegr mewn grŵp o'r enw 'band', yn seiliedig ar werth yr eiddo ar 1 Ebrill 1991.
+searchResults.bands.england              = Y band isaf yw ''A'', a'r band uchaf yw ''H''.
+searchResults.voa.wales                  = Mae'r <a class="govuk-link" href="https://www.gov.uk/government/organisations/valuation-office-agency">Swyddfa Brisio (VO)</a> yn gosod pob cartref yng Nghymru mewn grŵp o'r enw 'band', yn seiliedig ar werth yr eiddo ar 1 Ebrill 2003.
+searchResults.bands.wales                = Y band isaf yw ''A'', a'r band uchaf yw ''I''.
 
 # No Results
 noResults.title                          = Dim canlyniadau ar gyfer {0}
@@ -102,10 +104,12 @@ propertyDetail.metaDescription                   = Gweld band Treth Gyngor a gwy
 propertyDetail.publicInformation                 = Gwybodaeth gyhoeddus
 propertyDetail.publicInformation.anybody         = Gall unrhyw un weld yr wybodaeth hon
 propertyDetail.band                              = Band Treth Gyngor
-propertyDetail.band.hint                         = Bandiau Treth Gyngor yng Nghymru (yn seiliedig ar werthoedd 1 Ebrill 2003)
+propertyDetail.band.hint.england                 = Y band presennol ar gyfer yr eiddo. Mae hyn yn seiliedig ar werth yr eiddo ar 1 Ebrill 1991.
+propertyDetail.band.hint.wales                   = Y band presennol ar gyfer yr eiddo. Mae hyn yn seiliedig ar werth yr eiddo ar 1 Ebrill 2003.
 propertyDetail.band.expand                       = Council Tax bands England
 propertyDetail.band.table.band                   = Band
-propertyDetail.band.table.value                  = Property value at 1 April 1991
+propertyDetail.band.table.value.england          = Gwerth yr eiddo ar 1 Ebrill 1991
+propertyDetail.band.table.value.wales            = Gwerth yr eiddo ar 1 Ebrill 2003
 propertyDetail.band.current                      = current band
 propertyDetail.band.range.A                      = up to £40,000
 propertyDetail.band.range.B                      = £40,001 to £52,000

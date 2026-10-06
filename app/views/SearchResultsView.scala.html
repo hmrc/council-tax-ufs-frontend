@@ -63,12 +63,14 @@
   <h1 class="govuk-heading-xl">
     @messages("searchResults.heading", viewModel.postcode)
   </h1>
-  <p class="govuk-body">
-    @Html(messages("searchResults.voa"))
-  </p>
-  <p class="govuk-body">
-    @messages("searchResults.bands")
-  </p>
+  @for(country <- viewModel.countries) {
+    <p class="govuk-body">
+      @Html(messages(s"searchResults.voa.${country.messageKey}"))
+    </p>
+    <p class="govuk-body">
+      @messages(s"searchResults.bands.${country.messageKey}")
+    </p>
+  }
   <p class="govuk-body">
     @messages("searchResults.showing", viewModel.startIndex, viewModel.endIndex, viewModel.totalItems)
   </p>

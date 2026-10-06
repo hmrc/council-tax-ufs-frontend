@@ -17,6 +17,7 @@
 package controllers
 
 import base.SpecBase
+import models.SearchQuery
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
@@ -42,7 +43,7 @@ class SearchResultsControllerSpec extends SpecBase with MockitoSugar {
       val urlEncryptor         = mock[UrlEncryptor]
 
       when(urlEncryptor.decrypt(postcodeToken)).thenReturn(decodedPostcode)
-      when(searchResultsService.search(any[String], any[Int])(any[HeaderCarrier]))
+      when(searchResultsService.search(any[SearchQuery])(any[HeaderCarrier]))
         .thenReturn(Future.successful(Left(ErrorResponse(SERVICE_UNAVAILABLE, "upstream detail"))))
 
       val application = applicationBuilder(userAnswers = None)
@@ -71,7 +72,7 @@ class SearchResultsControllerSpec extends SpecBase with MockitoSugar {
       val urlEncryptor         = mock[UrlEncryptor]
 
       when(urlEncryptor.decrypt(postcodeToken)).thenReturn(decodedPostcode)
-      when(searchResultsService.search(any[String], any[Int])(any[HeaderCarrier]))
+      when(searchResultsService.search(any[SearchQuery])(any[HeaderCarrier]))
         .thenReturn(Future.successful(Left(ErrorResponse(NOT_FOUND, "not found"))))
 
       val application = applicationBuilder(userAnswers = None)
