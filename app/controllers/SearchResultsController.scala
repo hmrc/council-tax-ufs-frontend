@@ -17,6 +17,7 @@
 package controllers
 
 import controllers.actions.{DataRetrievalAction, SessionIdentifierAction}
+import models.SearchQuery
 import play.api.i18n.I18nSupport
 import play.api.i18n.Lang.logger
 import play.api.mvc.*
@@ -49,39 +50,46 @@ class SearchResultsController @Inject()(
   private def searchError(statusCode: Int, message: String)(implicit request: Request[_]): Result =
     InternalServerError(apiErrorView(models.ApiError(statusCode, message)))
 
-  def show(encodedPostcode: String, page: Int): Action[AnyContent] =
+  def show(postcode: String, page: Int): Action[AnyContent] =
     (sessionIdentify andThen getData).async { implicit request =>
 
       implicit val hc = HeaderCarrierConverter.fromRequestAndSession(request, request.session)
 
-      val postcode = urlEncryptor.decrypt(encodedPostcode)
+      val searchPostcode = urlEncryptor.decrypt(postcode)
       val safePage = Math.max(1, page)
 
-      searchResultsService.search(postcode, safePage).map {
+      val query = SearchQuery(
+        postcode = searchPostcode,
+        listType = "CVW,CVE",
+        page = Some(safePage.toString),
+        pageSize = Some("20")
+      )
+
+      searchResultsService.search(query).map {
 
         case Left(error) =>
           error.statusCode match {
             case 404 =>
-              Ok(noResultsView(PostcodeFormatter.format(postcode)))
+              Ok(noResultsView(PostcodeFormatter.format(searchPostcode)))
             case status =>
               logger.error(s"[SearchResultsController] API error status=$status")
               searchError(status, error.message)
           }
 
         case Right(None) =>
-          Ok(noResultsView(PostcodeFormatter.format(postcode)))
+          Ok(noResultsView(PostcodeFormatter.format(searchPostcode)))
 
         case Right(Some(viewModel)) =>
           val cappedPage = Math.min(safePage, viewModel.totalPages)
           if (cappedPage != safePage) {
-            Redirect(routes.SearchResultsController.show(encodedPostcode, cappedPage))
+            Redirect(routes.SearchResultsController.show(postcode, cappedPage))
           } else {
             val pagination = PaginationHelper.buildPagination(
               currentPage  = viewModel.currentPage,
               totalPages   = viewModel.totalPages,
-              buildPageUrl = p => routes.SearchResultsController.show(encodedPostcode, p).url
+              buildPageUrl = p => routes.SearchResultsController.show(postcode, p).url
             )
-            Ok(searchResultsView(viewModel, encodedPostcode, pagination))
+            Ok(searchResultsView(viewModel, postcode, pagination))
           }
       }
     }

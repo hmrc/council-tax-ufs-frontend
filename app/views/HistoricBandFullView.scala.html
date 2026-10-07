@@ -1,0 +1,120 @@
+@*
+ * Copyright 2026 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *@
+
+@import views.html.helper.CSPNonce
+@import views.html.components.PrintLink
+
+@this(layout: templates.Layout)
+
+@(viewModel: models.HistoricBandFullViewModel)(implicit request: Request[_], messages: Messages)
+
+@propertyId = @{ viewModel.propertyId.toLowerCase(java.util.Locale.ROOT) }
+
+@scripts = {
+    <script @CSPNonce.attr src='@controllers.routes.Assets.versioned("javascripts/print.js")'></script>
+}
+
+@detailRows = @{
+    Seq(
+        "propertyDetail.councilRef" -> viewModel.band.councilRefNumber,
+        "propertyDetail.band" -> viewModel.band.band,
+        "propertyDetail.improvement" -> viewModel.band.improvementInd,
+        "propertyDetail.effectiveFrom" -> viewModel.band.effectiveFromDate,
+        "historicBands.effectiveTo" -> viewModel.band.effectiveToDate,
+        "propertyDetail.mixedUse" -> viewModel.band.mixedUse,
+        "propertyDetail.courtCode" -> viewModel.band.courtCode,
+        "historicBandFull.valuationList" -> viewModel.band.valuationList
+    )
+}
+
+@explanationRows = @{
+    Seq(
+        "propertyDetail.councilRef" -> "propertyDetail.councilRef.hint",
+        "propertyDetail.band" -> "historicBands.details.bandDescription",
+        "propertyDetail.improvement" -> "propertyDetail.improvement.hint",
+        "propertyDetail.effectiveFrom" -> "propertyDetail.effectiveFrom.hint",
+        "propertyDetail.mixedUse" -> "propertyDetail.mixedUse.hint"
+    )
+}
+
+@layout(
+    pageTitle = messages("historicBands.fullTitle"),
+    backLinkUrl = Some(routes.HistoricBandsController.onPageLoad(propertyId).url),
+    metaDescription = Some(messages("historicBandFull.metaDescription")),
+    scripts = Some(scripts)
+) {
+    <link href='@routes.Assets.versioned("stylesheets/print_page.css")' rel="stylesheet" type="text/css" />
+    <h1 class="govuk-heading-l">
+        <span class="govuk-caption-l">@messages("propertyDetail.informationFor")</span>
+        @viewModel.address
+    </h1>
+
+    <table class="govuk-table">
+        <tbody class="govuk-table__body">
+            <tr class="govuk-table__row">
+                <th scope="row" class="govuk-table__header">@messages("historicBandFull.localAuthority")</th>
+                <td class="govuk-table__cell">
+                    <a class="govuk-link" href="https://www.gov.uk/find-local-council">@viewModel.band.localAuthority</a>
+                </td>
+            </tr>
+            @for((labelKey, value) <- detailRows) {
+                <tr class="govuk-table__row">
+                    <th scope="row" class="govuk-table__header">@messages(labelKey)</th>
+                    <td class="govuk-table__cell">@value</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <details class="govuk-details">
+        <summary class="govuk-details__summary">
+            <span class="govuk-details__summary-text">@messages("historicBands.details.summary")</span>
+        </summary>
+        <div class="govuk-details__text">
+            @for((headingKey, descriptionKey) <- explanationRows) {
+                <h2 class="govuk-heading-s">@messages(headingKey)</h2>
+                <p class="govuk-body">@messages(descriptionKey)</p>
+            }
+            <h2 class="govuk-heading-s">@messages("propertyDetail.courtCode")</h2>
+            <p class="govuk-body">@messages("propertyDetail.courtCode.hint") @messages("propertyDetail.courtCode.meaning")</p>
+            <ul class="govuk-list govuk-list--bullet">
+                @for(code <- Seq("V", "C", "D", "H", "R", "E")) {
+                    <li>@code - @messages(s"propertyDetail.courtCode.$code")</li>
+                }
+            </ul>
+            <h2 class="govuk-heading-s">@messages("historicBandFull.valuationList")</h2>
+            <p class="govuk-body">@messages("historicBandFull.valuationListDescription")</p>
+        </div>
+    </details>
+
+    <details class="govuk-details">
+        <summary class="govuk-details__summary">
+            <span class="govuk-details__summary-text">@messages("historicBandFull.challenge.summary")</span>
+        </summary>
+        <div class="govuk-details__text">
+            <h2 class="govuk-heading-s">@messages("historicBandFull.challenge.telephone")</h2>
+            <p class="govuk-body">
+                <a class="govuk-link" href="tel:03000501501">@messages("historicBandFull.challenge.england")</a><br>
+                <a class="govuk-link" href="tel:03000505505">@messages("historicBandFull.challenge.wales")</a><br>
+                @messages("historicBandFull.challenge.hours")
+            </p>
+            <h2 class="govuk-heading-s">@messages("historicBandFull.challenge.email")</h2>
+            <p class="govuk-body"><a class="govuk-link" href="mailto:@messages("historicBandFull.challenge.emailAddress")">@messages("historicBandFull.challenge.emailAddress")</a></p>
+        </div>
+    </details>
+
+    @PrintLink(messages("button.print"))
+}

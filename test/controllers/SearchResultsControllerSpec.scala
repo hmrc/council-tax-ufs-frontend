@@ -17,6 +17,7 @@
 package controllers
 
 import base.SpecBase
+import models.SearchQuery
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
@@ -32,7 +33,7 @@ import scala.concurrent.Future
 
 class SearchResultsControllerSpec extends SpecBase with MockitoSugar {
 
-  private val encodedPostcode = "encrypted-postcode"
+  private val postcodeToken = "encrypted-postcode"
   private val decodedPostcode = "CF14 1AA"
 
   "SearchResults Controller" - {
@@ -41,8 +42,8 @@ class SearchResultsControllerSpec extends SpecBase with MockitoSugar {
       val searchResultsService = mock[SearchResultsService]
       val urlEncryptor         = mock[UrlEncryptor]
 
-      when(urlEncryptor.decrypt(encodedPostcode)).thenReturn(decodedPostcode)
-      when(searchResultsService.search(any[String], any[Int])(any[HeaderCarrier]))
+      when(urlEncryptor.decrypt(postcodeToken)).thenReturn(decodedPostcode)
+      when(searchResultsService.search(any[SearchQuery])(any[HeaderCarrier]))
         .thenReturn(Future.successful(Left(ErrorResponse(SERVICE_UNAVAILABLE, "upstream detail"))))
 
       val application = applicationBuilder(userAnswers = None)
@@ -55,7 +56,7 @@ class SearchResultsControllerSpec extends SpecBase with MockitoSugar {
       running(application) {
         val request = FakeRequest(
           GET,
-          routes.SearchResultsController.show(encodedPostcode, 1).url
+          routes.SearchResultsController.show(postcodeToken, 1).url
         ).withSession(SessionKeys.sessionId -> "test-session")
 
         val result = route(application, request).value
@@ -70,8 +71,8 @@ class SearchResultsControllerSpec extends SpecBase with MockitoSugar {
       val searchResultsService = mock[SearchResultsService]
       val urlEncryptor         = mock[UrlEncryptor]
 
-      when(urlEncryptor.decrypt(encodedPostcode)).thenReturn(decodedPostcode)
-      when(searchResultsService.search(any[String], any[Int])(any[HeaderCarrier]))
+      when(urlEncryptor.decrypt(postcodeToken)).thenReturn(decodedPostcode)
+      when(searchResultsService.search(any[SearchQuery])(any[HeaderCarrier]))
         .thenReturn(Future.successful(Left(ErrorResponse(NOT_FOUND, "not found"))))
 
       val application = applicationBuilder(userAnswers = None)
@@ -84,7 +85,7 @@ class SearchResultsControllerSpec extends SpecBase with MockitoSugar {
       running(application) {
         val request = FakeRequest(
           GET,
-          routes.SearchResultsController.show(encodedPostcode, 1).url
+          routes.SearchResultsController.show(postcodeToken, 1).url
         ).withSession(SessionKeys.sessionId -> "test-session")
 
         val result = route(application, request).value

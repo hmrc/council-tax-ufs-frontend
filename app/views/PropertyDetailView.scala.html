@@ -14,7 +14,6 @@
  * limitations under the License.
  *@
 
-@import models.PropertyDetailViewModel
 @import uk.gov.hmrc.govukfrontend.views.html.components._
 @import views.html.helper.CSPNonce
 @import views.html.components.PrintLink
@@ -33,10 +32,10 @@
  }
 
 @countryKey = @{
-    viewModel.country match {
-        case "W92000004" => "wales"
-        case "E92000001" => "england"
-        case _           => "england"
+    viewModel.country.trim.toLowerCase(java.util.Locale.ROOT) match {
+        case "wales" | "w92000004" => "wales"
+        case "england" | "e92000001" => "england"
+        case _ => "england"
     }
 }
 
@@ -47,7 +46,6 @@
     }
 }
 
-@* DRY: single table row with 70/30 split matching prototype *@
 @tableRow(keyMsg: String, hintMsg: String, value: String) = {
     <tr class="govuk-table__row">
         <th scope="row" class="govuk-table__header govuk-!-width-two-thirds" >
@@ -62,7 +60,7 @@
     </tr>
 }
 
-@* DRY: table row with HTML value (for links) *@
+@* table row with HTML value (for links) *@
 @tableRowHtml(keyMsg: String, hintMsg: String, valueHtml: Html) = {
     <tr class="govuk-table__row">
         <th scope="row" class="govuk-table__header govuk-!-width-two-thirds">
@@ -108,7 +106,7 @@
     <ul class="govuk-list">
         @for(code <- courtCodeEntries) {
             <li>
-                <abbr title="@messages(s"propertyDetail.courtCode.$code")">@code</abbr>
+                <span>@code</span>
                 - @messages(s"propertyDetail.courtCode.$code")
             </li>
         }
@@ -123,9 +121,12 @@
     )
 }
 
+@propertyId = @{ viewModel.propertyId.toLowerCase(java.util.Locale.ROOT) }
+
 @layout(
     pageTitle = messages("service.name"),
     fullWidth = true,
+    metaDescription = Some(messages("propertyDetail.metaDescription")),
     scripts = Some(scripts)
 ) {
     <link href='@routes.Assets.versioned("stylesheets/print_page.css")' rel="stylesheet" type="text/css" />
@@ -151,7 +152,7 @@
                     </div>
 
                     <div class="govuk-hint govuk-!-margin-bottom-3">
-                        @messages("propertyDetail.band.hint")
+                        @messages(s"propertyDetail.band.hint.$countryKey")
                     </div>
 
                     @govukDetails(Details(
@@ -162,7 +163,7 @@
                                 captionClasses = "govuk-visually-hidden",
                                 head = Some(Seq(
                                     HeadCell(content = Text(messages("propertyDetail.band.table.band"))),
-                                    HeadCell(content = Text(messages("propertyDetail.band.table.value")))
+                                    HeadCell(content = Text(messages(s"propertyDetail.band.table.value.$countryKey")))
                                 )),
                                 rows = bandRows
                             )).toString
@@ -223,7 +224,7 @@
         @for((msgKey, isLink) <- beforeYouContinueItems) {
             <li>
                 @if(isLink) {
-                    <a href="#" class="govuk-link">@messages(msgKey)</a>
+                    <a href="@routes.HistoricBandsController.onPageLoad(propertyId).url" class="govuk-link">@messages(msgKey)</a>
                 } else {
                     @messages(msgKey)
                 }

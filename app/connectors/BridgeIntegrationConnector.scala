@@ -23,9 +23,10 @@ import play.api.libs.json.{JsError, JsSuccess}
 import uk.gov.hmrc.http.HttpReads.Implicits.*
 import uk.gov.hmrc.http.client.HttpClientV2
 import uk.gov.hmrc.http.{HeaderCarrier, HttpResponse}
-import models.{PostcodeSearchResult ,PropertyDetailResult, PropertyDetailResponse}
+import models.{PostcodeSearchResult, PropertyDetailResponse, SearchQuery}
 
-import java.net.URI
+import java.net.{URI, URLEncoder}
+import java.nio.charset.StandardCharsets
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 import uk.gov.hmrc.play.bootstrap.http.ErrorResponse
@@ -38,11 +39,29 @@ class BridgeIntegrationConnector @Inject()(
 
   private def uri(path: String) = new URI(s"${appConfig.bridgeIntegration}/bridge-integration/$path")
 
-  def postcodeSearch(postcode: String, page: Int = 1, pageSize: Int = 20)
+  def postcodeSearch(query: SearchQuery)
     (implicit hc: HeaderCarrier): Future[Either[ErrorResponse, PostcodeSearchResult]] = {
 
-    val normalisedPostcode = postcode.trim.toUpperCase.replaceAll("\\s+", "")
-    val url = uri(s"postcode/$normalisedPostcode/CVW?page=$page").toURL
+    val normalisedPostcode = query.postcode.trim.toUpperCase.replaceAll("\\s+", "")
+    val queryParams: Seq[(String, Option[String])] = Seq(
+      "postcode" -> Some(normalisedPostcode),
+      "listType" -> Some(query.listType),
+      "page" -> query.page,
+      "page_size" -> query.pageSize,
+      "propertyName" -> query.propertyName,
+      "street" -> query.street,
+      "town" -> query.town,
+      "councilTaxBand" -> query.councilTaxBand,
+      "bandStatus" -> query.bandStatus,
+      "localAuthority" -> query.localAuthority,
+      "localAuthorityReferenceNumber" -> query.localAuthorityReferenceNumber,
+      "courtCode" -> query.courtCode,
+      "propertyUse" -> query.propertyUse
+    )
+    val queryString = queryParams.collect {
+      case (key, Some(value)) => s"$key=${URLEncoder.encode(value, StandardCharsets.UTF_8)}"
+    }.mkString("&")
+    val url = uri(s"search?$queryString").toURL
     logger.info("[BridgeIntegrationConnector][postcodeSearch] Calling postcode search API")
 
     http.get(url)
@@ -79,7 +98,7 @@ class BridgeIntegrationConnector @Inject()(
 
   def propertyDetail(propertyId: String)(implicit hc: HeaderCarrier): Future[Either[ErrorResponse, PropertyDetailResponse]] = {
 
-    val url = uri(s"explore/$propertyId/CVW").toURL
+    val url = uri(s"explore/$propertyId/CVW,CVE").toURL
     logger.info("[BridgeIntegrationConnector][propertyDetail] Calling property detail API")
     http.get(url)
       .execute[HttpResponse]

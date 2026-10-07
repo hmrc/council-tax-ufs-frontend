@@ -40,7 +40,8 @@ class SearchResultsViewModelSpec extends AnyWordSpec with Matchers {
           |        "list": {
           |          "id": { "value": "LIST-1" },
           |          "class": { "code": "A", "meaning": "Band A" },
-          |          "collection_authority": { "code": "ABC" }
+          |          "collection_authority": { "code": "ABC" },
+          |          "country": { "code": "W92000004", "label": "Wales" }
           |        },
           |        "list_entry": {
           |          "valuation": { "value": "A" },
@@ -68,6 +69,7 @@ class SearchResultsViewModelSpec extends AnyWordSpec with Matchers {
       result.results.records.size shouldBe 1
       result.results.records.head.list.flatMap(_.id).flatMap(_.value) shouldBe Some("LIST-1")
       result.results.records.head.list.flatMap(_.`class`).flatMap(_.meaning) shouldBe Some("Band A")
+      result.results.records.head.list.flatMap(_.country).flatMap(_.label) shouldBe Some("Wales")
       result.results.records.head.list_entry.flatMap(_.property).flatMap(_.id).flatMap(_.value) shouldBe Some("PROPERTY-1")
       result.results.records.head.list_entry.flatMap(_.property).flatMap(_.address).flatMap(_.full) shouldBe Some("1 Test Street")
     }
