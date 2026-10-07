@@ -53,3 +53,8 @@ GET        /scenarioResponsible                        controllers.scenarioRespo
 POST       /scenarioResponsible                        controllers.scenarioResponsibleController.onSubmit(mode: Mode = NormalMode)
 GET        /changescenarioResponsible                  controllers.scenarioResponsibleController.onPageLoad(mode: Mode = CheckMode)
 POST       /changescenarioResponsible                  controllers.scenarioResponsibleController.onSubmit(mode: Mode = CheckMode)
+
+GET        /deletionOptions                        controllers.deletionOptionsController.onPageLoad(mode: Mode = NormalMode)
+POST       /deletionOptions                        controllers.deletionOptionsController.onSubmit(mode: Mode = NormalMode)
+GET        /changedeletionOptions                  controllers.deletionOptionsController.onPageLoad(mode: Mode = CheckMode)
+POST       /changedeletionOptions                  controllers.deletionOptionsController.onSubmit(mode: Mode = CheckMode)
