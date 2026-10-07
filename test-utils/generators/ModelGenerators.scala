@@ -22,6 +22,11 @@ import org.scalacheck.{Arbitrary, Gen}
 
 trait ModelGenerators {
 
+  implicit lazy val arbitraryReasonForReview: Arbitrary[ReasonForReview] =
+    Arbitrary {
+      Gen.oneOf(ReasonForReview.values.toSeq)
+    }
+
   implicit lazy val arbitraryRequestCouncilTaxBandReview: Arbitrary[RequestCouncilTaxBandReview] =
     Arbitrary {
       Gen.oneOf(RequestCouncilTaxBandReview.values)

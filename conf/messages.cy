@@ -201,7 +201,14 @@ requestCouncilTaxBandReview.p4.2 = You won't have any legal rights to appeal the
 requestCouncilTaxBandReview.readContent.label = Ni fydd gennych unrhyw hawliau cyfreithiol i apelio yn erbyn canlyniad adolygiad.
 requestCouncilTaxBandReview.checkYourAnswersLabel = Gwneud cais am adolygiad o fand Treth Gyngor
 
-nopermission.title = Does gennych chi ddim caniatâd i weld rhagor o fanylion
-nopermission.heading = Does gennych chi ddim caniatâd i weld rhagor o fanylion
-nopermission.body = Dim ond pobl sy’n gyfrifol am y Dreth Gyngor ar eiddo sydd â chaniatâd i weld rhagor o fanylion. Mae hyn yn cynnwys pobl sy’n gweithredu dros rywun sydd yn gyfrifol.
-nopermission.backToPropertyDetails = Yn ôl at fanylion yr eiddo
+noPermission.title = Does gennych chi ddim caniatâd i weld rhagor o fanylion
+noPermission.heading = Does gennych chi ddim caniatâd i weld rhagor o fanylion
+noPermission.body = Dim ond pobl sy’n gyfrifol am y Dreth Gyngor ar eiddo sydd â chaniatâd i weld rhagor o fanylion. Mae hyn yn cynnwys pobl sy’n gweithredu dros rywun sydd yn gyfrifol.
+noPermission.backToPropertyDetails = Yn ôl at fanylion yr eiddo
+
+reasonForReview.title = Pam ydych chi am adolygu eich band Treth Gyngor?
+reasonForReview.heading = Pam ydych chi am adolygu eich band Treth Gyngor?
+reasonForReview.band-is-wrong = Rwy'n credu bod fy mand yn anghywir
+reasonForReview.changes-affected-property = Mae newidiadau wedi effeithio ar yr eiddo
+reasonForReview.band-is-wrong.hint = Er enghraifft, rydych yn credu bod eich band Treth Gyngor yn rhy uchel, neu rydych yn anghytuno â newid diweddar i fand neu ddyddiad dod i rym. Gallwch hefyd ofyn am adolygiad yn dilyn penderfyniad tribiwnlys neu lys ynghylch eiddo tebyg.
+reasonForReview.changes-affected-property.hint = Er enghraifft, mae'r eiddo wedi'i ddymchwel yn rhannol neu'n llwyr, yn mynd trwy waith adeiladu neu adnewyddu mawr ac ni ellir byw ynddo. Gall hyn hefyd gynnwys newidiadau yn yr ardal leol neu newid yn y ffordd y defnyddir yr eiddo.

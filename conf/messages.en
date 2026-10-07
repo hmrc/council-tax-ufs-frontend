@@ -215,7 +215,17 @@ requestCouncilTaxBandReview.checkYourAnswersLabel = Request a Council Tax band r
 requestCouncilTaxBandReview.error.required = Select requestCouncilTaxBandReview
 requestCouncilTaxBandReview.change.hidden = RequestCouncilTaxBandReview
 
-nopermission.title = You do not have permission to view more details
-nopermission.heading = You do not have permission to view more details
-nopermission.body = Only people who are responsible for the Council Tax on this property have permission to view more details. This includes people acting for someone who is responsible.
-nopermission.backToPropertyDetails = Back to property details
+noPermission.title = You do not have permission to view more details
+noPermission.heading = You do not have permission to view more details
+noPermission.body = Only people who are responsible for the Council Tax on this property have permission to view more details. This includes people acting for someone who is responsible.
+noPermission.backToPropertyDetails = Back to property details
+
+reasonForReview.title = Why do you want to review your Council Tax band?
+reasonForReview.heading = Why do you want to review your Council Tax band?
+reasonForReview.band-is-wrong = I think my band is wrong
+reasonForReview.changes-affected-property = Changes have affected the property
+reasonForReview.band-is-wrong.hint = For example, you think your Council Tax band is too high, or you disagree with a recent band or effective date change. You can also ask for a review following a tribunal or court decision about a similar property.
+reasonForReview.changes-affected-property.hint = For example, the property has been partly or completely demolished, is undergoing major building work or renovation and cannot be lived in. This can also include changes in the local area or a change in how the property is used.
+reasonForReview.checkYourAnswersLabel = Why do you want to review your Council Tax band?
+reasonForReview.error.required = Select reasonForReview
+reasonForReview.change.hidden = ReasonForReview
