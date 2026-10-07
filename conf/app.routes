@@ -48,3 +48,8 @@ GET        /reasonForReview                        controllers.ReasonForReviewCo
 POST       /reasonForReview                        controllers.ReasonForReviewController.onSubmit(mode: Mode = NormalMode)
 GET        /changeReasonForReview                  controllers.ReasonForReviewController.onPageLoad(mode: Mode = CheckMode)
 POST       /changeReasonForReview                  controllers.ReasonForReviewController.onSubmit(mode: Mode = CheckMode)
+
+GET        /scenarioResponsible                        controllers.scenarioResponsibleController.onPageLoad(mode: Mode = NormalMode)
+POST       /scenarioResponsible                        controllers.scenarioResponsibleController.onSubmit(mode: Mode = NormalMode)
+GET        /changescenarioResponsible                  controllers.scenarioResponsibleController.onPageLoad(mode: Mode = CheckMode)
+POST       /changescenarioResponsible                  controllers.scenarioResponsibleController.onSubmit(mode: Mode = CheckMode)

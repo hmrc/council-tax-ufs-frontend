@@ -212,3 +212,9 @@ reasonForReview.band-is-wrong = Rwy'n credu bod fy mand yn anghywir
 reasonForReview.changes-affected-property = Mae newidiadau wedi effeithio ar yr eiddo
 reasonForReview.band-is-wrong.hint = Er enghraifft, rydych yn credu bod eich band Treth Gyngor yn rhy uchel, neu rydych yn anghytuno â newid diweddar i fand neu ddyddiad dod i rym. Gallwch hefyd ofyn am adolygiad yn dilyn penderfyniad tribiwnlys neu lys ynghylch eiddo tebyg.
 reasonForReview.changes-affected-property.hint = Er enghraifft, mae'r eiddo wedi'i ddymchwel yn rhannol neu'n llwyr, yn mynd trwy waith adeiladu neu adnewyddu mawr ac ni ellir byw ynddo. Gall hyn hefyd gynnwys newidiadau yn yr ardal leol neu newid yn y ffordd y defnyddir yr eiddo.
+
+scenarioResponsible.title = How long have you been responsible for paying Council Tax on the property?
+scenarioResponsible.heading = How long have you been responsible for paying Council Tax on the property?
+scenarioResponsible.less-than = Less than 6 months
+scenarioResponsible.more-than = More than 6 months
+scenarioResponsible.checkYourAnswersLabel = How long have you been responsible for paying Council Tax on the property?

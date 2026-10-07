@@ -229,3 +229,11 @@ reasonForReview.changes-affected-property.hint = For example, the property has b
 reasonForReview.checkYourAnswersLabel = Why do you want to review your Council Tax band?
 reasonForReview.error.required = Select reasonForReview
 reasonForReview.change.hidden = ReasonForReview
+
+scenarioResponsible.title = How long have you been responsible for paying Council Tax on the property?
+scenarioResponsible.heading = How long have you been responsible for paying Council Tax on the property?
+scenarioResponsible.less-than = Less than 6 months
+scenarioResponsible.more-than = More than 6 months
+scenarioResponsible.checkYourAnswersLabel = How long have you been responsible for paying Council Tax on the property?
+scenarioResponsible.error.required = Select scenarioResponsible
+scenarioResponsible.change.hidden = scenarioResponsible

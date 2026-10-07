@@ -22,6 +22,11 @@ import org.scalacheck.{Arbitrary, Gen}
 
 trait ModelGenerators {
 
+  implicit lazy val arbitraryscenarioResponsible: Arbitrary[scenarioResponsible] =
+    Arbitrary {
+      Gen.oneOf(scenarioResponsible.values.toSeq)
+    }
+
   implicit lazy val arbitraryReasonForReview: Arbitrary[ReasonForReview] =
     Arbitrary {
       Gen.oneOf(ReasonForReview.values.toSeq)
