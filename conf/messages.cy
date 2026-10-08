@@ -64,6 +64,10 @@ postcodeSearch.error.invalid = Nodwch god post go iawn
 postcodeSearch.error.length = Rhaid i'r cod post fod yn 10 nod neu lai
 postcodeSearch.change.hidden = PostcodeSearch
 
+error.title    = Mae’n ddrwg gennym - mae problem gyda’r gwasanaeth
+error.heading  = Mae’n ddrwg gennym - mae problem gyda’r gwasanaeth
+error.guidance = Rhowch gynnig arall arni yn nes ymlaen.
+
 # Search Results
 searchResults.title                      = Canlyniadau chwilio ar gyfer {0}
 searchResults.title.paged                = Canlyniadau chwilio ar gyfer {0} (tudalen {1} o {2})
@@ -192,13 +196,21 @@ requestCouncilTaxBandReview.subheading2.bullet1 = ydych wedi dod yn drethdalwr n
 requestCouncilTaxBandReview.subheading2.bullet2 = mae’r band Treth Gyngor wedi newid yn ystod y 6 mis diwethaf
 requestCouncilTaxBandReview.subheading2.bullet3 = mae’r ardal leol wedi newid yn gorfforol
 requestCouncilTaxBandReview.p2.2 = Rydych yn gallu hefyd ofyn am adolygiad os yw rhywbeth wedi newid. Er enghraifft, mae’r eiddo:
+requestCouncilTaxBandReview.subheading2.bullet4 = wedi'i ddymchwel
+requestCouncilTaxBandReview.subheading2.bullet5 = yn adfeiliedig ac ni ellir byw ynddo
+requestCouncilTaxBandReview.subheading2.bullet6 = yn mynd trwy waith adnewyddu neu atgyweirio mawr
+requestCouncilTaxBandReview.subheading2.bullet7 = yn cael ei ddefnyddio'n rhannol at ddibenion busnes
+requestCouncilTaxBandReview.subheading2.bullet8 = wedi'i rannu'n sawl eiddo neu wedi'i uno'n un eiddo
+requestCouncilTaxBandReview.p2.3 = Os byddwch yn gofyn am adolygiad am un o’r rhesymau hyn, ond dydych chi ddim yn cytuno â’r canlyniad, rydych yn gallu apelio yn erbyn y penderfyniad.
+requestCouncilTaxBandReview.p2.4 = Byddwn yn ystyried unrhyw welliannau wrth bennu’r band newydd, a allai fod yn uwch na’r un blaenorol. Fel arfer, bydd y band newydd yn dod i rym o’r dyddiad y daw’r eiddo yn addas i fyw ynddo eto.
 
-requestCouncilTaxBandReview.subheading2 = Contacting your Local Council
-requestCouncilTaxBandReview.p3.1 = You should also check with your local council for advice and information about Council Tax. Visit your local council's website for more details.
-requestCouncilTaxBandReview.subheading3 = Reviewing the band for any other reason
-requestCouncilTaxBandReview.p4.1 = If none of the above apply, we will only review your band if you provide supporting evidence. Your request for a band review will be rejected without this.
-requestCouncilTaxBandReview.p4.2 = You won't have any legal rights to appeal the outcome of a review.
-requestCouncilTaxBandReview.readContent.label = Ni fydd gennych unrhyw hawliau cyfreithiol i apelio yn erbyn canlyniad adolygiad.
+
+requestCouncilTaxBandReview.subheading2 = Cysylltu â’ch Cyngor Lleol
+requestCouncilTaxBandReview.p3.1 = Dylech hefyd wirio gyda’ch cyngor lleol am gyngor a gwybodaeth am y Dreth Gyngor. Ewch i wefan eich cyngor lleol am ragor o fanylion.
+requestCouncilTaxBandReview.subheading3 = Adolygu’r band am unrhyw reswm arall
+requestCouncilTaxBandReview.p4.1 = Os nad yw’r uchod yn berthnasol, byddwn ond yn adolygu eich band os byddwch yn darparu tystiolaeth ategol.
+requestCouncilTaxBandReview.p4.2 = Bydd eich cais am adolygiad band yn cael ei wrthod heb hyn.
+requestCouncilTaxBandReview.readContent.label = Rwyf wedi darllen y dudalen hon ac rwyf am barhau.
 requestCouncilTaxBandReview.checkYourAnswersLabel = Gwneud cais am adolygiad o fand Treth Gyngor
 
 noPermission.title = Does gennych chi ddim caniatâd i weld rhagor o fanylion
@@ -213,8 +225,24 @@ reasonForReview.changes-affected-property = Mae newidiadau wedi effeithio ar yr 
 reasonForReview.band-is-wrong.hint = Er enghraifft, rydych yn credu bod eich band Treth Gyngor yn rhy uchel, neu rydych yn anghytuno â newid diweddar i fand neu ddyddiad dod i rym. Gallwch hefyd ofyn am adolygiad yn dilyn penderfyniad tribiwnlys neu lys ynghylch eiddo tebyg.
 reasonForReview.changes-affected-property.hint = Er enghraifft, mae'r eiddo wedi'i ddymchwel yn rhannol neu'n llwyr, yn mynd trwy waith adeiladu neu adnewyddu mawr ac ni ellir byw ynddo. Gall hyn hefyd gynnwys newidiadau yn yr ardal leol neu newid yn y ffordd y defnyddir yr eiddo.
 
-scenarioResponsible.title = How long have you been responsible for paying Council Tax on the property?
-scenarioResponsible.heading = How long have you been responsible for paying Council Tax on the property?
-scenarioResponsible.less-than = Less than 6 months
-scenarioResponsible.more-than = More than 6 months
-scenarioResponsible.checkYourAnswersLabel = How long have you been responsible for paying Council Tax on the property?
+scenarioResponsible.title = Ers faint o amser rydych wedi bod yn gyfrifol am dalu Treth Gyngor ar yr eiddo?
+scenarioResponsible.heading = Ers faint o amser rydych wedi bod yn gyfrifol am dalu Treth Gyngor ar yr eiddo?
+scenarioResponsible.less-than = Llai na 6 mis
+scenarioResponsible.more-than = Mwy na 6 mis
+scenarioResponsible.checkYourAnswersLabel = Ers faint o amser rydych wedi bod yn gyfrifol am dalu Treth Gyngor ar yr eiddo?
+
+deletionOptions.title = Beth sydd wedi newid?
+deletionOptions.heading = Beth sydd wedi newid?
+deletionOptions.demolished = Mae fy eiddo wedi’i ddymchwel, yn adfeiliedig, neu mae gwaith adnewyddu ac atgyweirio sylweddol yn cael eu gwneud i fy eiddo ac ni ellir byw ynddo
+deletionOptions.split = Mae fy eiddo wedi’i rannu’n sawl eiddo neu wedi’i gyfuno i greu un eiddo mwy
+deletionOptions.changed = Mae’r ffordd y mae fy eiddo yn cael ei ddefnyddio wedi newid
+deletionOptions.affected = Mae newidiadau yn yr ardal leol wedi effeithio ar fy eiddo
+deletionOptions.anotherReason = Rheswm arall
+deletionOptions.checkYourAnswersLabel = Beth sydd wedi newid?
+
+noticeAlteration.title = Ydych chi wedi derbyn Hysbysiad o Newid yn ystod y chwe mis diwethaf?
+noticeAlteration.heading = Ydych chi wedi derbyn Hysbysiad o Newid yn ystod y chwe mis diwethaf?
+noticeAlteration.hint = Mae Hysbysiad o Newid yn lythyr sy’n cael ei anfon gan Asiantaeth y Swyddfa Brisio os yw newid wedi bod i'r Rhestr Brisio.
+noticeAlteration.yes = Ydw
+noticeAlteration.no = Nac ydw
+noticeAlteration.checkYourAnswersLabel = Ydych chi wedi derbyn Hysbysiad o Newid yn ystod y chwe mis diwethaf?
