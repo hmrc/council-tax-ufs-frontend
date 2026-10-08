@@ -22,6 +22,11 @@ import org.scalacheck.{Arbitrary, Gen}
 
 trait ModelGenerators {
 
+  implicit lazy val arbitrarynoticeAlteration: Arbitrary[noticeAlteration] =
+    Arbitrary {
+      Gen.oneOf(noticeAlteration.values.toSeq)
+    }
+
   implicit lazy val arbitrarydeletionOptions: Arbitrary[deletionOptions] =
     Arbitrary {
       Gen.oneOf(deletionOptions.values.toSeq)

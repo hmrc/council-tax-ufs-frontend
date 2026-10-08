@@ -248,3 +248,12 @@ deletionOptions.anotherReason = Another reason
 deletionOptions.checkYourAnswersLabel = What has changed?
 deletionOptions.error.required = Select deletionOptions
 deletionOptions.change.hidden = deletionOptions
+
+noticeAlteration.title = Have you received a Notice of Alteration within the last six months?
+noticeAlteration.heading = Have you received a Notice of Alteration within the last six months?
+noticeAlteration.hint = A Notice of Alteration is a letter sent by the Valuation Office (VO) if any change to the valuation list has been made.
+noticeAlteration.yes = Yes
+noticeAlteration.no = No
+noticeAlteration.checkYourAnswersLabel = Have you received a Notice of Alteration within the last six months?
+noticeAlteration.error.required = Select noticeAlteration
+noticeAlteration.change.hidden = noticeAlteration

@@ -58,3 +58,8 @@ GET        /deletionOptions                        controllers.deletionOptionsCo
 POST       /deletionOptions                        controllers.deletionOptionsController.onSubmit(mode: Mode = NormalMode)
 GET        /changedeletionOptions                  controllers.deletionOptionsController.onPageLoad(mode: Mode = CheckMode)
 POST       /changedeletionOptions                  controllers.deletionOptionsController.onSubmit(mode: Mode = CheckMode)
+
+GET        /noticeAlteration                        controllers.noticeAlterationController.onPageLoad(mode: Mode = NormalMode)
+POST       /noticeAlteration                        controllers.noticeAlterationController.onSubmit(mode: Mode = NormalMode)
+GET        /changenoticeAlteration                  controllers.noticeAlterationController.onPageLoad(mode: Mode = CheckMode)
+POST       /changenoticeAlteration                  controllers.noticeAlterationController.onSubmit(mode: Mode = CheckMode)
