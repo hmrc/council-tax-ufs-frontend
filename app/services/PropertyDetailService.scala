@@ -124,6 +124,7 @@ class PropertyDetailService @Inject() (connector: BridgeIntegrationConnector)(im
 
             val localCouncil = list.collection_authority.flatMap(_.code).getOrElse("Not available")
             val localCouncilCode = list.collection_authority.flatMap(_.code).getOrElse("")
+            val localCouncilLink = list.collection_authority.flatMap(_.pointer)
             val councilRef = entry.administration.flatMap(_.collection_authority_ref).getOrElse("Not available")
             val improvement = entry.property.flatMap(_.workflow).flatMap(_.improvement_ind).map(indicatorToYesNo).getOrElse("Not available")
             val mixedUse = entry.use.flatMap(_.composite_ind).map(indicatorToYesNo).getOrElse("Not available")
@@ -141,6 +142,7 @@ class PropertyDetailService @Inject() (connector: BridgeIntegrationConnector)(im
                   effectiveFromDate = effectiveFrom,
                   localCouncil = localCouncil,
                   localCouncilCode = localCouncilCode,
+                  localCouncilLink = localCouncilLink,
                   councilRefNumber = councilRef,
                   improvementInd = improvement,
                   mixedUse = mixedUse,

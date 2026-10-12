@@ -102,7 +102,6 @@
 }
 
 @courtCodeContent = {
-    <p class="govuk-body">@messages("propertyDetail.courtCode.meaning")</p>
     <ul class="govuk-list">
         @for(code <- courtCodeEntries) {
             <li>
@@ -136,7 +135,7 @@
     </h1>
     <h2 class="govuk-heading-m">
       @messages("propertyDetail.publicInformation")
-      <span class="govuk-caption-m">@messages("propertyDetail.publicInformation.anybody")</span>
+      <div class="govuk-inset-text">@messages("propertyDetail.publicInformation.anybody")</div>
     </h2>
     <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
 
@@ -185,7 +184,7 @@
             @tableRowHtml(
                 "propertyDetail.localCouncil",
                 "propertyDetail.localCouncil.hint",
-                Html(s"""<a href="#" class="govuk-link">${viewModel.localCouncil}</a>""")
+                Html(s"""<a href="${viewModel.localCouncilLink.getOrElse("#").replace("&", "&amp;")}" class="govuk-link">${viewModel.localCouncil}</a>""")
             )
             @tableRow(
                 "propertyDetail.councilRef",
@@ -224,7 +223,8 @@
         @for((msgKey, isLink) <- beforeYouContinueItems) {
             <li>
                 @if(isLink) {
-                    <a href="@routes.HistoricBandsController.onPageLoad(propertyId).url" class="govuk-link">@messages(msgKey)</a>
+                    <a href="#" class="govuk-link">@messages(msgKey)</a>
+<!--                    <a href="@routes.HistoricBandsController.onPageLoad(propertyId).url" class="govuk-link">@messages(msgKey)</a>-->
                 } else {
                     @messages(msgKey)
                 }

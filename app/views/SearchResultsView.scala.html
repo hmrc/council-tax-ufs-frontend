@@ -47,12 +47,25 @@
    val href = if (entry.propertyId.nonEmpty)
     routes.PropertyDetailController.onPageLoad(propertyId).url
    else "#"
+    val localAuthorityContent = entry.localAuthorityLink match {
+        case Some(link) => HtmlContent(s"""<a href="${link.replace("&", "&amp;")}" class="govuk-link" target="_blank" rel="noopener noreferrer">${entry.localAuthority}</a>""")
+        case None       => Text(entry.localAuthority)
+    }
    Seq(
     TableRow(content = HtmlContent(s"""<a href="${href.replace("&", "&amp;")}" class="govuk-link">${entry.address}</a>""")),
-     TableRow(content = Text(entry.band)),
-     TableRow(content = Text(entry.localAuthority))
+        TableRow(content = Text(entry.band)),
+        TableRow(content = localAuthorityContent)
    )
  }
+}
+
+@formattedLastUpdated = @{
+    viewModel.lastUpdatedAt.flatMap { raw =>
+        scala.util.Try {
+            val parsed = java.time.LocalDateTime.parse(raw, java.time.format.DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmmss'Z'"))
+            parsed.format(java.time.format.DateTimeFormatter.ofPattern("d MMMM yyyy"))
+        }.toOption
+    }
 }
 
 @layout(
@@ -71,9 +84,12 @@
       @messages(s"searchResults.bands.${country.messageKey}")
     </p>
   }
-  <p class="govuk-body">
-    @messages("searchResults.showing", viewModel.startIndex, viewModel.endIndex, viewModel.totalItems)
-  </p>
+    <div class="govuk-body" style="display: flex; justify-content: space-between; align-items: baseline;">
+        <span>@messages("searchResults.showing", viewModel.startIndex, viewModel.endIndex, viewModel.totalItems)</span>
+        @formattedLastUpdated.map { date =>
+        <span>@messages("searchResults.lastUpdated", date)</span>
+        }
+    </div>
 
 
   @govukTable(Table(

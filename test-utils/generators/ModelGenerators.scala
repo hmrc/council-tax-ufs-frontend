@@ -21,4 +21,12 @@ import org.scalacheck.Arbitrary.arbitrary
 import org.scalacheck.{Arbitrary, Gen}
 
 trait ModelGenerators {
+
+  implicit lazy val arbitraryAdvancedPropertySearch: Arbitrary[AdvancedPropertySearch] =
+    Arbitrary {
+      for {
+        Property name or number <- arbitrary[String]
+        Street <- arbitrary[String]
+      } yield AdvancedPropertySearch(Property name or number, Street)
+    }
 }

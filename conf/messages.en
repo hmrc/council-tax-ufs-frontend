@@ -72,6 +72,7 @@ error.guidance = Try again later.
 searchResults.title                      = Search results for {0}
 searchResults.title.paged                = Search results for {0} (page {1} of {2})
 searchResults.heading                    = Search results for {0}
+searchResults.lastUpdated                = Last updated on {0}
 searchResults.showing                    = Showing {0} to {1} of {2} results
 searchResults.column.address             = Address
 searchResults.column.band                = Council Tax band
@@ -87,9 +88,9 @@ searchResults.searchAgain.label          = Enter a postcode
 searchResults.searchAgain.button         = Search
 searchResults.otherSearchOptions         = Other search options
 searchResults.error                      = There was a problem with your search. Please try again.
-searchResults.voa.england                = The <a class="govuk-link" href="https://www.gov.uk/government/organisations/valuation-office-agency">Valuation Office (VO)</a> puts every home in England into a group called a 'band', based on the value of the property on 1 April 1991.
+searchResults.voa.england                = The <a class="govuk-link" href="https://www.gov.uk/government/organisations/valuation-office-agency">Valuation Office (VO)</a> puts every home in England into a group called a ''band'', based on the value of the property on 1 April 1991.
 searchResults.bands.england              = The lowest band is ''A'', and the highest band is ''H''.
-searchResults.voa.wales                  = The <a class="govuk-link" href="https://www.gov.uk/government/organisations/valuation-office-agency">Valuation Office (VO)</a> puts every home in Wales into a group called a 'band', based on the value of the property on 1 April 2003.
+searchResults.voa.wales                  = The <a class="govuk-link" href="https://www.gov.uk/government/organisations/valuation-office-agency">Valuation Office (VO)</a> puts every home in Wales into a group called a ''band'', based on the value of the property on 1 April 2003.
 searchResults.bands.wales                = The lowest band is ''A'', and the highest band is ''I''.
 
 # No Results
@@ -106,7 +107,7 @@ noResults.contactCouncilDescription      = if you still cannot find your propert
 propertyDetail.informationFor                    = Information for:
 propertyDetail.metaDescription                   = View the Council Tax band and property information for this address.
 propertyDetail.publicInformation                 = Public information
-propertyDetail.publicInformation.anybody         = Anybody can view this information
+propertyDetail.publicInformation.anybody         = Anybody can view this information.
 propertyDetail.band                              = Council Tax band
 propertyDetail.band.hint.england                 = The current band for the property. This is based on the property value on 1 April 1991.
 propertyDetail.band.hint.wales                   = The current band for the property. This is based on the property value on 1 April 2003.
@@ -137,7 +138,6 @@ propertyDetail.courtCode                         = Court code
 propertyDetail.courtCode.hint                    = If the Council Tax band has been reviewed by a Valuation Tribunal or High Court, a court code will be shown.
 propertyDetail.courtCode.none                    = None
 propertyDetail.courtCode.expand                  = What the codes mean
-propertyDetail.courtCode.meaning                 = Court codes indicate the outcome of a tribunal or court review of the Council Tax band.
 propertyDetail.courtCode.V                       = Valuation Tribunal determination
 propertyDetail.courtCode.C                       = Valuation Tribunal confirmation
 propertyDetail.courtCode.R                       = Valuation Tribunal redetermination following High Court referral
@@ -202,3 +202,31 @@ propertyDetail.band.range.wales.F         = £162,001 to £223,000
 propertyDetail.band.range.wales.G         = £223,001 to £324,000
 propertyDetail.band.range.wales.H         = £324,001 to £424,000
 propertyDetail.band.range.wales.I         = more than £424,000
+ 
+
+advancedPropertySearch.title = Search for a property by other details
+advancedPropertySearch.heading = Search for a property by other details
+advancedPropertySearch.propertyNameOrNumber = Property name or number (optional)
+advancedPropertySearch.street = Street (optional)
+advancedPropertySearch.townOrCity = Town or city (optional)
+advancedPropertySearch.postcode = Postcode
+advancedPropertySearch.checkYourAnswersLabel = Advanced property search
+advancedPropertySearch.error.propertyNameOrNumber.required = Enter property name or number
+advancedPropertySearch.error.street.required = Enter street
+advancedPropertySearch.error.propertyNameOrNumber.length = Property name or number must be 100 characters or less
+advancedPropertySearch.error.street.length = Street must be 100 characters or less
+advancedPropertySearch.propertyNameOrNumber.change.hidden = property name or number
+advancedPropertySearch.street.change.hidden = street
+advancedPropertySearch.showSearchFilters = Show search filters
+advancedPropertySearch.councilTaxBand = Council Tax band
+advancedPropertySearch.bandStatus = Band status
+advancedPropertySearch.localAuthority = Local Authority (optional)
+advancedPropertySearch.bandStatus.hint = Current deletions are records for properties that are no longer paying Council Tax, for example, because they’ve been demolished.
+advancedPropertySearch.localAuthorityReferenceNumber = Local authority reference number (optional)
+advancedPropertySearch.localAuthorityReferenceNumber.hint = A unique reference number for your property.
+advancedPropertySearch.courtCode = Court Code
+advancedPropertySearch.courtCode.hint = The property will have a court code if the Council Tax band has been changed (determination) or confirmed (confirmation) by a Valuation Tribunal or High Court.
+advancedPropertySearch.propertyUse = Property use
+advancedPropertySearch.propertyUse.hint = For example, just domestic use, or for both domestic and business.
+advancedPropertySearch.checkYourAnswersLabel = Advanced property search
+advancedPropertySearch.change.hidden = advanced property search

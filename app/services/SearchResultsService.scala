@@ -67,8 +67,11 @@ class SearchResultsService @Inject() (
             } yield value).getOrElse("Unknown")
             val authority = record.list
               .flatMap(_.collection_authority)
-              .flatMap(_.code)
+              .flatMap(ca => ca.label.orElse(ca.code))
               .getOrElse("Unknown")
+            val authorityLink = record.list
+              .flatMap(_.collection_authority)
+              .flatMap(_.pointer)
 
             val propertyId = record.list_entry
               .flatMap(_.property)
@@ -80,7 +83,8 @@ class SearchResultsService @Inject() (
                 propertyId = propertyId,
                 address = full,
                 band = band,
-                localAuthority = authority
+                localAuthority = authority,
+                localAuthorityLink = authorityLink
               )
             }
           }
@@ -106,6 +110,7 @@ class SearchResultsService @Inject() (
                 totalPages = totalPages,
                 totalItems = totalItems,
                 pageSize = pageSize,
+                lastUpdatedAt = r.last_updated_at,
                 countries = countries
               )
             )

@@ -33,3 +33,8 @@ GET        /historic-bands/:propertyId                   controllers.HistoricBan
 GET        /historic-bands-full/:propertyId/:bandIndex   controllers.HistoricBandsController.onBandPageLoad(propertyId: String, bandIndex: Int)
  
 
+
+GET        /advancedPropertySearch                        controllers.AdvancedPropertySearchController.onPageLoad(mode: Mode = NormalMode)
+POST       /advancedPropertySearch                        controllers.AdvancedPropertySearchController.onSubmit(mode: Mode = NormalMode)
+GET        /changeAdvancedPropertySearch                  controllers.AdvancedPropertySearchController.onPageLoad(mode: Mode = CheckMode)
+POST       /changeAdvancedPropertySearch                  controllers.AdvancedPropertySearchController.onSubmit(mode: Mode = CheckMode)
