@@ -60,6 +60,16 @@
     </tr>
 }
 
+@displayValue(value: String) = @{
+    value match {
+        case "Yes" => messages("site.yes")
+        case "No" => messages("site.no")
+        case "None" | "" => messages("propertyDetail.courtCode.none")
+        case "Not available" | "Address not available" => messages("propertyDetail.notAvailable")
+        case other => other
+    }
+}
+
 @* table row with HTML value (for links) *@
 @tableRowHtml(keyMsg: String, hintMsg: String, valueHtml: Html) = {
     <tr class="govuk-table__row">
@@ -131,7 +141,7 @@
     <link href='@routes.Assets.versioned("stylesheets/print_page.css")' rel="stylesheet" type="text/css" />
     <h1 class="govuk-heading-l">
         <span class="govuk-caption-l">@messages("propertyDetail.informationFor")</span>
-        @viewModel.address
+        @displayValue(viewModel.address)
     </h1>
     <h2 class="govuk-heading-m">
       @messages("propertyDetail.publicInformation")
@@ -171,7 +181,7 @@
                 </th>
 
                 <td class="govuk-table__cell govuk-!-width-one-third">
-                    @viewModel.band
+                    @displayValue(viewModel.band)
                 </td>
             </tr>
 
@@ -179,33 +189,35 @@
             @tableRow(
                 "propertyDetail.effectiveFrom",
                 "propertyDetail.effectiveFrom.hint",
-                viewModel.effectiveFromDate
+                displayValue(viewModel.effectiveFromDate)
             )
             @tableRowHtml(
                 "propertyDetail.localCouncil",
                 "propertyDetail.localCouncil.hint",
-                Html(s"""<a href="${viewModel.localCouncilLink.getOrElse("#").replace("&", "&amp;")}" class="govuk-link">${viewModel.localCouncil}</a>""")
+                viewModel.localCouncilLink.filter(_.nonEmpty) match {
+                    case Some(link) => Html(s"""<a href="${HtmlFormat.escape(link)}" class="govuk-link">${HtmlFormat.escape(displayValue(viewModel.localCouncil))}</a>""")
+                    case None => HtmlFormat.escape(displayValue(viewModel.localCouncil))
+                }
             )
             @tableRow(
                 "propertyDetail.councilRef",
                 "propertyDetail.councilRef.hint",
-                viewModel.councilRefNumber
+                displayValue(viewModel.councilRefNumber)
             )
             @tableRow(
                 "propertyDetail.improvement",
                 "propertyDetail.improvement.hint",
-                viewModel.improvementInd
+                displayValue(viewModel.improvementInd)
             )
             @tableRow(
                 "propertyDetail.mixedUse",
                 "propertyDetail.mixedUse.hint",
-                viewModel.mixedUse
+                displayValue(viewModel.mixedUse)
             )
             @tableRow(
                 "propertyDetail.courtCode",
                 "propertyDetail.courtCode.hint",
-                if (viewModel.courtCode.isEmpty) messages("propertyDetail.courtCode.none")
-                else viewModel.courtCode
+                displayValue(viewModel.courtCode)
             )
         </tbody>
     </table>

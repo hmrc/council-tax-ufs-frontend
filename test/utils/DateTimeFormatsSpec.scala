@@ -39,6 +39,10 @@ class DateTimeFormatsSpec extends AnyFreeSpec with Matchers {
       result mustEqual "1 Ionawr 2023"
     }
 
+    "must parse and format API timestamps in Welsh" in {
+      DateTimeFormats.formatDate("20260715T120000Z")(Lang("cy")) mustEqual Some("15 Gorffennaf 2026")
+    }
+
     "must default to English format" in {
       val formatter = dateTimeFormat()(Lang("de"))
       val result = LocalDate.of(2023, 1, 1).format(formatter)

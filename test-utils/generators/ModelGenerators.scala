@@ -25,8 +25,27 @@ trait ModelGenerators {
   implicit lazy val arbitraryAdvancedPropertySearch: Arbitrary[AdvancedPropertySearch] =
     Arbitrary {
       for {
-        Property name or number <- arbitrary[String]
-        Street <- arbitrary[String]
-      } yield AdvancedPropertySearch(Property name or number, Street)
+        propertyNameOrNumber <- arbitrary[String]
+        street <- arbitrary[String]
+        townOrCity <- arbitrary[String]
+        postcode <- arbitrary[String]
+        councilTaxBand <- arbitrary[String]
+        bandStatus <- arbitrary[String]
+        localAuthority <- arbitrary[String]
+        localAuthorityReferenceNumber <- arbitrary[String]
+        courtCode <- arbitrary[String]
+        propertyUse <- arbitrary[String]
+      } yield AdvancedPropertySearch(
+        propertyNameOrNumber,
+        street,
+        townOrCity,
+        postcode,
+        councilTaxBand,
+        bandStatus,
+        localAuthority,
+        localAuthorityReferenceNumber,
+        courtCode,
+        propertyUse
+      )
     }
 }

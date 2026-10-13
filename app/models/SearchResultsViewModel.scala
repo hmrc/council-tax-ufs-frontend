@@ -120,9 +120,9 @@ object Address {
 case class PropertyEntry(
   propertyId:     String,
   localAuthority: String,
-  localAuthorityLink: Option[String] = None,
   address:       String,
   band:          String,
+  localAuthorityLink: Option[String] = None
 )
 
 /**

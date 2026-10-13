@@ -16,6 +16,7 @@
 
 @import models.SearchResultsViewModel
 @import utils.PaginationHelper
+@import utils.DateTimeFormats
 @import uk.gov.hmrc.govukfrontend.views.viewmodels.pagination.Pagination
 
 @this(
@@ -60,12 +61,7 @@
 }
 
 @formattedLastUpdated = @{
-    viewModel.lastUpdatedAt.flatMap { raw =>
-        scala.util.Try {
-            val parsed = java.time.LocalDateTime.parse(raw, java.time.format.DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmmss'Z'"))
-            parsed.format(java.time.format.DateTimeFormatter.ofPattern("d MMMM yyyy"))
-        }.toOption
-    }
+  viewModel.lastUpdatedAt.flatMap(raw => DateTimeFormats.formatDate(raw)(messages.lang))
 }
 
 @layout(

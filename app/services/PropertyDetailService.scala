@@ -24,8 +24,6 @@ import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.http.ErrorResponse
 import utils.DateTimeFormats
 
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -155,15 +153,7 @@ class PropertyDetailService @Inject() (connector: BridgeIntegrationConnector)(im
     }
 
   private def formatDate(raw: String)(implicit lang: Lang): String =
-    try {
-      val date =
-        if (raw.contains("-")) LocalDate.parse(raw.take(10), DateTimeFormatter.ISO_LOCAL_DATE)
-        else LocalDate.parse(raw.take(8), DateTimeFormatter.BASIC_ISO_DATE)
-      date
-        .format(DateTimeFormats.dateTimeFormat())
-    } catch {
-      case _: Exception => raw
-    }
+    DateTimeFormats.formatDate(raw).getOrElse(raw)
 
   private def indicatorToYesNo(value: String): String =
     if (value.trim.equalsIgnoreCase("Y") || value.trim.equalsIgnoreCase("yes")) "Yes" else "No"

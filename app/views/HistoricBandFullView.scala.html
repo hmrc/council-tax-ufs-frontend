@@ -23,6 +23,16 @@
 
 @propertyId = @{ viewModel.propertyId.toLowerCase(java.util.Locale.ROOT) }
 
+@displayValue(value: String) = @{
+    value match {
+        case "Yes" => messages("site.yes")
+        case "No" => messages("site.no")
+        case "None" | "" => messages("propertyDetail.courtCode.none")
+        case "Not available" | "Address not available" => messages("propertyDetail.notAvailable")
+        case other => other
+    }
+}
+
 @scripts = {
     <script @CSPNonce.attr src='@controllers.routes.Assets.versioned("javascripts/print.js")'></script>
 }
@@ -73,7 +83,7 @@
             @for((labelKey, value) <- detailRows) {
                 <tr class="govuk-table__row">
                     <th scope="row" class="govuk-table__header">@messages(labelKey)</th>
-                    <td class="govuk-table__cell">@value</td>
+                    <td class="govuk-table__cell">@displayValue(value)</td>
                 </tr>
             }
         </tbody>

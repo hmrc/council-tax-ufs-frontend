@@ -105,7 +105,7 @@ class PropertyDetailServiceSpec extends SpecBase with MockitoSugar {
   }
 
   "PropertyDetailService.getPropertyDetail" - {
-    "must use the country label when the country code is shared" in {
+    "must use the country label and Welsh date when the country code is shared" in {
       val connector = mock[BridgeIntegrationConnector]
       val response = Json.parse(
         """
@@ -139,9 +139,10 @@ class PropertyDetailServiceSpec extends SpecBase with MockitoSugar {
         .thenReturn(Future.successful(Right(response)))
 
       val result = new PropertyDetailService(connector)
-        .getPropertyDetail("PROP-123")(HeaderCarrier(), Lang("en")).futureValue
+        .getPropertyDetail("PROP-123")(HeaderCarrier(), Lang("cy")).futureValue
 
       result.toOption.flatten.map(_.country) mustBe Some("England")
+      result.toOption.flatten.map(_.effectiveFromDate) mustBe Some("1 Ionawr 2024")
     }
   }
 }

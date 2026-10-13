@@ -137,6 +137,7 @@ propertyDetail.mixedUse.hint                     = A property which is used as a
 propertyDetail.courtCode                         = Court code
 propertyDetail.courtCode.hint                    = If the Council Tax band has been reviewed by a Valuation Tribunal or High Court, a court code will be shown.
 propertyDetail.courtCode.none                    = None
+propertyDetail.notAvailable                      = Not available
 propertyDetail.courtCode.expand                  = What the codes mean
 propertyDetail.courtCode.V                       = Valuation Tribunal determination
 propertyDetail.courtCode.C                       = Valuation Tribunal confirmation
