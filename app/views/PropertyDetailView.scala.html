@@ -251,4 +251,8 @@
         content    = Text(messages("button.continue")),
         attributes = Map("id" -> "continue")
     ))
+    <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+    <a href="@routes.PostcodeSearchController.onPageLoad(models.NormalMode).url" role="button" draggable="false" class="govuk-button govuk-button--secondary" data-module="govuk-button">
+        @messages("propertyDetail.searchAnother")
+   </a>
 }

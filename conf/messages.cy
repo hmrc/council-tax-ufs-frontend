@@ -91,6 +91,7 @@ searchResults.voa.england                = Mae''r <a class="govuk-link" href="ht
 searchResults.bands.england              = Y band isaf yw ''A'', a'r band uchaf yw ''H''.
 searchResults.voa.wales                  = Mae''r <a class="govuk-link" href="https://www.gov.uk/government/organisations/valuation-office-agency">Swyddfa Brisio (VO)</a> yn rhoi pob cartref mewn grŵp o''r enw ''band'', yn seiliedig ar werth yr eiddo ar 1 Ebrill 2003.
 searchResults.bands.wales                = Band ''A'' yw''r un isaf a Band ''I'' yw''r un uchaf.
+propertyDetail.searchAnother              = Chwilio am eiddo arall
 
 # No Results
 noResults.title                          = Dim canlyniadau ar gyfer {0}
