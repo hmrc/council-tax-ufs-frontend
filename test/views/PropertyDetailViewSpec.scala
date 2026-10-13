@@ -20,7 +20,7 @@ import models.PropertyDetailViewModel
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import play.api.Application
-import play.api.i18n.{Messages, MessagesApi}
+import play.api.i18n.{Lang, Messages, MessagesApi}
 import play.api.inject.guice.GuiceApplicationBuilder
 import play.api.test.FakeRequest
 
@@ -111,6 +111,27 @@ class PropertyDetailViewSpec extends AnyWordSpec with Matchers {
       html should include("<span>V</span>")
       html should include("Valuation Tribunal determination")
       html should not include("<abbr")
+    }
+
+    "translate negative and missing values in Welsh" in {
+      val welshMessages = messagesApi.preferred(Seq(Lang("cy")))
+      val html = template.render(
+        viewModel.copy(
+          localCouncil = "Not available",
+          councilRefNumber = "Not available",
+          improvementInd = "No",
+          mixedUse = "Not available",
+          courtCode = "None"
+        ),
+        request,
+        welshMessages
+      ).body
+
+      html should include("Na")
+      html should include("Ddim ar gael")
+      html should include("Dim")
+      html should not include("Not available")
+      html should not include(">None<")
     }
   }
 }

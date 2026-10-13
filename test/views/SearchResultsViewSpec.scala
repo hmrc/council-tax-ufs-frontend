@@ -20,7 +20,7 @@ import models.{PropertyEntry, SearchResultsViewModel}
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import play.api.Application
-import play.api.i18n.{Messages, MessagesApi}
+import play.api.i18n.{Lang, Messages, MessagesApi}
 import play.api.inject.guice.GuiceApplicationBuilder
 import play.api.test.FakeRequest
 import utils.PaginationHelper
@@ -73,6 +73,24 @@ class SearchResultsViewSpec extends AnyWordSpec with Matchers {
 
       html should include(s"href=\"${propertyUrl.replace("&", "&amp;")}\"")
       propertyUrl should not include "?"
+    }
+
+    "render the last-updated date in Welsh" in {
+      val viewModel = SearchResultsViewModel(
+        postcode = "CF14 1AA",
+        entries = Seq.empty,
+        currentPage = 1,
+        totalPages = 1,
+        totalItems = 0,
+        pageSize = 20,
+        lastUpdatedAt = Some("20260715T120000Z")
+      )
+      val pagination = PaginationHelper.buildPagination(1, 1, _ => "/search-results?page=1")
+      val welshMessages = messagesApi.preferred(Seq(Lang("cy")))
+
+      val html = template.render(viewModel, "postcode-token", pagination, request, welshMessages).body
+
+      html should include("Diweddarwyd ddiwethaf ar 15 Gorffennaf 2026")
     }
   }
 }

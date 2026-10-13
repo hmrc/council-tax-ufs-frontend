@@ -35,6 +35,7 @@ case class Results(
   total_pages:   Option[Int],
   has_next:      Option[Boolean],
   has_previous:  Option[Boolean],
+  last_updated_at: Option[String],
   records:       Seq[Record]
 )
 object Results {
@@ -77,7 +78,11 @@ object Classification {
   implicit val format: OFormat[Classification] = Json.format
 }
 
-case class CollectionAuthority(code: Option[String])
+case class CollectionAuthority(
+  code: Option[String],
+  label: Option[String] = None,
+  pointer: Option[String] = None
+)
 object CollectionAuthority {
   implicit val format: OFormat[CollectionAuthority] = Json.format
 }
@@ -117,6 +122,7 @@ case class PropertyEntry(
   localAuthority: String,
   address:       String,
   band:          String,
+  localAuthorityLink: Option[String] = None
 )
 
 /**
@@ -149,6 +155,7 @@ case class SearchResultsViewModel(
   totalPages:  Int,
   totalItems:  Int,
   pageSize:    Int,
+  lastUpdatedAt: Option[String] = None,
   countries:   Seq[SearchCountry] = Seq(SearchCountry.England)
 ) {
   val startIndex: Int = if (totalItems == 0) 0 else (currentPage - 1) * pageSize + 1

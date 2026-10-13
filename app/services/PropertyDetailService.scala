@@ -24,8 +24,6 @@ import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.http.ErrorResponse
 import utils.DateTimeFormats
 
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -124,6 +122,7 @@ class PropertyDetailService @Inject() (connector: BridgeIntegrationConnector)(im
 
             val localCouncil = list.collection_authority.flatMap(_.code).getOrElse("Not available")
             val localCouncilCode = list.collection_authority.flatMap(_.code).getOrElse("")
+            val localCouncilLink = list.collection_authority.flatMap(_.pointer)
             val councilRef = entry.administration.flatMap(_.collection_authority_ref).getOrElse("Not available")
             val improvement = entry.property.flatMap(_.workflow).flatMap(_.improvement_ind).map(indicatorToYesNo).getOrElse("Not available")
             val mixedUse = entry.use.flatMap(_.composite_ind).map(indicatorToYesNo).getOrElse("Not available")
@@ -141,6 +140,7 @@ class PropertyDetailService @Inject() (connector: BridgeIntegrationConnector)(im
                   effectiveFromDate = effectiveFrom,
                   localCouncil = localCouncil,
                   localCouncilCode = localCouncilCode,
+                  localCouncilLink = localCouncilLink,
                   councilRefNumber = councilRef,
                   improvementInd = improvement,
                   mixedUse = mixedUse,
@@ -153,15 +153,7 @@ class PropertyDetailService @Inject() (connector: BridgeIntegrationConnector)(im
     }
 
   private def formatDate(raw: String)(implicit lang: Lang): String =
-    try {
-      val date =
-        if (raw.contains("-")) LocalDate.parse(raw.take(10), DateTimeFormatter.ISO_LOCAL_DATE)
-        else LocalDate.parse(raw.take(8), DateTimeFormatter.BASIC_ISO_DATE)
-      date
-        .format(DateTimeFormats.dateTimeFormat())
-    } catch {
-      case _: Exception => raw
-    }
+    DateTimeFormats.formatDate(raw).getOrElse(raw)
 
   private def indicatorToYesNo(value: String): String =
     if (value.trim.equalsIgnoreCase("Y") || value.trim.equalsIgnoreCase("yes")) "Yes" else "No"

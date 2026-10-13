@@ -18,12 +18,16 @@ package utils
 
 import play.api.i18n.Lang
 
+import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.Locale
+import scala.util.Try
 
 object DateTimeFormats {
 
   private val dateTimeFormatter = DateTimeFormatter.ofPattern("d MMMM yyyy")
+  private val isoDateFormatter = DateTimeFormatter.ISO_LOCAL_DATE
+  private val basicDateFormatter = DateTimeFormatter.BASIC_ISO_DATE
 
   private val localisedDateTimeFormatters = Map(
     "en" -> dateTimeFormatter,
@@ -33,6 +37,14 @@ object DateTimeFormats {
   def dateTimeFormat()(implicit lang: Lang): DateTimeFormatter = {
     localisedDateTimeFormatters.getOrElse(lang.code, dateTimeFormatter)
   }
+
+  def formatDate(raw: String)(implicit lang: Lang): Option[String] =
+    Try {
+      val date =
+        if (raw.contains("-")) LocalDate.parse(raw.take(10), isoDateFormatter)
+        else LocalDate.parse(raw.take(8), basicDateFormatter)
+      date.format(dateTimeFormat())
+    }.toOption
 
   val dateTimeHintFormat: DateTimeFormatter =
     DateTimeFormatter.ofPattern("d M yyyy")

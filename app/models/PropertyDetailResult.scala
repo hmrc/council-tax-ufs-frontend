@@ -73,7 +73,8 @@ object PropertyDetailClassification {
 }
 
 case class PropertyDetailCollectionAuthority(
-  code: Option[String]
+  code: Option[String],
+  pointer: Option[String] = None
 )
 
 object PropertyDetailCollectionAuthority {
@@ -165,6 +166,7 @@ case class PropertyDetailViewModel(
   effectiveFromDate: String,
   localCouncil:      String,
   localCouncilCode:  String,
+  localCouncilLink:  Option[String] = None,
   councilRefNumber:  String,
   improvementInd:    String,
   mixedUse:          String,
