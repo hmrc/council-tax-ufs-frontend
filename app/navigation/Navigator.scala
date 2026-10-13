@@ -27,10 +27,13 @@ import models._
 class Navigator @Inject()() {
 
   private val normalRoutes: Page => UserAnswers => Call = {
+    case CouncilTaxLiabilityStartDatePage => _ => routes.WhyBandIsWrongController.onPageLoad(NormalMode)
+    case WhyBandIsWrongPage              => _ => routes.CheckYourAnswersController.onPageLoad()
     case CouncilTaxResponsiblePage       => councilTaxResponsibleRoutes
     case RequestCouncilTaxBandReviewPage => _ => routes.ReasonForReviewController.onPageLoad(NormalMode)
     case ReasonForReviewPage             => reasonForReviewRoutes
-    case scenarioResponsiblePage         => scenarioResponsibleRoutes
+    case `scenarioResponsiblePage`      => scenarioResponsibleRoutes
+    case `noticeAlterationPage`          => noticeAlterationRoutes
     case _                               => _ => routes.PostcodeSearchController.onPageLoad(NormalMode)
   }
 
@@ -43,13 +46,21 @@ class Navigator @Inject()() {
 
   private def scenarioResponsibleRoutes(answers: UserAnswers): Call =
     answers.get(scenarioResponsiblePage) match {
-      case Some(scenarioResponsible.Lessthan) => routes.PostcodeSearchController.onPageLoad(NormalMode)
+      case Some(scenarioResponsible.Lessthan) => routes.ReviewOverviewController.formalReview()
       case Some(scenarioResponsible.Morethan) => routes.noticeAlterationController.onPageLoad(NormalMode)
       case _                                 => routes.PostcodeSearchController.onPageLoad(NormalMode)
     }
 
+  private def noticeAlterationRoutes(answers: UserAnswers): Call =
+    answers.get(noticeAlterationPage) match {
+      case Some(noticeAlteration.Yes) => routes.ReviewOverviewController.formalReview()
+      case Some(noticeAlteration.No)  => routes.ReviewOverviewController.informalReview()
+      case _                          => routes.PostcodeSearchController.onPageLoad(NormalMode)
+    }
 
   private val checkRouteMap: Page => UserAnswers => Call = {
+    case CouncilTaxLiabilityStartDatePage => _ => routes.CheckYourAnswersController.onPageLoad()
+    case WhyBandIsWrongPage              => _ => routes.CheckYourAnswersController.onPageLoad()
     case _ => _ => routes.CheckYourAnswersController.onPageLoad()
   }
 
@@ -72,4 +83,3 @@ class Navigator @Inject()() {
       case _                                     => routes.IndexController.onPageLoad()
     }
 }
-
