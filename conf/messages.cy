@@ -238,6 +238,7 @@ deletionOptions.changed = Mae’r ffordd y mae fy eiddo yn cael ei ddefnyddio we
 deletionOptions.affected = Mae newidiadau yn yr ardal leol wedi effeithio ar fy eiddo
 deletionOptions.anotherReason = Rheswm arall
 deletionOptions.checkYourAnswersLabel = Beth sydd wedi newid?
+deletionOptions.error.required = Dewiswch beth sydd wedi newid
 
 noticeAlteration.title = Ydych chi wedi derbyn Hysbysiad o Newid yn ystod y chwe mis diwethaf?
 noticeAlteration.heading = Ydych chi wedi derbyn Hysbysiad o Newid yn ystod y chwe mis diwethaf?

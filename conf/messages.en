@@ -244,7 +244,7 @@ deletionOptions.changed = There has been a change of use to my property
 deletionOptions.affected = There have been changes to the local area that have affected my property
 deletionOptions.anotherReason = Another reason
 deletionOptions.checkYourAnswersLabel = What has changed?
-deletionOptions.error.required = Select deletionOptions
+deletionOptions.error.required = Select what has changed
 deletionOptions.change.hidden = deletionOptions
 
 noticeAlteration.title = Have you received a Notice of Alteration within the last six months?
