@@ -27,10 +27,26 @@ import models._
 class Navigator @Inject()() {
 
   private val normalRoutes: Page => UserAnswers => Call = {
-    case CouncilTaxResponsiblePage => councilTaxResponsibleRoutes
+    case CouncilTaxResponsiblePage       => councilTaxResponsibleRoutes
     case RequestCouncilTaxBandReviewPage => _ => routes.ReasonForReviewController.onPageLoad(NormalMode)
-    case _ => _ => routes.PostcodeSearchController.onPageLoad(NormalMode)
+    case ReasonForReviewPage             => reasonForReviewRoutes
+    case scenarioResponsiblePage         => scenarioResponsibleRoutes
+    case _                               => _ => routes.PostcodeSearchController.onPageLoad(NormalMode)
   }
+
+  private def reasonForReviewRoutes(answers: UserAnswers): Call =
+    answers.get(ReasonForReviewPage) match {
+      case Some(ReasonForReview.Bandiswrong) => routes.scenarioResponsibleController.onPageLoad(NormalMode)
+      case Some(ReasonForReview.Changesaffectedproperty) => routes.deletionOptionsController.onPageLoad(NormalMode)
+      case _                             => routes.PostcodeSearchController.onPageLoad(NormalMode)
+    }
+
+  private def scenarioResponsibleRoutes(answers: UserAnswers): Call =
+    answers.get(scenarioResponsiblePage) match {
+      case Some(scenarioResponsible.Lessthan) => routes.PostcodeSearchController.onPageLoad(NormalMode)
+      case Some(scenarioResponsible.Morethan) => routes.noticeAlterationController.onPageLoad(NormalMode)
+      case _                                 => routes.PostcodeSearchController.onPageLoad(NormalMode)
+    }
 
 
   private val checkRouteMap: Page => UserAnswers => Call = {

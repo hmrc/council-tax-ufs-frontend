@@ -26,6 +26,10 @@ govukButton: GovukButton
 
 @layout(pageTitle = title(form, messages("requestCouncilTaxBandReview.title"))) {
 
+    @if(form.errors.nonEmpty) {
+        @govukErrorSummary(ErrorSummaryViewModel(form, errorLinkOverrides = Map("value" -> "value_0")))
+    }
+
     <h1 class="govuk-heading-l govuk-!-margin-bottom-2">
         @messages("requestCouncilTaxBandReview.heading")
     </h1>
@@ -69,10 +73,6 @@ govukButton: GovukButton
     <p class="govuk-body">@messages("requestCouncilTaxBandReview.p4.2")</p>
 
     @formHelper(action = routes.RequestCouncilTaxBandReviewController.onSubmit(mode), Symbol("autoComplete") -> "off") {
-
-    @if(form.errors.nonEmpty) {
-        @govukErrorSummary(ErrorSummaryViewModel(form, errorLinkOverrides = Map("value" -> "value_0")))
-    }
 
     @govukCheckboxes(
         CheckboxesViewModel(

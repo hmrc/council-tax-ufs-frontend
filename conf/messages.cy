@@ -177,12 +177,11 @@ councilTaxResponsible.yes = Ydw
 councilTaxResponsible.no = Nac ydw
 councilTaxResponsible.actingFor = Rydw i'n gweithredu dros rywun sy'n gyfrifol
 councilTaxResponsible.hint = Dim ond pobl sy'n gyfrifol am y Dreth Gyngor ar eiddo sydd â chaniatâd i weld rhagor o fanylion. Mae hyn yn cynnwys pobl sy'n gweithredu dros rywun sydd yn gyfrifol.
-
 councilTaxResponsible.actingFor.hint = Bydd angen i chi gael eu caniatâd ysgrifenedig
 site.warning = Warning
 councilTaxResponsible.warning = Os nad ydych chi'n gyfrifol am y Dreth Gyngor ar yr eiddo hwn, dylech chi ddim barhau gyda'r gwasanaeth hwn.
 councilTaxResponsible.checkYourAnswersLabel = Ydych chi'n gyfrifol am y Dreth Gyngor ar yr eiddo hwn?
-councilTaxResponsible.error.required = Select councilTaxResponsible
+councilTaxResponsible.error.required = Dewiswch ''Ydw'' os ydych chi'n gyfriifol am y Dreth Gyngor ar yr eiddo hwn
 councilTaxResponsible.change.hidden = CouncilTaxResponsible
 
 requestCouncilTaxBandReview.title = Gwneud cais am adolygiad o fand Treth Gyngor
@@ -203,8 +202,6 @@ requestCouncilTaxBandReview.subheading2.bullet7 = yn cael ei ddefnyddio'n rhanno
 requestCouncilTaxBandReview.subheading2.bullet8 = wedi'i rannu'n sawl eiddo neu wedi'i uno'n un eiddo
 requestCouncilTaxBandReview.p2.3 = Os byddwch yn gofyn am adolygiad am un o’r rhesymau hyn, ond dydych chi ddim yn cytuno â’r canlyniad, rydych yn gallu apelio yn erbyn y penderfyniad.
 requestCouncilTaxBandReview.p2.4 = Byddwn yn ystyried unrhyw welliannau wrth bennu’r band newydd, a allai fod yn uwch na’r un blaenorol. Fel arfer, bydd y band newydd yn dod i rym o’r dyddiad y daw’r eiddo yn addas i fyw ynddo eto.
-
-
 requestCouncilTaxBandReview.subheading2 = Cysylltu â’ch Cyngor Lleol
 requestCouncilTaxBandReview.p3.1 = Dylech hefyd wirio gyda’ch cyngor lleol am gyngor a gwybodaeth am y Dreth Gyngor. Ewch i wefan eich cyngor lleol am ragor o fanylion.
 requestCouncilTaxBandReview.subheading3 = Adolygu’r band am unrhyw reswm arall
@@ -212,6 +209,7 @@ requestCouncilTaxBandReview.p4.1 = Os nad yw’r uchod yn berthnasol, byddwn ond
 requestCouncilTaxBandReview.p4.2 = Bydd eich cais am adolygiad band yn cael ei wrthod heb hyn.
 requestCouncilTaxBandReview.readContent.label = Rwyf wedi darllen y dudalen hon ac rwyf am barhau.
 requestCouncilTaxBandReview.checkYourAnswersLabel = Gwneud cais am adolygiad o fand Treth Gyngor
+requestCouncilTaxBandReview.error.required = Dewiswch i gadarnhau eich bod wedi darllen y dudalen hon
 
 noPermission.title = Does gennych chi ddim caniatâd i weld rhagor o fanylion
 noPermission.heading = Does gennych chi ddim caniatâd i weld rhagor o fanylion
@@ -224,6 +222,7 @@ reasonForReview.band-is-wrong = Rwy'n credu bod fy mand yn anghywir
 reasonForReview.changes-affected-property = Mae newidiadau wedi effeithio ar yr eiddo
 reasonForReview.band-is-wrong.hint = Er enghraifft, rydych yn credu bod eich band Treth Gyngor yn rhy uchel, neu rydych yn anghytuno â newid diweddar i fand neu ddyddiad dod i rym. Gallwch hefyd ofyn am adolygiad yn dilyn penderfyniad tribiwnlys neu lys ynghylch eiddo tebyg.
 reasonForReview.changes-affected-property.hint = Er enghraifft, mae'r eiddo wedi'i ddymchwel yn rhannol neu'n llwyr, yn mynd trwy waith adeiladu neu adnewyddu mawr ac ni ellir byw ynddo. Gall hyn hefyd gynnwys newidiadau yn yr ardal leol neu newid yn y ffordd y defnyddir yr eiddo.
+reasonForReview.error.required = Dewiswch pam eich bod am herio eich band Treth Gyngor
 
 scenarioResponsible.title = Ers faint o amser rydych wedi bod yn gyfrifol am dalu Treth Gyngor ar yr eiddo?
 scenarioResponsible.heading = Ers faint o amser rydych wedi bod yn gyfrifol am dalu Treth Gyngor ar yr eiddo?
