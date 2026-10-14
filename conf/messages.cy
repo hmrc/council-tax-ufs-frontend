@@ -1,4 +1,4 @@
-service.name = Gwirio eich band Treth Gyngor a’i herio
+service.name = Adolygu eich band Treth Gyngor
 
 site.back = Yn ôl
 site.remove = Dileu

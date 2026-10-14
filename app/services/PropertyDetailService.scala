@@ -59,7 +59,7 @@ class PropertyDetailService @Inject() (connector: BridgeIntegrationConnector)(im
             val period = record.list_entry.period
             val entry = record.list_entry
             val localAuthority = record.list.collection_authority.flatMap(_.code).getOrElse("Not available")
-            val councilRefNumber = entry.administration.flatMap(_.collection_authority_ref).getOrElse("Not available")
+            val councilRefNumber = entry.property.flatMap(_.collection_authority_ref).getOrElse("Not available")
             val improvementInd = entry.property.flatMap(_.workflow).flatMap(_.improvement_ind).map(indicatorToYesNo).getOrElse("Not available")
             val mixedUse = entry.use.flatMap(_.composite_ind).map(indicatorToYesNo).getOrElse("Not available")
             val valuationList = record.list.id.flatMap(_.value).getOrElse("Not available")
@@ -75,7 +75,7 @@ class PropertyDetailService @Inject() (connector: BridgeIntegrationConnector)(im
               councilRefNumber = councilRefNumber,
               improvementInd = improvementInd,
               mixedUse = mixedUse,
-              courtCode = "None",
+              courtCode = entry.administration.flatMap(_.judicially_ordered_by).getOrElse("None"),
               valuationList = valuationList
             )
           }
@@ -123,10 +123,10 @@ class PropertyDetailService @Inject() (connector: BridgeIntegrationConnector)(im
             val localCouncil = list.collection_authority.flatMap(_.code).getOrElse("Not available")
             val localCouncilCode = list.collection_authority.flatMap(_.code).getOrElse("")
             val localCouncilLink = list.collection_authority.flatMap(_.pointer)
-            val councilRef = entry.administration.flatMap(_.collection_authority_ref).getOrElse("Not available")
+            val councilRef = entry.property.flatMap(_.collection_authority_ref).getOrElse("Not available")
             val improvement = entry.property.flatMap(_.workflow).flatMap(_.improvement_ind).map(indicatorToYesNo).getOrElse("Not available")
             val mixedUse = entry.use.flatMap(_.composite_ind).map(indicatorToYesNo).getOrElse("Not available")
-            val courtCode = "None"
+            val courtCode = entry.administration.flatMap(_.judicially_ordered_by).getOrElse("None")
             val country = list.country
               .flatMap(country => country.label.orElse(country.code))
               .getOrElse("England")

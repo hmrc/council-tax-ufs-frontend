@@ -114,7 +114,7 @@ case class PropertyDetailAdministration(
   alteration_date:          Option[String],
   alteration_seq_no:        Option[String],
   entry_seq_no:             Option[String],
-  collection_authority_ref: Option[String]
+  judicially_ordered_by:    Option[String]
 )
 
 object PropertyDetailAdministration {
@@ -148,9 +148,10 @@ object PropertyDetailWorkflow {
 }
 
 case class PropertyDetailProperty(
-  id:              Option[PropertyDetailId],
-  address:         Option[PropertyDetailAddresses],
-  workflow:        Option[PropertyDetailWorkflow]
+  id:                       Option[PropertyDetailId],
+  collection_authority_ref: Option[String],
+  address:                  Option[PropertyDetailAddresses],
+  workflow:                 Option[PropertyDetailWorkflow]
 )
 
 object PropertyDetailProperty {
