@@ -16,7 +16,7 @@
 
 package views
 
-import models.PropertyDetailViewModel
+import models.{NormalMode, PropertyDetailViewModel}
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import play.api.Application
@@ -81,6 +81,21 @@ class PropertyDetailViewSpec extends AnyWordSpec with Matchers {
       val html = template.render(viewModel, request, messages).body
 
       html should include("id=\"continue\"")
+    }
+
+    "link to postcode search to search for another property" in {
+      val html = template.render(viewModel, request, messages).body
+      val postcodeSearchUrl = controllers.routes.PostcodeSearchController.onPageLoad(NormalMode).url
+
+      html should include(s"href=\"$postcodeSearchUrl\"")
+      html should include(messages("propertyDetail.searchAnother"))
+    }
+
+    "render the Welsh label for searching for another property" in {
+      val welshMessages = messagesApi.preferred(Seq(Lang("cy")))
+      val html = template.render(viewModel, request, welshMessages).body
+
+      html should include("Chwilio am eiddo arall")
     }
 
     "render the shared browser-history back link" in {

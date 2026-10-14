@@ -47,7 +47,7 @@ class PropertyDetailResultSpec extends AnyWordSpec with Matchers {
           |              "alteration_date": "2024-02-01",
           |              "alteration_seq_no": "2",
           |              "entry_seq_no": "7",
-          |              "collection_authority_ref": "REF-456"
+          |              "judicially_ordered_by": "R"
           |            },
           |            "addresses": { "full": "1 Test Street" },
           |            "use": {
@@ -57,6 +57,7 @@ class PropertyDetailResultSpec extends AnyWordSpec with Matchers {
           |            },
           |            "property": {
           |              "id": { "value": "PROP-123" },
+          |              "collection_authority_ref": "273996000001",
           |              "address": { "full": "1 Test Street" },
           |              "workflow": {
           |                "improvement_ind": "No"
@@ -85,7 +86,8 @@ class PropertyDetailResultSpec extends AnyWordSpec with Matchers {
       record.list_entry.valuation.flatMap(_.value) shouldBe Some("C")
       record.list_entry.period.flatMap(_.effective_from_date) shouldBe Some("2024-01-01")
       record.list_entry.period.flatMap(_.effective_to_date) shouldBe Some("2025-01-01")
-      record.list_entry.administration.flatMap(_.collection_authority_ref) shouldBe Some("REF-456")
+      record.list_entry.administration.flatMap(_.judicially_ordered_by) shouldBe Some("R")
+      record.list_entry.property.flatMap(_.collection_authority_ref) shouldBe Some("273996000001")
       record.list_entry.addresses.flatMap(_.full) shouldBe Some("1 Test Street")
       record.list_entry.use.flatMap(_.description) shouldBe Some("Residential")
       record.list_entry.property.flatMap(_.id).flatMap(_.value) shouldBe Some("PROP-123")

@@ -52,8 +52,8 @@ class PropertyDetailServiceSpec extends SpecBase with MockitoSugar {
           |            "valuation": {"value": "B"},
           |            "period": {"effective_from_date": "1993-04-01", "effective_to_date": "2000-01-01"},
           |            "addresses": {"full": "1 Test Street"},
-          |            "administration": {"collection_authority_ref": "REF-123"},
-          |            "property": {"workflow": {"improvement_ind": "N"}},
+          |            "administration": {"judicially_ordered_by": "R"},
+          |            "property": {"collection_authority_ref": "REF-123", "workflow": {"improvement_ind": "N"}},
           |            "use": {"composite_ind": "N"}
           |          }
           |        }
@@ -94,7 +94,7 @@ class PropertyDetailServiceSpec extends SpecBase with MockitoSugar {
                 councilRefNumber = "REF-123",
                 improvementInd = "No",
                 mixedUse = "No",
-                courtCode = "None",
+                courtCode = "R",
                 valuationList = "1993"
               )
             )
@@ -120,9 +120,13 @@ class PropertyDetailServiceSpec extends SpecBase with MockitoSugar {
           |        "list_entry": {
           |          "valuation": { "value": "C" },
           |          "period": { "effective_from_date": "2024-01-01" },
-          |          "administration": { "collection_authority_ref": "REF-123" },
+          |          "administration": {
+          |            "judicially_ordered_by": "R",
+          |            "collection_authority_ref": "WRONG-REF"
+          |          },
           |          "property": {
           |            "id": { "value": "PROP-123" },
+          |            "collection_authority_ref": "273996000001",
           |            "address": { "full": "1 Test Street" },
           |            "workflow": { "improvement_ind": "N" }
           |          },
@@ -143,6 +147,8 @@ class PropertyDetailServiceSpec extends SpecBase with MockitoSugar {
 
       result.toOption.flatten.map(_.country) mustBe Some("England")
       result.toOption.flatten.map(_.effectiveFromDate) mustBe Some("1 Ionawr 2024")
+      result.toOption.flatten.map(_.councilRefNumber) mustBe Some("273996000001")
+      result.toOption.flatten.map(_.courtCode) mustBe Some("R")
     }
   }
 }

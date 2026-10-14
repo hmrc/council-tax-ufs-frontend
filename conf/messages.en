@@ -92,6 +92,7 @@ searchResults.voa.england                = The <a class="govuk-link" href="https
 searchResults.bands.england              = The lowest band is ''A'', and the highest band is ''H''.
 searchResults.voa.wales                  = The <a class="govuk-link" href="https://www.gov.uk/government/organisations/valuation-office-agency">Valuation Office (VO)</a> puts every home in Wales into a group called a ''band'', based on the value of the property on 1 April 2003.
 searchResults.bands.wales                = The lowest band is ''A'', and the highest band is ''I''.
+propertyDetail.searchAnother              = Search for another property
 
 # No Results
 noResults.title                          = No results for {0}
