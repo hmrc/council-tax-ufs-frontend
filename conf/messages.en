@@ -180,7 +180,7 @@ historicBandFull.challenge.email                 = Email
 historicBandFull.challenge.emailAddress          = ctinboxvo@hmrc.gov.uk
 
  
-# England
+# England bands
 
 propertyDetail.band.expand.england        = Council Tax bands England
 propertyDetail.band.range.england.A       = up to £40,000
@@ -192,7 +192,7 @@ propertyDetail.band.range.england.F       = £120,001 to £160,000
 propertyDetail.band.range.england.G       = £160,001 to £320,000
 propertyDetail.band.range.england.H       = More than £320,000
 
-# Wales
+# Wales bands
 
 propertyDetail.band.expand.wales          = Council Tax bands Wales
 propertyDetail.band.range.wales.A         = up to £44,000

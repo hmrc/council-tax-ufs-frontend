@@ -68,9 +68,9 @@ postcodeSearch.error.length = Rhaid i'r cod post fod yn 10 nod neu lai
 postcodeSearch.change.hidden = PostcodeSearch
 
 # Search Results
-searchResults.title                      = Canlyniadau chwilio ar gyfer {0}
-searchResults.title.paged                = Canlyniadau chwilio ar gyfer {0} (tudalen {1} o {2})
-searchResults.heading                    = Canlyniadau chwilio ar gyfer {0}
+searchResults.title                      = Canlyniadau chwilio am {0}
+searchResults.title.paged                = Canlyniadau chwilio am {0} (tudalen {1} o {2})
+searchResults.heading                    = Canlyniadau chwilio am {0}
 searchResults.showing                    = Yn dangos {0} - {1} o {2} canlyniad
 searchResults.lastUpdated                = Diweddarwyd ddiwethaf ar {0}
 searchResults.column.address             = Cyfeiriad
@@ -83,12 +83,12 @@ searchResults.cannotFind.contactCouncil  = Cysylltwch â''ch cyngor lleol
 searchResults.cannotFind.contactCouncilDescription = os na allwch ddod o hyd i’'ch eiddo o hyd. Byddant yn rhoi’'r wybodaeth sydd ei hangen ar y Swyddfa Brisio er mwyn neilltuo band Treth Gyngor.
 searchResults.commercialUse              = Ni ddylid defnyddio’'r data hwn at ddibenion masnachol
 searchResults.searchAgain                = Chwilio eto
-searchResults.searchAgain.label          = Nodwch god post
+searchResults.searchAgain.label          = Rhowch god post
 searchResults.searchAgain.button         = Chwilio
 searchResults.otherSearchOptions         = Opsiynau chwilio eraill
 searchResults.error                      = Roedd problem gyda'ch chwiliad. Rhowch gynnig arall arni.
-searchResults.voa.england                = Mae''r <a class="govuk-link" href="https://www.gov.uk/government/organisations/valuation-office-agency">Swyddfa Brisio (VO)</a> yn gosod pob cartref yn Lloegr mewn grŵp o''r enw 'band', yn seiliedig ar werth yr eiddo ar 1 Ebrill 1991.
-searchResults.bands.england              = Y band isaf yw ''A'', a'r band uchaf yw ''H''.
+searchResults.voa.england                = Mae''r <a class="govuk-link" href="https://www.gov.uk/government/organisations/valuation-office-agency">Swyddfa Brisio (VO)</a> yn rhoi pob cartref mewn grŵp o''r enw ''band'', yn seiliedig ar werth yr eiddo ar 1 Ebrill 1991.
+searchResults.bands.england              = Band ''A'' yw''r un isaf a Band ''H'' yw''r un uchaf.
 searchResults.voa.wales                  = Mae''r <a class="govuk-link" href="https://www.gov.uk/government/organisations/valuation-office-agency">Swyddfa Brisio (VO)</a> yn rhoi pob cartref mewn grŵp o''r enw ''band'', yn seiliedig ar werth yr eiddo ar 1 Ebrill 2003.
 searchResults.bands.wales                = Band ''A'' yw''r un isaf a Band ''I'' yw''r un uchaf.
 propertyDetail.searchAnother              = Chwilio am eiddo arall
@@ -109,7 +109,7 @@ propertyDetail.metaDescription                   = Gweld band Treth Gyngor a gwy
 propertyDetail.publicInformation                 = Gwybodaeth gyhoeddus
 propertyDetail.publicInformation.anybody         = Gall unrhyw un weld yr wybodaeth hon.
 propertyDetail.band                              = Band Treth Gyngor
-propertyDetail.band.hint.england                 = Y band presennol ar gyfer yr eiddo. Mae hyn yn seiliedig ar werth yr eiddo ar 1 Ebrill 1991.
+propertyDetail.band.hint.england                 = Bandiau Treth Gyngor yng Nghymru (yn seiliedig ar werthoedd 1 Ebrill 1991)
 propertyDetail.band.hint.wales                   = Bandiau Treth Gyngor yng Nghymru (yn seiliedig ar werthoedd 1 Ebrill 2003)
 propertyDetail.band.expand.wales                 = Bandiau Treth Gyngor yng Nghymru
 propertyDetail.band.table.band                   = Band
@@ -144,7 +144,7 @@ propertyDetail.courtCode.C                       = Cadarnhad gan Dribiwnlys Pris
 propertyDetail.courtCode.R                       = Ail benderfyniad y Tribiwnlys Prisio yn dilyn atgyfeiriad gan yr Uchel Lys
 propertyDetail.courtCode.D                       = Penderfyniad gan Uchel Lys
 propertyDetail.courtCode.H                       = Cadarnhad gan Uchel Lys
-propertyDetail.courtCode.E                       = Gorchymyn cydsynio'r Uchel Lys
+propertyDetail.courtCode.E                       = Gorchymyn cydsynio''r Uchel Lys
 propertyDetail.beforeYouContinue                 = Cyn i chi barhau
 propertyDetail.beforeYouContinue.youCan          = Gallwch:
 propertyDetail.beforeYouContinue.viewPrevious    = weld bandiau Treth Gyngor blaenorol yr eiddo hwn
@@ -181,15 +181,15 @@ historicBandFull.challenge.emailAddress          = ctinboxvo@hmrc.gov.uk
  
 # England
 
-propertyDetail.band.expand.england        = Council Tax bands England
-propertyDetail.band.range.england.A       = up to £40,000
-propertyDetail.band.range.england.B       = £40,001 to £52,000
-propertyDetail.band.range.england.C       = £52,001 to £68,000
-propertyDetail.band.range.england.D       = £68,001 to £88,000
-propertyDetail.band.range.england.E       = £88,001 to £120,000
-propertyDetail.band.range.england.F       = £120,001 to £160,000
-propertyDetail.band.range.england.G       = £160,001 to £320,000
-propertyDetail.band.range.england.H       = More than £320,000
+propertyDetail.band.expand.england        = Bandiau Treth Gyngor yng Nghymru
+propertyDetail.band.range.england.A       = hyd at £40,000
+propertyDetail.band.range.england.B       = £40,001 i £52,000
+propertyDetail.band.range.england.C       = £52,001 i £68,000
+propertyDetail.band.range.england.D       = £68,001 i £88,000
+propertyDetail.band.range.england.E       = £88,001 i £120,000
+propertyDetail.band.range.england.F       = £120,001 i £160,000
+propertyDetail.band.range.england.G       = £160,001 i £320,000
+propertyDetail.band.range.england.H       = mwy na £320,000
 
 # Wales
 
