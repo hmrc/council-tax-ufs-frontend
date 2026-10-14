@@ -16,11 +16,11 @@
 
 package views
 
-import models.PropertyDetailViewModel
+import models.{NormalMode, PropertyDetailViewModel}
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import play.api.Application
-import play.api.i18n.{Messages, MessagesApi}
+import play.api.i18n.{Lang, Messages, MessagesApi}
 import play.api.inject.guice.GuiceApplicationBuilder
 import play.api.test.FakeRequest
 
@@ -48,6 +48,24 @@ class PropertyDetailViewSpec extends AnyWordSpec with Matchers {
   )
 
   "PropertyDetailView" should {
+    "render the England band table for an English property" in {
+      val html = template.render(viewModel, request, messages).body
+
+      html should include("Council Tax bands England")
+      html should include("1 April 1991")
+      html should include("More than £320,000")
+      html should not include("more than £424,000")
+    }
+
+    "render the Wales band table through the country label" in {
+      val html = template.render(viewModel.copy(band = "I", country = "Wales"), request, messages).body
+
+      html should include("Council Tax bands Wales")
+      html should include("1 April 2003")
+      html should include("more than £424,000")
+      html should include("(current band)")
+    }
+
     "render the property address and main details" in {
       val html = template.render(viewModel, request, messages).body
 
@@ -65,6 +83,35 @@ class PropertyDetailViewSpec extends AnyWordSpec with Matchers {
       html should include("id=\"continue\"")
     }
 
+    "link to postcode search to search for another property" in {
+      val html = template.render(viewModel, request, messages).body
+      val postcodeSearchUrl = controllers.routes.PostcodeSearchController.onPageLoad(NormalMode).url
+
+      html should include(s"href=\"$postcodeSearchUrl\"")
+      html should include(messages("propertyDetail.searchAnother"))
+    }
+
+    "render the Welsh label for searching for another property" in {
+      val welshMessages = messagesApi.preferred(Seq(Lang("cy")))
+      val html = template.render(viewModel, request, welshMessages).body
+
+      html should include("Chwilio am eiddo arall")
+    }
+
+    "render the shared browser-history back link" in {
+      val html = template.render(viewModel, request, messages).body
+
+      html should include("data-module=\"hmrc-back-link\"")
+      html.split("class=\"govuk-back-link\"", -1).length - 1 shouldBe 1
+    }
+
+    "link to the historic bands for this property" in {
+      val html = template.render(viewModel, request, messages).body
+
+      html should include(s"href=\"${controllers.routes.HistoricBandsController.onPageLoad(viewModel.propertyId.toLowerCase).url}\"")
+      html should include("View previous Council Tax bands for this property")
+    }
+
     "render a local council link" in {
       val html = template.render(viewModel, request, messages).body
 
@@ -76,7 +123,30 @@ class PropertyDetailViewSpec extends AnyWordSpec with Matchers {
       val html = template.render(viewModel, request, messages).body
 
       html should include("govuk-details")
-      html should include("V")
+      html should include("<span>V</span>")
+      html should include("Valuation Tribunal determination")
+      html should not include("<abbr")
+    }
+
+    "translate negative and missing values in Welsh" in {
+      val welshMessages = messagesApi.preferred(Seq(Lang("cy")))
+      val html = template.render(
+        viewModel.copy(
+          localCouncil = "Not available",
+          councilRefNumber = "Not available",
+          improvementInd = "No",
+          mixedUse = "Not available",
+          courtCode = "None"
+        ),
+        request,
+        welshMessages
+      ).body
+
+      html should include("Na")
+      html should include("Ddim ar gael")
+      html should include("Dim")
+      html should not include("Not available")
+      html should not include(">None<")
     }
   }
 }

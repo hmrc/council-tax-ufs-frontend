@@ -51,4 +51,31 @@ trait ModelGenerators {
     Arbitrary {
       Gen.oneOf(CouncilTaxResponsible.values.toSeq)
     }
+
+  implicit lazy val arbitraryAdvancedPropertySearch: Arbitrary[AdvancedPropertySearch] =
+    Arbitrary {
+      for {
+        propertyNameOrNumber <- arbitrary[String]
+        street <- arbitrary[String]
+        townOrCity <- arbitrary[String]
+        postcode <- arbitrary[String]
+        councilTaxBand <- arbitrary[String]
+        bandStatus <- arbitrary[String]
+        localAuthority <- arbitrary[String]
+        localAuthorityReferenceNumber <- arbitrary[String]
+        courtCode <- arbitrary[String]
+        propertyUse <- arbitrary[String]
+      } yield AdvancedPropertySearch(
+        propertyNameOrNumber,
+        street,
+        townOrCity,
+        postcode,
+        councilTaxBand,
+        bandStatus,
+        localAuthority,
+        localAuthorityReferenceNumber,
+        courtCode,
+        propertyUse
+      )
+    }
 }

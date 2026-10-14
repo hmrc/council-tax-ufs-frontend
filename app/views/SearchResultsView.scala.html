@@ -16,6 +16,7 @@
 
 @import models.SearchResultsViewModel
 @import utils.PaginationHelper
+@import utils.DateTimeFormats
 @import uk.gov.hmrc.govukfrontend.views.viewmodels.pagination.Pagination
 
 @this(
@@ -30,7 +31,7 @@
 
 @(
   viewModel:       SearchResultsViewModel,
-  encodedPostcode: String,
+  postcode:        String,
   pagination:      Pagination
 )(implicit request: Request[_], messages: Messages)
 
@@ -43,15 +44,24 @@
 
 @tableRows = @{
  viewModel.entries.map { entry =>
+   val propertyId = entry.propertyId.toLowerCase(java.util.Locale.ROOT)
    val href = if (entry.propertyId.nonEmpty)
-     routes.PropertyDetailController.onPageLoad(entry.propertyId).url
+    routes.PropertyDetailController.onPageLoad(propertyId).url
    else "#"
+    val localAuthorityContent = entry.localAuthorityLink match {
+        case Some(link) => HtmlContent(s"""<a href="${link.replace("&", "&amp;")}" class="govuk-link" target="_blank" rel="noopener noreferrer">${entry.localAuthority}</a>""")
+        case None       => Text(entry.localAuthority)
+    }
    Seq(
-     TableRow(content = HtmlContent(s"""<a href="$href" class="govuk-link">${entry.address}</a>""")),
-     TableRow(content = Text(entry.band)),
-     TableRow(content = Text(entry.localAuthority))
+    TableRow(content = HtmlContent(s"""<a href="${href.replace("&", "&amp;")}" class="govuk-link">${entry.address}</a>""")),
+        TableRow(content = Text(entry.band)),
+        TableRow(content = localAuthorityContent)
    )
  }
+}
+
+@formattedLastUpdated = @{
+  viewModel.lastUpdatedAt.flatMap(raw => DateTimeFormats.formatDate(raw)(messages.lang))
 }
 
 @layout(
@@ -62,15 +72,20 @@
   <h1 class="govuk-heading-xl">
     @messages("searchResults.heading", viewModel.postcode)
   </h1>
-  <p class="govuk-body">
-    @Html(messages("searchResults.voa"))
-  </p>
-  <p class="govuk-body">
-    @messages("searchResults.bands")
-  </p>
-  <p class="govuk-body">
-    @messages("searchResults.showing", viewModel.startIndex, viewModel.endIndex, viewModel.totalItems)
-  </p>
+  @for(country <- viewModel.countries) {
+    <p class="govuk-body">
+      @Html(messages(s"searchResults.voa.${country.messageKey}"))
+    </p>
+    <p class="govuk-body">
+      @messages(s"searchResults.bands.${country.messageKey}")
+    </p>
+  }
+    <div class="govuk-body" style="display: flex; justify-content: space-between; align-items: baseline;">
+        <span>@messages("searchResults.showing", viewModel.startIndex, viewModel.endIndex, viewModel.totalItems)</span>
+        @formattedLastUpdated.map { date =>
+        <span>@messages("searchResults.lastUpdated", date)</span>
+        }
+    </div>
 
 
   @govukTable(Table(

@@ -37,6 +37,22 @@ class PropertyDetailControllerSpec extends SpecBase with MockitoSugar {
 
   "PropertyDetail Controller" - {
 
+    "must redirect uppercase property IDs to the lowercase ID-only URL" in {
+      val uppercasePropertyId = "DF8082EA-EA20-4B1B-A149-73156D39C5FD"
+      val lowercasePropertyId = uppercasePropertyId.toLowerCase
+
+      val application = applicationBuilder(userAnswers = None).build()
+
+      running(application) {
+        val request = FakeRequest(GET, routes.PropertyDetailController.onPageLoad(uppercasePropertyId).url)
+        val result = route(application, request).value
+
+        status(result) mustEqual SEE_OTHER
+        redirectLocation(result).value mustEqual
+          routes.PropertyDetailController.onPageLoad(lowercasePropertyId).url
+      }
+    }
+
     "must render a generic internal server error for an upstream failure" in {
       val propertyDetailService = mock[PropertyDetailService]
 

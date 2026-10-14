@@ -40,7 +40,7 @@ object PropertyDetailResult {
   implicit val format: OFormat[PropertyDetailResult] = Json.format
 }
 
-case class PropertyDetailCountry(code: Option[String])
+case class PropertyDetailCountry(code: Option[String], label: Option[String])
 object PropertyDetailCountry {
    implicit val format: OFormat[PropertyDetailCountry] = Json.format
 }
@@ -73,7 +73,8 @@ object PropertyDetailClassification {
 }
 
 case class PropertyDetailCollectionAuthority(
-  code: Option[String]
+  code: Option[String],
+  pointer: Option[String] = None
 )
 
 object PropertyDetailCollectionAuthority {
@@ -113,7 +114,7 @@ case class PropertyDetailAdministration(
   alteration_date:          Option[String],
   alteration_seq_no:        Option[String],
   entry_seq_no:             Option[String],
-  collection_authority_ref: Option[String]
+  judicially_ordered_by:    Option[String]
 )
 
 object PropertyDetailAdministration {
@@ -147,9 +148,10 @@ object PropertyDetailWorkflow {
 }
 
 case class PropertyDetailProperty(
-  id:              Option[PropertyDetailId],
-  address:         Option[PropertyDetailAddresses],
-  workflow:        Option[PropertyDetailWorkflow]
+  id:                       Option[PropertyDetailId],
+  collection_authority_ref: Option[String],
+  address:                  Option[PropertyDetailAddresses],
+  workflow:                 Option[PropertyDetailWorkflow]
 )
 
 object PropertyDetailProperty {
@@ -165,10 +167,35 @@ case class PropertyDetailViewModel(
   effectiveFromDate: String,
   localCouncil:      String,
   localCouncilCode:  String,
+  localCouncilLink:  Option[String] = None,
   councilRefNumber:  String,
   improvementInd:    String,
   mixedUse:          String,
   courtCode:         String,
   country:           String
+)
+
+case class HistoricBandEntry(
+  band:              String,
+  effectiveFromDate: String,
+  effectiveToDate:   String,
+  localAuthority:    String,
+  councilRefNumber:  String,
+  improvementInd:    String,
+  mixedUse:          String,
+  courtCode:         String,
+  valuationList:     String
+)
+
+case class HistoricBandsViewModel(
+  propertyId: String,
+  address: String,
+  bands:   Seq[HistoricBandEntry]
+)
+
+case class HistoricBandFullViewModel(
+  propertyId: String,
+  address:    String,
+  band:       HistoricBandEntry
 )
  

@@ -29,7 +29,9 @@ POST       /changePostcodeSearch                         controllers.PostcodeSea
 
 GET        /search-results                               controllers.SearchResultsController.show(postcode: String, page: Int ?= 1)
 GET        /property/:id                                 controllers.PropertyDetailController.onPageLoad(id: String)
- 
+GET        /historic-bands/:propertyId                   controllers.HistoricBandsController.onPageLoad(propertyId: String)
+GET        /historic-bands-full/:propertyId/:bandIndex   controllers.HistoricBandsController.onBandPageLoad(propertyId: String, bandIndex: Int)
+
 
 
 GET        /councilTaxResponsible                        controllers.CouncilTaxResponsibleController.onPageLoad(mode: Mode = NormalMode)
@@ -63,3 +65,8 @@ GET        /noticeAlteration                        controllers.noticeAlteration
 POST       /noticeAlteration                        controllers.noticeAlterationController.onSubmit(mode: Mode = NormalMode)
 GET        /changenoticeAlteration                  controllers.noticeAlterationController.onPageLoad(mode: Mode = CheckMode)
 POST       /changenoticeAlteration                  controllers.noticeAlterationController.onSubmit(mode: Mode = CheckMode)
+
+GET        /advancedPropertySearch                        controllers.AdvancedPropertySearchController.onPageLoad(mode: Mode = NormalMode)
+POST       /advancedPropertySearch                        controllers.AdvancedPropertySearchController.onSubmit(mode: Mode = NormalMode)
+GET        /changeAdvancedPropertySearch                  controllers.AdvancedPropertySearchController.onPageLoad(mode: Mode = CheckMode)
+POST       /changeAdvancedPropertySearch                  controllers.AdvancedPropertySearchController.onSubmit(mode: Mode = CheckMode)

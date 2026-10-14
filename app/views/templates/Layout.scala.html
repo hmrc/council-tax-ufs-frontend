@@ -32,9 +32,12 @@
     twoThirdsLayout: TwoThirdLayout
 )
 
-@(pageTitle: String, fullWidth: Boolean = false,showBackLink: Boolean = true, timeout: Boolean =  false, showSignOut: Boolean = true, showHmrcBanner: Boolean = false, scripts: Option[Html] = None)(contentBlock: Html)(implicit rh: RequestHeader, messages: Messages)
+@(pageTitle: String, fullWidth: Boolean = false, showBackLink: Boolean = true, backLinkUrl: Option[String] = None, metaDescription: Option[String] = None, timeout: Boolean = false, showSignOut: Boolean = true, showHmrcBanner: Boolean = false, scripts: Option[Html] = None)(contentBlock: Html)(implicit rh: RequestHeader, messages: Messages)
 
 @head = {
+    @for(description <- metaDescription) {
+        <meta name="description" content="@description">
+    }
 
     @if(timeout) {
         @hmrcTimeoutDialog(TimeoutDialog(
@@ -80,5 +83,8 @@
         phaseBanner = Some(alphaBanner(appConfig.feedbackUrl))
     ),
     isWelshTranslationAvailable = appConfig.languageTranslationEnabled,
-    backLink = if (showBackLink) Some(BackLink.mimicsBrowserBackButtonViaJavaScript) else None
+    backLink =
+        if (!showBackLink) None
+        else Some(backLinkUrl.map(url => BackLink(href = url, content = Text(messages("site.back"))))
+          .getOrElse(BackLink.mimicsBrowserBackButtonViaJavaScript))
 ))(content)

@@ -26,6 +26,9 @@ timeout.signOut = Allgofnodi
 error.title.prefix = Gwall:
 error.prefix = Gwall
 error.summary.title = Mae problem
+error.title    = Mae’n ddrwg gennym - mae problem gyda’r gwasanaeth
+error.heading  = Mae’n ddrwg gennym - mae problem gyda’r gwasanaeth
+error.guidance = Rhowch gynnig arall arni yn nes ymlaen.
 
 index.title = council-tax-ufs-frontend
 index.heading = council-tax-ufs-frontend
@@ -69,26 +72,30 @@ error.heading  = Mae’n ddrwg gennym - mae problem gyda’r gwasanaeth
 error.guidance = Rhowch gynnig arall arni yn nes ymlaen.
 
 # Search Results
-searchResults.title                      = Canlyniadau chwilio ar gyfer {0}
-searchResults.title.paged                = Canlyniadau chwilio ar gyfer {0} (tudalen {1} o {2})
-searchResults.heading                    = Canlyniadau chwilio ar gyfer {0}
-searchResults.showing                    = Yn dangos {0} i {1} o {2} canlyniad
+searchResults.title                      = Canlyniadau chwilio am {0}
+searchResults.title.paged                = Canlyniadau chwilio am {0} (tudalen {1} o {2})
+searchResults.heading                    = Canlyniadau chwilio am {0}
+searchResults.showing                    = Yn dangos {0} - {1} o {2} canlyniad
+searchResults.lastUpdated                = Diweddarwyd ddiwethaf ar {0}
 searchResults.column.address             = Cyfeiriad
 searchResults.column.band                = Band Treth Gyngor
 searchResults.column.localAuthority      = Awdurdod lleol
-searchResults.cannotFind                 = Ni allaf ddod o hyd i'm heiddo
-searchResults.cannotFind.check           = Gwiriwch fod y manylion rydych wedi'u nodi yn gywir neu chwiliwch am eiddo gan ddefnyddio'r
+searchResults.cannotFind                 = Ni allaf ddod o hyd i fy eiddo
+searchResults.cannotFind.check           = Gwiriwch fod y manylion rydych wedi''u rhoi yn gywir, neu chwiliwch am eiddo gan ddefnyddio''r
 searchResults.cannotFind.otherOptions    = opsiynau chwilio eraill
-searchResults.cannotFind.contactCouncil  = Cysylltwch â'ch cyngor lleol
-searchResults.cannotFind.contactCouncilDescription = os na allwch ddod o hyd i'ch eiddo o hyd. Byddant yn rhoi'r wybodaeth sydd ei hangen ar Asiantaeth y Swyddfa Brisio i ddyrannu band Treth Gyngor.
-searchResults.commercialUse              = Ni ddylid defnyddio'r data hwn at ddibenion masnachol
+searchResults.cannotFind.contactCouncil  = Cysylltwch â''ch cyngor lleol
+searchResults.cannotFind.contactCouncilDescription = os na allwch ddod o hyd i’'ch eiddo o hyd. Byddant yn rhoi’'r wybodaeth sydd ei hangen ar y Swyddfa Brisio er mwyn neilltuo band Treth Gyngor.
+searchResults.commercialUse              = Ni ddylid defnyddio’'r data hwn at ddibenion masnachol
 searchResults.searchAgain                = Chwilio eto
-searchResults.searchAgain.label          = Nodwch god post
+searchResults.searchAgain.label          = Rhowch god post
 searchResults.searchAgain.button         = Chwilio
 searchResults.otherSearchOptions         = Opsiynau chwilio eraill
 searchResults.error                      = Roedd problem gyda'ch chwiliad. Rhowch gynnig arall arni.
-searchResults.voa                        = Mae'r <a class="govuk-link" href="https://www.gov.uk/government/organisations/valuation-office-agency"> Swyddfa Brisio (VO)</a> yn gosod pob cartref yng Nghymru a Lloegr mewn grŵp o'r enw 'band', yn seiliedig ar werth yr eiddo ar 1 Ebrill 1991.
-searchResults.bands                      = Y band isaf yw ''A'', a'r band uchaf yw ''H''.
+searchResults.voa.england                = Mae''r <a class="govuk-link" href="https://www.gov.uk/government/organisations/valuation-office-agency">Swyddfa Brisio (VO)</a> yn rhoi pob cartref mewn grŵp o''r enw ''band'', yn seiliedig ar werth yr eiddo ar 1 Ebrill 1991.
+searchResults.bands.england              = Band ''A'' yw''r un isaf a Band ''H'' yw''r un uchaf.
+searchResults.voa.wales                  = Mae''r <a class="govuk-link" href="https://www.gov.uk/government/organisations/valuation-office-agency">Swyddfa Brisio (VO)</a> yn rhoi pob cartref mewn grŵp o''r enw ''band'', yn seiliedig ar werth yr eiddo ar 1 Ebrill 2003.
+searchResults.bands.wales                = Band ''A'' yw''r un isaf a Band ''I'' yw''r un uchaf.
+propertyDetail.searchAnother              = Chwilio am eiddo arall
 
 # No Results
 noResults.title                          = Dim canlyniadau ar gyfer {0}
@@ -101,14 +108,17 @@ noResults.contactCouncil                 = Cysylltwch â'ch cyngor lleol
 noResults.contactCouncilDescription      = os na allwch ddod o hyd i’ch eiddo o hyd. Byddant yn rhoi’r wybodaeth sydd ei hangen ar Swyddfa Brisio i bennu band Treth Gyngor.
 
 
-propertyDetail.informationFor                    = Dyma'r wybodaeth ar gyfer:
+propertyDetail.informationFor                    = Dyma''r wybodaeth ar gyfer:
+propertyDetail.metaDescription                   = Gweld band Treth Gyngor a gwybodaeth eiddo ar gyfer y cyfeiriad hwn.
 propertyDetail.publicInformation                 = Gwybodaeth gyhoeddus
-propertyDetail.publicInformation.anybody         = Gall unrhyw un weld yr wybodaeth hon
+propertyDetail.publicInformation.anybody         = Gall unrhyw un weld yr wybodaeth hon.
 propertyDetail.band                              = Band Treth Gyngor
-propertyDetail.band.hint                         = Bandiau Treth Gyngor yng Nghymru (yn seiliedig ar werthoedd 1 Ebrill 2003)
-propertyDetail.band.expand                       = Council Tax bands England
+propertyDetail.band.hint.england                 = Bandiau Treth Gyngor yng Nghymru (yn seiliedig ar werthoedd 1 Ebrill 1991)
+propertyDetail.band.hint.wales                   = Bandiau Treth Gyngor yng Nghymru (yn seiliedig ar werthoedd 1 Ebrill 2003)
+propertyDetail.band.expand.wales                 = Bandiau Treth Gyngor yng Nghymru
 propertyDetail.band.table.band                   = Band
-propertyDetail.band.table.value                  = Property value at 1 April 1991
+propertyDetail.band.table.value.england          = Gwerth ar 1 Ebrill 1991
+propertyDetail.band.table.value.wales            = Gwerth ar 1 Ebrill 2003
 propertyDetail.band.current                      = current band
 propertyDetail.band.range.A                      = up to £40,000
 propertyDetail.band.range.B                      = £40,001 to £52,000
@@ -121,23 +131,24 @@ propertyDetail.band.range.H                      = More than £320,000
 propertyDetail.effectiveFrom                     = Dyddiad dod i rym
 propertyDetail.effectiveFrom.hint                = Y dyddiad wnaeth y band presennol ddechrau.
 propertyDetail.localCouncil                      = Cyngor Lleol
-propertyDetail.localCouncil.hint                 = Y Cyngor Lleol sy'n gosod swm y Dreth Gyngor yr ydych yn ei dalu bob blwyddyn, yn seiliedig ar y band.
+propertyDetail.localCouncil.hint                 = Y Cyngor Lleol sy''n gosod swm y Dreth Gyngor yr ydych yn ei dalu bob blwyddyn, yn seiliedig ar y band.
 propertyDetail.councilRef                        = Cyfeirnod y Cyngor Lleol
 propertyDetail.councilRef.hint                   = Cyfeirnod ar gyfer yr eiddo.
 propertyDetail.improvement                       = Dangosydd gwelliant
-propertyDetail.improvement.hint                  = Os yw'r eiddo wedi cael ei wella neu ei ymestyn ers iddo gael ei roi mewn band Treth Gyngor, dangosir 'Oes'. Mae hyn yn golygu bydd y band yn cael ei adolygu, a gall gynyddu ar ôl i'r eiddo gael ei werthu.
+propertyDetail.improvement.hint                  = Os yw''r eiddo wedi cael ei wella neu ei ymestyn ers iddo gael ei roi mewn band Treth Gyngor, dangosir ''Oes''. Mae hyn yn golygu bydd y band yn cael ei adolygu, a gall gynyddu ar ôl i''r eiddo gael ei werthu.
 propertyDetail.mixedUse                          = Eiddo defnydd cymysg
-propertyDetail.mixedUse.hint                     = Eiddo sy'n cael ei ddefnyddio fel cartref a busnes. Er enghraifft, fflat uwchben siop.
+propertyDetail.mixedUse.hint                     = Eiddo sy''n cael ei ddefnyddio fel cartref a busnes. Er enghraifft, fflat uwchben siop.
 propertyDetail.courtCode                         = Cod y Llys
-propertyDetail.courtCode.hint                    = Os yw'r band Treth Gyngor wedi ei adolygu gan Dribiwnlys Prisio neu Uchel Lys, dangosir cod y llys.
-propertyDetail.courtCode.expand                  = Dyma'r codau
-propertyDetail.courtCode.meaning                 = Court codes indicate the outcome of a tribunal or court review of the Council Tax band.
-propertyDetail.courtCode.V                       = Valuation Tribunal determination
-propertyDetail.courtCode.C                       = Valuation Tribunal confirmation
-propertyDetail.courtCode.R                       = Valuation Tribunal redetermination following High Court referral
-propertyDetail.courtCode.D                       = High Court determination
-propertyDetail.courtCode.H                       = High Court confirmation
-propertyDetail.courtCode.E                       = High Court consent order
+propertyDetail.courtCode.hint                    = Os yw''r band Treth Gyngor wedi ei adolygu gan Dribiwnlys Prisio neu Uchel Lys, dangosir cod y llys.
+propertyDetail.courtCode.none                    = Dim
+propertyDetail.notAvailable                      = Ddim ar gael
+propertyDetail.courtCode.expand                  = Dyma''r codau
+propertyDetail.courtCode.V                       = Penderfyniad gan Dribiwnlys Prisio
+propertyDetail.courtCode.C                       = Cadarnhad gan Dribiwnlys Prisio
+propertyDetail.courtCode.R                       = Ail benderfyniad y Tribiwnlys Prisio yn dilyn atgyfeiriad gan yr Uchel Lys
+propertyDetail.courtCode.D                       = Penderfyniad gan Uchel Lys
+propertyDetail.courtCode.H                       = Cadarnhad gan Uchel Lys
+propertyDetail.courtCode.E                       = Gorchymyn cydsynio''r Uchel Lys
 propertyDetail.beforeYouContinue                 = Cyn i chi barhau
 propertyDetail.beforeYouContinue.youCan          = Gallwch:
 propertyDetail.beforeYouContinue.viewPrevious    = weld bandiau Treth Gyngor blaenorol yr eiddo hwn
@@ -145,31 +156,57 @@ propertyDetail.beforeYouContinue.challenge       = rhoi gwybod i ni os ydych yn 
 propertyDetail.beforeYouContinue.remove          = gofyn i ni dynnu’r eiddo oddi ar restr y Dreth Gyngor os yw wedi’i ddymchwel, yn adfeiliedig, neu’n destun gwaith adnewyddu mawr
 propertyDetail.beforeYouContinue.signIn          = Bydd angen cyfrif Porth y Llywodraeth neu gyfrif GOV.UK One Login arnoch i fewngofnodi.
 
+historicBands.title                              = Bandiau Treth Gyngor blaenorol
+historicBands.metaDescription                    = Gweld bandiau Treth Gyngor blaenorol yr eiddo hwn.
+historicBands.fullTitle                         = Manylion band Treth Gyngor hanesyddol
+historicBands.fullHeading                       = Band Treth Gyngor {0}
+historicBands.band                               = Band Treth Gyngor
+historicBands.effectiveFrom                      = Yn weithredol o
+historicBands.effectiveTo                        = Hyd at
+historicBands.none                               = Nid oes bandiau Treth Gyngor blaenorol ar gael ar gyfer yr eiddo hwn.
+historicBands.details.summary                    = Beth mae gwybodaeth fy eiddo yn ei olygu?
+historicBands.details.band                       = Band Treth Gyngor
+historicBands.details.bandDescription            = Y band yr oedd yr eiddo ynddo. Mae hyn yn pennu faint o Dreth Gyngor sy’n cael ei thalu.
+historicBands.details.effectiveFrom               = Yn weithredol o
+historicBands.details.effectiveFromDescription   = Y dyddiad y daeth y band Treth Gyngor i rym.
+
+historicBandFull.localAuthority                  = Awdurdod lleol
+historicBandFull.metaDescription                 = Gweld manylion hanesyddol band Treth Gyngor yr eiddo hwn, gan gynnwys pryd oedd y band yn berthnasol.
+historicBandFull.valuationList                   = Rhestr brisio
+historicBandFull.valuationListDescription        = Mae hyn yn nodi'r holl eiddo sydd wedi'u bandio at ddibenion Treth Gyngor. Crëwyd rhestrau bandiau Treth Gyngor ar gyfer Cymru a Lloegr yn 1993 ac eto yng Nghymru yn 2005.
+historicBandFull.challenge.summary               = Herio band Treth Gyngor blaenorol
+historicBandFull.challenge.telephone              = Ffôn
+historicBandFull.challenge.england               = 03000 501 501 ar gyfer Lloegr
+historicBandFull.challenge.wales                 = 03000 505 505 ar gyfer Cymru
+historicBandFull.challenge.hours                 = Dydd Llun i ddydd Gwener, 9:00am i 4:30pm (ac eithrio gwyliau cyhoeddus)
+historicBandFull.challenge.email                 = E-bost
+historicBandFull.challenge.emailAddress          = ctinboxvo@hmrc.gov.uk
+
  
 # England
 
-propertyDetail.band.expand.england        = Council Tax bands England
-propertyDetail.band.range.england.A       = up to £40,000
-propertyDetail.band.range.england.B       = £40,001 to £52,000
-propertyDetail.band.range.england.C       = £52,001 to £68,000
-propertyDetail.band.range.england.D       = £68,001 to £88,000
-propertyDetail.band.range.england.E       = £88,001 to £120,000
-propertyDetail.band.range.england.F       = £120,001 to £160,000
-propertyDetail.band.range.england.G       = £160,001 to £320,000
-propertyDetail.band.range.england.H       = More than £320,000
+propertyDetail.band.expand.england        = Bandiau Treth Gyngor yng Nghymru
+propertyDetail.band.range.england.A       = hyd at £40,000
+propertyDetail.band.range.england.B       = £40,001 i £52,000
+propertyDetail.band.range.england.C       = £52,001 i £68,000
+propertyDetail.band.range.england.D       = £68,001 i £88,000
+propertyDetail.band.range.england.E       = £88,001 i £120,000
+propertyDetail.band.range.england.F       = £120,001 i £160,000
+propertyDetail.band.range.england.G       = £160,001 i £320,000
+propertyDetail.band.range.england.H       = mwy na £320,000
 
 # Wales
 
-propertyDetail.band.expand.wales          = Council Tax bands Wales
-propertyDetail.band.range.wales.A         = up to £44,000
-propertyDetail.band.range.wales.B         = £44,001 to £65,000
-propertyDetail.band.range.wales.C         = £65,001 to £91,000
-propertyDetail.band.range.wales.D         = £91,001 to £123,000
-propertyDetail.band.range.wales.E         = £123,001 to £162,000
-propertyDetail.band.range.wales.F         = £162,001 to £223,000
-propertyDetail.band.range.wales.G         = £223,001 to £324,000
-propertyDetail.band.range.wales.H         = £324,001 to £424,000
-propertyDetail.band.range.wales.I         = more than £424,000
+propertyDetail.band.expand.wales          = Bandiau Treth Gyngor yng Nghymru
+propertyDetail.band.range.wales.A         = hyd at £44,000
+propertyDetail.band.range.wales.B         = £44,001 i £65,000
+propertyDetail.band.range.wales.C         = £65,001 i £91,000
+propertyDetail.band.range.wales.D         = £91,001 i £123,000
+propertyDetail.band.range.wales.E         = £123,001 i £162,000
+propertyDetail.band.range.wales.F         = £162,001 i £223,000
+propertyDetail.band.range.wales.G         = £223,001 i £324,000
+propertyDetail.band.range.wales.H         = £324,001 i £424,000
+propertyDetail.band.range.wales.I         = mwy na £424,000
  
 councilTaxResponsible.title = Ydych chi'n gyfrifol am y Dreth Gyngor ar yr eiddo hwn?
 councilTaxResponsible.heading = Ydych chi'n gyfrifol am y Dreth Gyngor ar yr eiddo hwn?
