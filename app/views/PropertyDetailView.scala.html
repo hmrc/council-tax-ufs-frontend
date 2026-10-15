@@ -248,6 +248,7 @@
 
     @PrintLink(messages("button.print"))
     @govukButton(Button(
+        href       = Some(routes.CouncilTaxResponsibleController.onPageLoad(models.NormalMode).url),
         content    = Text(messages("button.continue")),
         attributes = Map("id" -> "continue")
     ))

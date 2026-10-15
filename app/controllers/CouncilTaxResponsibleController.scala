@@ -22,7 +22,7 @@ import forms.CouncilTaxResponsibleFormProvider
 import javax.inject.Inject
 import models.Mode
 import navigation.Navigator
-import pages.CouncilTaxResponsiblePage
+import pages.{CouncilTaxResponsiblePage, PropertyAddressPage}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import repositories.SessionRepository
@@ -49,11 +49,15 @@ class CouncilTaxResponsibleController @Inject()(
     implicit request =>
 
       val preparedForm = request.userAnswers.flatMap(_.get(CouncilTaxResponsiblePage)) match {
-      case None        => form
-      case Some(value) => form.fill(value)
+        case None        => form
+        case Some(value) => form.fill(value)
       }
 
-      Ok(view(preparedForm, mode))
+      val address = request.userAnswers
+        .flatMap(_.get(PropertyAddressPage))
+        .getOrElse("")
+
+      Ok(view(preparedForm, mode, address))
   }
 
   def onSubmit(mode: Mode): Action[AnyContent] = (sessionIdentify andThen getData).async {
@@ -61,7 +65,8 @@ class CouncilTaxResponsibleController @Inject()(
 
       form.bindFromRequest().fold(
         formWithErrors =>
-          Future.successful(BadRequest(view(formWithErrors, mode))),
+          val address = request.userAnswers.flatMap(_.get(PropertyAddressPage)).getOrElse("")
+          Future.successful(BadRequest(view(formWithErrors, mode, address))),
 
         value =>
           for {
