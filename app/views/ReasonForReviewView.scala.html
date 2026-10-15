@@ -26,24 +26,37 @@
 
 @layout(pageTitle = title(form, messages("reasonForReview.title"))) {
 
+    @if(form.errors.nonEmpty) {
+        @govukErrorSummary(ErrorSummaryViewModel(form, errorLinkOverrides = Map("value" -> "value_0")))
+    }
+
+    <h1 class="govuk-heading-l">@messages("reasonForReview.title")</h1>
+
+    <h2 class="govuk-heading-m">@messages("reasonForReview.subheading1")</h2>
+    <p class="govuk-body">@messages("reasonForReview.p1")</p>
+
+    <h2 class="govuk-heading-m">@messages("reasonForReview.subheading2")</h2>
+    <p class="govuk-body">@messages("reasonForReview.p2")</p>
+
+    <ul class="govuk-list govuk-list--bullet">
+        <li>@messages("reasonForReview.bullet1")</li>
+        <li>@messages("reasonForReview.bullet2")</li>
+        <li>@messages("reasonForReview.bullet3")</li>
+    </ul>
+
+    <p class="govuk-body">@messages("reasonForReview.p3")</p>
+
     @formHelper(action = routes.ReasonForReviewController.onSubmit(mode), Symbol("autoComplete") -> "off") {
 
-        @if(form.errors.nonEmpty) {
-            @govukErrorSummary(ErrorSummaryViewModel(form,  errorLinkOverrides = Map("value" -> "value_0")))
-        }
-
-        @govukRadios(
-            RadiosViewModel(
-                field  = form("value"),
-                legend = LegendViewModel(messages("reasonForReview.heading")).withCssClass("govuk-fieldset__legend--l").asPageHeading(),
-                items  = ReasonForReview.options
-            )
-
-
+    @govukRadios(
+        RadiosViewModel(
+            field  = form("value"),
+            legend = LegendViewModel(messages("reasonForReview.heading"))
+            .withCssClass("govuk-fieldset__legend--m"),
+            items  = ReasonForReview.options
         )
+    )
 
-        @govukButton(
-            ButtonViewModel(messages("site.continue"))
-        )
+    @govukButton(ButtonViewModel(messages("site.continue")))
     }
 }

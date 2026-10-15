@@ -253,12 +253,20 @@ noPermission.heading = Does gennych chi ddim caniatâd i weld rhagor o fanylion
 noPermission.body = Dim ond pobl sy’n gyfrifol am y Dreth Gyngor ar eiddo sydd â chaniatâd i weld rhagor o fanylion. Mae hyn yn cynnwys pobl sy’n gweithredu dros rywun sydd yn gyfrifol.
 noPermission.backToPropertyDetails = Yn ôl at fanylion yr eiddo
 
-reasonForReview.title = Pam ydych chi am adolygu eich band Treth Gyngor?
+reasonForReview.title = Rhesymau dros adolygu eich band Treth Gyngor
 reasonForReview.heading = Pam ydych chi am adolygu eich band Treth Gyngor?
+
+reasonForReview.subheading1 = Os ydych yn meddwl bod eich band yn anghywir
+reasonForReview.p1 = Os ydych yn meddwl bod eich band Treth Gyngor yn rhy uchel, neu os ydych yn anghytuno â newid diweddar i’ch band neu’ch dyddiad dod i rym, byddwn yn ei adolygu. Gallwch hefyd ofyn am adolygiad yn dilyn penderfyniad tribiwnlys neu lys ynghylch eiddo tebyg.
+reasonForReview.subheading2 = Os yw newidiadau wedi effeithio ar eich eiddo
+reasonForReview.p2 = Gallwn adolygu eich band os yw’r eiddo wedi bod, neu’n mynd drwy, rai newidiadau penodol, gan gynnwys, ond heb fod yn gyfyngedig i:
+reasonForReview.bullet1 = dymchwel rhan o’r eiddo neu’r eiddo cyfan
+reasonForReview.bullet2 = gwaith adeiladu mawr sy’n golygu na ellir byw ynddo
+reasonForReview.bullet3 = newid i’r ffordd y mae’r adeilad yn cael ei ddefnyddio
+reasonForReview.p3 = Gallwn hefyd adolygu eich band os yw newidiadau yn eich ardal leol wedi effeithio ar eich eiddo.
+
 reasonForReview.band-is-wrong = Rwy'n credu bod fy mand yn anghywir
 reasonForReview.changes-affected-property = Mae newidiadau wedi effeithio ar yr eiddo
-reasonForReview.band-is-wrong.hint = Er enghraifft, rydych yn credu bod eich band Treth Gyngor yn rhy uchel, neu rydych yn anghytuno â newid diweddar i fand neu ddyddiad dod i rym. Gallwch hefyd ofyn am adolygiad yn dilyn penderfyniad tribiwnlys neu lys ynghylch eiddo tebyg.
-reasonForReview.changes-affected-property.hint = Er enghraifft, mae'r eiddo wedi'i ddymchwel yn rhannol neu'n llwyr, yn mynd trwy waith adeiladu neu adnewyddu mawr ac ni ellir byw ynddo. Gall hyn hefyd gynnwys newidiadau yn yr ardal leol neu newid yn y ffordd y defnyddir yr eiddo.
 reasonForReview.error.required = Dewiswch pam eich bod am herio eich band Treth Gyngor
 
 scenarioResponsible.title = Ers faint o amser rydych wedi bod yn gyfrifol am dalu Treth Gyngor ar yr eiddo?

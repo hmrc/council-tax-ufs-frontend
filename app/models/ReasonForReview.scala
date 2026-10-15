@@ -37,9 +37,6 @@ object ReasonForReview extends Enumerable.Implicits {
         content = Text(messages(s"reasonForReview.${value.toString}")),
         value   = Some(value.toString),
         id      = Some(s"value_$index"),
-        hint    = Some(Hint(
-          content = Text(messages(s"reasonForReview.${value.toString}.hint"))
-        ))
       )
   }
 
