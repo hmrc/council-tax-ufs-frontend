@@ -44,7 +44,7 @@ POST       /requestCouncilTaxBandReview                        controllers.Reque
 GET        /changeRequestCouncilTaxBandReview                  controllers.RequestCouncilTaxBandReviewController.onPageLoad(mode: Mode = CheckMode)
 POST       /changeRequestCouncilTaxBandReview                  controllers.RequestCouncilTaxBandReviewController.onSubmit(mode: Mode = CheckMode)
 
-GET        /noPermission                       controllers.PermissionController.onPageLoad()
+GET        /noPermission/:propertyId                           controllers.PermissionController.onPageLoad(propertyId: String)
 
 GET        /reasonForReview                        controllers.ReasonForReviewController.onPageLoad(mode: Mode = NormalMode)
 POST       /reasonForReview                        controllers.ReasonForReviewController.onSubmit(mode: Mode = NormalMode)

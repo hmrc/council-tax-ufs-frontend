@@ -63,7 +63,11 @@ class Navigator @Inject()() {
   private def councilTaxResponsibleRoutes(answers: UserAnswers): Call =
     answers.get(CouncilTaxResponsiblePage) match {
       case Some(CouncilTaxResponsible.Yes)       => routes.RequestCouncilTaxBandReviewController.onPageLoad(NormalMode)
-      case Some(CouncilTaxResponsible.No)        => routes.PermissionController.onPageLoad()
+      case Some(CouncilTaxResponsible.No)        =>
+        answers.get(PropertyIdPage) match {
+          case Some(id) => routes.PermissionController.onPageLoad(id)
+          case None => routes.PostcodeSearchController.onPageLoad(NormalMode)
+        }
       case Some(CouncilTaxResponsible.ActingFor) => routes.RequestCouncilTaxBandReviewController.onPageLoad(NormalMode)
       case _                                     => routes.IndexController.onPageLoad()
     }

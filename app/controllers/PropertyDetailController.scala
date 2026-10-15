@@ -15,7 +15,7 @@
  */
 
 package controllers
-import pages.PropertyAddressPage
+import pages.{PropertyAddressPage, PropertyIdPage}
 import play.api.i18n.{I18nSupport, Lang}
 import play.api.mvc.*
 import play.api.Logging
@@ -71,7 +71,9 @@ class PropertyDetailController @Inject()(
           case Right(Some(viewModel)) =>
             val userId  = request.session.get("sessionId").getOrElse("unknown")
             val answers = models.UserAnswers(userId)
-            val updated = answers.set(PropertyAddressPage, viewModel.address).getOrElse(answers)
+            val updated = answers
+              .set(PropertyAddressPage, viewModel.address).getOrElse(answers)
+              .set(PropertyIdPage, viewModel.propertyId).getOrElse(answers)
             sessionRepository.set(updated)
             Ok(propertyDetailView(viewModel))
         }

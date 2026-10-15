@@ -16,7 +16,9 @@
 
 package controllers
 
-import controllers.actions._
+import controllers.actions.*
+import pages.PropertyIdPage
+
 import javax.inject.Inject
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
@@ -31,8 +33,8 @@ class PermissionController @Inject()(
                                        view: PermissionView
                                      ) extends FrontendBaseController with I18nSupport {
 
-  def onPageLoad: Action[AnyContent] = (sessionIdentify andThen getData) {
+  def onPageLoad(propertyId: String): Action[AnyContent] = (sessionIdentify andThen getData) {
     implicit request =>
-      Ok(view())
+      Ok(view(propertyId))
   }
 }
