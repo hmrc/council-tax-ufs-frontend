@@ -55,20 +55,21 @@
                 name = "value",
                 errorMessage = form("value").error.map(err => ErrorMessage(content = Text(messages(err.message)))),
                 items = Seq(
-                    RadioItem(
-                        value = Some("yes"),
-                        content = Text(messages("councilTaxResponsible.yes"))
-                    ),
-                    RadioItem(
-                        value = Some("no"),
-                        content = Text(messages("councilTaxResponsible.no"))
-                    ),
-                    RadioItem(
-                        value = Some("actingfor"),
-                        content = Text(messages("councilTaxResponsible.actingFor")),
-                        hint = Some(Hint(
-                        content = Text(messages("councilTaxResponsible.actingFor.hint"))
-                    ))
+                RadioItem(
+                    id      = Some("value_0"),
+                    value   = Some("yes"),
+                    content = Text(messages("councilTaxResponsible.yes"))
+                ),
+                RadioItem(
+                    id      = Some("value_1"),
+                    value   = Some("no"),
+                    content = Text(messages("councilTaxResponsible.no"))
+                ),
+                RadioItem(
+                    id      = Some("value_2"),
+                    value   = Some("actingfor"),
+                    content = Text(messages("councilTaxResponsible.actingFor")),
+                    hint    = Some(Hint(content = Text(messages("councilTaxResponsible.actingFor.hint"))))
                     )
                 )
             )
