@@ -67,6 +67,10 @@ postcodeSearch.error.invalid = Nodwch god post go iawn
 postcodeSearch.error.length = Rhaid i'r cod post fod yn 10 nod neu lai
 postcodeSearch.change.hidden = PostcodeSearch
 
+error.title    = Mae’n ddrwg gennym - mae problem gyda’r gwasanaeth
+error.heading  = Mae’n ddrwg gennym - mae problem gyda’r gwasanaeth
+error.guidance = Rhowch gynnig arall arni yn nes ymlaen.
+
 # Search Results
 searchResults.title                      = Canlyniadau chwilio am {0}
 searchResults.title.paged                = Canlyniadau chwilio am {0} (tudalen {1} o {2})
@@ -204,4 +208,86 @@ propertyDetail.band.range.wales.G         = £223,001 i £324,000
 propertyDetail.band.range.wales.H         = £324,001 i £424,000
 propertyDetail.band.range.wales.I         = mwy na £424,000
  
+councilTaxResponsible.title = Ydych chi'n gyfrifol am y Dreth Gyngor ar yr eiddo hwn?
+councilTaxResponsible.heading = Ydych chi'n gyfrifol am y Dreth Gyngor ar yr eiddo hwn?
+councilTaxResponsible.yes = Ydw
+councilTaxResponsible.no = Nac ydw
+councilTaxResponsible.actingFor = Rydw i'n gweithredu dros rywun sy'n gyfrifol
+councilTaxResponsible.hint = Dim ond pobl sy'n gyfrifol am y Dreth Gyngor ar eiddo sydd â chaniatâd i weld rhagor o fanylion. Mae hyn yn cynnwys pobl sy'n gweithredu dros rywun sydd yn gyfrifol.
+councilTaxResponsible.actingFor.hint = Bydd angen i chi gael eu caniatâd ysgrifenedig
+site.warning = Warning
+councilTaxResponsible.warning = Os nad ydych chi'n gyfrifol am y Dreth Gyngor ar yr eiddo hwn, dylech chi ddim barhau gyda'r gwasanaeth hwn.
+councilTaxResponsible.checkYourAnswersLabel = Ydych chi'n gyfrifol am y Dreth Gyngor ar yr eiddo hwn?
+councilTaxResponsible.error.required = Dewiswch ''Ydw'' os ydych chi'n gyfriifol am y Dreth Gyngor ar yr eiddo hwn
+councilTaxResponsible.change.hidden = CouncilTaxResponsible
 
+requestCouncilTaxBandReview.title = Gwneud cais am adolygiad o fand Treth Gyngor
+requestCouncilTaxBandReview.heading = Gwneud cais am adolygiad o fand Treth Gyngor
+requestCouncilTaxBandReview.p1.1 = Gallwch ofyn i'r Swyddfa Brisio (VO) am adolygiad o fand Treth Gyngor ar unrhyw adeg.
+requestCouncilTaxBandReview.p1.2 = Nid oes tâl am y gwasanaeth hwn.
+requestCouncilTaxBandReview.p1.3 = Bydd angen i chi ddweud wrthym pam rydych yn meddwl y dylid adolygu’r band. Efallai y byddwn yn gofyn i chi am ragor o fanylion, ac efallai y bydd angen i chi ddarparu tystiolaeth i gefnogi'ch cais.
+requestCouncilTaxBandReview.subheading1 = Pryd y gallwch ofyn am adolygiad o fand Treth Gyngor
+requestCouncilTaxBandReview.p2.1 = Rydych yn gallu gofyn i ni adolygu eich band Treth Gyngor os:
+requestCouncilTaxBandReview.subheading2.bullet1 = ydych wedi dod yn drethdalwr newydd o fewn y 6 mis diwethaf
+requestCouncilTaxBandReview.subheading2.bullet2 = mae’r band Treth Gyngor wedi newid yn ystod y 6 mis diwethaf
+requestCouncilTaxBandReview.subheading2.bullet3 = mae’r ardal leol wedi newid yn gorfforol
+requestCouncilTaxBandReview.p2.2 = Rydych yn gallu hefyd ofyn am adolygiad os yw rhywbeth wedi newid. Er enghraifft, mae’r eiddo:
+requestCouncilTaxBandReview.subheading2.bullet4 = wedi'i ddymchwel
+requestCouncilTaxBandReview.subheading2.bullet5 = yn adfeiliedig ac ni ellir byw ynddo
+requestCouncilTaxBandReview.subheading2.bullet6 = yn mynd trwy waith adnewyddu neu atgyweirio mawr
+requestCouncilTaxBandReview.subheading2.bullet7 = yn cael ei ddefnyddio'n rhannol at ddibenion busnes
+requestCouncilTaxBandReview.subheading2.bullet8 = wedi'i rannu'n sawl eiddo neu wedi'i uno'n un eiddo
+requestCouncilTaxBandReview.p2.3 = Os byddwch yn gofyn am adolygiad am un o’r rhesymau hyn, ond dydych chi ddim yn cytuno â’r canlyniad, rydych yn gallu apelio yn erbyn y penderfyniad.
+requestCouncilTaxBandReview.p2.4 = Byddwn yn ystyried unrhyw welliannau wrth bennu’r band newydd, a allai fod yn uwch na’r un blaenorol. Fel arfer, bydd y band newydd yn dod i rym o’r dyddiad y daw’r eiddo yn addas i fyw ynddo eto.
+requestCouncilTaxBandReview.subheading2 = Cysylltu â’ch Cyngor Lleol
+requestCouncilTaxBandReview.p3.1 = Dylech hefyd wirio gyda’ch cyngor lleol am gyngor a gwybodaeth am y Dreth Gyngor. Ewch i wefan eich cyngor lleol am ragor o fanylion.
+requestCouncilTaxBandReview.subheading3 = Adolygu’r band am unrhyw reswm arall
+requestCouncilTaxBandReview.p4.1 = Os nad yw’r uchod yn berthnasol, byddwn ond yn adolygu eich band os byddwch yn darparu tystiolaeth ategol.
+requestCouncilTaxBandReview.p4.2 = Bydd eich cais am adolygiad band yn cael ei wrthod heb hyn.
+requestCouncilTaxBandReview.readContent.label = Rwyf wedi darllen y dudalen hon ac rwyf am barhau.
+requestCouncilTaxBandReview.checkYourAnswersLabel = Gwneud cais am adolygiad o fand Treth Gyngor
+requestCouncilTaxBandReview.error.required = Dewiswch i gadarnhau eich bod wedi darllen y dudalen hon
+
+noPermission.title = Does gennych chi ddim caniatâd i weld rhagor o fanylion
+noPermission.heading = Does gennych chi ddim caniatâd i weld rhagor o fanylion
+noPermission.body = Dim ond pobl sy’n gyfrifol am y Dreth Gyngor ar eiddo sydd â chaniatâd i weld rhagor o fanylion. Mae hyn yn cynnwys pobl sy’n gweithredu dros rywun sydd yn gyfrifol.
+noPermission.backToPropertyDetails = Yn ôl at fanylion yr eiddo
+
+reasonForReview.title = Rhesymau dros adolygu eich band Treth Gyngor
+reasonForReview.heading = Pam ydych chi am adolygu eich band Treth Gyngor?
+
+reasonForReview.subheading1 = Os ydych yn meddwl bod eich band yn anghywir
+reasonForReview.p1 = Os ydych yn meddwl bod eich band Treth Gyngor yn rhy uchel, neu os ydych yn anghytuno â newid diweddar i’ch band neu’ch dyddiad dod i rym, byddwn yn ei adolygu. Gallwch hefyd ofyn am adolygiad yn dilyn penderfyniad tribiwnlys neu lys ynghylch eiddo tebyg.
+reasonForReview.subheading2 = Os yw newidiadau wedi effeithio ar eich eiddo
+reasonForReview.p2 = Gallwn adolygu eich band os yw’r eiddo wedi bod, neu’n mynd drwy, rai newidiadau penodol, gan gynnwys, ond heb fod yn gyfyngedig i:
+reasonForReview.bullet1 = dymchwel rhan o’r eiddo neu’r eiddo cyfan
+reasonForReview.bullet2 = gwaith adeiladu mawr sy’n golygu na ellir byw ynddo
+reasonForReview.bullet3 = newid i’r ffordd y mae’r adeilad yn cael ei ddefnyddio
+reasonForReview.p3 = Gallwn hefyd adolygu eich band os yw newidiadau yn eich ardal leol wedi effeithio ar eich eiddo.
+
+reasonForReview.band-is-wrong = Rwy'n credu bod fy mand yn anghywir
+reasonForReview.changes-affected-property = Mae newidiadau wedi effeithio ar yr eiddo
+reasonForReview.error.required = Dewiswch pam eich bod am herio eich band Treth Gyngor
+
+scenarioResponsible.title = Ers faint o amser rydych wedi bod yn gyfrifol am dalu Treth Gyngor ar yr eiddo?
+scenarioResponsible.heading = Ers faint o amser rydych wedi bod yn gyfrifol am dalu Treth Gyngor ar yr eiddo?
+scenarioResponsible.less-than = Llai na 6 mis
+scenarioResponsible.more-than = Mwy na 6 mis
+scenarioResponsible.checkYourAnswersLabel = Ers faint o amser rydych wedi bod yn gyfrifol am dalu Treth Gyngor ar yr eiddo?
+
+deletionOptions.title = Beth sydd wedi newid?
+deletionOptions.heading = Beth sydd wedi newid?
+deletionOptions.demolished = Mae fy eiddo wedi’i ddymchwel, yn adfeiliedig, neu mae gwaith adnewyddu ac atgyweirio sylweddol yn cael eu gwneud i fy eiddo ac ni ellir byw ynddo
+deletionOptions.split = Mae fy eiddo wedi’i rannu’n sawl eiddo neu wedi’i gyfuno i greu un eiddo mwy
+deletionOptions.changed = Mae’r ffordd y mae fy eiddo yn cael ei ddefnyddio wedi newid
+deletionOptions.affected = Mae newidiadau yn yr ardal leol wedi effeithio ar fy eiddo
+deletionOptions.anotherReason = Rheswm arall
+deletionOptions.checkYourAnswersLabel = Beth sydd wedi newid?
+deletionOptions.error.required = Dewiswch beth sydd wedi newid
+
+noticeAlteration.title = Ydych chi wedi derbyn Hysbysiad o Newid yn ystod y chwe mis diwethaf?
+noticeAlteration.heading = Ydych chi wedi derbyn Hysbysiad o Newid yn ystod y chwe mis diwethaf?
+noticeAlteration.hint = Mae Hysbysiad o Newid yn lythyr sy’n cael ei anfon gan Asiantaeth y Swyddfa Brisio os yw newid wedi bod i'r Rhestr Brisio.
+noticeAlteration.yes = Ydw
+noticeAlteration.no = Nac ydw
+noticeAlteration.checkYourAnswersLabel = Ydych chi wedi derbyn Hysbysiad o Newid yn ystod y chwe mis diwethaf?

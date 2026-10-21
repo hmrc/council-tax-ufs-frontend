@@ -140,6 +140,7 @@ propertyDetail.courtCode.hint                    = If the Council Tax band has b
 propertyDetail.courtCode.none                    = None
 propertyDetail.notAvailable                      = Not available
 propertyDetail.courtCode.expand                  = What the codes mean
+propertyDetail.courtCode.meaning                 = Court codes indicate the outcome of a tribunal or court review of the Council Tax band.
 propertyDetail.courtCode.V                       = Valuation Tribunal determination
 propertyDetail.courtCode.C                       = Valuation Tribunal confirmation
 propertyDetail.courtCode.R                       = Valuation Tribunal redetermination following High Court referral
@@ -179,7 +180,7 @@ historicBandFull.challenge.hours                 = Monday to Friday, 9:00am to 4
 historicBandFull.challenge.email                 = Email
 historicBandFull.challenge.emailAddress          = ctinboxvo@hmrc.gov.uk
 
- 
+
 # England bands
 
 propertyDetail.band.expand.england        = Council Tax bands England
@@ -192,7 +193,7 @@ propertyDetail.band.range.england.F       = £120,001 to £160,000
 propertyDetail.band.range.england.G       = £160,001 to £320,000
 propertyDetail.band.range.england.H       = More than £320,000
 
-# Wales bands
+# Wales
 
 propertyDetail.band.expand.wales          = Council Tax bands Wales
 propertyDetail.band.range.wales.A         = up to £44,000
@@ -204,7 +205,97 @@ propertyDetail.band.range.wales.F         = £162,001 to £223,000
 propertyDetail.band.range.wales.G         = £223,001 to £324,000
 propertyDetail.band.range.wales.H         = £324,001 to £424,000
 propertyDetail.band.range.wales.I         = more than £424,000
- 
+
+
+councilTaxResponsible.title = Are you responsible for the Council Tax on this property?
+councilTaxResponsible.heading = Are you responsible for the Council Tax on this property?
+councilTaxResponsible.yes = Yes
+councilTaxResponsible.no = No
+councilTaxResponsible.actingFor = I am acting for someone who is responsible
+councilTaxResponsible.hint = Only people who are responsible for the Council Tax on this property have permission to view more details. This includes people acting for someone who is responsible.
+councilTaxResponsible.actingFor.hint = You will need their written permission
+site.warning = Warning
+councilTaxResponsible.warning = If you are not responsible for the Council Tax on this property, you should not continue with this service.
+councilTaxResponsible.checkYourAnswersLabel = Are you responsible for the Council Tax on this property?
+councilTaxResponsible.error.required = Select whether you are responsible for the Council Tax on this property
+councilTaxResponsible.change.hidden = CouncilTaxResponsible
+
+requestCouncilTaxBandReview.title = Request a Council Tax band review
+requestCouncilTaxBandReview.heading = Request a Council Tax band review
+requestCouncilTaxBandReview.p1.1 = You can ask the VO (Valuation Office) for a Council Tax band review at any time.
+requestCouncilTaxBandReview.p1.2 = There is no charge for this service
+requestCouncilTaxBandReview.p1.3 = You will need to tell us why you think the band should be reviewed. We may ask you for more details, and you may be required to provide evidence to support your request.
+requestCouncilTaxBandReview.subheading1 = When you can request a Council Tax band review
+requestCouncilTaxBandReview.p2.1 =You can request a review of your Council Tax band if:
+requestCouncilTaxBandReview.subheading2.bullet1 = you became the new taxpayer within the last 6 months
+requestCouncilTaxBandReview.subheading2.bullet2 = the council tax band has changed in the last 6 months
+requestCouncilTaxBandReview.subheading2.bullet3 = the local area has physically changed
+requestCouncilTaxBandReview.p2.2 = You can also request a review if something has changed. For example the property;
+requestCouncilTaxBandReview.subheading2.bullet4 = has been demolished
+requestCouncilTaxBandReview.subheading2.bullet5 = property is derelict and cannot be lived in
+requestCouncilTaxBandReview.subheading2.bullet6 = is undergoing major renovations or repairs
+requestCouncilTaxBandReview.subheading2.bullet7 = is partly used for business
+requestCouncilTaxBandReview.subheading2.bullet8 = has been split into multiple properties or merged into one
+requestCouncilTaxBandReview.p2.3 = If you request a review for one of these reasons, but don't agree with the outcome, you can appeal the decision.
+requestCouncilTaxBandReview.p2.4 = We will take any improvements into account when setting the new band, which could be higher than the previous one. The new band will usually take effect from the date the property becomes fit to live in again.
+requestCouncilTaxBandReview.subheading2 = Contacting your Local Council
+requestCouncilTaxBandReview.p3.1 = You should also check with your local council for advice and information about Council Tax. Visit your local council's website for more details.
+requestCouncilTaxBandReview.subheading3 = Reviewing the band for any other reason
+requestCouncilTaxBandReview.p4.1 = If none of the above apply, we will only review your band if you provide supporting evidence. Your request for a band review will be rejected without this.
+requestCouncilTaxBandReview.p4.2 = You won't have any legal rights to appeal the outcome of a review.
+requestCouncilTaxBandReview.readContent.label = I have read this page and want to continue
+requestCouncilTaxBandReview.checkYourAnswersLabel = Request a Council Tax band review
+requestCouncilTaxBandReview.error.required = Select to confirm you have read this page
+requestCouncilTaxBandReview.change.hidden = RequestCouncilTaxBandReview
+
+noPermission.title = You do not have permission to view more details
+noPermission.heading = You do not have permission to view more details
+noPermission.body = Only people who are responsible for the Council Tax on this property have permission to view more details. This includes people acting for someone who is responsible.
+noPermission.backToPropertyDetails = Back to property details
+
+reasonForReview.title = Reasons for reviewing your Council Tax band
+reasonForReview.heading = Why do you want to review your Council Tax band?
+reasonForReview.subheading1 = If you think your band is wrong
+reasonForReview.p1 = If you think your Council Tax band is too high, or you disagree with recent band or effective date change we will review it. You can also ask for a review following a tribunal or court decision about a similar property.
+reasonForReview.subheading2 = If changes have affected your property
+reasonForReview.p2 = We can review your band if the property has undergone, or is undergoing certain changes including, but not limited to:
+reasonForReview.bullet1 = partial or complete demolition
+reasonForReview.bullet2 = major building work that means it cannot be lived in
+reasonForReview.bullet3 = how the building is used
+reasonForReview.p3 = We can also review your band if changes to your local area may have affected your property.
+reasonForReview.band-is-wrong = I think my band is wrong
+reasonForReview.changes-affected-property = Changes have affected the property
+reasonForReview.checkYourAnswersLabel = Why do you want to review your Council Tax band?
+reasonForReview.error.required = Select why you want to challenge your Council Tax band
+reasonForReview.change.hidden = ReasonForReview
+
+scenarioResponsible.title = How long have you been responsible for paying Council Tax on the property?
+scenarioResponsible.heading = How long have you been responsible for paying Council Tax on the property?
+scenarioResponsible.less-than = Less than 6 months
+scenarioResponsible.more-than = More than 6 months
+scenarioResponsible.checkYourAnswersLabel = How long have you been responsible for paying Council Tax on the property?
+scenarioResponsible.error.required = Select scenarioResponsible
+scenarioResponsible.change.hidden = scenarioResponsible
+
+deletionOptions.title = What has changed?
+deletionOptions.heading = What has changed?
+deletionOptions.demolished = My property has been demolished, is derelict or is undergoing significant renovation and repairs and cannot be lived in
+deletionOptions.split = My property has been split into multiple properties or merged into a single larger property
+deletionOptions.changed = There has been a change of use to my property
+deletionOptions.affected = There have been changes to the local area that have affected my property
+deletionOptions.anotherReason = Another reason
+deletionOptions.checkYourAnswersLabel = What has changed?
+deletionOptions.error.required = Select what has changed
+deletionOptions.change.hidden = deletionOptions
+
+noticeAlteration.title = Have you received a Notice of Alteration within the last six months?
+noticeAlteration.heading = Have you received a Notice of Alteration within the last six months?
+noticeAlteration.hint = A Notice of Alteration is a letter sent by the Valuation Office (VO) if any change to the valuation list has been made.
+noticeAlteration.yes = Yes
+noticeAlteration.no = No
+noticeAlteration.checkYourAnswersLabel = Have you received a Notice of Alteration within the last six months?
+noticeAlteration.error.required = Select noticeAlteration
+noticeAlteration.change.hidden = noticeAlteration
 
 advancedPropertySearch.title = Search for a property by other details
 advancedPropertySearch.heading = Search for a property by other details
