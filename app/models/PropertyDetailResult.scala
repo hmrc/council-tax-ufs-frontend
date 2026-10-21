@@ -148,9 +148,10 @@ object PropertyDetailWorkflow {
 }
 
 case class PropertyDetailProperty(
-  id:              Option[PropertyDetailId],
-  address:         Option[PropertyDetailAddresses],
-  workflow:        Option[PropertyDetailWorkflow]
+  id:                       Option[PropertyDetailId],
+  collection_authority_ref: Option[String],
+  address:                  Option[PropertyDetailAddresses],
+  workflow:                 Option[PropertyDetailWorkflow]
 )
 
 object PropertyDetailProperty {
@@ -166,6 +167,7 @@ case class PropertyDetailViewModel(
   effectiveFromDate: String,
   localCouncil:      String,
   localCouncilCode:  String,
+  localCouncilLink:  Option[String] = None,
   councilRefNumber:  String,
   improvementInd:    String,
   mixedUse:          String,
