@@ -41,12 +41,13 @@ class AdvancedPropertySearchFormProvider @Inject() extends Mappings {
         .verifying("advancedPropertySearch.error.townOrCity.length", _.forall(_.length <= 100))
         .transform[String](_.getOrElse(""), s => if (s.trim.isEmpty) None else Some(s)),
 
-      "postcode" -> optional(text())
+      "postcode" -> text(),
+
+      "councilTaxBand" -> optional(text())
         .transform[String](_.getOrElse(""), s => if (s.trim.isEmpty) None else Some(s)),
 
-      "councilTaxBand" -> text(),
-
-      "bandStatus" -> text(),
+      "bandStatus" -> optional(text())
+        .transform[String](_.getOrElse(""), s => if (s.trim.isEmpty) None else Some(s)),
 
       "localAuthority" -> optional(text())
         .transform[String](_.getOrElse(""), s => if (s.trim.isEmpty) None else Some(s)),

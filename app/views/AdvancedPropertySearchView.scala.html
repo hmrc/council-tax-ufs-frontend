@@ -36,20 +36,21 @@
 
 @bandStatusOptions = @{
     Seq(
-        "Current"                -> "Current",
-        "Deleted"                -> "Deleted"
+        ""                                  -> "Current and Current Deletions",
+        "Current"                           -> "Current Only",
+        "Deleted"                           -> "Current Deletions Only"
     )
 }
 
 @courtCodeOptions = @{
     Seq(
-        ""                              -> "All",
-        "vtDetermination"                  -> "VT determination",
-        "vtConfirmation"                   -> "VT confirmation",
-        "hcDetermination"                  -> "HC determination",
-        "hcConfirmation"                   -> "HC confirmation",
-        "vtReDeterminationAfterHcReferral" -> "VT re-determination after HC referral",
-        "hcConsentOrder"                   -> "HC consent order"
+        ""                                 -> "All",
+        "V"                                -> "VT Determination",
+        "C"                                -> "VT Confirmation",
+        "D"                                -> "HC Determination",
+        "H"                                -> "HC Confirmation",
+        "R"                                -> "VT Re-determination after HC Referral",
+        "E"                                -> "HC Consent Order"
     )
 }
 
@@ -127,14 +128,16 @@
                         name  = "localAuthority",
                         items = LocalAuthorityOptions.values.map { case (v, label) => SelectItem(value = Some(v), text = label) },
                         label = Label(content = Text(messages("advancedPropertySearch.localAuthority"))),
-                        value = form("localAuthority").value
+                        value = form("localAuthority").value,
+                        classes = "govuk-select"
                     )
                 ).toString +
                  govukInput(
                      InputViewModel(
-                         field = form("localAuthorityReferenceNumber"),
-                         label = LabelViewModel(messages("advancedPropertySearch.localAuthorityReferenceNumber"))
-                     ).withHint(HintViewModel(messages("advancedPropertySearch.localAuthorityReferenceNumber.hint")))
+                         field = form("laReferenceNumber"),
+                         label = LabelViewModel(messages("advancedPropertySearch.laReferenceNumber")),
+                     ).withHint(HintViewModel(messages("advancedPropertySearch.laReferenceNumber.hint"))
+                    ).withWidth(Fixed20)
                  ).toString +
                  govukSelect(
                      Select(
