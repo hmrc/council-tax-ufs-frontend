@@ -63,8 +63,8 @@ postcodeSearch.checkYourAnswersLabel = Postcode used to find your home
 postcodeSearch.dontKnowPostcode = I do not know the postcode
 postcodeSearch.error.required = Enter a postcode, like AA1 1AA
 postcodeSearch.error.invalid = Enter a real postcode
-postcodeSearch.error.length = PostcodeSearch must be 10 characters or less
-postcodeSearch.change.hidden = PostcodeSearch
+postcodeSearch.error.length = Enter a real postcode
+postcodeSearch.change.hidden = Postcode Search
 
 error.title    = Sorry, there is a problem with the service
 error.heading  = Sorry, there is a problem with the service

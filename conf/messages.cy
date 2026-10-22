@@ -66,8 +66,8 @@ postcodeSearch.checkYourAnswersLabel = Cod post a ddefnyddiwyd i ddod o hyd i'ch
 postcodeSearch.dontKnowPostcode = Nid wyf yn gwybod y cod post
 postcodeSearch.error.required = Nodwch god post, er enghraifft AA1 1AA
 postcodeSearch.error.invalid = Nodwch god post go iawn
-postcodeSearch.error.length = Rhaid i'r cod post fod yn 10 nod neu lai
-postcodeSearch.change.hidden = PostcodeSearch
+postcodeSearch.error.length = Nodwch god post go iawn
+postcodeSearch.change.hidden = Postcode Search
 
 error.title    = Mae’n ddrwg gennym - mae problem gyda’r gwasanaeth
 error.heading  = Mae’n ddrwg gennym - mae problem gyda’r gwasanaeth
