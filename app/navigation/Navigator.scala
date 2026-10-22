@@ -29,7 +29,7 @@ class Navigator @Inject()() {
   private val normalRoutes: Page => UserAnswers => Call = {
     case CouncilTaxLiabilityStartDatePage => _ => routes.WhyBandIsWrongController.onPageLoad(NormalMode)
     case WhyBandIsWrongPage              => _ => routes.CheckYourAnswersController.onPageLoad()
-    case CouncilTaxResponsiblePage       => councilTaxResponsibleRoutes
+//    case CouncilTaxResponsiblePage       => councilTaxResponsibleRoutes
     case RequestCouncilTaxBandReviewPage => _ => routes.ReasonForReviewController.onPageLoad(NormalMode)
     case ReasonForReviewPage             => reasonForReviewRoutes
     case `scenarioResponsiblePage`      => scenarioResponsibleRoutes
@@ -71,15 +71,15 @@ class Navigator @Inject()() {
       checkRouteMap(page)(userAnswers)
   }
 
-  private def councilTaxResponsibleRoutes(answers: UserAnswers): Call =
-    answers.get(CouncilTaxResponsiblePage) match {
-      case Some(CouncilTaxResponsible.Yes)       => routes.RequestCouncilTaxBandReviewController.onPageLoad(NormalMode)
-      case Some(CouncilTaxResponsible.No)        =>
-        answers.get(PropertyIdPage) match {
-          case Some(id) => routes.PermissionController.onPageLoad(id)
-          case None => routes.PostcodeSearchController.onPageLoad(NormalMode)
-        }
-      case Some(CouncilTaxResponsible.ActingFor) => routes.RequestCouncilTaxBandReviewController.onPageLoad(NormalMode)
-      case _                                     => routes.IndexController.onPageLoad()
-    }
+//  private def councilTaxResponsibleRoutes(answers: UserAnswers): Call =
+//    answers.get(CouncilTaxResponsiblePage) match {
+//      case Some(CouncilTaxResponsible.Yes)       => routes.RequestCouncilTaxBandReviewController.onPageLoad(NormalMode)
+//      case Some(CouncilTaxResponsible.No)        =>
+//        answers.get(PropertyIdPage) match {
+//          case Some(id) => routes.PermissionController.onPageLoad(id)
+//          case None => routes.PostcodeSearchController.onPageLoad(NormalMode)
+//        }
+//      case Some(CouncilTaxResponsible.ActingFor) => routes.RequestCouncilTaxBandReviewController.onPageLoad(NormalMode)
+//      case _                                     => routes.IndexController.onPageLoad()
+//    }
 }
