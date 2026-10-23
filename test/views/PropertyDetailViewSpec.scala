@@ -81,6 +81,7 @@ class PropertyDetailViewSpec extends AnyWordSpec with Matchers {
       val html = template.render(viewModel, request, messages).body
 
       html should include("id=\"continue\"")
+      html should include(s"href=\"${controllers.routes.CouncilTaxResponsibleController.onPageLoad(NormalMode).url}\"")
     }
 
     "link to postcode search to search for another property" in {

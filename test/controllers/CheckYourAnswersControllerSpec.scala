@@ -17,6 +17,8 @@
 package controllers
 
 import base.SpecBase
+import pages.{CouncilTaxLiabilityStartDatePage, PostcodeSearchPage, WhyBandIsWrongPage}
+import java.time.LocalDate
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import viewmodels.govuk.SummaryListFluency
@@ -36,10 +38,45 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
         val result = route(application, request).value
 
         val view = application.injector.instanceOf[CheckYourAnswersView]
-        val list = SummaryListViewModel(Seq.empty)
+        status(result) mustEqual OK
+        contentAsString(result) mustEqual view(Seq.empty)(request, messages(application)).toString
+      }
+    }
+
+    "must show the saved explanation and a Change link to the editable page" in {
+      val answer = "The band does not reflect the evidence for my home."
+      val userAnswers = emptyUserAnswers.set(WhyBandIsWrongPage, answer).success.value
+      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
+
+      running(application) {
+        val request = FakeRequest(GET, routes.CheckYourAnswersController.onPageLoad().url)
+        val result = route(application, request).value
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(list)(request, messages(application)).toString
+        contentAsString(result) must include(answer)
+        contentAsString(result) must include(routes.WhyBandIsWrongController.onPageLoad(models.CheckMode).url)
+      }
+    }
+
+    "must group only saved answers under their categories" in {
+      val userAnswers = emptyUserAnswers
+        .set(PostcodeSearchPage, "CF14 1AA").success.value
+        .set(CouncilTaxLiabilityStartDatePage, LocalDate.of(2025, 8, 12)).success.value
+        .set(WhyBandIsWrongPage, "My evidence explains why the band is wrong.").success.value
+      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
+
+      running(application) {
+        val request = FakeRequest(GET, routes.CheckYourAnswersController.onPageLoad().url)
+        val result = route(application, request).value
+        val html = contentAsString(result)
+
+        status(result) mustEqual OK
+        html must include("Property details")
+        html must include("Challenge details")
+        html must include("Postcode used to find your home")
+        html must include("Date you became responsible for Council Tax")
+        html must include("Why you think the Council Tax band is wrong")
+        html.indexOf("Property details") must be < html.indexOf("Challenge details")
       }
     }
 

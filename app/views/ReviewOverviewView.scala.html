@@ -1,0 +1,92 @@
+@*
+ * Copyright 2026 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *@
+
+@import models.ReviewType
+
+@this(
+  layout: templates.Layout,
+  govukButton: GovukButton
+)
+
+@(reviewType: ReviewType)(implicit request: Request[_], messages: Messages)
+
+@messagePrefix = @{ s"reviewOverview.${reviewType.messageKey}" }
+@detailRows = @{
+  Seq(
+    "reviewOverview.row.whatItIs" -> s"$messagePrefix.whatItIs",
+    "reviewOverview.row.whatFor" -> s"$messagePrefix.whatFor",
+    s"$messagePrefix.when.label" -> s"$messagePrefix.when.value",
+    "reviewOverview.row.duration" -> s"$messagePrefix.duration",
+    "reviewOverview.row.evidence" -> s"$messagePrefix.evidence"
+  )
+}
+
+@layout(pageTitle = titleNoForm(messages(s"$messagePrefix.title")),fullWidth = true) {
+  <h1 class="govuk-heading-xl">@messages(s"$messagePrefix.title")</h1>
+
+  <p class="govuk-body">@Html(messages(s"$messagePrefix.intro"))</p>
+  <p class="govuk-body">@Html(messages(s"$messagePrefix.description"))</p>
+
+  <div class="govuk-inset-text">
+    @messages("reviewOverview.changeSelection")
+  </div>
+
+  <div class="govuk-button-group">
+    @govukButton(
+      ButtonViewModel(messages("site.continue"))
+        .asLink(routes.ReviewOverviewController.continueToLogin(reviewType.continueRoute).url)
+    )
+    <a class="govuk-link" href="javascript:history.back()">@messages("site.back")</a>
+  </div>
+
+  <h2 class="govuk-heading-l">@messages(s"$messagePrefix.table.heading")</h2>
+
+  <table class="govuk-table">
+    <tbody class="govuk-table__body">
+      @for((labelKey, valueKey) <- detailRows) {
+        <tr class="govuk-table__row">
+          <th scope="row" class="govuk-table__header">@messages(labelKey)</th>
+          <td class="govuk-table__cell">@Html(messages(valueKey))</td>
+        </tr>
+      }
+      <tr class="govuk-table__row">
+        <th scope="row" class="govuk-table__header">@messages("reviewOverview.row.examples")</th>
+        <td class="govuk-table__cell">
+          <ul class="govuk-list govuk-list--bullet">
+            @for(index <- 1 to 3) {
+              <li>@messages(s"$messagePrefix.examples.$index")</li>
+            }
+          </ul>
+        </td>
+      </tr>
+      <tr class="govuk-table__row">
+        <th scope="row" class="govuk-table__header">@messages("reviewOverview.row.decision")</th>
+        <td class="govuk-table__cell">
+           @messages("reviewOverview.decision.intro")
+          <ul class="govuk-list govuk-list--bullet">
+            @for(index <- 1 to 3) {
+              <li>@messages(s"reviewOverview.decision.$index")</li>
+            }
+          </ul>
+        </td>
+      </tr>
+      <tr class="govuk-table__row">
+        <th scope="row" class="govuk-table__header">@messages("reviewOverview.row.afterDecision")</th>
+        <td class="govuk-table__cell">@messages(s"$messagePrefix.afterDecision")</td>
+      </tr>
+    </tbody>
+  </table>
+}
