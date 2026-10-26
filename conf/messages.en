@@ -58,7 +58,7 @@ postcodeSearch.description = You can search for any home in England and Wales by
 postcodeSearch.label = Postcode
 postcodeSearch.hint = For example CF5 4GP
 postcodeSearch.checkYourAnswersLabel = postcodeSearch
-postcodeSearch.dontKnowPostcode = I do not know the postcode
+postcodeSearch.dontKnowPostcode = Other search options
 postcodeSearch.error.required = Enter a postcode, like AA1 1AA
 postcodeSearch.error.invalid = Enter a real postcode
 postcodeSearch.error.length = PostcodeSearch must be 10 characters or less
@@ -205,7 +205,7 @@ propertyDetail.band.range.wales.G         = £223,001 to £324,000
 propertyDetail.band.range.wales.H         = £324,001 to £424,000
 propertyDetail.band.range.wales.I         = more than £424,000
  
-
+# Advance Search
 advancedPropertySearch.title = Search for a property by other details
 advancedPropertySearch.heading = Search for a property by other details
 advancedPropertySearch.propertyNameOrNumber = Property name or number (optional)
@@ -224,11 +224,47 @@ advancedPropertySearch.councilTaxBand = Council Tax band
 advancedPropertySearch.bandStatus = Band status
 advancedPropertySearch.localAuthority = Local Authority (optional)
 advancedPropertySearch.bandStatus.hint = Current deletions are records for properties that are no longer paying Council Tax, for example, because they’ve been demolished.
-advancedPropertySearch.localAuthorityReferenceNumber = Local authority reference number (optional)
-advancedPropertySearch.localAuthorityReferenceNumber.hint = A unique reference number for your property.
+advancedPropertySearch.laReferenceNumber = Local authority reference number (optional)
+advancedPropertySearch.laReferenceNumber.hint = A unique reference number for your property.
 advancedPropertySearch.courtCode = Court Code
 advancedPropertySearch.courtCode.hint = The property will have a court code if the Council Tax band has been changed (determination) or confirmed (confirmation) by a Valuation Tribunal or High Court.
 advancedPropertySearch.propertyUse = Property use
 advancedPropertySearch.propertyUse.hint = For example, just domestic use, or for both domestic and business.
 advancedPropertySearch.checkYourAnswersLabel = Advanced property search
 advancedPropertySearch.change.hidden = advanced property search
+advancedPropertySearch.error.postcode.required = Enter a postcode
+advancedPropertySearch.error.postcode.length = Postcode must be {0} characters or less
+advancedPropertySearch.error.postcode.invalid = Enter a valid postcode
+advancedPropertySearch.error.propertyNameOrNumber.length = Property name or number must be 80 characters or less
+advancedPropertySearch.error.street.length = Street must be 80 characters or less
+advancedPropertySearch.error.townOrCity.length = Town or city must be 80 characters or less
+advancedPropertySearch.error.laReferenceNumber.length = Local authority reference number must be 20 characters or fewer
+
+advancedPropertySearch.localAuthority.default = Choose an option
+
+advancedPropertySearch.councilTaxBand.allBands = All bands
+advancedPropertySearch.councilTaxBand.A = A
+advancedPropertySearch.councilTaxBand.B = B
+advancedPropertySearch.councilTaxBand.C = C
+advancedPropertySearch.councilTaxBand.D = D
+advancedPropertySearch.councilTaxBand.E = E
+advancedPropertySearch.councilTaxBand.F = F
+advancedPropertySearch.councilTaxBand.G = G
+advancedPropertySearch.councilTaxBand.H = H
+advancedPropertySearch.councilTaxBand.I = I
+
+advancedPropertySearch.bandStatus.default = Current and current deletions
+advancedPropertySearch.bandStatus.Current = Current only
+advancedPropertySearch.bandStatus.Deleted = Current deletions only
+
+advancedPropertySearch.courtCode.default = All
+advancedPropertySearch.courtCode.V = VT determination
+advancedPropertySearch.courtCode.C = VT confirmation
+advancedPropertySearch.courtCode.D = HC determination
+advancedPropertySearch.courtCode.H = HC confirmation
+advancedPropertySearch.courtCode.R = VT re-determination after HC referral
+advancedPropertySearch.courtCode.E = HC consent order
+
+advancedPropertySearch.propertyUse.default = Both purely domestic & mixed use properties
+advancedPropertySearch.propertyUse.C = Mixed use properties only
+advancedPropertySearch.propertyUse.N = Purely domestic properties only
