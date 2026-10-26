@@ -63,7 +63,7 @@ postcodeSearch.description = Gallwch chwilio am unrhyw gartref yng Nghymru a Llo
 postcodeSearch.label = Cod post
 postcodeSearch.hint = Er enghraifft CF5 4GP
 postcodeSearch.checkYourAnswersLabel = Cod post a ddefnyddiwyd i ddod o hyd i'ch cartref
-postcodeSearch.dontKnowPostcode = Nid wyf yn gwybod y cod post
+postcodeSearch.dontKnowPostcode = Opsiynau chwilio eraill
 postcodeSearch.error.required = Nodwch god post, er enghraifft AA1 1AA
 postcodeSearch.error.invalid = Nodwch god post go iawn
 postcodeSearch.error.length = Nodwch god post go iawn
@@ -211,7 +211,7 @@ reviewOverview.informal.examples.2               = gall y cartrefi fod naill ai 
 reviewOverview.informal.examples.3               = y pris y gwerthwyd eich cartref neu gartrefi tebyg amdano rhwng 1 Ebrill 2001 a 31 Mawrth 2005.
 reviewOverview.informal.afterDecision            = Mae’r penderfyniad yn derfynol, a dydych chi ddim yn gallu gofyn am adolygiad arall.
 
-propertyDetail.informationFor                    = Dyma'r wybodaeth ar gyfer:
+propertyDetail.informationFor                    = Dyma''r wybodaeth ar gyfer:
 propertyDetail.metaDescription                   = Gweld band Treth Gyngor a gwybodaeth eiddo ar gyfer y cyfeiriad hwn.
 propertyDetail.publicInformation                 = Gwybodaeth gyhoeddus
 propertyDetail.publicInformation.anybody         = Gall unrhyw un weld yr wybodaeth hon.
