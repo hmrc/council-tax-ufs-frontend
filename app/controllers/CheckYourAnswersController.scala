@@ -18,6 +18,7 @@ package controllers
 
 import com.google.inject.Inject
 import controllers.actions.{DataRequiredAction, DataRetrievalAction, IdentifierAction}
+import viewmodels.checkAnswers.{CouncilTaxLiabilityStartDateSummary, PostcodeSearchSummary, WhyBandIsWrongSummary}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
@@ -36,10 +37,18 @@ class CheckYourAnswersController @Inject()(
   def onPageLoad(): Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
 
-      val list = SummaryListViewModel(
-        rows = Seq.empty
-      )
+      val sections = Seq(
+        "checkYourAnswers.section.propertyDetails" -> Seq(
+          PostcodeSearchSummary.row(request.userAnswers)
+        ).flatten,
+        "checkYourAnswers.section.challengeDetails" -> Seq(
+          CouncilTaxLiabilityStartDateSummary.row(request.userAnswers),
+          WhyBandIsWrongSummary.row(request.userAnswers)
+        ).flatten
+      ).collect {
+        case (heading, rows) if rows.nonEmpty => heading -> SummaryListViewModel(rows)
+      }
 
-      Ok(view(list))
+      Ok(view(sections))
   }
 }

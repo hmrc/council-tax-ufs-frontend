@@ -15,9 +15,11 @@
  */
 
 package controllers
+import pages.{PropertyAddressPage, PropertyIdPage}
 import play.api.i18n.{I18nSupport, Lang}
-import play.api.mvc._
+import play.api.mvc.*
 import play.api.Logging
+import repositories.SessionRepository
 import services.PropertyDetailService
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import uk.gov.hmrc.play.http.HeaderCarrierConverter
@@ -31,11 +33,12 @@ import scala.concurrent.Future
 
 @Singleton
 class PropertyDetailController @Inject()(
-  propertyDetailService: PropertyDetailService,
-  propertyDetailView: PropertyDetailView,
-  apiErrorView: ApiErrorView,
-  val controllerComponents: MessagesControllerComponents
-)(implicit ec: ExecutionContext)
+                                          propertyDetailService:    PropertyDetailService,
+                                          sessionRepository:        SessionRepository,
+                                          propertyDetailView:       PropertyDetailView,
+                                          apiErrorView:             ApiErrorView,
+                                          val controllerComponents: MessagesControllerComponents
+                                        )(implicit ec: ExecutionContext)
     extends FrontendBaseController
     with I18nSupport
     with Logging {
@@ -66,6 +69,12 @@ class PropertyDetailController @Inject()(
             Redirect(routes.JourneyRecoveryController.onPageLoad())
 
           case Right(Some(viewModel)) =>
+            val userId  = request.session.get("sessionId").getOrElse("unknown")
+            val answers = models.UserAnswers(userId)
+            val updated = answers
+              .set(PropertyAddressPage, viewModel.address).getOrElse(answers)
+              .set(PropertyIdPage, viewModel.propertyId).getOrElse(answers)
+            sessionRepository.set(updated)
             Ok(propertyDetailView(viewModel))
         }
       }

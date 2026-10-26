@@ -103,11 +103,9 @@
   @govukDetails(Details(
     summary = Text(messages("searchResults.cannotFind")),
     content = HtmlContent(
-      s"""<p class="govuk-body">
-         |  ${messages("searchResults.cannotFind.check")}
-         |  <a href="#" class="govuk-link">
-         |    ${messages("searchResults.cannotFind.otherOptions")}
-         |  </a>.
+     s"""<p class="govuk-body">
+         |${messages("searchResults.cannotFind.check")}
+         | <a href="#" class="govuk-link">${messages("searchResults.cannotFind.otherOptions")}</a>.
          |</p>
          |<p class="govuk-body">
          |  <a href="https://www.gov.uk/find-local-council" target="_blank" class="govuk-link">${messages("searchResults.cannotFind.contactCouncil")}</a>

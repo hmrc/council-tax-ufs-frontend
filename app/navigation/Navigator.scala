@@ -27,10 +27,40 @@ import models._
 class Navigator @Inject()() {
 
   private val normalRoutes: Page => UserAnswers => Call = {
-    case _ => _ => routes.PostcodeSearchController.onPageLoad(NormalMode)
+    case CouncilTaxLiabilityStartDatePage => _ => routes.WhyBandIsWrongController.onPageLoad(NormalMode)
+    case WhyBandIsWrongPage              => _ => routes.CheckYourAnswersController.onPageLoad()
+//    case CouncilTaxResponsiblePage       => councilTaxResponsibleRoutes
+    case RequestCouncilTaxBandReviewPage => _ => routes.ReasonForReviewController.onPageLoad(NormalMode)
+    case ReasonForReviewPage             => reasonForReviewRoutes
+    case `scenarioResponsiblePage`      => scenarioResponsibleRoutes
+    case `noticeAlterationPage`          => noticeAlterationRoutes
+    case _                               => _ => routes.PostcodeSearchController.onPageLoad(NormalMode)
   }
 
+  private def reasonForReviewRoutes(answers: UserAnswers): Call =
+    answers.get(ReasonForReviewPage) match {
+      case Some(ReasonForReview.Bandiswrong) => routes.scenarioResponsibleController.onPageLoad(NormalMode)
+      case Some(ReasonForReview.Changesaffectedproperty) => routes.deletionOptionsController.onPageLoad(NormalMode)
+      case _                             => routes.PostcodeSearchController.onPageLoad(NormalMode)
+    }
+
+  private def scenarioResponsibleRoutes(answers: UserAnswers): Call =
+    answers.get(scenarioResponsiblePage) match {
+      case Some(scenarioResponsible.Lessthan) => routes.ReviewOverviewController.formalReview()
+      case Some(scenarioResponsible.Morethan) => routes.noticeAlterationController.onPageLoad(NormalMode)
+      case _                                 => routes.PostcodeSearchController.onPageLoad(NormalMode)
+    }
+
+  private def noticeAlterationRoutes(answers: UserAnswers): Call =
+    answers.get(noticeAlterationPage) match {
+      case Some(noticeAlteration.Yes) => routes.ReviewOverviewController.formalReview()
+      case Some(noticeAlteration.No)  => routes.ReviewOverviewController.informalReview()
+      case _                          => routes.PostcodeSearchController.onPageLoad(NormalMode)
+    }
+
   private val checkRouteMap: Page => UserAnswers => Call = {
+    case CouncilTaxLiabilityStartDatePage => _ => routes.CheckYourAnswersController.onPageLoad()
+    case WhyBandIsWrongPage              => _ => routes.CheckYourAnswersController.onPageLoad()
     case _ => _ => routes.CheckYourAnswersController.onPageLoad()
   }
 
@@ -40,4 +70,16 @@ class Navigator @Inject()() {
     case CheckMode =>
       checkRouteMap(page)(userAnswers)
   }
+
+//  private def councilTaxResponsibleRoutes(answers: UserAnswers): Call =
+//    answers.get(CouncilTaxResponsiblePage) match {
+//      case Some(CouncilTaxResponsible.Yes)       => routes.RequestCouncilTaxBandReviewController.onPageLoad(NormalMode)
+//      case Some(CouncilTaxResponsible.No)        =>
+//        answers.get(PropertyIdPage) match {
+//          case Some(id) => routes.PermissionController.onPageLoad(id)
+//          case None => routes.PostcodeSearchController.onPageLoad(NormalMode)
+//        }
+//      case Some(CouncilTaxResponsible.ActingFor) => routes.RequestCouncilTaxBandReviewController.onPageLoad(NormalMode)
+//      case _                                     => routes.IndexController.onPageLoad()
+//    }
 }

@@ -22,6 +22,36 @@ import org.scalacheck.{Arbitrary, Gen}
 
 trait ModelGenerators {
 
+  implicit lazy val arbitrarynoticeAlteration: Arbitrary[noticeAlteration] =
+    Arbitrary {
+      Gen.oneOf(noticeAlteration.values.toSeq)
+    }
+
+  implicit lazy val arbitrarydeletionOptions: Arbitrary[deletionOptions] =
+    Arbitrary {
+      Gen.oneOf(deletionOptions.values.toSeq)
+    }
+
+  implicit lazy val arbitraryscenarioResponsible: Arbitrary[scenarioResponsible] =
+    Arbitrary {
+      Gen.oneOf(scenarioResponsible.values.toSeq)
+    }
+
+  implicit lazy val arbitraryReasonForReview: Arbitrary[ReasonForReview] =
+    Arbitrary {
+      Gen.oneOf(ReasonForReview.values.toSeq)
+    }
+
+  implicit lazy val arbitraryRequestCouncilTaxBandReview: Arbitrary[RequestCouncilTaxBandReview] =
+    Arbitrary {
+      Gen.oneOf(RequestCouncilTaxBandReview.values)
+    }
+
+  implicit lazy val arbitraryCouncilTaxResponsible: Arbitrary[CouncilTaxResponsible] =
+    Arbitrary {
+      Gen.oneOf(CouncilTaxResponsible.values.toSeq)
+    }
+
   implicit lazy val arbitraryAdvancedPropertySearch: Arbitrary[AdvancedPropertySearch] =
     Arbitrary {
       for {

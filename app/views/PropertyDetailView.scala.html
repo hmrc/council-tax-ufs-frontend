@@ -235,8 +235,7 @@
         @for((msgKey, isLink) <- beforeYouContinueItems) {
             <li>
                 @if(isLink) {
-                    <a href="#" class="govuk-link">@messages(msgKey)</a>
-<!--                    <a href="@routes.HistoricBandsController.onPageLoad(propertyId).url" class="govuk-link">@messages(msgKey)</a>-->
+                   <a href="@routes.HistoricBandsController.onPageLoad(propertyId).url" class="govuk-link">@messages(msgKey)</a>
                 } else {
                     @messages(msgKey)
                 }
@@ -248,6 +247,7 @@
 
     @PrintLink(messages("button.print"))
     @govukButton(Button(
+        href       = Some(routes.CouncilTaxResponsibleController.onPageLoad(models.NormalMode).url),
         content    = Text(messages("button.continue")),
         attributes = Map("id" -> "continue")
     ))
