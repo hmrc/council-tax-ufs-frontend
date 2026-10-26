@@ -133,7 +133,7 @@
 @propertyId = @{ viewModel.propertyId.toLowerCase(java.util.Locale.ROOT) }
 
 @layout(
-    pageTitle = messages("service.name"),
+    pageTitle = s"Property information for ${viewModel.address} - ${messages("service.name")}",
     fullWidth = true,
     metaDescription = Some(messages("propertyDetail.metaDescription")),
     scripts = Some(scripts)
@@ -243,6 +243,7 @@
         }
     </ul>
     <p class="govuk-body">@messages("propertyDetail.beforeYouContinue.signIn")</p>
+    <div class="govuk-!-display-none-print">
     <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
 
     @PrintLink(messages("button.print"))
@@ -255,4 +256,5 @@
     <a href="@routes.PostcodeSearchController.onPageLoad(models.NormalMode).url" role="button" draggable="false" class="govuk-button govuk-button--secondary" data-module="govuk-button">
         @messages("propertyDetail.searchAnother")
    </a>
+    </div>
 }
