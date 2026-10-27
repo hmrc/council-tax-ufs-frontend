@@ -136,8 +136,6 @@
   }
 
   <p class="govuk-body">
-      <a href="#" class="govuk-link">
-      @messages("searchResults.otherSearchOptions")
-    </a>
+      <a href="@routes.AdvancedPropertySearchController.onPageLoad(NormalMode).url" class="govuk-link">@messages("postcodeSearch.dontKnowPostcode")</a>
   </p>
 }

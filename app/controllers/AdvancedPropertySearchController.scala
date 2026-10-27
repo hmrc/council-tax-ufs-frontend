@@ -67,7 +67,8 @@ class AdvancedPropertySearchController @Inject()(
             answers <- Future.successful(
               request.userAnswers.getOrElse(models.UserAnswers(request.userId))
             )
-            updatedAnswers <- Future.fromTry(answers.set(AdvancedPropertySearchPage, value))
+            clearedAnswers <- Future.fromTry(answers.remove(AdvancedPropertySearchPage))
+            updatedAnswers <- Future.fromTry(clearedAnswers.set(AdvancedPropertySearchPage, value))
             _              <- sessionRepository.set(updatedAnswers)
           } yield {
             val encryptedPostcode = urlEncryptor.encrypt(value.postcode)

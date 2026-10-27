@@ -25,39 +25,61 @@ import models.AdvancedPropertySearch
 
 import play.api.data.Forms.optional
 
+import forms.mappings.Mappings
+import models.AdvancedPropertySearch
+import play.api.data.Form
+import play.api.data.Forms.optional
+import play.api.data.validation.{Constraint, Invalid, Valid}
+
+import javax.inject.Inject
+
 class AdvancedPropertySearchFormProvider @Inject() extends Mappings {
+
+  private val postcodePattern = "^[A-Z]{1,2}[0-9][A-Z0-9]?( ?[0-9][A-Z]{2})?$".r
+  private val maxLength = 10
+
+  private val validPostcode: Constraint[String] =
+    Constraint("constraints.postcode") { value =>
+      if (value.length > maxLength)
+        Invalid("advancedPropertySearch.error.postcode.length", maxLength)
+      else if (!postcodePattern.matches(value))
+        Invalid("advancedPropertySearch.error.postcode.invalid")
+      else
+        Valid
+    }
 
   def apply(): Form[AdvancedPropertySearch] = Form(
     mapping(
       "propertyNameOrNumber" -> optional(text())
-        .verifying("advancedPropertySearch.error.propertyNameOrNumber.length", _.forall(_.length <= 100))
+        .verifying("advancedPropertySearch.error.propertyNameOrNumber.length", _.forall(_.length <= 80))
         .transform[String](_.getOrElse(""), s => if (s.trim.isEmpty) None else Some(s)),
 
       "street" -> optional(text())
-        .verifying("advancedPropertySearch.error.street.length", _.forall(_.length <= 100))
+        .verifying("advancedPropertySearch.error.street.length", _.forall(_.length <= 80))
         .transform[String](_.getOrElse(""), s => if (s.trim.isEmpty) None else Some(s)),
 
       "townOrCity" -> optional(text())
-        .verifying("advancedPropertySearch.error.townOrCity.length", _.forall(_.length <= 100))
+        .verifying("advancedPropertySearch.error.townOrCity.length", _.forall(_.length <= 80))
         .transform[String](_.getOrElse(""), s => if (s.trim.isEmpty) None else Some(s)),
 
-      "postcode" -> optional(text())
+      "postcode" -> text("advancedPropertySearch.error.postcode.required")
+        .transform[String](_.trim.toUpperCase, identity)
+        .verifying(validPostcode),
+
+      "councilTaxBand" -> optional(text())
         .transform[String](_.getOrElse(""), s => if (s.trim.isEmpty) None else Some(s)),
-
-      "councilTaxBand" -> text(),
-
-      "bandStatus" -> text(),
-
+      "bandStatus" -> optional(text())
+        .transform[String](_.getOrElse(""), s => if (s.trim.isEmpty) None else Some(s)),
       "localAuthority" -> optional(text())
         .transform[String](_.getOrElse(""), s => if (s.trim.isEmpty) None else Some(s)),
-
-      "localAuthorityReferenceNumber" -> optional(text())
+      "laReferenceNumber" -> optional(text())
+        .verifying("advancedPropertySearch.error.laReferenceNumber.length", _.forall(_.length <= 20))
         .transform[String](_.getOrElse(""), s => if (s.trim.isEmpty) None else Some(s)),
-
       "courtCode" -> optional(text())
         .transform[String](_.getOrElse(""), s => if (s.trim.isEmpty) None else Some(s)),
+      "propertyUse" -> optional(text())
+        .transform[String](_.getOrElse(""), s => if (s.trim.isEmpty) None else Some(s))
 
-      "propertyUse" -> text()
     )(AdvancedPropertySearch.apply)(x => Some((
       x.propertyNameOrNumber,
       x.street,

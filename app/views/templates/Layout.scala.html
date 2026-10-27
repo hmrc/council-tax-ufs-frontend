@@ -26,7 +26,7 @@
     appConfig: FrontendAppConfig,
     hmrcTimeoutDialog: HmrcTimeoutDialog,
     hmrcReportTechnicalIssueHelper: HmrcReportTechnicalIssueHelper,
-    alphaBanner: StandardAlphaBanner,
+    betaBanner: StandardBetaBanner,
     hmrcStandardPage: HmrcStandardPage,
     fullWidthLayout: FullWidthLayout,
     twoThirdsLayout: TwoThirdLayout
@@ -80,8 +80,8 @@
     ),
     banners = Banners(
         displayHmrcBanner = showHmrcBanner,
-        phaseBanner = Some(alphaBanner(appConfig.feedbackUrl))
-    ),
+        phaseBanner = Some(betaBanner(appConfig.feedbackUrl)),
+),
     isWelshTranslationAvailable = appConfig.languageTranslationEnabled,
     backLink =
         if (!showBackLink) None

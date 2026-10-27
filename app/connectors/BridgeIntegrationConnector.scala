@@ -54,7 +54,7 @@ class BridgeIntegrationConnector @Inject()(
       "councilTaxBand" -> query.councilTaxBand,
       "bandStatus" -> query.bandStatus,
       "localAuthority" -> query.localAuthority,
-      "localAuthorityReferenceNumber" -> query.localAuthorityReferenceNumber,
+      "laReferenceNumber" -> query.localAuthorityReferenceNumber,
       "courtCode" -> query.courtCode,
       "propertyUse" -> query.propertyUse
     )

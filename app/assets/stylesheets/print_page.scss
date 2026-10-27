@@ -1,7 +1,11 @@
 .print-link {
   display: none;
 }
-
+@media print {
+  .govuk-footer {
+    display: none !important;
+  }
+}
 .js-enabled .print-link {
   display: inline-block;
   background-repeat: no-repeat;

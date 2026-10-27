@@ -68,7 +68,7 @@ class SearchResultsController @Inject()(
         propertyName = advancedAnswers.map(_.propertyNameOrNumber).filter(_.nonEmpty),
         street = advancedAnswers.map(_.street).filter(_.nonEmpty),
         town = advancedAnswers.map(_.townOrCity).filter(_.nonEmpty),
-        councilTaxBand = advancedAnswers.map(_.councilTaxBand).filter(_.nonEmpty),
+        councilTaxBand = advancedAnswers.map(_.councilTaxBand).filter(v => v.nonEmpty && v != "allBands"),
         bandStatus = advancedAnswers.map(_.bandStatus).filter(_.nonEmpty),
         localAuthority = advancedAnswers.map(_.localAuthority).filter(_.nonEmpty),
         localAuthorityReferenceNumber = advancedAnswers.map(_.localAuthorityReferenceNumber).filter(_.nonEmpty),

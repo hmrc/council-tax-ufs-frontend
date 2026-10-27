@@ -75,12 +75,12 @@ class PostcodeSearchViewSpec extends SpecBase {
       doc.select("button.govuk-button").text() mustBe messages(application)("site.continue")
     }
 
-    "must render the 'don't know your postcode' link with a placeholder destination" in {
+    "must render the 'Other search options' link with a placeholder destination" in {
       val doc = asDocument(applyView(form))
-      val link = doc.select("a.govuk-link[href='#']")
+      val link = doc.select("a.govuk-link:contains(" + messages(application)("postcodeSearch.dontKnowPostcode") + ")")
 
       link.text() mustBe messages(application)("postcodeSearch.dontKnowPostcode")
-      link.attr("href") mustBe "#"
+      link.attr("href") mustBe routes.AdvancedPropertySearchController.onPageLoad(NormalMode).url
     }
 
     "must not show an error summary when there are no errors" in {

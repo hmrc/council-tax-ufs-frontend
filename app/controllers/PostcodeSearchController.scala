@@ -23,6 +23,7 @@ import models.Mode
 import utils.UrlEncryptor
 import navigation.Navigator
 import pages.PostcodeSearchPage
+import pages.AdvancedPropertySearchPage
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import repositories.SessionRepository
@@ -66,7 +67,8 @@ class PostcodeSearchController @Inject()(
                             models.UserAnswers(request.userId)
                           )
                         )
-      updatedAnswers <- Future.fromTry(answers.set(PostcodeSearchPage, value))
+      clearedAnswers <- Future.fromTry(answers.remove(AdvancedPropertySearchPage))
+      updatedAnswers <- Future.fromTry(clearedAnswers.set(PostcodeSearchPage, value))
       _              <- sessionRepository.set(updatedAnswers)
     } yield {
       val encoded =  urlEncryptor.encrypt(value)

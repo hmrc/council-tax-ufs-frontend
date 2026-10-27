@@ -16,7 +16,8 @@
 
 @import viewmodels.InputWidth._
 @import uk.gov.hmrc.govukfrontend.views.html.components._
-@import models.LocalAuthorityOptions
+@import utils.SelectFieldHelper
+@import models.AdvancedSearchDropdowns
 
 @this(
     layout: templates.Layout,
@@ -29,37 +30,6 @@
 )
 
 @(form: Form[_], mode: Mode)(implicit request: Request[_], messages: Messages)
-
-@councilTaxBandOptions = @{
-    Seq("allBands" -> "All bands", "A" -> "A", "B" -> "B", "C" -> "C", "D" -> "D", "E" -> "E", "F" -> "F", "G" -> "G", "H" -> "H", "I" -> "I")
-}
-
-@bandStatusOptions = @{
-    Seq(
-        "Current"                -> "Current",
-        "Deleted"                -> "Deleted"
-    )
-}
-
-@courtCodeOptions = @{
-    Seq(
-        ""                              -> "All",
-        "vtDetermination"                  -> "VT determination",
-        "vtConfirmation"                   -> "VT confirmation",
-        "hcDetermination"                  -> "HC determination",
-        "hcConfirmation"                   -> "HC confirmation",
-        "vtReDeterminationAfterHcReferral" -> "VT re-determination after HC referral",
-        "hcConsentOrder"                   -> "HC consent order"
-    )
-}
-
-@propertyUseOptions = @{
-    Seq(
-        "C"                  -> "Both purely domestic & mixed use properties",
-        "purelyDomesticOnly" -> "Purely domestic only",
-        "mixedUseOnly"       -> "Mixed use only"
-    )
-}
 
 @layout(pageTitle = title(form, messages("advancedPropertySearch.title"))) {
 
@@ -99,65 +69,24 @@
              ).withWidth(Fixed10)
          )
 
-         @govukDetails(Details(
-             summary = Text(messages("advancedPropertySearch.showSearchFilters")),
-             content = HtmlContent {
-                 govukSelect(
-                     Select(
-                         id    = "councilTaxBand",
-                         name  = "councilTaxBand",
-                         items = councilTaxBandOptions.map { case (v, label) => SelectItem(value = Some(v), text = label) },
-                         label = Label(content = Text(messages("advancedPropertySearch.councilTaxBand"))),
-                         value = form("councilTaxBand").value
-                     )
-                 ).toString +
-                 govukSelect(
-                     Select(
-                         id    = "bandStatus",
-                         name  = "bandStatus",
-                         items = bandStatusOptions.map { case (v, label) => SelectItem(value = Some(v), text = label) },
-                         label = Label(content = Text(messages("advancedPropertySearch.bandStatus"))),
-                         hint  = Some(Hint(content = Text(messages("advancedPropertySearch.bandStatus.hint")))),
-                         value = form("bandStatus").value
-                     )
-                 ).toString +
-                govukSelect(
-                    Select(
-                        id    = "localAuthority",
-                        name  = "localAuthority",
-                        items = LocalAuthorityOptions.values.map { case (v, label) => SelectItem(value = Some(v), text = label) },
-                        label = Label(content = Text(messages("advancedPropertySearch.localAuthority"))),
-                        value = form("localAuthority").value
-                    )
+        @govukDetails(Details(
+            summary = Text(messages("advancedPropertySearch.showSearchFilters")),
+            content = HtmlContent {
+                govukSelect(SelectFieldHelper.select(form, "advancedPropertySearch", "councilTaxBand", AdvancedSearchDropdowns.councilTaxBands.valuesWithLabels)).toString +
+                govukSelect(SelectFieldHelper.select(form, "advancedPropertySearch", "bandStatus", AdvancedSearchDropdowns.bandStatusList.valuesWithLabels)).toString +
+                govukSelect(SelectFieldHelper.select(form, "advancedPropertySearch", "localAuthority", AdvancedSearchDropdowns.localAuthorityList.valuesWithLabels)).toString +
+                govukInput(
+                    InputViewModel(
+                        field = form("laReferenceNumber"),
+                        label = LabelViewModel(messages("advancedPropertySearch.laReferenceNumber"))
+                    ).withHint(HintViewModel(messages("advancedPropertySearch.laReferenceNumber.hint")))
+                    .withWidth(Fixed20)
                 ).toString +
-                 govukInput(
-                     InputViewModel(
-                         field = form("localAuthorityReferenceNumber"),
-                         label = LabelViewModel(messages("advancedPropertySearch.localAuthorityReferenceNumber"))
-                     ).withHint(HintViewModel(messages("advancedPropertySearch.localAuthorityReferenceNumber.hint")))
-                 ).toString +
-                 govukSelect(
-                     Select(
-                         id    = "courtCode",
-                         name  = "courtCode",
-                         items = courtCodeOptions.map { case (v, label) => SelectItem(value = Some(v), text = label) },
-                         label = Label(content = Text(messages("advancedPropertySearch.courtCode"))),
-                         hint  = Some(Hint(content = Text(messages("advancedPropertySearch.courtCode.hint")))),
-                         value = form("courtCode").value
-                     )
-                 ).toString +
-                 govukSelect(
-                     Select(
-                         id    = "propertyUse",
-                         name  = "propertyUse",
-                         items = propertyUseOptions.map { case (v, label) => SelectItem(value = Some(v), text = label) },
-                         label = Label(content = Text(messages("advancedPropertySearch.propertyUse"))),
-                         hint  = Some(Hint(content = Text(messages("advancedPropertySearch.propertyUse.hint")))),
-                         value = form("propertyUse").value
-                     )
-                 ).toString
-             }
-         ))
+                govukSelect(SelectFieldHelper.select(form, "advancedPropertySearch", "courtCode", AdvancedSearchDropdowns.courtCodeList.valuesWithLabels)).toString +
+                govukSelect(SelectFieldHelper.select(form, "advancedPropertySearch", "propertyUse", AdvancedSearchDropdowns.propertyUsedForList.valuesWithLabels)).toString
+
+            }
+        ))
 
          @govukButton(
              ButtonViewModel(messages("site.continue"))
