@@ -15,6 +15,8 @@
  */
 
 package controllers
+
+import controllers.actions.{DataRetrievalAction, SessionIdentifierAction}
 import pages.{PropertyAddressPage, PropertyIdPage}
 import play.api.i18n.{I18nSupport, Lang}
 import play.api.mvc.*
@@ -35,6 +37,8 @@ import scala.concurrent.Future
 class PropertyDetailController @Inject()(
                                           propertyDetailService:    PropertyDetailService,
                                           sessionRepository:        SessionRepository,
+                                          sessionIdentify:          SessionIdentifierAction,
+                                          getData:                  DataRetrievalAction,
                                           propertyDetailView:       PropertyDetailView,
                                           apiErrorView:             ApiErrorView,
                                           val controllerComponents: MessagesControllerComponents
@@ -44,7 +48,7 @@ class PropertyDetailController @Inject()(
     with Logging {
 
   def onPageLoad(propertyId: String): Action[AnyContent] =
-    Action.async { implicit request =>
+    (sessionIdentify andThen getData).async { implicit request =>
       val lowerCasePropertyId = propertyId.toLowerCase(Locale.ROOT)
       if (propertyId != lowerCasePropertyId) {
         Future.successful(Redirect(routes.PropertyDetailController.onPageLoad(lowerCasePropertyId)))
@@ -57,25 +61,24 @@ class PropertyDetailController @Inject()(
 
         implicit val lang: Lang = request.lang
 
-        propertyDetailService.getPropertyDetail(propertyId).map {
+        propertyDetailService.getPropertyDetail(propertyId).flatMap {
           case Left(error) if error.statusCode == NOT_FOUND =>
-            Redirect(routes.JourneyRecoveryController.onPageLoad())
+            Future.successful(Redirect(routes.JourneyRecoveryController.onPageLoad()))
 
           case Left(error) =>
             logger.error(s"[PropertyDetailController] API error status=${error.statusCode}")
-            InternalServerError(apiErrorView(models.ApiError(error.statusCode, error.message)))
+            Future.successful(InternalServerError(apiErrorView(models.ApiError(error.statusCode, error.message))))
 
           case Right(None) =>
-            Redirect(routes.JourneyRecoveryController.onPageLoad())
+            Future.successful(Redirect(routes.JourneyRecoveryController.onPageLoad()))
 
           case Right(Some(viewModel)) =>
-            val userId  = request.session.get("sessionId").getOrElse("unknown")
-            val answers = models.UserAnswers(userId)
-            val updated = answers
-              .set(PropertyAddressPage, viewModel.address).getOrElse(answers)
-              .set(PropertyIdPage, viewModel.propertyId).getOrElse(answers)
-            sessionRepository.set(updated)
-            Ok(propertyDetailView(viewModel))
+            val answers = request.userAnswers.getOrElse(models.UserAnswers(request.userId))
+            for {
+              withAddress <- Future.fromTry(answers.set(PropertyAddressPage, viewModel.address))
+              updated     <- Future.fromTry(withAddress.set(PropertyIdPage, viewModel.propertyId))
+              _           <- sessionRepository.set(updated)
+            } yield Ok(propertyDetailView(viewModel))
         }
       }
     }

@@ -21,7 +21,7 @@ import forms.AdvancedPropertySearchFormProvider
 import javax.inject.Inject
 import models.Mode
 import navigation.Navigator
-import pages.AdvancedPropertySearchPage
+import pages.{AdvancedPropertySearchPage, PostcodeSearchPage}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import repositories.SessionRepository
@@ -67,7 +67,7 @@ class AdvancedPropertySearchController @Inject()(
             answers <- Future.successful(
               request.userAnswers.getOrElse(models.UserAnswers(request.userId))
             )
-            clearedAnswers <- Future.fromTry(answers.remove(AdvancedPropertySearchPage))
+            clearedAnswers <- Future.fromTry(answers.remove(PostcodeSearchPage))
             updatedAnswers <- Future.fromTry(clearedAnswers.set(AdvancedPropertySearchPage, value))
             _              <- sessionRepository.set(updatedAnswers)
           } yield {

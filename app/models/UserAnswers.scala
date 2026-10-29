@@ -18,6 +18,7 @@ package models
 
 import play.api.libs.json._
 import queries.{Gettable, Settable}
+import uk.gov.hmrc.crypto.{Crypted, Decrypter, Encrypter, PlainText}
 import uk.gov.hmrc.mongo.play.json.formats.MongoJavatimeFormats
 
 import java.time.Instant
@@ -90,4 +91,38 @@ object UserAnswers {
   }
 
   implicit val format: OFormat[UserAnswers] = OFormat(reads, writes)
+
+  /** Mongo format: `data` is stored as an AES-GCM encrypted JSON string, as answers contain PII. */
+  def encryptedFormat(crypto: Encrypter with Decrypter): OFormat[UserAnswers] = {
+
+    import play.api.libs.functional.syntax._
+
+    val encryptedData: Format[JsObject] = Format(
+      Reads {
+        case JsString(cipherText) =>
+          Try(Json.parse(crypto.decrypt(Crypted(cipherText)).value).as[JsObject])
+            .fold(_ => JsError("error.unableToDecryptUserAnswers"), JsSuccess(_))
+        case plain: JsObject =>
+          // Records written before encryption was enabled; they expire with the TTL index
+          JsSuccess(plain)
+        case _ =>
+          JsError("error.expected.encryptedUserAnswers")
+      },
+      Writes(data => JsString(crypto.encrypt(PlainText(Json.stringify(data))).value))
+    )
+
+    val encryptedReads: Reads[UserAnswers] = (
+      (__ \ "_id").read[String] and
+      (__ \ "data").read(encryptedData) and
+      (__ \ "lastUpdated").read(MongoJavatimeFormats.instantFormat)
+    ) (UserAnswers.apply _)
+
+    val encryptedWrites: OWrites[UserAnswers] = (
+      (__ \ "_id").write[String] and
+      (__ \ "data").write(encryptedData) and
+      (__ \ "lastUpdated").write(MongoJavatimeFormats.instantFormat)
+    ) (ua => (ua.id, ua.data, ua.lastUpdated))
+
+    OFormat(encryptedReads, encryptedWrites)
+  }
 }

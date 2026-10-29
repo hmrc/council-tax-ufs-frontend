@@ -45,14 +45,14 @@ class WhyBandIsWrongController @Inject()(
   def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData) { implicit request =>
     val form = formProvider()
     val preparedForm = request.userAnswers.flatMap(_.get(WhyBandIsWrongPage)).fold(form)(form.fill)
-    Ok(view(preparedForm, mode))
+    Ok(view(preparedForm, mode, navigator.backLink(WhyBandIsWrongPage, mode, request.userAnswers).url))
   }
 
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData).async { implicit request =>
     val form = formProvider()
 
     form.bindFromRequest().fold(
-      formWithErrors => Future.successful(BadRequest(view(formWithErrors, mode))),
+      formWithErrors => Future.successful(BadRequest(view(formWithErrors, mode, navigator.backLink(WhyBandIsWrongPage, mode, request.userAnswers).url))),
       value => {
         val answers = request.userAnswers.getOrElse(models.UserAnswers(request.userId))
         for {

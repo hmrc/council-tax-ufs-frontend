@@ -56,7 +56,7 @@ class noticeAlterationControllerSpec extends SpecBase with MockitoSugar {
         val view = application.injector.instanceOf[noticeAlterationView]
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form, NormalMode)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(form, NormalMode, routes.scenarioResponsibleController.onPageLoad(NormalMode).url)(request, messages(application)).toString
       }
     }
 
@@ -74,7 +74,7 @@ class noticeAlterationControllerSpec extends SpecBase with MockitoSugar {
         val result = route(application, request).value
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form.fill(noticeAlteration.values.head), NormalMode)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(form.fill(noticeAlteration.values.head), NormalMode, routes.scenarioResponsibleController.onPageLoad(NormalMode).url)(request, messages(application)).toString
       }
     }
 
@@ -120,7 +120,7 @@ class noticeAlterationControllerSpec extends SpecBase with MockitoSugar {
         val result = route(application, request).value
 
         status(result) mustEqual BAD_REQUEST
-        contentAsString(result) mustEqual view(boundForm, NormalMode)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(boundForm, NormalMode, routes.scenarioResponsibleController.onPageLoad(NormalMode).url)(request, messages(application)).toString
       }
     }
   }

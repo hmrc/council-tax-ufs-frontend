@@ -39,6 +39,15 @@ class FrontendAppConfig @Inject() (configuration: Configuration, servicesConfig:
   val loginContinueUrl: String = configuration.get[String]("urls.loginContinue")
   val signOutUrl: String       = configuration.get[String]("urls.signOut")
 
+  /** Absolute continue URL back to `uri`, carrying the encrypted pre-login sessionId so answers can be migrated after sign-in. */
+  def signInContinueUrl(uri: String, encryptedSessionId: Option[String]): String = {
+    val url = s"${host.stripSuffix("/")}$uri"
+    encryptedSessionId.fold(url) { id =>
+      val separator = if (uri.contains("?")) "&" else "?"
+      s"$url${separator}k=${java.net.URLEncoder.encode(id, "UTF-8")}"
+    }
+  }
+
   private val exitSurveyBaseUrl: String = configuration.get[Service]("microservice.services.feedback-frontend").baseUrl
   val exitSurveyUrl: String             = s"$exitSurveyBaseUrl/feedback/council-tax-ufs-frontend"
 
