@@ -82,3 +82,13 @@ GET        /why-band-is-wrong                             controllers.WhyBandIsW
 POST       /why-band-is-wrong                             controllers.WhyBandIsWrongController.onSubmit(mode: Mode = NormalMode)
 GET        /change-why-band-is-wrong                      controllers.WhyBandIsWrongController.onPageLoad(mode: Mode = CheckMode)
 POST       /change-why-band-is-wrong                      controllers.WhyBandIsWrongController.onSubmit(mode: Mode = CheckMode)
+
+GET        /advancedPropertySearch                        controllers.AdvancedPropertySearchController.onPageLoad(mode: Mode = NormalMode)
+POST       /advancedPropertySearch                        controllers.AdvancedPropertySearchController.onSubmit(mode: Mode = NormalMode)
+GET        /changeAdvancedPropertySearch                  controllers.AdvancedPropertySearchController.onPageLoad(mode: Mode = CheckMode)
+POST       /changeAdvancedPropertySearch                  controllers.AdvancedPropertySearchController.onSubmit(mode: Mode = CheckMode)
+
+GET        /date-notice                                   controllers.DateNoticeController.onPageLoad(mode: Mode = NormalMode)
+POST       /date-notice                                   controllers.DateNoticeController.onSubmit(mode: Mode = NormalMode)
+GET        /changeDateNotice                              controllers.DateNoticeController.onPageLoad(mode: Mode = CheckMode)
+POST       /changeDateNotice                              controllers.DateNoticeController.onSubmit(mode: Mode = CheckMode)

@@ -11,7 +11,7 @@ site.startAgain = Dechrau eto
 site.signIn = Mewngofnodi
 site.govuk = GOV.UK
 
-date.day = Diwrnod
+date.day = Dydd
 date.month = Mis
 date.year = Blwyddyn
 date.error.day = diwrnod
@@ -446,3 +446,11 @@ whyBandIsWrong.error.maxLength = Rhaid i'ch ateb fod yn 1,000 o nodau neu lai
 whyBandIsWrong.checkYourAnswersLabel = Pam rydych yn credu bod y band Treth Gyngor yn anghywir
 whyBandIsWrong.change.hidden = Pam rydych yn credu bod y band Treth Gyngor yn anghywir
  
+dateNotice.title = Pa ddyddiad sydd ar lythyr yr Hysbysiad o Newid?
+dateNotice.heading = Pa ddyddiad sydd ar lythyr yr Hysbysiad o Newid?
+dateNotice.hint = Er enghraifft, os taw’r dyddiad ar lythyr yr Hysbysiad o Newid yw 27 Ebrill 2025, rhowch 27 4 2025.
+dateNotice.checkYourAnswersLabel = DateNotice
+dateNotice.error.required.all = Enter the notice date
+dateNotice.error.required.two = The notice date must include {0} and {1}
+dateNotice.error.required = The notice date must include {0}
+dateNotice.error.invalid = Enter a real notice date
