@@ -28,6 +28,7 @@ import org.scalatest.matchers.must.Matchers
 import org.scalatestplus.mockito.MockitoSugar
 import org.slf4j.MDC
 import uk.gov.hmrc.mdc.MdcExecutionContext
+import play.api.Configuration
 import play.api.libs.json.Json
 import uk.gov.hmrc.mongo.test.DefaultPlayMongoRepositorySupport
 
@@ -57,6 +58,7 @@ class SessionRepositorySpec
   protected override val repository: SessionRepository = new SessionRepository(
     mongoComponent = mongoComponent,
     appConfig      = mockAppConfig,
+    configuration  = Configuration("mongodb.encryption.enabled" -> false),
     clock          = stubClock
   )
 

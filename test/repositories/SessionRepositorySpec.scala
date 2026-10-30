@@ -18,6 +18,7 @@ package repositories
 
 import models.UserAnswers
 import org.mongodb.scala.MongoClient
+import org.mongodb.scala.SingleObservableFuture
 import org.scalatest.concurrent.ScalaFutures
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
@@ -36,7 +37,9 @@ class SessionRepositorySpec extends AnyWordSpec with Matchers with ScalaFutures 
   private val app = new GuiceApplicationBuilder()
     .configure(
       "mongodb.uri" -> "mongodb://localhost:27017/test-session-repository",
-      "cache.ttl"  -> "3600"
+      "cache.ttl"  -> "3600",
+      "mongodb.encryption.enabled" -> true,
+      "mongodb.encryption.key"     -> "u5UbYQV8GRjbQBTqh3CMERpk6GRznMooXLMxWu+TwEI="
     )
     .build()
 
@@ -76,6 +79,20 @@ class SessionRepositorySpec extends AnyWordSpec with Matchers with ScalaFutures 
 
       val after = repository.get(userAnswers.id).futureValue
       after.map(_.lastUpdated) should not be previousUpdated
+    }
+
+    "store answers encrypted" in {
+      repository.set(userAnswers).futureValue
+
+      val raw = app.injector.instanceOf[uk.gov.hmrc.mongo.MongoComponent].database
+        .getCollection("user-answers")
+        .find(org.mongodb.scala.model.Filters.equal("_id", userAnswers.id))
+        .first()
+        .toFuture()
+        .futureValue
+
+      raw.get("data").map(_.isString) shouldBe Some(true)
+      raw.toJson() should not include "AA1 1AA"
     }
 
     "clear a user's answers" in {

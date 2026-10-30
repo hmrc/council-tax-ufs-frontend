@@ -74,7 +74,7 @@ class CouncilTaxLiabilityStartDateControllerSpec extends SpecBase with MockitoSu
         val view = application.injector.instanceOf[CouncilTaxLiabilityStartDateView]
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form, NormalMode)(getRequest(), messages(application)).toString
+        contentAsString(result) mustEqual view(form, NormalMode, routes.ReviewOverviewController.formalReview().url)(getRequest(), messages(application)).toString
 
         val html = contentAsString(result)
         html must include("govuk-fieldset__legend--l")
@@ -97,7 +97,7 @@ class CouncilTaxLiabilityStartDateControllerSpec extends SpecBase with MockitoSu
         val result = route(application, getRequest()).value
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form.fill(validAnswer), NormalMode)(getRequest(), messages(application)).toString
+        contentAsString(result) mustEqual view(form.fill(validAnswer), NormalMode, routes.ReviewOverviewController.formalReview().url)(getRequest(), messages(application)).toString
       }
     }
 
@@ -155,7 +155,7 @@ class CouncilTaxLiabilityStartDateControllerSpec extends SpecBase with MockitoSu
         val result = route(application, request).value
 
         status(result) mustEqual BAD_REQUEST
-        contentAsString(result) mustEqual view(boundForm, NormalMode)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(boundForm, NormalMode, routes.ReviewOverviewController.formalReview().url)(request, messages(application)).toString
       }
     }
 

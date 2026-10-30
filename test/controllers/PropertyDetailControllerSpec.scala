@@ -44,7 +44,7 @@ class PropertyDetailControllerSpec extends SpecBase with MockitoSugar {
       val application = applicationBuilder(userAnswers = None).build()
 
       running(application) {
-        val request = FakeRequest(GET, routes.PropertyDetailController.onPageLoad(uppercasePropertyId).url)
+        val request = FakeRequest(GET, routes.PropertyDetailController.onPageLoad(uppercasePropertyId).url).withSession(uk.gov.hmrc.http.SessionKeys.sessionId -> "test-session")
         val result = route(application, request).value
 
         status(result) mustEqual SEE_OTHER
@@ -66,7 +66,7 @@ class PropertyDetailControllerSpec extends SpecBase with MockitoSugar {
         .build()
 
       running(application) {
-        val request = FakeRequest(GET, routes.PropertyDetailController.onPageLoad(propertyId).url)
+        val request = FakeRequest(GET, routes.PropertyDetailController.onPageLoad(propertyId).url).withSession(uk.gov.hmrc.http.SessionKeys.sessionId -> "test-session")
         val result  = route(application, request).value
 
         status(result) mustEqual INTERNAL_SERVER_ERROR
@@ -88,7 +88,7 @@ class PropertyDetailControllerSpec extends SpecBase with MockitoSugar {
         .build()
 
       running(application) {
-        val request = FakeRequest(GET, routes.PropertyDetailController.onPageLoad(propertyId).url)
+        val request = FakeRequest(GET, routes.PropertyDetailController.onPageLoad(propertyId).url).withSession(uk.gov.hmrc.http.SessionKeys.sessionId -> "test-session")
         val result  = route(application, request).value
 
         status(result) mustEqual SEE_OTHER

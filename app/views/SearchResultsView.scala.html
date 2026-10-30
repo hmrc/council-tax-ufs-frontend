@@ -49,7 +49,7 @@
     routes.PropertyDetailController.onPageLoad(propertyId).url
    else "#"
     val localAuthorityContent = entry.localAuthorityLink match {
-        case Some(link) => HtmlContent(s"""<a href="${link.replace("&", "&amp;")}" class="govuk-link" target="_blank" rel="noopener noreferrer">${entry.localAuthority}</a>""")
+        case Some(link) => HtmlContent(s"""<a href="${link.replace("&", "&amp;")}" class="govuk-link" target="_blank" rel="noopener noreferrer">${entry.localAuthority}<span class="govuk-visually-hidden"> ${messages("site.opensInNewTab")}</span></a>""")
         case None       => Text(entry.localAuthority)
     }
    Seq(
@@ -108,7 +108,7 @@
          | <a href="#" class="govuk-link">${messages("searchResults.cannotFind.otherOptions")}</a>.
          |</p>
          |<p class="govuk-body">
-         |  <a href="https://www.gov.uk/find-local-council" target="_blank" class="govuk-link">${messages("searchResults.cannotFind.contactCouncil")}</a>
+         |  <a href="https://www.gov.uk/find-local-council" target="_blank" rel="noopener noreferrer" class="govuk-link">${messages("searchResults.cannotFind.contactCouncil")}<span class="govuk-visually-hidden"> ${messages("site.opensInNewTab")}</span></a>
          |  ${messages("searchResults.cannotFind.contactCouncilDescription")}
          |</p>""".stripMargin
     )

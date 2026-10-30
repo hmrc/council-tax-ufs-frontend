@@ -57,7 +57,7 @@ class CouncilTaxResponsibleController @Inject()(
         .flatMap(_.get(PropertyAddressPage))
         .getOrElse("")
 
-      Ok(view(preparedForm, mode, address))
+      Ok(view(preparedForm, mode, address, navigator.backLink(CouncilTaxResponsiblePage, mode, request.userAnswers).url))
   }
 
   def onSubmit(mode: Mode): Action[AnyContent] = (sessionIdentify andThen getData).async {
@@ -66,7 +66,7 @@ class CouncilTaxResponsibleController @Inject()(
       form.bindFromRequest().fold(
         formWithErrors =>
           val address = request.userAnswers.flatMap(_.get(PropertyAddressPage)).getOrElse("")
-          Future.successful(BadRequest(view(formWithErrors, mode, address))),
+          Future.successful(BadRequest(view(formWithErrors, mode, address, navigator.backLink(CouncilTaxResponsiblePage, mode, request.userAnswers).url))),
 
         value =>
           for {

@@ -18,6 +18,7 @@ package controllers
 
 import com.google.inject.Inject
 import controllers.actions.{DataRequiredAction, DataRetrievalAction, IdentifierAction}
+import navigation.Navigator
 import viewmodels.checkAnswers.{CouncilTaxLiabilityStartDateSummary, PostcodeSearchSummary, WhyBandIsWrongSummary}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
@@ -31,7 +32,8 @@ class CheckYourAnswersController @Inject()(
                                             getData: DataRetrievalAction,
                                             requireData: DataRequiredAction,
                                             val controllerComponents: MessagesControllerComponents,
-                                            view: CheckYourAnswersView
+                                            view: CheckYourAnswersView,
+                                            navigator: Navigator
                                           ) extends FrontendBaseController with I18nSupport {
 
   def onPageLoad(): Action[AnyContent] = (identify andThen getData andThen requireData) {
@@ -49,6 +51,6 @@ class CheckYourAnswersController @Inject()(
         case (heading, rows) if rows.nonEmpty => heading -> SummaryListViewModel(rows)
       }
 
-      Ok(view(sections))
+      Ok(view(sections, navigator.checkYourAnswersBackLink.url))
   }
 }

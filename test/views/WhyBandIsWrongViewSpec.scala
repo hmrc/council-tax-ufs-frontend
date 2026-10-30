@@ -35,7 +35,7 @@ class WhyBandIsWrongViewSpec extends AnyWordSpec with Matchers {
 
   "WhyBandIsWrongView" should {
     "render the evidence guidance and GOV.UK character-count textarea" in {
-      val html = view.render(form, NormalMode, request, messages).body
+      val html = view.render(form, NormalMode, "/back-link", request, messages).body
 
       html should include("Tell us why you think the Council Tax band is wrong?")
       html should include("Your band will only be reviewed if you provide supporting evidence")
@@ -49,7 +49,7 @@ class WhyBandIsWrongViewSpec extends AnyWordSpec with Matchers {
 
     "provide Welsh runtime counter messages to GOV.UK Frontend" in {
       val welshMessages = messagesApi.preferred(Seq(Lang("cy")))
-      val html = view.render(form, NormalMode, request, welshMessages).body
+      val html = view.render(form, NormalMode, "/back-link", request, welshMessages).body
 
       html should include("data-i18n.characters-under-limit.other='Mae gennych %{count} o cymeriad ar ôl'")
       html should include("data-i18n.characters-over-limit.other='Mae gennych %{count} o nodau yn ormod'")

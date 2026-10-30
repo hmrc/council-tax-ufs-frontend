@@ -17,40 +17,43 @@
 package controllers.auth
 
 import config.FrontendAppConfig
-import controllers.actions.IdentifierAction
+import controllers.actions.SessionIdentifierAction
+import models.requests.IdentifierRequest
 import play.api.i18n.I18nSupport
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import repositories.SessionRepository
+import uk.gov.hmrc.http.SessionKeys
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 
 import javax.inject.Inject
-import scala.concurrent.ExecutionContext
-
+import scala.concurrent.{ExecutionContext, Future}
 
 class AuthController @Inject()(
                                 val controllerComponents: MessagesControllerComponents,
                                 config: FrontendAppConfig,
                                 sessionRepository: SessionRepository,
-                                identify: IdentifierAction
+                                identify: SessionIdentifierAction
                               )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
   def signOut(): Action[AnyContent] = identify.async {
     implicit request =>
-      sessionRepository
-        .clear(request.userId)
-        .map {
-          _ =>
-            Redirect(config.signOutUrl, Map("continue" -> Seq(config.exitSurveyUrl)))
+      clearAnswers.map {
+        _ =>
+          Redirect(config.signOutUrl, Map("continue" -> Seq(config.exitSurveyUrl)))
       }
   }
 
   def signOutNoSurvey(): Action[AnyContent] = identify.async {
     implicit request =>
-    sessionRepository
-      .clear(request.userId)
-      .map {
+      clearAnswers.map {
         _ =>
-        Redirect(config.signOutUrl, Map("continue" -> Seq(routes.SignedOutController.onPageLoad().url)))
+          Redirect(config.signOutUrl, Map("continue" -> Seq(routes.SignedOutController.onPageLoad().url)))
       }
   }
+
+  // Clears the signed-in (internalId) record and any leftover sessionId record.
+  private def clearAnswers(implicit request: IdentifierRequest[_]): Future[Unit] =
+    Future.sequence(
+      (request.userId +: request.session.get(SessionKeys.sessionId).toSeq).distinct.map(sessionRepository.clear)
+    ).map(_ => ())
 }

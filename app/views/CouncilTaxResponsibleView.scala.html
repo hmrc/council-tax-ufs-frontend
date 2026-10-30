@@ -24,9 +24,9 @@
     govukButton: GovukButton,
 )
 
-@(form: Form[_], mode: Mode, address: String)(implicit request: Request[_], messages: Messages)
+@(form: Form[_], mode: Mode, address: String, backLinkUrl: String)(implicit request: Request[_], messages: Messages)
 
-@layout(pageTitle = title(form, messages("councilTaxResponsible.title"))) {
+@layout(backLinkUrl = Some(backLinkUrl), pageTitle = title(form, messages("councilTaxResponsible.title"))) {
 
 @formHelper(action = routes.CouncilTaxResponsibleController.onSubmit(mode), Symbol("autoComplete") -> "off") {
 
@@ -51,6 +51,12 @@
 
         @govukRadios(
             Radios(
+                fieldset = Some(Fieldset(
+                    legend = Some(Legend(
+                        content = Text(messages("councilTaxResponsible.heading")),
+                        classes = "govuk-visually-hidden"
+                    ))
+                )),
                 idPrefix = Some("value"),
                 name = "value",
                 errorMessage = form("value").error.map(err => ErrorMessage(content = Text(messages(err.message)))),
@@ -58,16 +64,19 @@
                 RadioItem(
                     id      = Some("value_0"),
                     value   = Some("yes"),
+                    checked = form("value").value.contains("yes"),
                     content = Text(messages("councilTaxResponsible.yes"))
                 ),
                 RadioItem(
                     id      = Some("value_1"),
                     value   = Some("no"),
+                    checked = form("value").value.contains("no"),
                     content = Text(messages("councilTaxResponsible.no"))
                 ),
                 RadioItem(
                     id      = Some("value_2"),
                     value   = Some("actingfor"),
+                    checked = form("value").value.contains("actingfor"),
                     content = Text(messages("councilTaxResponsible.actingFor")),
                     hint    = Some(Hint(content = Text(messages("councilTaxResponsible.actingFor.hint"))))
                     )

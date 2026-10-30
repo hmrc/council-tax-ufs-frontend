@@ -20,6 +20,8 @@ import controllers.actions._
 import forms.PostcodeSearchFormProvider
 import javax.inject.Inject
 import models.Mode
+import models.audit.PropertySearchAuditEvent
+import services.AuditService
 import utils.UrlEncryptor
 import navigation.Navigator
 import pages.PostcodeSearchPage
@@ -40,7 +42,8 @@ class PostcodeSearchController @Inject()(
   getData:                  DataRetrievalAction,
   formProvider:             PostcodeSearchFormProvider,
   val controllerComponents: MessagesControllerComponents,
-  view:                     PostcodeSearchView
+  view:                     PostcodeSearchView,
+  auditService:             AuditService
 )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
   val form = formProvider()
@@ -71,6 +74,7 @@ class PostcodeSearchController @Inject()(
       updatedAnswers <- Future.fromTry(clearedAnswers.set(PostcodeSearchPage, value))
       _              <- sessionRepository.set(updatedAnswers)
     } yield {
+      auditService.auditPropertySearch(PropertySearchAuditEvent.standard(request.userId, request.path))
       val encoded =  urlEncryptor.encrypt(value)
       Redirect(routes.SearchResultsController.show(encoded, 1))
     }
