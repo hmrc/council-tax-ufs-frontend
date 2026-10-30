@@ -20,6 +20,8 @@ import controllers.actions._
 import forms.AdvancedPropertySearchFormProvider
 import javax.inject.Inject
 import models.Mode
+import models.audit.PropertySearchAuditEvent
+import services.AuditService
 import navigation.Navigator
 import pages.{AdvancedPropertySearchPage, PostcodeSearchPage}
 import play.api.i18n.{I18nSupport, MessagesApi}
@@ -39,7 +41,8 @@ class AdvancedPropertySearchController @Inject()(
                                                   getData: DataRetrievalAction,
                                                   formProvider: AdvancedPropertySearchFormProvider,
                                                   val controllerComponents: MessagesControllerComponents,
-                                                  view: AdvancedPropertySearchView
+                                                  view: AdvancedPropertySearchView,
+                                                  auditService: AuditService
                                                 )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
   val form = formProvider()
@@ -71,6 +74,7 @@ class AdvancedPropertySearchController @Inject()(
             updatedAnswers <- Future.fromTry(clearedAnswers.set(AdvancedPropertySearchPage, value))
             _              <- sessionRepository.set(updatedAnswers)
           } yield {
+            auditService.auditPropertySearch(PropertySearchAuditEvent.advanced(request.userId, request.path, value))
             val encryptedPostcode = urlEncryptor.encrypt(value.postcode)
             Redirect(routes.SearchResultsController.show(encryptedPostcode, 1))
           }

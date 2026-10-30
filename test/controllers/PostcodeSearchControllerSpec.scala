@@ -86,6 +86,33 @@ class PostcodeSearchControllerSpec extends SpecBase with MockitoSugar {
       }
     }
 
+    "must send a PropertySearch audit event for a valid search, but not for an invalid one" in {
+
+      val mockSessionRepository = mock[SessionRepository]
+      val mockAuditService      = mock[services.AuditService]
+      when(mockSessionRepository.set(any())).thenReturn(Future.successful(true))
+
+      val application =
+        applicationBuilder(userAnswers = Some(emptyUserAnswers))
+          .overrides(
+            bind[SessionRepository].toInstance(mockSessionRepository),
+            bind[services.AuditService].toInstance(mockAuditService)
+          )
+          .build()
+
+      running(application) {
+        val session = uk.gov.hmrc.http.SessionKeys.sessionId -> "session-1"
+
+        status(route(application, FakeRequest(POST, postcodeSearchRoute).withSession(session).withFormUrlEncodedBody("value" -> "")).value) mustEqual BAD_REQUEST
+        org.mockito.Mockito.verify(mockAuditService, org.mockito.Mockito.never()).auditPropertySearch(any())(any())
+
+        status(route(application, FakeRequest(POST, postcodeSearchRoute).withSession(session).withFormUrlEncodedBody("value" -> "CF14 1AA")).value) mustEqual SEE_OTHER
+        org.mockito.Mockito.verify(mockAuditService).auditPropertySearch(
+          org.mockito.ArgumentMatchers.eq(models.audit.PropertySearchAuditEvent.standard("session-1", postcodeSearchRoute))
+        )(any())
+      }
+    }
+
     "must redirect to search results when valid data is submitted" in {
 
       val mockSessionRepository = mock[SessionRepository]

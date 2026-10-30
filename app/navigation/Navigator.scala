@@ -29,7 +29,7 @@ class Navigator @Inject()() {
   private val normalRoutes: Page => UserAnswers => Call = {
     case CouncilTaxLiabilityStartDatePage => _ => routes.WhyBandIsWrongController.onPageLoad(NormalMode)
     case WhyBandIsWrongPage              => _ => routes.CheckYourAnswersController.onPageLoad()
-    case CouncilTaxResponsiblePage       => councilTaxResponsibleRoutes
+    // case CouncilTaxResponsiblePage       => councilTaxResponsibleRoutes
     case RequestCouncilTaxBandReviewPage => _ => routes.ReasonForReviewController.onPageLoad(NormalMode)
     case ReasonForReviewPage             => reasonForReviewRoutes
     case `scenarioResponsiblePage`      => scenarioResponsibleRoutes
