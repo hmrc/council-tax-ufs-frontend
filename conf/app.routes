@@ -92,3 +92,8 @@ GET        /date-notice                                   controllers.DateNotice
 POST       /date-notice                                   controllers.DateNoticeController.onSubmit(mode: Mode = NormalMode)
 GET        /changeDateNotice                              controllers.DateNoticeController.onPageLoad(mode: Mode = CheckMode)
 POST       /changeDateNotice                              controllers.DateNoticeController.onSubmit(mode: Mode = CheckMode)
+
+GET        /which-band                                    controllers.WhichBandController.onPageLoad(mode: Mode = NormalMode)
+POST       /which-band                                    controllers.WhichBandController.onSubmit(mode: Mode = NormalMode)
+GET        /changeWhichBand                               controllers.WhichBandController.onPageLoad(mode: Mode = CheckMode)
+POST       /changeWhichBand                               controllers.WhichBandController.onSubmit(mode: Mode = CheckMode)

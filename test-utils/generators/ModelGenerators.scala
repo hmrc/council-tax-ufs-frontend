@@ -22,6 +22,11 @@ import org.scalacheck.{Arbitrary, Gen}
 
 trait ModelGenerators {
 
+  implicit lazy val arbitraryWhichBand: Arbitrary[WhichBand] =
+    Arbitrary {
+      Gen.oneOf(WhichBand.values.toSeq)
+    }
+
   implicit lazy val arbitraryAdvancedPropertySearch: Arbitrary[AdvancedPropertySearch] =
     Arbitrary {
       for {

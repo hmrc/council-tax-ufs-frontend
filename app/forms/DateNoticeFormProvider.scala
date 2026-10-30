@@ -35,8 +35,8 @@ class DateNoticeFormProvider @Inject() extends Mappings {
         twoRequiredKey = "dateNotice.error.required.two",
         requiredKey = "dateNotice.error.required"
       ).verifying(
-        minDate(today.minusMonths(6), "dateNotice.error.range"),
-        maxDate(today, "dateNotice.error.range")
+        minDate(today.minusMonths(6), "dateNotice.error.sixMonths"),
+        maxDate(today, "dateNotice.error.future")
       )
     )
   }  

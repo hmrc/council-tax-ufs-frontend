@@ -31,14 +31,14 @@ import views.html.DateNoticeView
 import scala.concurrent.{ExecutionContext, Future}
 
 class DateNoticeController @Inject()(
-                                      override val messagesApi: MessagesApi,
-                                      sessionRepository: SessionRepository,
-                                      navigator: Navigator,
-                                      identify: IdentifierAction,
-                                      getData: DataRetrievalAction,
-                                      formProvider: DateNoticeFormProvider,
-                                      val controllerComponents: MessagesControllerComponents,
-                                      view: DateNoticeView
+                                        override val messagesApi: MessagesApi,
+                                        sessionRepository: SessionRepository,
+                                        navigator: Navigator,
+                                        identify: IdentifierAction,
+                                        getData: DataRetrievalAction,
+                                        formProvider: DateNoticeFormProvider,
+                                        val controllerComponents: MessagesControllerComponents,
+                                        view: DateNoticeView
                                       )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
   def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData) {
