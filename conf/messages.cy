@@ -1,5 +1,6 @@
 service.name = Adolygu eich band Treth Gyngor
 
+site.opensInNewTab = (yn agor tab newydd)
 site.back = Yn ôl
 site.remove = Dileu
 site.change = Newid
@@ -19,7 +20,7 @@ date.error.month = mis
 date.error.year = blwyddyn
 
 timeout.title = Rydych ar fin cael eich allgofnodi
-timeout.message = Am resymau diogelwch, byddwch yn cael eich allgofnodi o'r gwasanaeth hwn ymhen
+timeout.message = Am resymau diogelwch, byddwch yn cael eich allgofnodi o''r gwasanaeth hwn ymhen
 timeout.keepAlive = Aros wedi mewngofnodi
 timeout.signOut = Allgofnodi
 
@@ -32,26 +33,26 @@ error.guidance = Rhowch gynnig arall arni yn nes ymlaen.
 
 index.title = council-tax-ufs-frontend
 index.heading = council-tax-ufs-frontend
-index.guidance = Croeso i'ch blaenwedd newydd. Gweler y ffeil README am ganllaw i ddechrau.
+index.guidance = Croeso i''ch blaenwedd newydd. Gweler y ffeil README am ganllaw i ddechrau.
 
 checkYourAnswers.title = Gwiriwch eich atebion
 checkYourAnswers.heading = Gwiriwch eich atebion
 checkYourAnswers.section.propertyDetails = Manylion yr eiddo
 checkYourAnswers.section.challengeDetails = Manylion yr her
 
-journeyRecovery.continue.title = Mae'n ddrwg gennym, mae problem gyda'r gwasanaeth
-journeyRecovery.continue.heading = Mae'n ddrwg gennym, mae problem gyda'r gwasanaeth
+journeyRecovery.continue.title = Mae''n ddrwg gennym, mae problem gyda''r gwasanaeth
+journeyRecovery.continue.heading = Mae''n ddrwg gennym, mae problem gyda''r gwasanaeth
 journeyRecovery.continue.guidance = [Ychwanegwch gynnwys i esbonio sut i barhau.]
-journeyRecovery.startAgain.title = Mae'n ddrwg gennym, mae problem gyda'r gwasanaeth
-journeyRecovery.startAgain.heading = Mae'n ddrwg gennym, mae problem gyda'r gwasanaeth
-journeyRecovery.startAgain.guidance = [Ychwanegwch gynnwys i esbonio pam mae angen i'r defnyddiwr ddechrau eto.]
+journeyRecovery.startAgain.title = Mae''n ddrwg gennym, mae problem gyda''r gwasanaeth
+journeyRecovery.startAgain.heading = Mae''n ddrwg gennym, mae problem gyda''r gwasanaeth
+journeyRecovery.startAgain.guidance = [Ychwanegwch gynnwys i esbonio pam mae angen i''r defnyddiwr ddechrau eto.]
 
 signedOut.title = Er eich diogelwch, gwnaethom eich allgofnodi
 signedOut.heading = Er eich diogelwch, gwnaethom eich allgofnodi
 signedOut.guidance = Ni wnaethom gadw eich atebion.
 
-unauthorised.title = Ni allwch gael mynediad at y gwasanaeth hwn gyda'r cyfrif hwn
-unauthorised.heading = Ni allwch gael mynediad at y gwasanaeth hwn gyda'r cyfrif hwn
+unauthorised.title = Ni allwch gael mynediad at y gwasanaeth hwn gyda''r cyfrif hwn
+unauthorised.heading = Ni allwch gael mynediad at y gwasanaeth hwn gyda''r cyfrif hwn
 
 # Buttons
 button.print    = Argraffu’r dudalen hon
@@ -59,10 +60,10 @@ button.continue = Parhau
 
 postcodeSearch.title = Nodwch god post yr eiddo
 postcodeSearch.heading = Nodwch god post yr eiddo
-postcodeSearch.description = Gallwch chwilio am unrhyw gartref yng Nghymru a Lloegr drwy nodi'r cod post.
+postcodeSearch.description = Gallwch chwilio am unrhyw gartref yng Nghymru a Lloegr drwy nodi''r cod post.
 postcodeSearch.label = Cod post
 postcodeSearch.hint = Er enghraifft CF5 4GP
-postcodeSearch.checkYourAnswersLabel = Cod post a ddefnyddiwyd i ddod o hyd i'ch cartref
+postcodeSearch.checkYourAnswersLabel = Cod post a ddefnyddiwyd i ddod o hyd i''ch cartref
 postcodeSearch.dontKnowPostcode = Opsiynau chwilio eraill
 postcodeSearch.error.required = Nodwch god post, er enghraifft AA1 1AA
 postcodeSearch.error.invalid = Nodwch god post go iawn
@@ -145,13 +146,13 @@ searchResults.cannotFind                 = Ni allaf ddod o hyd i fy eiddo
 searchResults.cannotFind.check           = Gwiriwch fod y manylion rydych wedi''u rhoi yn gywir, neu chwiliwch am eiddo gan ddefnyddio''r
 searchResults.cannotFind.otherOptions    = opsiynau chwilio eraill
 searchResults.cannotFind.contactCouncil  = Cysylltwch â''ch cyngor lleol
-searchResults.cannotFind.contactCouncilDescription = os na allwch ddod o hyd i’'ch eiddo o hyd. Byddant yn rhoi’'r wybodaeth sydd ei hangen ar y Swyddfa Brisio er mwyn neilltuo band Treth Gyngor.
-searchResults.commercialUse              = Ni ddylid defnyddio’'r data hwn at ddibenion masnachol
+searchResults.cannotFind.contactCouncilDescription = os na allwch ddod o hyd i’''ch eiddo o hyd. Byddant yn rhoi’''r wybodaeth sydd ei hangen ar y Swyddfa Brisio er mwyn neilltuo band Treth Gyngor.
+searchResults.commercialUse              = Ni ddylid defnyddio’''r data hwn at ddibenion masnachol
 searchResults.searchAgain                = Chwilio eto
 searchResults.searchAgain.label          = Rhowch god post
 searchResults.searchAgain.button         = Chwilio
 searchResults.otherSearchOptions         = Opsiynau chwilio eraill
-searchResults.error                      = Roedd problem gyda'ch chwiliad. Rhowch gynnig arall arni.
+searchResults.error                      = Roedd problem gyda''ch chwiliad. Rhowch gynnig arall arni.
 searchResults.voa.england                = Mae''r <a class="govuk-link" href="https://www.gov.uk/government/organisations/valuation-office-agency">Swyddfa Brisio (VO)</a> yn rhoi pob cartref mewn grŵp o''r enw ''band'', yn seiliedig ar werth yr eiddo ar 1 Ebrill 1991.
 searchResults.bands.england              = Band ''A'' yw''r un isaf a Band ''H'' yw''r un uchaf.
 searchResults.voa.wales                  = Mae''r <a class="govuk-link" href="https://www.gov.uk/government/organisations/valuation-office-agency">Swyddfa Brisio (VO)</a> yn rhoi pob cartref mewn grŵp o''r enw ''band'', yn seiliedig ar werth yr eiddo ar 1 Ebrill 2003.
@@ -165,7 +166,7 @@ noResults.label                          = Nodwch y cod post
 noResults.button                         = Chwilio eto
 noResults.cannotFind.check               = Gwiriwch fod y manylion rydych chi wedi’u nodi yn gywir, neu chwiliwch am eiddo gan ddefnyddio’r
 noResults.cannotFind.otherOptions        = opsiynau chwilio eraill
-noResults.contactCouncil                 = Cysylltwch â'ch cyngor lleol
+noResults.contactCouncil                 = Cysylltwch â''ch cyngor lleol
 noResults.contactCouncilDescription      = os na allwch ddod o hyd i’ch eiddo o hyd. Byddant yn rhoi’r wybodaeth sydd ei hangen ar Swyddfa Brisio i bennu band Treth Gyngor.
 
 
@@ -276,7 +277,7 @@ historicBands.details.effectiveFromDescription   = Y dyddiad y daeth y band Tret
 historicBandFull.localAuthority                  = Awdurdod lleol
 historicBandFull.metaDescription                 = Gweld manylion hanesyddol band Treth Gyngor yr eiddo hwn, gan gynnwys pryd oedd y band yn berthnasol.
 historicBandFull.valuationList                   = Rhestr brisio
-historicBandFull.valuationListDescription        = Mae hyn yn nodi'r holl eiddo sydd wedi'u bandio at ddibenion Treth Gyngor. Crëwyd rhestrau bandiau Treth Gyngor ar gyfer Cymru a Lloegr yn 1993 ac eto yng Nghymru yn 2005.
+historicBandFull.valuationListDescription        = Mae hyn yn nodi''r holl eiddo sydd wedi''u bandio at ddibenion Treth Gyngor. Crëwyd rhestrau bandiau Treth Gyngor ar gyfer Cymru a Lloegr yn 1993 ac eto yng Nghymru yn 2005.
 historicBandFull.challenge.summary               = Herio band Treth Gyngor blaenorol
 historicBandFull.challenge.telephone              = Ffôn
 historicBandFull.challenge.england               = 03000 501 501 ar gyfer Lloegr
@@ -311,35 +312,35 @@ propertyDetail.band.range.wales.G         = £223,001 i £324,000
 propertyDetail.band.range.wales.H         = £324,001 i £424,000
 propertyDetail.band.range.wales.I         = mwy na £424,000
  
-councilTaxResponsible.title = Ydych chi'n gyfrifol am y Dreth Gyngor ar yr eiddo hwn?
-councilTaxResponsible.heading = Ydych chi'n gyfrifol am y Dreth Gyngor ar yr eiddo hwn?
+councilTaxResponsible.title = Ydych chi''n gyfrifol am y Dreth Gyngor ar yr eiddo hwn?
+councilTaxResponsible.heading = Ydych chi''n gyfrifol am y Dreth Gyngor ar yr eiddo hwn?
 councilTaxResponsible.yes = Ydw
 councilTaxResponsible.no = Nac ydw
-councilTaxResponsible.actingFor = Rydw i'n gweithredu dros rywun sy'n gyfrifol
-councilTaxResponsible.hint = Dim ond pobl sy'n gyfrifol am y Dreth Gyngor ar eiddo sydd â chaniatâd i weld rhagor o fanylion. Mae hyn yn cynnwys pobl sy'n gweithredu dros rywun sydd yn gyfrifol.
+councilTaxResponsible.actingFor = Rydw i''n gweithredu dros rywun sy''n gyfrifol
+councilTaxResponsible.hint = Dim ond pobl sy''n gyfrifol am y Dreth Gyngor ar eiddo sydd â chaniatâd i weld rhagor o fanylion. Mae hyn yn cynnwys pobl sy''n gweithredu dros rywun sydd yn gyfrifol.
 councilTaxResponsible.actingFor.hint = Bydd angen i chi gael eu caniatâd ysgrifenedig
 site.warning = Warning
-councilTaxResponsible.warning = Os nad ydych chi'n gyfrifol am y Dreth Gyngor ar yr eiddo hwn, dylech chi ddim barhau gyda'r gwasanaeth hwn.
-councilTaxResponsible.checkYourAnswersLabel = Ydych chi'n gyfrifol am y Dreth Gyngor ar yr eiddo hwn?
-councilTaxResponsible.error.required = Dewiswch ''Ydw'' os ydych chi'n gyfriifol am y Dreth Gyngor ar yr eiddo hwn
+councilTaxResponsible.warning = Os nad ydych chi''n gyfrifol am y Dreth Gyngor ar yr eiddo hwn, dylech chi ddim barhau gyda''r gwasanaeth hwn.
+councilTaxResponsible.checkYourAnswersLabel = Ydych chi''n gyfrifol am y Dreth Gyngor ar yr eiddo hwn?
+councilTaxResponsible.error.required = Dewiswch ''Ydw'' os ydych chi''n gyfriifol am y Dreth Gyngor ar yr eiddo hwn
 councilTaxResponsible.change.hidden = CouncilTaxResponsible
 
 requestCouncilTaxBandReview.title = Gwneud cais am adolygiad o fand Treth Gyngor
 requestCouncilTaxBandReview.heading = Gwneud cais am adolygiad o fand Treth Gyngor
-requestCouncilTaxBandReview.p1.1 = Gallwch ofyn i'r Swyddfa Brisio (VO) am adolygiad o fand Treth Gyngor ar unrhyw adeg.
+requestCouncilTaxBandReview.p1.1 = Gallwch ofyn i''r Swyddfa Brisio (VO) am adolygiad o fand Treth Gyngor ar unrhyw adeg.
 requestCouncilTaxBandReview.p1.2 = Nid oes tâl am y gwasanaeth hwn.
-requestCouncilTaxBandReview.p1.3 = Bydd angen i chi ddweud wrthym pam rydych yn meddwl y dylid adolygu’r band. Efallai y byddwn yn gofyn i chi am ragor o fanylion, ac efallai y bydd angen i chi ddarparu tystiolaeth i gefnogi'ch cais.
+requestCouncilTaxBandReview.p1.3 = Bydd angen i chi ddweud wrthym pam rydych yn meddwl y dylid adolygu’r band. Efallai y byddwn yn gofyn i chi am ragor o fanylion, ac efallai y bydd angen i chi ddarparu tystiolaeth i gefnogi''ch cais.
 requestCouncilTaxBandReview.subheading1 = Pryd y gallwch ofyn am adolygiad o fand Treth Gyngor
 requestCouncilTaxBandReview.p2.1 = Rydych yn gallu gofyn i ni adolygu eich band Treth Gyngor os:
 requestCouncilTaxBandReview.subheading2.bullet1 = ydych wedi dod yn drethdalwr newydd o fewn y 6 mis diwethaf
 requestCouncilTaxBandReview.subheading2.bullet2 = mae’r band Treth Gyngor wedi newid yn ystod y 6 mis diwethaf
 requestCouncilTaxBandReview.subheading2.bullet3 = mae’r ardal leol wedi newid yn gorfforol
 requestCouncilTaxBandReview.p2.2 = Rydych yn gallu hefyd ofyn am adolygiad os yw rhywbeth wedi newid. Er enghraifft, mae’r eiddo:
-requestCouncilTaxBandReview.subheading2.bullet4 = wedi'i ddymchwel
+requestCouncilTaxBandReview.subheading2.bullet4 = wedi''i ddymchwel
 requestCouncilTaxBandReview.subheading2.bullet5 = yn adfeiliedig ac ni ellir byw ynddo
 requestCouncilTaxBandReview.subheading2.bullet6 = yn mynd trwy waith adnewyddu neu atgyweirio mawr
-requestCouncilTaxBandReview.subheading2.bullet7 = yn cael ei ddefnyddio'n rhannol at ddibenion busnes
-requestCouncilTaxBandReview.subheading2.bullet8 = wedi'i rannu'n sawl eiddo neu wedi'i uno'n un eiddo
+requestCouncilTaxBandReview.subheading2.bullet7 = yn cael ei ddefnyddio''n rhannol at ddibenion busnes
+requestCouncilTaxBandReview.subheading2.bullet8 = wedi''i rannu''n sawl eiddo neu wedi''i uno''n un eiddo
 requestCouncilTaxBandReview.p2.3 = Os byddwch yn gofyn am adolygiad am un o’r rhesymau hyn, ond dydych chi ddim yn cytuno â’r canlyniad, rydych yn gallu apelio yn erbyn y penderfyniad.
 requestCouncilTaxBandReview.p2.4 = Byddwn yn ystyried unrhyw welliannau wrth bennu’r band newydd, a allai fod yn uwch na’r un blaenorol. Fel arfer, bydd y band newydd yn dod i rym o’r dyddiad y daw’r eiddo yn addas i fyw ynddo eto.
 requestCouncilTaxBandReview.subheading2 = Cysylltu â’ch Cyngor Lleol
@@ -368,7 +369,7 @@ reasonForReview.bullet2 = gwaith adeiladu mawr sy’n golygu na ellir byw ynddo
 reasonForReview.bullet3 = newid i’r ffordd y mae’r adeilad yn cael ei ddefnyddio
 reasonForReview.p3 = Gallwn hefyd adolygu eich band os yw newidiadau yn eich ardal leol wedi effeithio ar eich eiddo.
 
-reasonForReview.band-is-wrong = Rwy'n credu bod fy mand yn anghywir
+reasonForReview.band-is-wrong = Rwy''n credu bod fy mand yn anghywir
 reasonForReview.changes-affected-property = Mae newidiadau wedi effeithio ar yr eiddo
 reasonForReview.error.required = Dewiswch pam eich bod am herio eich band Treth Gyngor
 
@@ -390,7 +391,7 @@ deletionOptions.error.required = Dewiswch beth sydd wedi newid
 
 noticeAlteration.title = Ydych chi wedi derbyn Hysbysiad o Newid yn ystod y chwe mis diwethaf?
 noticeAlteration.heading = Ydych chi wedi derbyn Hysbysiad o Newid yn ystod y chwe mis diwethaf?
-noticeAlteration.hint = Mae Hysbysiad o Newid yn lythyr sy’n cael ei anfon gan Asiantaeth y Swyddfa Brisio os yw newid wedi bod i'r Rhestr Brisio.
+noticeAlteration.hint = Mae Hysbysiad o Newid yn lythyr sy’n cael ei anfon gan Asiantaeth y Swyddfa Brisio os yw newid wedi bod i''r Rhestr Brisio.
 noticeAlteration.yes = Ydw
 noticeAlteration.no = Nac ydw
 noticeAlteration.checkYourAnswersLabel = Ydych chi wedi derbyn Hysbysiad o Newid yn ystod y chwe mis diwethaf?
@@ -411,8 +412,8 @@ councilTaxLiabilityStartDate.hint = Rydych yn gyfrifol o’r dyddiad wnaethoch b
 councilTaxLiabilityStartDate.example = Er enghraifft, os taw’r dyddiad oedd 27 Ebrill 2025, rhowch 27 4 2025
 councilTaxLiabilityStartDate.checkYourAnswersLabel = Y dyddiad y daethoch yn gyfrifol am Dreth Gyngor
 councilTaxLiabilityStartDate.error.required.all = Nodwch y dyddiad y daethoch yn gyfrifol am dalu Treth Gyngor
-councilTaxLiabilityStartDate.error.required.two = Rhaid i'r dyddiad y daethoch yn gyfrifol am dalu Treth Gyngor gynnwys {0} a {1}
-councilTaxLiabilityStartDate.error.required = Rhaid i'r dyddiad y daethoch yn gyfrifol am dalu Treth Gyngor gynnwys {0}
+councilTaxLiabilityStartDate.error.required.two = Rhaid i''r dyddiad y daethoch yn gyfrifol am dalu Treth Gyngor gynnwys {0} a {1}
+councilTaxLiabilityStartDate.error.required = Rhaid i''r dyddiad y daethoch yn gyfrifol am dalu Treth Gyngor gynnwys {0}
 councilTaxLiabilityStartDate.error.invalid = Nodwch ddyddiad dilys y daethoch yn gyfrifol am dalu Treth Gyngor
 councilTaxLiabilityStartDate.error.range = Nodwch ddyddiad o fewn y 6 mis diwethaf
 councilTaxLiabilityStartDate.change.hidden = Y dyddiad y daethoch yn gyfrifol am dalu Treth Gyngor
@@ -442,7 +443,7 @@ whyBandIsWrong.charactersOverLimit.few = Mae gennych {0} o nodau yn ormod
 whyBandIsWrong.charactersOverLimit.many = Mae gennych {0} o nodau yn ormod
 whyBandIsWrong.charactersOverLimit.other = Mae gennych {0} o nodau yn ormod
 whyBandIsWrong.error.required = Dywedwch wrthym pam rydych yn meddwl bod y band Treth Gyngor yn anghywir
-whyBandIsWrong.error.maxLength = Rhaid i'ch ateb fod yn 1,000 o nodau neu lai
+whyBandIsWrong.error.maxLength = Rhaid i''ch ateb fod yn 1,000 o nodau neu lai
 whyBandIsWrong.checkYourAnswersLabel = Pam rydych yn credu bod y band Treth Gyngor yn anghywir
 whyBandIsWrong.change.hidden = Pam rydych yn credu bod y band Treth Gyngor yn anghywir
  

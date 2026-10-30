@@ -51,7 +51,7 @@ class CouncilTaxLiabilityStartDateController @Inject()(
         case Some(value) => form.fill(value)
       }
 
-      Ok(view(preparedForm, mode))
+      Ok(view(preparedForm, mode, navigator.backLink(CouncilTaxLiabilityStartDatePage, mode, request.userAnswers).url))
   }
 
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData).async {
@@ -61,7 +61,7 @@ class CouncilTaxLiabilityStartDateController @Inject()(
 
       form.bindFromRequest().fold(
         formWithErrors =>
-          Future.successful(BadRequest(view(formWithErrors, mode))),
+          Future.successful(BadRequest(view(formWithErrors, mode, navigator.backLink(CouncilTaxLiabilityStartDatePage, mode, request.userAnswers).url))),
 
         value => {
             val answers = request.userAnswers.getOrElse(models.UserAnswers(request.userId))

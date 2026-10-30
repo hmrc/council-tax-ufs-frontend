@@ -59,14 +59,14 @@
              InputViewModel(
                  field = form("townOrCity"),
                  label = LabelViewModel(messages("advancedPropertySearch.townOrCity"))
-             ).withWidth(Fixed20)
+             ).withWidth(Fixed20).withAutocomplete("address-level2")
          )
 
          @govukInput(
              InputViewModel(
                  field = form("postcode"),
                  label = LabelViewModel(messages("advancedPropertySearch.postcode"))
-             ).withWidth(Fixed10)
+             ).withWidth(Fixed10).withAutocomplete("postal-code")
          )
 
         @govukDetails(Details(

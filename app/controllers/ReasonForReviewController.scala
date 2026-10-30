@@ -50,7 +50,7 @@ class ReasonForReviewController @Inject()(
         case Some(value) => form.fill(value)
       }
 
-      Ok(view(preparedForm, mode))
+      Ok(view(preparedForm, mode, navigator.backLink(ReasonForReviewPage, mode, request.userAnswers).url))
   }
 
   def onSubmit(mode: Mode): Action[AnyContent] = (sessionIdentify andThen getData).async {
@@ -58,7 +58,7 @@ class ReasonForReviewController @Inject()(
 
       form.bindFromRequest().fold(
         formWithErrors =>
-          Future.successful(BadRequest(view(formWithErrors, mode))),
+          Future.successful(BadRequest(view(formWithErrors, mode, navigator.backLink(ReasonForReviewPage, mode, request.userAnswers).url))),
 
       value =>
         for {

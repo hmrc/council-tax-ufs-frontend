@@ -21,7 +21,9 @@ import models.UserAnswers
 import org.mongodb.scala.bson.conversions.Bson
 import org.mongodb.scala.model._
 import org.mongodb.scala.SingleObservableFuture
+import play.api.Configuration
 import play.api.libs.json.Format
+import uk.gov.hmrc.crypto.SymmetricCryptoFactory
 import uk.gov.hmrc.mongo.MongoComponent
 import uk.gov.hmrc.mongo.play.json.PlayMongoRepository
 import uk.gov.hmrc.mongo.play.json.formats.MongoJavatimeFormats
@@ -36,12 +38,20 @@ import scala.concurrent.{ExecutionContext, Future}
 class SessionRepository @Inject()(
                                    mongoComponent: MongoComponent,
                                    appConfig: FrontendAppConfig,
+                                   configuration: Configuration,
                                    clock: Clock
                                  )(implicit ec: ExecutionContext)
   extends PlayMongoRepository[UserAnswers](
     collectionName = "user-answers",
     mongoComponent = mongoComponent,
-    domainFormat   = UserAnswers.format,
+    // Encrypted format also reads plain records, so encryption can be switched on without a migration
+    domainFormat   = if (configuration.get[Boolean]("mongodb.encryption.enabled")) {
+                       UserAnswers.encryptedFormat(
+                         SymmetricCryptoFactory.aesGcmCryptoFromConfig("mongodb.encryption", configuration.underlying)
+                       )
+                     } else {
+                       UserAnswers.format
+                     },
     indexes        = Seq(
       IndexModel(
         Indexes.ascending("lastUpdated"),

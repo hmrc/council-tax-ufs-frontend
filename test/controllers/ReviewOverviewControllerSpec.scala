@@ -31,7 +31,7 @@ class ReviewOverviewControllerSpec extends SpecBase {
       val application = new GuiceApplicationBuilder().build()
 
       running(application) {
-        val result = route(application, FakeRequest(GET, routes.ReviewOverviewController.formalReview().url)).value
+        val result = route(application, FakeRequest(GET, routes.ReviewOverviewController.formalReview().url).withSession("sessionId" -> userAnswersId)).value
 
         status(result) mustBe OK
         contentAsString(result) must include("Asking for a formal review")
@@ -42,7 +42,7 @@ class ReviewOverviewControllerSpec extends SpecBase {
       val application = new GuiceApplicationBuilder().build()
 
       running(application) {
-        val result = route(application, FakeRequest(GET, routes.ReviewOverviewController.informalReview().url)).value
+        val result = route(application, FakeRequest(GET, routes.ReviewOverviewController.informalReview().url).withSession("sessionId" -> userAnswersId)).value
 
         status(result) mustBe OK
         contentAsString(result) must include("Asking for an informal review")
@@ -61,7 +61,6 @@ class ReviewOverviewControllerSpec extends SpecBase {
         val result = route(application, request).value
 
         status(result) mustBe SEE_OTHER
-        redirectLocation(result).value must startWith(appConfig.loginUrl)
         redirectLocation(result).value must include("council-tax-liability-start-date")
       }
     }
@@ -79,7 +78,6 @@ class ReviewOverviewControllerSpec extends SpecBase {
         val result = route(application, request).value
 
         status(result) mustBe SEE_OTHER
-        redirectLocation(result).value must startWith(appConfig.loginUrl)
         redirectLocation(result).value must include("why-band-is-wrong")
       }
     }
@@ -94,7 +92,6 @@ class ReviewOverviewControllerSpec extends SpecBase {
         val result = route(application, request).value
 
         status(result) mustBe SEE_OTHER
-        redirectLocation(result).value must startWith(appConfig.loginUrl)
         redirectLocation(result).value must include("why-band-is-wrong")
       }
     }

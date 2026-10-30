@@ -39,7 +39,7 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
 
         val view = application.injector.instanceOf[CheckYourAnswersView]
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(Seq.empty)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(Seq.empty, routes.WhyBandIsWrongController.onPageLoad(models.NormalMode).url)(request, messages(application)).toString
       }
     }
 

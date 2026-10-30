@@ -57,7 +57,7 @@ class CouncilTaxResponsibleControllerSpec extends SpecBase with MockitoSugar {
 
         status(result) mustEqual OK
         contentAsString(result) mustEqual
-          view(form, NormalMode, "")(request, messages(application)).toString
+          view(form, NormalMode, "", routes.PostcodeSearchController.onPageLoad(NormalMode).url)(request, messages(application)).toString
       }
     }
 
@@ -79,7 +79,8 @@ class CouncilTaxResponsibleControllerSpec extends SpecBase with MockitoSugar {
           view(
             form.fill(CouncilTaxResponsible.values.head),
             NormalMode,
-            ""
+            "",
+            routes.PostcodeSearchController.onPageLoad(NormalMode).url
           )(request, messages(application)).toString
       }
     }
@@ -127,7 +128,7 @@ class CouncilTaxResponsibleControllerSpec extends SpecBase with MockitoSugar {
 
         status(result) mustEqual BAD_REQUEST
         contentAsString(result) mustEqual
-          view(boundForm, NormalMode, "")(request, messages(application)).toString
+          view(boundForm, NormalMode, "", routes.PostcodeSearchController.onPageLoad(NormalMode).url)(request, messages(application)).toString
       }
     }
   }
