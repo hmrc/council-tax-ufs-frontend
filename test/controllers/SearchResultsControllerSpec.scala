@@ -91,7 +91,7 @@ class SearchResultsControllerSpec extends SpecBase with MockitoSugar {
         val result = route(application, request).value
 
         status(result) mustEqual OK
-        contentAsString(result) must include("No results for")
+        contentAsString(result) must include("No results found for")
       }
     }
   }
