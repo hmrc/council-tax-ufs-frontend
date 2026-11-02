@@ -162,6 +162,7 @@ propertyDetail.searchAnother              = Chwilio am eiddo arall
 # No Results
 noResults.title                          = Dim canlyniadau ar gyfer {0}
 noResults.heading                        = Dim canlyniadau ar gyfer {0}
+noResults.description                    = Doedd dim modd i ni ddod o hyd i unrhyw gyfeiriad ar gyfer y cod post hwnnw.
 noResults.label                          = Nodwch y cod post
 noResults.button                         = Chwilio eto
 noResults.cannotFind.check               = Gwiriwch fod y manylion rydych chi wedi’u nodi yn gywir, neu chwiliwch am eiddo gan ddefnyddio’r

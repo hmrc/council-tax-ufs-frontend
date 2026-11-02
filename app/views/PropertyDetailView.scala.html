@@ -16,11 +16,11 @@
 
 @import uk.gov.hmrc.govukfrontend.views.html.components._
 @import views.html.helper.CSPNonce
-@import views.html.components.PrintLink
+@import views.BandCountry
+@import views.html.components.{PrintLink, BandsDetails}
 
 @this(
     layout:      templates.Layout,
-    govukTable:  GovukTable,
     govukDetails: GovukDetails,
     govukButton: GovukButton
 )
@@ -31,20 +31,8 @@
    <script @CSPNonce.attr src='@controllers.routes.Assets.versioned("javascripts/print.js")'></script>
  }
 
-@countryKey = @{
-    viewModel.country.trim.toLowerCase(java.util.Locale.ROOT) match {
-        case "wales" | "w92000004" => "wales"
-        case "england" | "e92000001" => "england"
-        case _ => "england"
-    }
-}
-
-@bandLetters = @{
-    countryKey match {
-        case "wales" => Seq("A", "B", "C", "D", "E", "F", "G", "H", "I")
-        case _       => Seq("A", "B", "C", "D", "E", "F", "G", "H")
-    }
-}
+@country = @{ BandCountry.fromCode(viewModel.country) }
+@countryKey = @{ country.key }
 
 @tableRow(keyMsg: String, hintMsg: String, value: String) = {
     <tr class="govuk-table__row">
@@ -83,28 +71,6 @@
                      @valueHtml
         </td>
     </tr>
-}
-
-@bandRows = @{
-    bandLetters.map { band =>
-        val isCurrent = band == viewModel.band
-        Seq(
-            TableRow(
-                content = HtmlContent(
-                    if (isCurrent)
-                        s"""$band <span class="govuk-visually-hidden">
-                        |(${messages("propertyDetail.band.current")})
-                        |</span>""".stripMargin
-                    else band
-                ),
-                classes = if (isCurrent) "govuk-!-font-weight-bold" else ""
-            ),
-            TableRow(
-                content = Text(messages(s"propertyDetail.band.range.$countryKey.$band")),
-                classes = if (isCurrent) "govuk-!-font-weight-bold" else ""
-            )
-        )
-    }
 }
 
 @courtCodeEntries = @{
@@ -147,7 +113,6 @@
       @messages("propertyDetail.publicInformation")
       <div class="govuk-inset-text">@messages("propertyDetail.publicInformation.anybody")</div>
     </h2>
-    <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
 
     @* Main property details table — matching prototype structure *@
     <table class="govuk-table">
@@ -164,20 +129,7 @@
                         @messages(s"propertyDetail.band.hint.$countryKey")
                     </div>
 
-                    @govukDetails(Details(
-                        summary = Text(messages(s"propertyDetail.band.expand.$countryKey")),
-                        content = HtmlContent(
-                            govukTable(Table(
-                                caption = Some(messages(s"propertyDetail.band.expand.$countryKey")),
-                                captionClasses = "govuk-visually-hidden",
-                                head = Some(Seq(
-                                    HeadCell(content = Text(messages("propertyDetail.band.table.band"))),
-                                    HeadCell(content = Text(messages(s"propertyDetail.band.table.value.$countryKey")))
-                                )),
-                                rows = bandRows
-                            )).toString
-                        )
-                    ))
+                    @BandsDetails(country, viewModel.band)
                 </th>
 
                 <td class="govuk-table__cell govuk-!-width-one-third">

@@ -35,6 +35,7 @@
 @(pageTitle: String, fullWidth: Boolean = false, showBackLink: Boolean = true, backLinkUrl: Option[String] = None, metaDescription: Option[String] = None, timeout: Boolean = false, showSignOut: Boolean = true, showHmrcBanner: Boolean = false, scripts: Option[Html] = None)(contentBlock: Html)(implicit rh: RequestHeader, messages: Messages)
 
 @head = {
+    <link href='@routes.Assets.versioned("stylesheets/application.css")' rel="stylesheet" type="text/css" />
     @for(description <- metaDescription) {
         <meta name="description" content="@description">
     }
