@@ -56,7 +56,7 @@ class NoResultsViewSpec extends SpecBase {
 
     "must render the 'cannot find' message and link" in {
       val doc = asDocument(applyView(postcode))
-      val paragraph = doc.select("p.govuk-body").first()
+      val paragraph = doc.select("p.govuk-body").get(1)
 
       paragraph.text() must include(messages(application)("noResults.cannotFind.check"))
 
@@ -66,7 +66,7 @@ class NoResultsViewSpec extends SpecBase {
 
     "must render the contact council message and link" in {
       val doc = asDocument(applyView(postcode))
-      val paragraph = doc.select("p.govuk-body").get(1)
+      val paragraph = doc.select("p.govuk-body").get(2)
 
       val link = paragraph.select("a.govuk-link").first()
       link.text() mustBe messages(application)("noResults.contactCouncil")

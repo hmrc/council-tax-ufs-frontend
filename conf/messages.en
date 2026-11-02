@@ -100,8 +100,9 @@ searchResults.bands.wales                = The lowest band is ''A'', and the hig
 propertyDetail.searchAnother              = Search for another property
 
 # No Results
-noResults.title                          = No results for {0}
-noResults.heading                        = No results for {0}
+noResults.title                          = No results found for {0}
+noResults.heading                        = No results found for {0}
+noResults.description                    = We could not find any addresses for that postcode.
 noResults.label                          = Enter a postcode
 noResults.button                         = Search again
 noResults.cannotFind.check               = Check the details you have entered are correct or search for a property using the
