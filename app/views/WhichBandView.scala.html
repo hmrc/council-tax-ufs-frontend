@@ -15,15 +15,16 @@
  *@
 
 @this(
-    layout: templates.Layout,
-    formHelper: FormWithCSRF,
-    govukErrorSummary: GovukErrorSummary,
-    govukHint: GovukHint,
-    govukRadios: GovukRadios,
-    govukButton: GovukButton
+layout: templates.Layout,
+formHelper: FormWithCSRF,
+govukErrorSummary: GovukErrorSummary,
+govukDetails: GovukDetails,
+govukRadios: GovukRadios,
+govukButton: GovukButton,
+bandsDetails: components.BandsDetails
 )
 
-@(form: Form[_], mode: Mode)(implicit request: Request[_], messages: Messages)
+@(form: Form[_], mode: Mode, country: views.BandCountry)(implicit request: Request[_], messages: Messages)
 
 @layout(pageTitle = title(form, messages("whichBand.title"))) {
 
@@ -37,63 +38,19 @@
             @messages("whichBand.heading")
         </h1>
 
-        @govukHint(
-            HintViewModel(
-            messages("whichBand.hint")
-        ))
+        <p class="govuk-body">
+            @messages(s"whichBand.hint.${country.key}")
+            <a href="#" class="govuk-link">@messages(s"whichBand.link.${country.key}")</a>
+        </p>
+
+        @bandsDetails(country, "")
 
         @govukRadios(
             Radios(
-                idPrefix = Some("value"),
-                name = "value",
+                idPrefix     = Some("value"),
+                name         = "value",
                 errorMessage = form("value").error.map(err => ErrorMessage(content = Text(messages(err.message)))),
-                items = Seq(
-                    RadioItem(
-                        id      = Some("value_0"),
-                        value   = Some("banda"),
-                        content = Text(messages("whichBand.bandA"))
-                    ),
-                    RadioItem(
-                        id      = Some("value_1"),
-                        value   = Some("bandb"),
-                        content = Text(messages("whichBand.bandB"))
-                    ),
-                    RadioItem(
-                        id      = Some("value_2"),
-                        value   = Some("bandc"),
-                        content = Text(messages("whichBand.bandC"))
-                    ),
-                    RadioItem(
-                        id      = Some("value_3"),
-                        value   = Some("bandd"),
-                        content = Text(messages("whichBand.bandD"))
-                    ),
-                    RadioItem(
-                        id      = Some("value_4"),
-                        value   = Some("bande"),
-                        content = Text(messages("whichBand.bandE")),
-                    ),
-                    RadioItem(
-                        id      = Some("value_5"),
-                        value   = Some("bandf"),
-                        content = Text(messages("whichBand.bandF"))
-                    ),
-                    RadioItem(
-                        id      = Some("value_6"),
-                        value   = Some("bandg"),
-                        content = Text(messages("whichBand.bandG"))
-                    ),
-                    RadioItem(
-                        id      = Some("value_7"),
-                        value   = Some("bandh"),
-                        content = Text(messages("whichBand.bandH")),
-                    ),
-                    RadioItem(
-                        id      = Some("value_8"),
-                        value   = Some("notSure"),
-                        content = Text(messages("whichBand.notSure")),
-                    )
-                )
+                items        = WhichBand.options(country)
             )
         )
 

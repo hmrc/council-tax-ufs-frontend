@@ -17,7 +17,7 @@
 package controllers
 
 import controllers.actions.{DataRetrievalAction, SessionIdentifierAction}
-import pages.{PropertyAddressPage, PropertyIdPage}
+import pages.{PropertyAddressPage, PropertyIdPage, PropertyCountryPage}
 import play.api.i18n.{I18nSupport, Lang}
 import play.api.mvc.*
 import play.api.Logging
@@ -76,7 +76,8 @@ class PropertyDetailController @Inject()(
             val answers = request.userAnswers.getOrElse(models.UserAnswers(request.userId))
             for {
               withAddress <- Future.fromTry(answers.set(PropertyAddressPage, viewModel.address))
-              updated     <- Future.fromTry(withAddress.set(PropertyIdPage, viewModel.propertyId))
+              withId      <- Future.fromTry(withAddress.set(PropertyIdPage, viewModel.propertyId))
+              updated     <- Future.fromTry(withId.set(PropertyCountryPage, viewModel.country))
               _           <- sessionRepository.set(updated)
             } yield Ok(propertyDetailView(viewModel))
         }

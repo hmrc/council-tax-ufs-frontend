@@ -476,6 +476,7 @@ whichBand.bandE = Band E
 whichBand.bandF = Band F
 whichBand.bandG = Band G
 whichBand.bandH = Band H
+whichBand.bandH = Band I
 whichBand.notSure = I'''m not sure
 whichBand.checkYourAnswersLabel = What do you think the Council Tax band should be?
 whichBand.error.required = Select which band you think your Council Tax should be

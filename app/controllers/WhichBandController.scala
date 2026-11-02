@@ -16,16 +16,18 @@
 
 package controllers
 
-import controllers.actions._
+import controllers.actions.*
 import forms.WhichBandFormProvider
+
 import javax.inject.Inject
 import models.Mode
 import navigation.Navigator
-import pages.WhichBandPage
+import pages.{PropertyCountryPage, WhichBandPage}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import repositories.SessionRepository
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
+import views.BandCountry
 import views.html.WhichBandView
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -51,21 +53,31 @@ class WhichBandController @Inject()(
         case Some(value) => form.fill(value)
       }
 
-      Ok(view(preparedForm, mode))
+      val country = request.userAnswers
+        .flatMap(_.get(PropertyCountryPage))
+        .map(BandCountry.fromCode)
+        .getOrElse(BandCountry.England)
+
+      Ok(view(preparedForm, mode, country))
   }
 
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData).async {
     implicit request =>
 
+      val country = request.userAnswers
+        .flatMap(_.get(PropertyCountryPage))
+        .map(BandCountry.fromCode)
+        .getOrElse(BandCountry.England)
+
       form.bindFromRequest().fold(
         formWithErrors =>
-          Future.successful(BadRequest(view(formWithErrors, mode))),
+          Future.successful(BadRequest(view(formWithErrors, mode, country))),
 
         value => {
           val answers = request.userAnswers.getOrElse(models.UserAnswers(request.userId))
           for {
             updatedAnswers <- Future.fromTry(answers.set(WhichBandPage, value))
-            _              <- sessionRepository.set(updatedAnswers)
+            _ <- sessionRepository.set(updatedAnswers)
           } yield Redirect(navigator.nextPage(WhichBandPage, mode, updatedAnswers))
         }
       )

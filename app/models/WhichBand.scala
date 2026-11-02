@@ -19,6 +19,7 @@ package models
 import play.api.i18n.Messages
 import uk.gov.hmrc.govukfrontend.views.Aliases.Text
 import uk.gov.hmrc.govukfrontend.views.viewmodels.radios.RadioItem
+import views.BandCountry
 
 sealed trait WhichBand
 
@@ -32,19 +33,35 @@ object WhichBand extends Enumerable.Implicits {
   case object Bandf extends WithName("bandF") with WhichBand
   case object Bandg extends WithName("bandG") with WhichBand
   case object Bandh extends WithName("bandH") with WhichBand
+  case object Bandi extends WithName("bandI") with WhichBand
   case object NotSure extends WithName("notSure") with WhichBand
 
   val values: Seq[WhichBand] = Seq(
-    Banda, Bandb, Bandc, Bandd, Bande, Bandf, Bandh, Bandh, NotSure
+    Banda, Bandb, Bandc, Bandd, Bande, Bandf, Bandg, Bandh, Bandi, NotSure
   )
 
-  def options(implicit messages: Messages): Seq[RadioItem] = values.zipWithIndex.map {
-    case (value, index) =>
-      RadioItem(
-        content = Text(messages(s"whichBand.${value.toString}")),
-        value   = Some(value.toString),
-        id      = Some(s"value_$index")
-      )
+  def options(country: BandCountry)(implicit messages: Messages): Seq[RadioItem] = {
+    val bandValues = country.bands.map {
+      case "A" => Banda
+      case "B" => Bandb
+      case "C" => Bandc
+      case "D" => Bandd
+      case "E" => Bande
+      case "F" => Bandf
+      case "G" => Bandg
+      case "H" => Bandh
+      case "I" => Bandi
+      case _ => NotSure
+    } :+ NotSure
+
+    bandValues.zipWithIndex.map {
+      case (value, index) =>
+        RadioItem(
+          content = Text(messages(s"whichBand.${value.toString}")),
+          value = Some(value.toString),
+          id = Some(s"value_$index")
+        )
+    }
   }
 
   implicit val enumerable: Enumerable[WhichBand] =
