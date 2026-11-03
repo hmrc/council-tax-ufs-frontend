@@ -41,10 +41,11 @@ class WhyBandIsWrongViewSpec extends AnyWordSpec with Matchers {
       html should include("Your band will only be reviewed if you provide supporting evidence")
       html should include("What evidence can you include?")
       html should include("govuk-character-count")
-      html should include("data-maxlength=\"1000\"")
+      html should include("data-maxlength=\"5000\"")
       html should include("govuk-js-character-count")
+      html should include("id=\"why-band-is-wrong-info\"")
       html should include("data-i18n.characters-under-limit.other='You have %{count} characters remaining'")
-      html should include("You have 1,000 characters remaining")
+      html should include("You have 5,000 characters remaining")
     }
 
     "provide Welsh runtime counter messages to GOV.UK Frontend" in {

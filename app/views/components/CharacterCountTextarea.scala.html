@@ -1,0 +1,57 @@
+@*
+ * Copyright 2026 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *@
+
+@import uk.gov.hmrc.govukfrontend.views.html.components._
+@import uk.gov.hmrc.govukfrontend.views.viewmodels.content.Text
+@import uk.gov.hmrc.govukfrontend.views.viewmodels.errormessage.ErrorMessage
+@import uk.gov.hmrc.govukfrontend.views.viewmodels.label.Label
+
+@this(govukTextarea: GovukTextarea)
+
+@(
+  field: Field,
+  id: String,
+  label: String,
+  maxLength: Int,
+  rows: Int = 5,
+  labelClasses: String = "govuk-visually-hidden"
+)(implicit messages: Messages)
+
+<div class="govuk-character-count"
+  data-module="govuk-character-count"
+  data-maxlength="@maxLength"
+  data-i18n.characters-under-limit.one='@messages("characterCount.underLimit.one", "%{count}")'
+  data-i18n.characters-under-limit.other='@messages("characterCount.underLimit.other", "%{count}")'
+  data-i18n.characters-at-limit='@messages("characterCount.atLimit")'
+  data-i18n.characters-over-limit.one='@messages("characterCount.overLimit.one", "%{count}")'
+  data-i18n.characters-over-limit.other='@messages("characterCount.overLimit.other", "%{count}")'>
+  @govukTextarea(Textarea(
+    id = id,
+    name = field.name,
+    value = field.value,
+    rows = rows,
+    classes = "govuk-js-character-count",
+    label = Label(content = Text(label), classes = labelClasses),
+    errorMessage = field.error.map(error => ErrorMessage(content = Text(messages(error.message, error.args*)))),
+    attributes = Map(
+      "aria-describedby" -> s"$id-info",
+      "maxlength" -> maxLength.toString
+    )
+  ))
+  <div id="@id-info" class="govuk-hint govuk-character-count__message">
+    @messages("characterCount.remaining", maxLength - field.value.fold(0)(_.length))
+  </div>
+</div>

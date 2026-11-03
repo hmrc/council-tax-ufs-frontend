@@ -41,6 +41,26 @@ class MappingsSpec extends AnyFreeSpec with Matchers with OptionValues with Mapp
 
   import MappingsSpec._
 
+  "limitedText" - {
+
+    val testForm: Form[String] =
+      Form(
+        "value" -> limitedText("required.key", "maxLength.key", 5)
+      )
+
+    "must bind a string up to the limit" in {
+      testForm.bind(Map("value" -> "abcde")).get mustEqual "abcde"
+    }
+
+    "must not bind a string over the limit" in {
+      testForm.bind(Map("value" -> "abcdef")).errors must contain(FormError("value", "maxLength.key", Seq(5)))
+    }
+
+    "must not bind an empty string" in {
+      testForm.bind(Map("value" -> "")).errors must contain(FormError("value", "required.key"))
+    }
+  }
+
   "text" - {
 
     val testForm: Form[String] =
