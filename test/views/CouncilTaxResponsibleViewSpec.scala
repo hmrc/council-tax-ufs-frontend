@@ -40,7 +40,7 @@ class CouncilTaxResponsibleViewSpec extends SpecBase {
   val testAddress = "19, Somerby Court, Bramcote, Nottingham, NG9 3NB"
 
   def applyView(form: Form[CouncilTaxResponsible]): HtmlFormat.Appendable =
-    view(form, NormalMode, testAddress)(fakeRequest, messages(application))
+    view(form, NormalMode, testAddress, "/back-link")(fakeRequest, messages(application))
 
   def asDocument(html: HtmlFormat.Appendable): Document =
     Jsoup.parse(html.toString)

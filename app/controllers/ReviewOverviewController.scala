@@ -23,6 +23,7 @@ import pages.{noticeAlterationPage, scenarioResponsiblePage}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
+import navigation.Navigator
 import views.html.ReviewOverviewView
 
 import javax.inject.{Inject, Singleton}
@@ -34,7 +35,8 @@ class ReviewOverviewController @Inject()(
   reviewOverviewView: ReviewOverviewView,
   val controllerComponents: MessagesControllerComponents,
   sessionIdentify: SessionIdentifierAction,
-  getData: DataRetrievalAction
+  getData: DataRetrievalAction,
+  navigator: Navigator
 ) extends FrontendBaseController with I18nSupport {
 
   def formalReview(): Action[AnyContent] = show(ReviewType.Formal)
@@ -59,15 +61,15 @@ class ReviewOverviewController @Inject()(
     }
 
     continueCall match {
-      case Some(call) => Redirect(appConfig.loginUrl, Map("continue" -> Seq(continueUrlFor(call))))
+      // The target page uses AuthenticatedIdentifierAction, which sends users who aren't signed in to login
+      // (carrying ?k=<sessionId>) and lets signed-in users straight through.
+      case Some(call) => Redirect(call)
       case None       => BadRequest
     }
   }
 
-  private def show(reviewType: ReviewType): Action[AnyContent] = Action { implicit request =>
-    Ok(reviewOverviewView(reviewType))
+  private def show(reviewType: ReviewType): Action[AnyContent] = (sessionIdentify andThen getData) { implicit request =>
+    Ok(reviewOverviewView(reviewType, navigator.reviewOverviewBackLink(reviewType, request.userAnswers).url))
   }
 
-  private def continueUrlFor(call: play.api.mvc.Call): String =
-    s"${appConfig.host.stripSuffix("/")}${call.url}"
 }

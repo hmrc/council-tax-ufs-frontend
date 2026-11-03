@@ -57,7 +57,7 @@ class RequestCouncilTaxBandReviewControllerSpec extends SpecBase with MockitoSug
 
         status(result) mustEqual OK
 
-        contentAsString(result) mustEqual view(form, NormalMode)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(form, NormalMode, routes.CouncilTaxResponsibleController.onPageLoad(NormalMode).url)(request, messages(application)).toString
       }
     }
 
@@ -75,7 +75,7 @@ class RequestCouncilTaxBandReviewControllerSpec extends SpecBase with MockitoSug
         val result = route(application, request).value
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form.fill(RequestCouncilTaxBandReview.values.toSet), NormalMode)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(form.fill(RequestCouncilTaxBandReview.values.toSet), NormalMode, routes.CouncilTaxResponsibleController.onPageLoad(NormalMode).url)(request, messages(application)).toString
       }
     }
 
@@ -121,7 +121,7 @@ class RequestCouncilTaxBandReviewControllerSpec extends SpecBase with MockitoSug
         val result = route(application, request).value
 
         status(result) mustEqual BAD_REQUEST
-        contentAsString(result) mustEqual view(boundForm, NormalMode)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(boundForm, NormalMode, routes.CouncilTaxResponsibleController.onPageLoad(NormalMode).url)(request, messages(application)).toString
       }
     }
   }

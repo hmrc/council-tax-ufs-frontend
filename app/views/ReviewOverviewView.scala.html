@@ -21,7 +21,7 @@
   govukButton: GovukButton
 )
 
-@(reviewType: ReviewType)(implicit request: Request[_], messages: Messages)
+@(reviewType: ReviewType, backLinkUrl: String)(implicit request: Request[_], messages: Messages)
 
 @messagePrefix = @{ s"reviewOverview.${reviewType.messageKey}" }
 @detailRows = @{
@@ -34,7 +34,7 @@
   )
 }
 
-@layout(pageTitle = titleNoForm(messages(s"$messagePrefix.title")),fullWidth = true) {
+@layout(backLinkUrl = Some(backLinkUrl), pageTitle = titleNoForm(messages(s"$messagePrefix.title")),fullWidth = true) {
   <h1 class="govuk-heading-xl">@messages(s"$messagePrefix.title")</h1>
 
   <p class="govuk-body">@Html(messages(s"$messagePrefix.intro"))</p>
@@ -49,7 +49,6 @@
       ButtonViewModel(messages("site.continue"))
         .asLink(routes.ReviewOverviewController.continueToLogin(reviewType.continueRoute).url)
     )
-    <a class="govuk-link" href="javascript:history.back()">@messages("site.back")</a>
   </div>
 
   <h2 class="govuk-heading-l">@messages(s"$messagePrefix.table.heading")</h2>

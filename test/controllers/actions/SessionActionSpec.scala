@@ -41,7 +41,11 @@ class SessionActionSpec extends SpecBase {
         running(application){
           val bodyParsers = application.injector.instanceOf[BodyParsers.Default]
 
-          val sessionAction = new SessionIdentifierAction(bodyParsers)
+          val sessionAction = new SessionIdentifierAction(
+            application.injector.instanceOf[uk.gov.hmrc.auth.core.AuthConnector],
+            application.injector.instanceOf[services.UserAnswersMigrationService],
+            bodyParsers
+          )
 
           val controller = new Harness(sessionAction)
 
@@ -62,7 +66,11 @@ class SessionActionSpec extends SpecBase {
         running(application) {
           val bodyParsers = application.injector.instanceOf[BodyParsers.Default]
 
-          val sessionAction = new SessionIdentifierAction(bodyParsers)
+          val sessionAction = new SessionIdentifierAction(
+            application.injector.instanceOf[uk.gov.hmrc.auth.core.AuthConnector],
+            application.injector.instanceOf[services.UserAnswersMigrationService],
+            bodyParsers
+          )
 
           val controller = new Harness(sessionAction)
 

@@ -20,8 +20,10 @@ import controllers.actions._
 import forms.AdvancedPropertySearchFormProvider
 import javax.inject.Inject
 import models.Mode
+import models.audit.PropertySearchAuditEvent
+import services.AuditService
 import navigation.Navigator
-import pages.AdvancedPropertySearchPage
+import pages.{AdvancedPropertySearchPage, PostcodeSearchPage}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import repositories.SessionRepository
@@ -39,7 +41,8 @@ class AdvancedPropertySearchController @Inject()(
                                                   getData: DataRetrievalAction,
                                                   formProvider: AdvancedPropertySearchFormProvider,
                                                   val controllerComponents: MessagesControllerComponents,
-                                                  view: AdvancedPropertySearchView
+                                                  view: AdvancedPropertySearchView,
+                                                  auditService: AuditService
                                                 )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
   val form = formProvider()
@@ -67,10 +70,11 @@ class AdvancedPropertySearchController @Inject()(
             answers <- Future.successful(
               request.userAnswers.getOrElse(models.UserAnswers(request.userId))
             )
-            clearedAnswers <- Future.fromTry(answers.remove(AdvancedPropertySearchPage))
+            clearedAnswers <- Future.fromTry(answers.remove(PostcodeSearchPage))
             updatedAnswers <- Future.fromTry(clearedAnswers.set(AdvancedPropertySearchPage, value))
             _              <- sessionRepository.set(updatedAnswers)
           } yield {
+            auditService.auditPropertySearch(PropertySearchAuditEvent.advanced(request.userId, request.path, value))
             val encryptedPostcode = urlEncryptor.encrypt(value.postcode)
             Redirect(routes.SearchResultsController.show(encryptedPostcode, 1))
           }

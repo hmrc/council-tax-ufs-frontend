@@ -51,7 +51,7 @@ class deletionOptionsController @Inject()(
         case Some(value) => form.fill(value)
       }
 
-      Ok(view(preparedForm, mode))
+      Ok(view(preparedForm, mode, navigator.backLink(deletionOptionsPage, mode, request.userAnswers).url))
   }
 
   def onSubmit(mode: Mode): Action[AnyContent] = (sessionIdentify andThen getData).async {
@@ -59,7 +59,7 @@ class deletionOptionsController @Inject()(
 
       form.bindFromRequest().fold(
         formWithErrors =>
-          Future.successful(BadRequest(view(formWithErrors, mode))),
+          Future.successful(BadRequest(view(formWithErrors, mode, navigator.backLink(deletionOptionsPage, mode, request.userAnswers).url))),
 
         value =>
           for {

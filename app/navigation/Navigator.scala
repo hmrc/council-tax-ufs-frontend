@@ -29,7 +29,7 @@ class Navigator @Inject()() {
   private val normalRoutes: Page => UserAnswers => Call = {
     case CouncilTaxLiabilityStartDatePage => _ => routes.WhyBandIsWrongController.onPageLoad(NormalMode)
     case WhyBandIsWrongPage              => _ => routes.CheckYourAnswersController.onPageLoad()
-//    case CouncilTaxResponsiblePage       => councilTaxResponsibleRoutes
+    // case CouncilTaxResponsiblePage       => councilTaxResponsibleRoutes
     case RequestCouncilTaxBandReviewPage => _ => routes.ReasonForReviewController.onPageLoad(NormalMode)
     case ReasonForReviewPage             => reasonForReviewRoutes
     case `scenarioResponsiblePage`      => scenarioResponsibleRoutes
@@ -71,15 +71,65 @@ class Navigator @Inject()() {
       checkRouteMap(page)(userAnswers)
   }
 
-//  private def councilTaxResponsibleRoutes(answers: UserAnswers): Call =
-//    answers.get(CouncilTaxResponsiblePage) match {
-//      case Some(CouncilTaxResponsible.Yes)       => routes.RequestCouncilTaxBandReviewController.onPageLoad(NormalMode)
-//      case Some(CouncilTaxResponsible.No)        =>
-//        answers.get(PropertyIdPage) match {
-//          case Some(id) => routes.PermissionController.onPageLoad(id)
-//          case None => routes.PostcodeSearchController.onPageLoad(NormalMode)
-//        }
-//      case Some(CouncilTaxResponsible.ActingFor) => routes.RequestCouncilTaxBandReviewController.onPageLoad(NormalMode)
-//      case _                                     => routes.IndexController.onPageLoad()
-//    }
+  /**
+   * Explicit back links for journey pages, so Back never relies on browser history. History would
+   * return users to the sign-in page (auth stub locally, Government Gateway / One Login in QA and
+   * production) after login, wherever the sign-in point sits in the journey.
+   */
+  def backLink(page: Page, mode: Mode, userAnswers: Option[UserAnswers]): Call = mode match {
+    case CheckMode =>
+      routes.CheckYourAnswersController.onPageLoad()
+    case NormalMode =>
+      val answers = userAnswers.getOrElse(UserAnswers(""))
+      page match {
+        case CouncilTaxResponsiblePage =>
+          answers.get(PropertyIdPage)
+            .map(id => routes.PropertyDetailController.onPageLoad(id))
+            .getOrElse(routes.PostcodeSearchController.onPageLoad(NormalMode))
+        case RequestCouncilTaxBandReviewPage => routes.CouncilTaxResponsibleController.onPageLoad(NormalMode)
+        case ReasonForReviewPage             => routes.RequestCouncilTaxBandReviewController.onPageLoad(NormalMode)
+        case `scenarioResponsiblePage`       => routes.ReasonForReviewController.onPageLoad(NormalMode)
+        case `deletionOptionsPage`           => routes.ReasonForReviewController.onPageLoad(NormalMode)
+        case `noticeAlterationPage`          => routes.scenarioResponsibleController.onPageLoad(NormalMode)
+        case CouncilTaxLiabilityStartDatePage => routes.ReviewOverviewController.formalReview()
+        case WhyBandIsWrongPage =>
+          if (answers.get(scenarioResponsiblePage).contains(scenarioResponsible.Lessthan)) {
+            routes.CouncilTaxLiabilityStartDateController.onPageLoad(NormalMode)
+          } else {
+            reviewOverviewFor(answers)
+          }
+        case _ =>
+          routes.PostcodeSearchController.onPageLoad(NormalMode)
+      }
+  }
+
+  def reviewOverviewBackLink(reviewType: ReviewType, userAnswers: Option[UserAnswers]): Call = reviewType match {
+    case ReviewType.Formal
+      if userAnswers.exists(_.get(scenarioResponsiblePage).contains(scenarioResponsible.Lessthan)) =>
+      routes.scenarioResponsibleController.onPageLoad(NormalMode)
+    case _ =>
+      routes.noticeAlterationController.onPageLoad(NormalMode)
+  }
+
+  def checkYourAnswersBackLink: Call =
+    routes.WhyBandIsWrongController.onPageLoad(NormalMode)
+
+  private def reviewOverviewFor(answers: UserAnswers): Call =
+    if (answers.get(noticeAlterationPage).contains(noticeAlteration.Yes)) {
+      routes.ReviewOverviewController.formalReview()
+    } else {
+      routes.ReviewOverviewController.informalReview()
+    }
+
+  private def councilTaxResponsibleRoutes(answers: UserAnswers): Call =
+    answers.get(CouncilTaxResponsiblePage) match {
+      case Some(CouncilTaxResponsible.Yes)       => routes.RequestCouncilTaxBandReviewController.onPageLoad(NormalMode)
+      case Some(CouncilTaxResponsible.No)        =>
+        answers.get(PropertyIdPage) match {
+          case Some(id) => routes.PermissionController.onPageLoad(id)
+          case None => routes.PostcodeSearchController.onPageLoad(NormalMode)
+        }
+      case Some(CouncilTaxResponsible.ActingFor) => routes.RequestCouncilTaxBandReviewController.onPageLoad(NormalMode)
+      case _                                     => routes.IndexController.onPageLoad()
+    }
 }

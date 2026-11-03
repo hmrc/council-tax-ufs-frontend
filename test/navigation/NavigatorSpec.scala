@@ -27,6 +27,69 @@ class NavigatorSpec extends SpecBase {
 
   "Navigator" - {
 
+    "backLink" - {
+
+      "must send the liability start date back to the formal review overview" in {
+        navigator.backLink(CouncilTaxLiabilityStartDatePage, NormalMode, None) mustBe
+          routes.ReviewOverviewController.formalReview()
+      }
+
+      "must send why the band is wrong back to the liability start date when responsible for less than six months" in {
+        val answers = UserAnswers("id").set(scenarioResponsiblePage, scenarioResponsible.Lessthan).success.value
+        navigator.backLink(WhyBandIsWrongPage, NormalMode, Some(answers)) mustBe
+          routes.CouncilTaxLiabilityStartDateController.onPageLoad(NormalMode)
+      }
+
+      "must send why the band is wrong back to the formal review overview for a Notice of Alteration" in {
+        val answers = UserAnswers("id")
+          .set(scenarioResponsiblePage, scenarioResponsible.Morethan).success.value
+          .set(noticeAlterationPage, noticeAlteration.Yes).success.value
+        navigator.backLink(WhyBandIsWrongPage, NormalMode, Some(answers)) mustBe
+          routes.ReviewOverviewController.formalReview()
+      }
+
+      "must send why the band is wrong back to the informal review overview otherwise" in {
+        val answers = UserAnswers("id")
+          .set(scenarioResponsiblePage, scenarioResponsible.Morethan).success.value
+          .set(noticeAlterationPage, noticeAlteration.No).success.value
+        navigator.backLink(WhyBandIsWrongPage, NormalMode, Some(answers)) mustBe
+          routes.ReviewOverviewController.informalReview()
+      }
+
+      "must send responsible back to the selected property, or postcode search without one" in {
+        val answers = UserAnswers("id").set(PropertyIdPage, "abc-123").success.value
+        navigator.backLink(CouncilTaxResponsiblePage, NormalMode, Some(answers)) mustBe
+          routes.PropertyDetailController.onPageLoad("abc-123")
+        navigator.backLink(CouncilTaxResponsiblePage, NormalMode, None) mustBe
+          routes.PostcodeSearchController.onPageLoad(NormalMode)
+      }
+
+      "must send each question back to the question before it" in {
+        navigator.backLink(RequestCouncilTaxBandReviewPage, NormalMode, None) mustBe routes.CouncilTaxResponsibleController.onPageLoad(NormalMode)
+        navigator.backLink(ReasonForReviewPage, NormalMode, None) mustBe routes.RequestCouncilTaxBandReviewController.onPageLoad(NormalMode)
+        navigator.backLink(scenarioResponsiblePage, NormalMode, None) mustBe routes.ReasonForReviewController.onPageLoad(NormalMode)
+        navigator.backLink(deletionOptionsPage, NormalMode, None) mustBe routes.ReasonForReviewController.onPageLoad(NormalMode)
+        navigator.backLink(noticeAlterationPage, NormalMode, None) mustBe routes.scenarioResponsibleController.onPageLoad(NormalMode)
+      }
+
+      "must send the review overview back to the question that led to it" in {
+        val lessThan = UserAnswers("id").set(scenarioResponsiblePage, scenarioResponsible.Lessthan).success.value
+        val moreThan = UserAnswers("id").set(scenarioResponsiblePage, scenarioResponsible.Morethan).success.value
+        navigator.reviewOverviewBackLink(ReviewType.Formal, Some(lessThan)) mustBe routes.scenarioResponsibleController.onPageLoad(NormalMode)
+        navigator.reviewOverviewBackLink(ReviewType.Formal, Some(moreThan)) mustBe routes.noticeAlterationController.onPageLoad(NormalMode)
+        navigator.reviewOverviewBackLink(ReviewType.Informal, Some(moreThan)) mustBe routes.noticeAlterationController.onPageLoad(NormalMode)
+      }
+
+      "must send Check Your Answers back to why the band is wrong" in {
+        navigator.checkYourAnswersBackLink mustBe routes.WhyBandIsWrongController.onPageLoad(NormalMode)
+      }
+
+      "must send both pages back to Check Your Answers in Check mode" in {
+        navigator.backLink(CouncilTaxLiabilityStartDatePage, CheckMode, None) mustBe routes.CheckYourAnswersController.onPageLoad()
+        navigator.backLink(WhyBandIsWrongPage, CheckMode, None) mustBe routes.CheckYourAnswersController.onPageLoad()
+      }
+    }
+
     "in Normal mode" - {
 
       "must route the liability start date to the reason textarea" in {
