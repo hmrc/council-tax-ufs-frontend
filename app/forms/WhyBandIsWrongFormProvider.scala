@@ -21,12 +21,15 @@ import play.api.data.Form
 
 import javax.inject.Inject
 
+object WhyBandIsWrongFormProvider {
+  val maxCharacters = 5000
+}
+
 class WhyBandIsWrongFormProvider @Inject() extends Mappings {
-  val maxCharacters = 1000
+  import WhyBandIsWrongFormProvider.maxCharacters
 
   def apply(): Form[String] =
     Form(
-      "value" -> text("whyBandIsWrong.error.required")
-        .verifying(maxLength(maxCharacters, "whyBandIsWrong.error.maxLength"))
+      "value" -> limitedText("whyBandIsWrong.error.required", "whyBandIsWrong.error.maxLength", maxCharacters)
     )
 }

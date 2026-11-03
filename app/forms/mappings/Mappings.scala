@@ -17,7 +17,7 @@
 package forms.mappings
 
 import models.Enumerable
-import play.api.data.FieldMapping
+import play.api.data.{FieldMapping, Mapping}
 import play.api.data.Forms.of
 import play.api.i18n.Messages
 
@@ -27,6 +27,9 @@ trait Mappings extends Formatters with Constraints {
 
   protected def text(errorKey: String = "error.required", args: Seq[String] = Seq.empty): FieldMapping[String] =
     of(stringFormatter(errorKey, args))
+
+  protected def limitedText(requiredKey: String, maxLengthKey: String, max: Int): Mapping[String] =
+    text(requiredKey).verifying(maxLength(max, maxLengthKey))
 
   protected def int(requiredKey: String = "error.required",
                     wholeNumberKey: String = "error.wholeNumber",

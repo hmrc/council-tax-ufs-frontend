@@ -315,6 +315,13 @@ councilTaxLiabilityStartDate.error.invalid = Enter a real date you became respon
 councilTaxLiabilityStartDate.error.range = Enter a date within the last 6 months
 councilTaxLiabilityStartDate.change.hidden = Date you became responsible for paying Council Tax
 
+characterCount.remaining = You have {0} characters remaining
+characterCount.underLimit.one = You have {0} character remaining
+characterCount.underLimit.other = You have {0} characters remaining
+characterCount.atLimit = You have 0 characters remaining
+characterCount.overLimit.one = You have {0} character too many
+characterCount.overLimit.other = You have {0} characters too many
+
 whyBandIsWrong.title = Tell us why you think the Council Tax band is wrong?
 whyBandIsWrong.heading = Tell us why you think the Council Tax band is wrong?
 whyBandIsWrong.evidenceRequirement = Your band will only be reviewed if you provide supporting evidence
@@ -324,15 +331,9 @@ whyBandIsWrong.evidenceListTitle= Evidence can include:
 whyBandIsWrong.evidenceExample.1 = addresses of up to 5 homes, similar to yours in terms of type, size, age, layout and style, that are in a lower band. The homes should be in the same street or estate, or in the same village or area.
 whyBandIsWrong.evidenceExample.2 = the price that your home or similar homes sold for between 1 April 2001 and 31 March 2005
 whyBandIsWrong.provideEvidence = How to provide your evidence
-whyBandIsWrong.textareaGuidance = You can type your evidence in the text box. You can use up to 1,000 characters. You can also upload up to 5 files, including PDFs, documents and photos on the next page.
-whyBandIsWrong.charactersRemaining = You have {0} characters remaining
-whyBandIsWrong.charactersUnderLimit.one = You have {0} character remaining
-whyBandIsWrong.charactersUnderLimit.other = You have {0} characters remaining
-whyBandIsWrong.charactersAtLimit = You have 0 characters remaining
-whyBandIsWrong.charactersOverLimit.one = You have {0} character too many
-whyBandIsWrong.charactersOverLimit.other = You have {0} characters too many
+whyBandIsWrong.textareaGuidance = You can type your evidence in the text box. You can use up to 5,000 characters. You can also upload up to 5 files, including PDFs, documents and photos on the next page.
 whyBandIsWrong.error.required = Tell us why you think the Council Tax band is wrong
-whyBandIsWrong.error.maxLength = Your answer must be 1,000 characters or less
+whyBandIsWrong.error.maxLength = Your answer must be 5,000 characters or less
 whyBandIsWrong.checkYourAnswersLabel = Why you think the Council Tax band is wrong
 whyBandIsWrong.change.hidden = Why you think the Council Tax band is wrong
 
