@@ -14,17 +14,18 @@
  * limitations under the License.
  *@
 
+@import views.html.components.BandsDetails
+
 @this(
 layout: templates.Layout,
 formHelper: FormWithCSRF,
 govukErrorSummary: GovukErrorSummary,
 govukDetails: GovukDetails,
 govukRadios: GovukRadios,
-govukButton: GovukButton,
-bandsDetails: components.BandsDetails
+govukButton: GovukButton
 )
 
-@(form: Form[_], mode: Mode, country: views.BandCountry)(implicit request: Request[_], messages: Messages)
+@(form: Form[_], mode: Mode, country: views.BandCountry, currentBand: String)(implicit request: Request[_], messages: Messages)
 
 @layout(pageTitle = title(form, messages("whichBand.title"))) {
 
@@ -43,7 +44,7 @@ bandsDetails: components.BandsDetails
             <a href="#" class="govuk-link">@messages(s"whichBand.link.${country.key}")</a>
         </p>
 
-        @bandsDetails(country, "")
+        @BandsDetails(country, currentBand)
 
         @govukRadios(
             Radios(

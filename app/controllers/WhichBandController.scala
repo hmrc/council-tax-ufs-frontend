@@ -22,7 +22,7 @@ import forms.WhichBandFormProvider
 import javax.inject.Inject
 import models.Mode
 import navigation.Navigator
-import pages.{PropertyCountryPage, WhichBandPage}
+import pages.{PropertyBandPage, WhichBandPage}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import repositories.SessionRepository
@@ -38,6 +38,7 @@ class WhichBandController @Inject()(
                                        navigator: Navigator,
                                        identify: IdentifierAction,
                                        getData: DataRetrievalAction,
+                                       requireData: DataRequiredAction,
                                        formProvider: WhichBandFormProvider,
                                        val controllerComponents: MessagesControllerComponents,
                                        view: WhichBandView
@@ -45,38 +46,34 @@ class WhichBandController @Inject()(
 
   val form = formProvider()
 
-  def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData) {
+  private def currentBand(answers: models.UserAnswers): String =
+    answers.get(PropertyBandPage).getOrElse("")
+
+  def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
 
-      val preparedForm = request.userAnswers.flatMap(_.get(WhichBandPage)) match {
+      val preparedForm = request.userAnswers.get(WhichBandPage) match {
         case None => form
         case Some(value) => form.fill(value)
       }
 
-      val country = request.userAnswers
-        .flatMap(_.get(PropertyCountryPage))
-        .map(BandCountry.fromCode)
-        .getOrElse(BandCountry.England)
+      val country = BandCountry.fromAnswers(Some(request.userAnswers))
 
-      Ok(view(preparedForm, mode, country))
+      Ok(view(preparedForm, mode, country, currentBand(request.userAnswers)))
   }
 
-  def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData).async {
+  def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
     implicit request =>
 
-      val country = request.userAnswers
-        .flatMap(_.get(PropertyCountryPage))
-        .map(BandCountry.fromCode)
-        .getOrElse(BandCountry.England)
+      val country = BandCountry.fromAnswers(Some(request.userAnswers))
 
       form.bindFromRequest().fold(
         formWithErrors =>
-          Future.successful(BadRequest(view(formWithErrors, mode, country))),
+          Future.successful(BadRequest(view(formWithErrors, mode, country, currentBand(request.userAnswers)))),
 
         value => {
-          val answers = request.userAnswers.getOrElse(models.UserAnswers(request.userId))
           for {
-            updatedAnswers <- Future.fromTry(answers.set(WhichBandPage, value))
+            updatedAnswers <- Future.fromTry(request.userAnswers.set(WhichBandPage, value))
             _ <- sessionRepository.set(updatedAnswers)
           } yield Redirect(navigator.nextPage(WhichBandPage, mode, updatedAnswers))
         }

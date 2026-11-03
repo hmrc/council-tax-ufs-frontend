@@ -36,17 +36,18 @@ class DateNoticeController @Inject()(
                                         navigator: Navigator,
                                         identify: IdentifierAction,
                                         getData: DataRetrievalAction,
+                                        requireData: DataRequiredAction,
                                         formProvider: DateNoticeFormProvider,
                                         val controllerComponents: MessagesControllerComponents,
                                         view: DateNoticeView
                                       )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
-  def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData) {
+  def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
 
       val form = formProvider()
 
-      val preparedForm = request.userAnswers.flatMap(_.get(DateNoticePage)) match {
+      val preparedForm = request.userAnswers.get(DateNoticePage) match {
         case None => form
         case Some(value) => form.fill(value)
       }
@@ -54,7 +55,7 @@ class DateNoticeController @Inject()(
       Ok(view(preparedForm, mode))
   }
 
-  def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData).async {
+  def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
     implicit request =>
 
       val form = formProvider()
@@ -64,9 +65,8 @@ class DateNoticeController @Inject()(
           Future.successful(BadRequest(view(formWithErrors, mode))),
 
         value => {
-          val answers = request.userAnswers.getOrElse(models.UserAnswers(request.userId))
           for {
-            updatedAnswers <- Future.fromTry(answers.set(DateNoticePage, value))
+            updatedAnswers <- Future.fromTry(request.userAnswers.set(DateNoticePage, value))
             _              <- sessionRepository.set(updatedAnswers)
           } yield Redirect(navigator.nextPage(DateNoticePage, mode, updatedAnswers))
         }

@@ -28,7 +28,7 @@
   govukButton: GovukButton
 )
 
-@(form: Form[_], mode: Mode, backLinkUrl: String)(implicit request: Request[_], messages: Messages)
+@(form: Form[_], mode: Mode, backLinkUrl: String, country: views.BandCountry)(implicit request: Request[_], messages: Messages)
 
 @layout(backLinkUrl = Some(backLinkUrl), pageTitle = title(form, messages("whyBandIsWrong.title"))) {
   @formHelper(action = routes.WhyBandIsWrongController.onSubmit(mode), Symbol("autoComplete") -> "off") {
@@ -49,8 +49,8 @@
       content = HtmlContent(
         s"""<p class="govuk-body">${messages("whyBandIsWrong.evidenceListTitle")}</p>
         <ul class="govuk-list govuk-list--bullet">
-           |<li>${messages("whyBandIsWrong.evidenceExample.1")}</li>
-           |<li>${messages("whyBandIsWrong.evidenceExample.2")}</li>
+           |<li>${messages(s"whyBandIsWrong.evidenceExample.1.${country.key}")}</li>
+           |<li>${messages(s"whyBandIsWrong.evidenceExample.2.${country.key}")}</li>
            |</ul>""".stripMargin
       )
     ))

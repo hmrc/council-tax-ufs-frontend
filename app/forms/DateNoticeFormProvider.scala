@@ -16,28 +16,16 @@
 
 package forms
 
-import forms.mappings.Mappings
 import play.api.data.Form
 import play.api.i18n.Messages
 
-import java.time.{LocalDate, ZoneOffset}
+import java.time.LocalDate
 import javax.inject.Inject
 
-class DateNoticeFormProvider @Inject() extends Mappings {
+class DateNoticeFormProvider @Inject() extends DateFormProvider {
 
-  def apply()(implicit messages: Messages): Form[LocalDate] = {
-    val today = LocalDate.now(ZoneOffset.UTC)
-
-    Form(
-      "value" -> localDate(
-        invalidKey = "dateNotice.error.invalid",
-        allRequiredKey = "dateNotice.error.required.all",
-        twoRequiredKey = "dateNotice.error.required.two",
-        requiredKey = "dateNotice.error.required"
-      ).verifying(
-        minDate(today.minusMonths(6), "dateNotice.error.sixMonths"),
-        maxDate(today, "dateNotice.error.future")
-      )
-    )
-  }  
+  def apply()(implicit messages: Messages): Form[LocalDate] =
+    dateForm("dateNotice", monthsBack = 6,
+      minErrorKey = Some("dateNotice.error.sixMonths"),
+      maxErrorKey = Some("dateNotice.error.future"))
 }

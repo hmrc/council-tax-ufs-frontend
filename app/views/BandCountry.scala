@@ -18,6 +18,9 @@ package views
 
 import java.util.Locale
 
+import models.UserAnswers
+import pages.PropertyCountryPage
+
 /** Countries with their own council tax band table. To support a new country add a case object here, include it
   * in `all`, and add its `propertyDetail.band.*.<key>` messages (en and cy).
   */
@@ -37,5 +40,9 @@ object BandCountry {
     val normalised = country.trim.toLowerCase(Locale.ROOT)
     all.find(_.codes.contains(normalised)).getOrElse(England)
   }
+
+  /** The country of the property chosen earlier in the journey, defaulting to England if none is stored. */
+  def fromAnswers(answers: Option[UserAnswers]): BandCountry =
+    answers.flatMap(_.get(PropertyCountryPage)).map(fromCode).getOrElse(England)
 }
 

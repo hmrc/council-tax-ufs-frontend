@@ -17,7 +17,7 @@
 package controllers
 
 import controllers.actions.{DataRetrievalAction, SessionIdentifierAction}
-import pages.{PropertyAddressPage, PropertyIdPage, PropertyCountryPage}
+import pages.{PropertyAddressPage, PropertyBandPage, PropertyIdPage, PropertyCountryPage}
 import play.api.i18n.{I18nSupport, Lang}
 import play.api.mvc.*
 import play.api.Logging
@@ -77,7 +77,8 @@ class PropertyDetailController @Inject()(
             for {
               withAddress <- Future.fromTry(answers.set(PropertyAddressPage, viewModel.address))
               withId      <- Future.fromTry(withAddress.set(PropertyIdPage, viewModel.propertyId))
-              updated     <- Future.fromTry(withId.set(PropertyCountryPage, viewModel.country))
+              withCountry <- Future.fromTry(withId.set(PropertyCountryPage, viewModel.country))
+              updated     <- Future.fromTry(withCountry.set(PropertyBandPage, viewModel.band))
               _           <- sessionRepository.set(updated)
             } yield Ok(propertyDetailView(viewModel))
         }

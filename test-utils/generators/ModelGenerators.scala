@@ -27,14 +27,6 @@ trait ModelGenerators {
       Gen.oneOf(WhichBand.values.toSeq)
     }
 
-  implicit lazy val arbitraryAdvancedPropertySearch: Arbitrary[AdvancedPropertySearch] =
-    Arbitrary {
-      for {
-        Property name or number <- arbitrary[String]
-        Street <- arbitrary[String]
-      } yield AdvancedPropertySearch(Property name or number, Street)
-    }
-
   implicit lazy val arbitrarynoticeAlteration: Arbitrary[noticeAlteration] =
     Arbitrary {
       Gen.oneOf(noticeAlteration.values.toSeq)

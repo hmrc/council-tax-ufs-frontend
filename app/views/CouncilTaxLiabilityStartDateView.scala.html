@@ -14,40 +14,8 @@
  * limitations under the License.
  *@
 
-@this(
-    layout: templates.Layout,
-    formHelper: FormWithCSRF,
-    govukErrorSummary: GovukErrorSummary,
-    govukDateInput: GovukDateInput,
-    govukButton: GovukButton
-)
+@this(datePage: components.DatePage)
 
 @(form: Form[_], mode: Mode, backLinkUrl: String)(implicit request: Request[_], messages: Messages)
 
-@layout(backLinkUrl = Some(backLinkUrl), pageTitle = title(form, messages("councilTaxLiabilityStartDate.title"))) {
-
-    @formHelper(action = routes.CouncilTaxLiabilityStartDateController.onSubmit(mode), Symbol("autoComplete") -> "off") {
-
-        @if(form.errors.nonEmpty) {
-            @govukErrorSummary(ErrorSummaryViewModel(form, errorLinkOverrides = Map("value" -> "value.day")))
-        }
-
-        @govukDateInput(
-            DateViewModel(
-                field  = form("value"),
-                legend = LegendViewModel(messages("councilTaxLiabilityStartDate.heading")).asPageHeading(viewmodels.LegendSize.Large)
-            )
-            .withHint(
-                HintViewModel(
-                    HtmlContent(
-                        s"""${messages("councilTaxLiabilityStartDate.hint")}<br><br><span>${messages("councilTaxLiabilityStartDate.example")}</span>"""
-                    )
-                )
-            )
-        )
-
-        @govukButton(
-            ButtonViewModel(messages("site.continue"))
-        )
-    }
-}
+@datePage(form, routes.CouncilTaxLiabilityStartDateController.onSubmit(mode), "councilTaxLiabilityStartDate", Some(backLinkUrl))

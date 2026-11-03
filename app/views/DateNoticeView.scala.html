@@ -14,34 +14,8 @@
  * limitations under the License.
  *@
 
-@this(
-    layout: templates.Layout,
-    formHelper: FormWithCSRF,
-    govukErrorSummary: GovukErrorSummary,
-    govukDateInput: GovukDateInput,
-    govukButton: GovukButton
-)
+@this(datePage: components.DatePage)
 
 @(form: Form[_], mode: Mode)(implicit request: Request[_], messages: Messages)
 
-@layout(pageTitle = title(form, messages("dateNotice.title"))) {
-
-    @formHelper(action = routes.DateNoticeController.onSubmit(mode), Symbol("autoComplete") -> "off") {
-
-        @if(form.errors.nonEmpty) {
-            @govukErrorSummary(ErrorSummaryViewModel(form, errorLinkOverrides = Map("value" -> "value.day")))
-        }
-
-        @govukDateInput(
-            DateViewModel(
-                field  = form("value"),
-                legend = LegendViewModel(messages("dateNotice.heading")).withCssClass("govuk-fieldset__legend--l").asPageHeading(),
-            )
-            .withHint(HintViewModel(messages("dateNotice.hint")))
-        )
-
-        @govukButton(
-            ButtonViewModel(messages("site.continue"))
-        )
-    }
-}
+@datePage(form, routes.DateNoticeController.onSubmit(mode), "dateNotice")
