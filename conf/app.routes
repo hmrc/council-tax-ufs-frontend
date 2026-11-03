@@ -70,6 +70,12 @@ GET        /advanced-search                              controllers.AdvancedPro
 POST       /advanced-search                              controllers.AdvancedPropertySearchController.onSubmit(mode: Mode = NormalMode)
 GET        /change-advanced-search                       controllers.AdvancedPropertySearchController.onPageLoad(mode: Mode = CheckMode)
 POST       /change-advanced-search                       controllers.AdvancedPropertySearchController.onSubmit(mode: Mode = CheckMode)
+
+GET        /contact-details                              controllers.ContactDetailsController.onPageLoad(mode: Mode = NormalMode)
+POST       /contact-details                              controllers.ContactDetailsController.onSubmit(mode: Mode = NormalMode)
+GET        /change-contact-details                      controllers.ContactDetailsController.onPageLoad(mode: Mode = CheckMode)
+POST       /change-contact-details                      controllers.ContactDetailsController.onSubmit(mode: Mode = CheckMode)
+
 GET        /formal-review                                controllers.ReviewOverviewController.formalReview()
 GET        /informal-review                              controllers.ReviewOverviewController.informalReview()
 GET        /review/continue/:reviewType                  controllers.ReviewOverviewController.continueToLogin(reviewType: String)

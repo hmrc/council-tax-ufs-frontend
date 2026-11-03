@@ -369,9 +369,7 @@ advancedPropertySearch.error.propertyNameOrNumber.length = Property name or numb
 advancedPropertySearch.error.street.length = Street must be 80 characters or less
 advancedPropertySearch.error.townOrCity.length = Town or city must be 80 characters or less
 advancedPropertySearch.error.laReferenceNumber.length = Local authority reference number must be 20 characters or fewer
-
 advancedPropertySearch.localAuthority.default = Choose an option
-
 advancedPropertySearch.councilTaxBand.allBands = All bands
 advancedPropertySearch.councilTaxBand.A = A
 advancedPropertySearch.councilTaxBand.B = B
@@ -382,11 +380,9 @@ advancedPropertySearch.councilTaxBand.F = F
 advancedPropertySearch.councilTaxBand.G = G
 advancedPropertySearch.councilTaxBand.H = H
 advancedPropertySearch.councilTaxBand.I = I
-
 advancedPropertySearch.bandStatus.default = Current and current deletions
 advancedPropertySearch.bandStatus.Current = Current only
 advancedPropertySearch.bandStatus.Deleted = Current deletions only
-
 advancedPropertySearch.courtCode.default = All
 advancedPropertySearch.courtCode.V = VT determination
 advancedPropertySearch.courtCode.C = VT confirmation
@@ -394,7 +390,6 @@ advancedPropertySearch.courtCode.D = HC determination
 advancedPropertySearch.courtCode.H = HC confirmation
 advancedPropertySearch.courtCode.R = VT re-determination after HC referral
 advancedPropertySearch.courtCode.E = HC consent order
-
 advancedPropertySearch.propertyUse.default = Both purely domestic & mixed use properties
 advancedPropertySearch.propertyUse.C = Mixed use properties only
 advancedPropertySearch.propertyUse.N = Purely domestic properties only
@@ -439,3 +434,24 @@ reviewOverview.informal.examples.1               = Addresses of up to 5 similar 
 reviewOverview.informal.examples.2               = The homes can be either in the same street or estate, or in the same village or area.
 reviewOverview.informal.examples.3               = The price your home or similar homes sold for between 1 April 2001 and 31 March 2005.
 reviewOverview.informal.afterDecision            = The decision is final, and you cannot ask for another review.
+
+
+contactDetails.heading                           = What are your contact details?
+contactDetails.intro                             = We will only use these details to contact you about your review.
+contactDetails.subheading1                       = Your details
+contactDetails.firstName                         = First name
+contactDetails.lastName                          = Last name
+contactDetails.email                             = Email address
+contactDetails.phoneNumber                       = Phone number
+contactDetails.subheading2                       = Correspondence address
+contactDetails.addressLine1                      = Address Line 1
+contactDetails.addressLine2                      = Address Line 2 (optional)
+contactDetails.townOrCity                        = Town or city
+contactDetails.county                            = County (optional)
+contactDetails.postcode                          = Postcode
+contactDetails.subheading3                       = How would you like us to contact you?
+contactDetails.subheading3.hint                  = Select all that apply
+contactMethod.email                              = Email
+contactMethod.phone                              = Phone
+contactMethod.post                               = Post
+
