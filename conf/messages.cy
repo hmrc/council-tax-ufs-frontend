@@ -467,5 +467,6 @@ whichBand.bandG = Band G
 whichBand.bandH = Band H
 whichBand.bandI = Band I
 whichBand.notSure = Dwi ddim yn siŵr
+whichBand.link.url = https://www.gov.uk/guidance/understand-how-council-tax-bands-are-assessed.cy
 whichBand.checkYourAnswersLabel = Beth rydych chi'n meddwl y dylai'r band Treth Gyngor fod?
 whichBand.error.required = Select which band you think your Council Tax should be

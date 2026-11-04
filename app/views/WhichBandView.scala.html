@@ -41,7 +41,9 @@ govukButton: GovukButton
 
         <p class="govuk-hint">
             @messages(s"whichBand.hint.${country.key}")
-            <a href="#" class="govuk-link">@messages(s"whichBand.link.${country.key}")</a>
+            <a href="@messages("whichBand.link.url")" class="govuk-link">
+                @messages(s"whichBand.link.${country.key}")
+            </a>
         </p>
 
         @BandsDetails(country, currentBand)
