@@ -460,11 +460,11 @@ dateNotice.heading = What date is on the Notice of Alteration?
 dateNotice.hint = For example, if the notice letter is dated 27 April 2025, enter 27 4 2025.
 dateNotice.checkYourAnswersLabel = DateNotice
 dateNotice.error.required.all = Enter the date shown on the Notice of Alteration
+dateNotice.error.invalid = Enter a real date
+dateNotice.error.future = The date must be today or in the past
+dateNotice.error.sixMonths = The Notice of Alteration must have been issued within the last 6 months
 dateNotice.error.required.two = The notice date must include {0} and {1}
 dateNotice.error.required = The notice date must include {0}
-dateNotice.error.sixMonths = The Notice of Alteration must have been issued within the last 6 months
-dateNotice.error.future = The date must be today or in the past
-dateNotice.error.invalid = Enter a real date
 dateNotice.change.hidden = DateNotice
 
 whichBand.title = What do you think the Council Tax band should be?
