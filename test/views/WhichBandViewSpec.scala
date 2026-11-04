@@ -78,13 +78,13 @@ class WhichBandViewSpec extends SpecBase {
 
     "must render England link for England" in {
       val doc = asDocument(applyView(form, englandCountry))
-      doc.select("a.govuk-link").first().text() mustBe
+      doc.select("p.govuk-hint a.govuk-link").first().text() mustBe
         messages(application)("whichBand.link.england")
     }
 
     "must render Wales link for Wales" in {
       val doc = asDocument(applyView(form, walesCountry))
-      doc.select("a.govuk-link").first().text() mustBe
+      doc.select("p.govuk-hint a.govuk-link").first().text() mustBe
         messages(application)("whichBand.link.wales")
     }
 
