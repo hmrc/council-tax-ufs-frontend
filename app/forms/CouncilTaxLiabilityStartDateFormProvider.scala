@@ -16,28 +16,14 @@
 
 package forms
 
-import forms.mappings.Mappings
 import play.api.data.Form
 import play.api.i18n.Messages
 
-import java.time.{LocalDate, ZoneOffset}
+import java.time.LocalDate
 import javax.inject.Inject
 
-class CouncilTaxLiabilityStartDateFormProvider @Inject() extends Mappings {
+class CouncilTaxLiabilityStartDateFormProvider @Inject() extends DateFormProvider {
 
-  def apply()(implicit messages: Messages): Form[LocalDate] = {
-    val today = LocalDate.now(ZoneOffset.UTC)
-
-    Form(
-      "value" -> localDate(
-        invalidKey     = "councilTaxLiabilityStartDate.error.invalid",
-        allRequiredKey = "councilTaxLiabilityStartDate.error.required.all",
-        twoRequiredKey = "councilTaxLiabilityStartDate.error.required.two",
-        requiredKey    = "councilTaxLiabilityStartDate.error.required"
-      ).verifying(
-        minDate(today.minusMonths(6), "councilTaxLiabilityStartDate.error.range"),
-        maxDate(today, "councilTaxLiabilityStartDate.error.range")
-      )
-    )
-  }
+  def apply()(implicit messages: Messages): Form[LocalDate] =
+    dateForm("councilTaxLiabilityStartDate", monthsBack = 6)
 }
