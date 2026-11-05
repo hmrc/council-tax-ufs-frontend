@@ -57,6 +57,7 @@ unauthorised.heading = Ni allwch gael mynediad at y gwasanaeth hwn gyda''r cyfri
 # Buttons
 button.print    = Argraffu’r dudalen hon
 button.continue = Parhau
+button.search   = Chwilio
 
 postcodeSearch.title = Nodwch god post yr eiddo
 postcodeSearch.heading = Nodwch god post yr eiddo
