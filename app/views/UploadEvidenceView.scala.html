@@ -1,0 +1,109 @@
+@*
+ * Copyright 2026 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *@
+
+@import models.UploadedEvidence
+@import uk.gov.hmrc.govukfrontend.views.viewmodels.content.{HtmlContent, Text}
+@import uk.gov.hmrc.govukfrontend.views.viewmodels.errorsummary.{ErrorLink, ErrorSummary}
+@import uk.gov.hmrc.govukfrontend.views.viewmodels.notificationbanner.NotificationBanner
+@import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.{Actions, ActionItem, SummaryList, SummaryListRow, Key, Value}
+
+@this(
+  layout: templates.Layout,
+  govukErrorSummary: GovukErrorSummary,
+  enhancedFileUpload: components.EnhancedFileUpload,
+  govukNotificationBanner: GovukNotificationBanner,
+  govukSummaryList: GovukSummaryList,
+  govukInsetText: GovukInsetText,
+  govukButton: GovukButton
+)
+
+@(files: Seq[UploadedEvidence], errorKey: Option[String], mode: Mode, backLinkUrl: String)(implicit request: Request[_], messages: Messages)
+
+@pageTitle = @{
+  val base = messages("uploadEvidence.title")
+  if (errorKey.isDefined) s"${messages("error.title.prefix")} $base" else base
+}
+
+@formAction = @{
+  val url = routes.UploadEvidenceController.onSubmit(mode).url
+  play.filters.csrf.CSRF.getToken.fold(url)(token => s"$url?csrfToken=${token.value}")
+}
+
+@limitReached = @{ files.size >= UploadedEvidence.maxFiles }
+
+@fileRows = @{
+  files.map { file =>
+    SummaryListRow(
+      key = Key(content = Text(file.fileName), classes = "govuk-!-width-two-thirds"),
+      value = Value(content = Text(file.displaySize)),
+      actions = Some(Actions(items = Seq(ActionItem(
+        href = routes.RemoveEvidenceController.onPageLoad(file.id, mode).url,
+        content = Text(messages("site.remove")),
+        visuallyHiddenText = Some(file.fileName)
+      ))))
+    )
+  }
+}
+
+@layout(backLinkUrl = Some(backLinkUrl), pageTitle = titleNoForm(pageTitle)) {
+
+  @errorKey.map { key =>
+    @govukErrorSummary(ErrorSummary(
+      title = Text(messages("error.summary.title")),
+      errorList = Seq(ErrorLink(href = Some(if (limitReached) "#uploaded-files-heading" else "#file"), content = Text(messages(key))))
+    ))
+  }
+
+  @request.flash.get("uploaded").map { name =>
+    @govukNotificationBanner(NotificationBanner(
+      bannerType = Some("success"),
+      title = Text(messages("uploadEvidence.success.title")),
+      content = HtmlContent(s"""<p class="govuk-notification-banner__heading">${messages("uploadEvidence.success", HtmlFormat.escape(name))}</p>""")
+    ))
+  }
+
+  <h1 class="govuk-heading-l">@messages("uploadEvidence.heading")</h1>
+  <p class="govuk-body govuk-hint">@messages("uploadEvidence.hint", UploadedEvidence.maxFiles)</p>
+
+  @if(files.nonEmpty) {
+    <h2 class="govuk-heading-m" id="uploaded-files-heading">@messages("uploadEvidence.uploadedCount", files.size, UploadedEvidence.maxFiles)</h2>
+    @govukSummaryList(SummaryList(rows = fileRows))
+  }
+
+  @* The CSRF token goes in the query string: multipart bodies can exceed what the filter will buffer. *@
+  <form action="@formAction" method="POST" enctype="multipart/form-data" autocomplete="off" novalidate>
+
+    @if(limitReached) {
+      @govukInsetText(InsetText(content = Text(messages("uploadEvidence.limitReached", UploadedEvidence.maxFiles))))
+    } else {
+      @enhancedFileUpload(
+        id = "file",
+        name = "file",
+        label = messages(if (files.isEmpty) "uploadEvidence.label" else "uploadEvidence.labelAnother"),
+        labelClasses = if (files.isEmpty) "govuk-visually-hidden" else "govuk-label--m",
+        accept = Some(".jpg,.jpeg,.png,.pdf"),
+        errorMessage = errorKey.map(key => messages(key))
+      )
+    }
+
+    <div class="govuk-button-group">
+      @if(!limitReached) {
+        @govukButton(ButtonViewModel(messages("uploadEvidence.upload")).withCssClass("govuk-button--secondary").withAttribute("name" -> "action").withAttribute("value" -> "upload"))
+      }
+      @govukButton(ButtonViewModel(messages("site.continue")).withAttribute("name" -> "action").withAttribute("value" -> "continue"))
+    </div>
+  </form>
+}

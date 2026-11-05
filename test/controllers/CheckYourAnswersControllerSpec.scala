@@ -80,6 +80,26 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
       }
     }
 
+    "must offer a Confirm and send button that posts to the submit route" in {
+      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+
+      running(application) {
+        val html = contentAsString(route(application, FakeRequest(GET, routes.CheckYourAnswersController.onPageLoad().url)).value)
+        html must include("Confirm and send")
+        html must include(routes.CheckYourAnswersController.onSubmit().url)
+      }
+    }
+
+    "must submit and redirect to the request sent page" in {
+      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+
+      running(application) {
+        val result = route(application, FakeRequest(POST, routes.CheckYourAnswersController.onSubmit().url)).value
+        status(result) mustEqual SEE_OTHER
+        redirectLocation(result).value mustEqual routes.RequestSentController.onPageLoad().url
+      }
+    }
+
     "must redirect to Journey Recovery for a GET if no existing data is found" in {
 
       val application = applicationBuilder(userAnswers = None).build()

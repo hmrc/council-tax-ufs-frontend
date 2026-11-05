@@ -19,12 +19,15 @@ package controllers
 import com.google.inject.Inject
 import controllers.actions.{DataRequiredAction, DataRetrievalAction, IdentifierAction}
 import navigation.Navigator
-import viewmodels.checkAnswers.{CouncilTaxLiabilityStartDateSummary, PostcodeSearchSummary, WhyBandIsWrongSummary}
+import viewmodels.checkAnswers.{CouncilTaxLiabilityStartDateSummary, EvidenceSummary, PostcodeSearchSummary, WhyBandIsWrongSummary}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import viewmodels.govuk.summarylist._
+import services.SubmissionService
 import views.html.CheckYourAnswersView
+
+import scala.concurrent.ExecutionContext
 
 class CheckYourAnswersController @Inject()(
                                             override val messagesApi: MessagesApi,
@@ -33,8 +36,9 @@ class CheckYourAnswersController @Inject()(
                                             requireData: DataRequiredAction,
                                             val controllerComponents: MessagesControllerComponents,
                                             view: CheckYourAnswersView,
-                                            navigator: Navigator
-                                          ) extends FrontendBaseController with I18nSupport {
+                                            navigator: Navigator,
+                                            submissionService: SubmissionService
+                                          )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
   def onPageLoad(): Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
@@ -45,12 +49,21 @@ class CheckYourAnswersController @Inject()(
         ).flatten,
         "checkYourAnswers.section.challengeDetails" -> Seq(
           CouncilTaxLiabilityStartDateSummary.row(request.userAnswers),
-          WhyBandIsWrongSummary.row(request.userAnswers)
+          WhyBandIsWrongSummary.row(request.userAnswers),
+          EvidenceSummary.row(request.userAnswers)
         ).flatten
       ).collect {
         case (heading, rows) if rows.nonEmpty => heading -> SummaryListViewModel(rows)
       }
 
       Ok(view(sections, navigator.checkYourAnswersBackLink.url))
+  }
+
+  def onSubmit(): Action[AnyContent] = (identify andThen getData andThen requireData).async {
+    implicit request =>
+      submissionService.submit(request.userAnswers).map {
+        case Right(_) => Redirect(routes.RequestSentController.onPageLoad())
+        case Left(_)  => Redirect(routes.JourneyRecoveryController.onPageLoad())
+      }
   }
 }

@@ -28,7 +28,10 @@ class Navigator @Inject()() {
 
   private val normalRoutes: Page => UserAnswers => Call = {
     case CouncilTaxLiabilityStartDatePage => _ => routes.WhyBandIsWrongController.onPageLoad(NormalMode)
-    case WhyBandIsWrongPage              => _ => routes.CheckYourAnswersController.onPageLoad()
+    case WhyBandIsWrongPage              => _ => routes.HasEvidenceController.onPageLoad(NormalMode)
+    case HasEvidencePage                 => hasEvidenceRoutes
+    case UploadEvidencePage              => _ => whichBand
+    case ContinueWithoutEvidencePage     => _ => whichBand
     case CouncilTaxResponsiblePage       => councilTaxResponsibleRoutes
     case RequestCouncilTaxBandReviewPage => _ => routes.ReasonForReviewController.onPageLoad(NormalMode)
     case ReasonForReviewPage             => reasonForReviewRoutes
@@ -36,6 +39,18 @@ class Navigator @Inject()() {
     case `noticeAlterationPage`          => noticeAlterationRoutes
     case _                               => _ => routes.PostcodeSearchController.onPageLoad(NormalMode)
   }
+
+  // TODO: replace with routes.WhichBandController.onPageLoad(NormalMode) once feature/which-band-pages is merged.
+  // Derived from a sibling route so the service's URL prefix is respected.
+  private def whichBand: Call =
+    Call("GET", routes.WhyBandIsWrongController.onPageLoad(NormalMode).url.replace("why-band-is-wrong", "which-band"))
+
+  private def hasEvidenceRoutes(answers: UserAnswers): Call =
+    answers.get(HasEvidencePage) match {
+      case Some(true)  => routes.UploadEvidenceController.onPageLoad(NormalMode)
+      case Some(false) => routes.ContinueWithoutEvidenceController.onPageLoad()
+      case None        => routes.HasEvidenceController.onPageLoad(NormalMode)
+    }
 
   private def reasonForReviewRoutes(answers: UserAnswers): Call =
     answers.get(ReasonForReviewPage) match {
@@ -58,9 +73,18 @@ class Navigator @Inject()() {
       case _                          => routes.PostcodeSearchController.onPageLoad(NormalMode)
     }
 
+  // Switching to "Yes" in Check mode still needs a file, so go and collect one before returning.
+  private def hasEvidenceCheckRoutes(answers: UserAnswers): Call =
+    if (answers.get(HasEvidencePage).contains(true) && answers.get(UploadEvidencePage).forall(_.isEmpty)) {
+      routes.UploadEvidenceController.onPageLoad(CheckMode)
+    } else {
+      routes.CheckYourAnswersController.onPageLoad()
+    }
+
   private val checkRouteMap: Page => UserAnswers => Call = {
     case CouncilTaxLiabilityStartDatePage => _ => routes.CheckYourAnswersController.onPageLoad()
     case WhyBandIsWrongPage              => _ => routes.CheckYourAnswersController.onPageLoad()
+    case HasEvidencePage                 => hasEvidenceCheckRoutes
     case _ => _ => routes.CheckYourAnswersController.onPageLoad()
   }
 
@@ -98,6 +122,9 @@ class Navigator @Inject()() {
           } else {
             reviewOverviewFor(answers)
           }
+        case HasEvidencePage                 => routes.WhyBandIsWrongController.onPageLoad(NormalMode)
+        case UploadEvidencePage              => routes.HasEvidenceController.onPageLoad(NormalMode)
+        case ContinueWithoutEvidencePage     => routes.HasEvidenceController.onPageLoad(NormalMode)
         case _ =>
           routes.PostcodeSearchController.onPageLoad(NormalMode)
       }

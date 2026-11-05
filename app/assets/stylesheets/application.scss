@@ -13,3 +13,17 @@
 .ct-band-table__row--current {
   background-color: #f3f2f1;
 }
+
+// No govuk-frontend Sass is imported here, so these use literal GOV.UK values
+// (blue #1d70b8, spacing scale 6 = 30px).
+.ct-evidence-panel {
+  background-color: #1d70b8;
+  color: #ffffff;
+  padding: 30px;
+  margin-bottom: 30px;
+}
+
+.ct-evidence-panel .ct-evidence-panel__heading,
+.ct-evidence-panel .ct-evidence-panel__body {
+  color: #ffffff;
+}

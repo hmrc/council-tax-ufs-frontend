@@ -449,3 +449,54 @@ whyBandIsWrong.error.maxLength = Rhaid i''ch ateb fod yn 5,000 o nodau neu lai
 whyBandIsWrong.checkYourAnswersLabel = Pam rydych yn credu bod y band Treth Gyngor yn anghywir
 whyBandIsWrong.change.hidden = Pam rydych yn credu bod y band Treth Gyngor yn anghywir
  
+
+hasEvidence.title = A oes gennych ddogfennau i’w huwchlwytho fel tystiolaeth?
+hasEvidence.heading = A oes gennych ddogfennau i’w huwchlwytho fel tystiolaeth?
+hasEvidence.hint = Gallai hyn gynnwys sgrinluniau o restrau eiddo, cofnodion gwerthu, neu ddogfennau eraill sy’n cefnogi eich cais.
+hasEvidence.error.required = Dewiswch ‘Ie’ os oes gennych ddogfennau i’w huwchlwytho fel tystiolaeth
+
+continueWithoutEvidence.title = Parhau heb ychwanegu tystiolaeth?
+continueWithoutEvidence.heading = Parhau heb ychwanegu tystiolaeth?
+continueWithoutEvidence.body = Pan fyddwch yn darparu tystiolaeth, gall eich gweithiwr achos adolygu eich cais heb oedi, ac mae’n ein helpu i wneud penderfyniad yn gynt.
+continueWithoutEvidence.continue = Parhau heb dystiolaeth
+continueWithoutEvidence.addEvidence = Ychwanegu tystiolaeth
+
+uploadEvidence.title = Uwchlwytho tystiolaeth
+uploadEvidence.heading = Uwchlwytho tystiolaeth
+uploadEvidence.hint = Gallwch uwchlwytho ffeiliau JPG, PNG neu PDF, hyd at {0} ffeil i gyd. Rhaid i bob ffeil fod yn llai na 10MB.
+uploadEvidence.label = Uwchlwytho ffeil
+uploadEvidence.error.required = Dewiswch ffeil i’w huwchlwytho
+uploadEvidence.error.tooBig = Rhaid i’r ffeil a ddewiswyd fod yn llai na 10MB
+uploadEvidence.error.invalidType = Rhaid i’r ffeil a ddewiswyd fod yn JPG, PNG neu PDF
+
+evidence.checkYourAnswers.label = Dogfennau a uwchlwythwyd
+evidence.checkYourAnswers.none = Dim dogfennau wedi’u huwchlwytho
+evidence.change.hidden = dogfennau a uwchlwythwyd
+
+
+uploadEvidence.upload = Uwchlwytho ffeil
+uploadEvidence.labelAnother = Uwchlwytho ffeil arall
+uploadEvidence.uploadedCount = Rydych wedi uwchlwytho {0} o {1} ffeil
+uploadEvidence.limitReached = Rydych wedi uwchlwytho’r uchafswm o {0} ffeil. Dilëwch ffeil os ydych eisiau uwchlwytho un wahanol.
+uploadEvidence.success.title = Llwyddiant
+uploadEvidence.success = Mae {0} wedi’i huwchlwytho
+uploadEvidence.error.tooMany = Gallwch uwchlwytho hyd at 5 ffeil yn unig
+uploadEvidence.error.duplicate = Rydych eisoes wedi uwchlwytho ffeil gyda’r enw hwn
+
+removeEvidence.title = Ydych chi’n siŵr eich bod eisiau dileu’r ffeil hon?
+removeEvidence.heading = Ydych chi’n siŵr eich bod eisiau dileu {0}?
+removeEvidence.error.required = Dewiswch ‘Ie’ os ydych eisiau dileu’r ffeil hon
+
+checkYourAnswers.confirmAndSend = Cadarnhau ac anfon
+
+requestSent.title = Mae eich cais wedi’i anfon
+requestSent.heading = Mae eich cais wedi’i anfon
+requestSent.referenceLabel = Eich cyfeirnod
+requestSent.emailSent = Rydym wedi anfon e-bost atoch i gadarnhau ein bod wedi derbyn eich cais am adolygiad.
+requestSent.whatHappensNext = Beth sy’n digwydd nesaf
+requestSent.next.1 = Mae eich cais wedi’i anfon at y Swyddfa Brisio (VO).
+requestSent.next.2 = Pan fydd eich cais wedi’i gofrestru, byddwch yn derbyn e-bost gyda chyfeirnod achos unigryw o fewn X diwrnod.
+requestSent.next.3 = Os bydd angen gwybodaeth ychwanegol arnom, byddwn yn cysylltu â chi.
+requestSent.next.4 = Byddwn yn cysylltu â chi drwy [lythyr/e-bost] o fewn X wythnos gyda phenderfyniad ynghylch eich cais.
+requestSent.feedback = Beth oeddech yn ei feddwl o’r gwasanaeth hwn?
+requestSent.feedbackTime = (mae’n cymryd 30 eiliad)
