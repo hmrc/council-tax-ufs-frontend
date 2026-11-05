@@ -18,7 +18,9 @@
 
 @this(
     layout: templates.Layout,
-    govukSummaryList: GovukSummaryList
+    govukSummaryList: GovukSummaryList,
+    govukButton: GovukButton,
+    formHelper: FormWithCSRF
 )
 
 @(sections: Seq[(String, SummaryList)], backLinkUrl: String)(implicit request: Request[_], messages: Messages)
@@ -30,5 +32,9 @@
     @for((heading, list) <- sections) {
         <h2 class="govuk-heading-m">@messages(heading)</h2>
         @govukSummaryList(list)
+    }
+
+    @formHelper(action = routes.CheckYourAnswersController.onSubmit(), Symbol("autoComplete") -> "off") {
+        @govukButton(ButtonViewModel(messages("checkYourAnswers.confirmAndSend")).preventingDoubleClick())
     }
 }

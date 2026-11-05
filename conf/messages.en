@@ -442,3 +442,54 @@ reviewOverview.informal.examples.1               = Addresses of up to 5 similar 
 reviewOverview.informal.examples.2               = The homes can be either in the same street or estate, or in the same village or area.
 reviewOverview.informal.examples.3               = The price your home or similar homes sold for between 1 April 2001 and 31 March 2005.
 reviewOverview.informal.afterDecision            = The decision is final, and you cannot ask for another review.
+
+hasEvidence.title = Do you have documents to upload as evidence?
+hasEvidence.heading = Do you have documents to upload as evidence?
+hasEvidence.hint = This could include screenshots of property listings, sale records, or other documents that support your request.
+hasEvidence.error.required = Select yes if you have documents to upload as evidence
+
+continueWithoutEvidence.title = Continue without adding evidence?
+continueWithoutEvidence.heading = Continue without adding evidence?
+continueWithoutEvidence.body = When you provide evidence, your caseworker can review your request without delays, and it helps us make a decision sooner.
+continueWithoutEvidence.continue = Continue without evidence
+continueWithoutEvidence.addEvidence = Add evidence
+
+uploadEvidence.title = Upload evidence
+uploadEvidence.heading = Upload evidence
+uploadEvidence.hint = You can upload JPG, PNG or PDF files, up to {0} files in total. Each file must be smaller than 10MB.
+uploadEvidence.label = Upload a file
+uploadEvidence.error.required = Select a file to upload
+uploadEvidence.error.tooBig = The selected file must be smaller than 10MB
+uploadEvidence.error.invalidType = The selected file must be a JPG, PNG or PDF
+
+evidence.checkYourAnswers.label = Uploaded documents
+evidence.checkYourAnswers.none = No documents uploaded
+evidence.change.hidden = uploaded documents
+
+
+uploadEvidence.upload = Upload file
+uploadEvidence.labelAnother = Upload another file
+uploadEvidence.uploadedCount = You have uploaded {0} of {1} files
+uploadEvidence.limitReached = You have uploaded the maximum of {0} files. Remove a file if you want to upload a different one.
+uploadEvidence.success.title = Success
+uploadEvidence.success = {0} has been uploaded
+uploadEvidence.error.tooMany = You can only upload up to 5 files
+uploadEvidence.error.duplicate = You have already uploaded a file with this name
+
+removeEvidence.title = Are you sure you want to remove this file?
+removeEvidence.heading = Are you sure you want to remove {0}?
+removeEvidence.error.required = Select yes if you want to remove this file
+
+checkYourAnswers.confirmAndSend = Confirm and send
+
+requestSent.title = Your request has been sent
+requestSent.heading = Your request has been sent
+requestSent.referenceLabel = Your reference number
+requestSent.emailSent = We have sent you an email to confirm that we have received your request for a review.
+requestSent.whatHappensNext = What happens next
+requestSent.next.1 = Your request has been sent to the Valuation Office (VO).
+requestSent.next.2 = When your request has been registered, you will receive an email with a unique case reference number within X days.
+requestSent.next.3 = If we require additional information we will contact you.
+requestSent.next.4 = We will contact you by [letter/email] within X weeks with a decision about your request.
+requestSent.feedback = What did you think of this service?
+requestSent.feedbackTime = (takes 30 seconds)

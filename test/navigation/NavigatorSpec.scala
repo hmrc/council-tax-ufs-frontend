@@ -84,6 +84,12 @@ class NavigatorSpec extends SpecBase {
         navigator.checkYourAnswersBackLink mustBe routes.WhyBandIsWrongController.onPageLoad(NormalMode)
       }
 
+      "must send each evidence page back to the page before it" in {
+        navigator.backLink(HasEvidencePage, NormalMode, None) mustBe routes.WhyBandIsWrongController.onPageLoad(NormalMode)
+        navigator.backLink(UploadEvidencePage, NormalMode, None) mustBe routes.HasEvidenceController.onPageLoad(NormalMode)
+        navigator.backLink(ContinueWithoutEvidencePage, NormalMode, None) mustBe routes.HasEvidenceController.onPageLoad(NormalMode)
+      }
+
       "must send both pages back to Check Your Answers in Check mode" in {
         navigator.backLink(CouncilTaxLiabilityStartDatePage, CheckMode, None) mustBe routes.CheckYourAnswersController.onPageLoad()
         navigator.backLink(WhyBandIsWrongPage, CheckMode, None) mustBe routes.CheckYourAnswersController.onPageLoad()
@@ -97,9 +103,40 @@ class NavigatorSpec extends SpecBase {
           routes.WhyBandIsWrongController.onPageLoad(NormalMode)
       }
 
-      "must route the reason textarea to Check Your Answers" in {
+      "must route the reason textarea to the evidence question" in {
         navigator.nextPage(WhyBandIsWrongPage, NormalMode, UserAnswers("id")) mustBe
-          routes.CheckYourAnswersController.onPageLoad()
+          routes.HasEvidenceController.onPageLoad(NormalMode)
+      }
+
+      "must route a yes to having evidence to the upload page" in {
+        val answers = UserAnswers("id").set(HasEvidencePage, true).success.value
+        navigator.nextPage(HasEvidencePage, NormalMode, answers) mustBe routes.UploadEvidenceController.onPageLoad(NormalMode)
+      }
+
+      "must route a no to having evidence to the continue without evidence page" in {
+        val answers = UserAnswers("id").set(HasEvidencePage, false).success.value
+        navigator.nextPage(HasEvidencePage, NormalMode, answers) mustBe routes.ContinueWithoutEvidenceController.onPageLoad()
+      }
+
+      "must route a changed evidence answer back to Check Your Answers, collecting a file first when needed" in {
+        val yesWithoutFile = UserAnswers("id").set(HasEvidencePage, true).success.value
+        val yesWithFile = yesWithoutFile.set(UploadEvidencePage, Seq(UploadedEvidence("a.pdf", "application/pdf", 1))).success.value
+        val no = UserAnswers("id").set(HasEvidencePage, false).success.value
+
+        navigator.nextPage(HasEvidencePage, CheckMode, yesWithoutFile) mustBe routes.UploadEvidenceController.onPageLoad(CheckMode)
+        navigator.nextPage(HasEvidencePage, CheckMode, yesWithFile) mustBe routes.CheckYourAnswersController.onPageLoad()
+        navigator.nextPage(HasEvidencePage, CheckMode, no) mustBe routes.CheckYourAnswersController.onPageLoad()
+        navigator.nextPage(UploadEvidencePage, CheckMode, yesWithFile) mustBe routes.CheckYourAnswersController.onPageLoad()
+      }
+
+      "must route an unanswered evidence question back to itself" in {
+        navigator.nextPage(HasEvidencePage, NormalMode, UserAnswers("id")) mustBe routes.HasEvidenceController.onPageLoad(NormalMode)
+      }
+
+      "must route both evidence outcomes to the which band page" in {
+        val expected = routes.WhyBandIsWrongController.onPageLoad(NormalMode).url.replace("why-band-is-wrong", "which-band")
+        navigator.nextPage(UploadEvidencePage, NormalMode, UserAnswers("id")).url mustBe expected
+        navigator.nextPage(ContinueWithoutEvidencePage, NormalMode, UserAnswers("id")).url mustBe expected
       }
 
       "must route less than six months to the formal review overview" in {
