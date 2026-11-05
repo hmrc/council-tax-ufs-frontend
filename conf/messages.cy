@@ -57,6 +57,7 @@ unauthorised.heading = Ni allwch gael mynediad at y gwasanaeth hwn gyda''r cyfri
 # Buttons
 button.print    = Argraffu’r dudalen hon
 button.continue = Parhau
+button.search   = Chwilio
 
 postcodeSearch.title = Nodwch god post yr eiddo
 postcodeSearch.heading = Nodwch god post yr eiddo
@@ -101,9 +102,9 @@ advancedPropertySearch.propertyUse = Defnyddio’r eiddo
 advancedPropertySearch.propertyUse.hint = Er enghraifft, dim ond at ddefnydd domestig, neu at ddibenion domestig a busnes
 advancedPropertySearch.checkYourAnswersLabel = Advanced property search
 advancedPropertySearch.change.hidden = advanced property search
-advancedPropertySearch.bandStatus.default = Cyfredol a dileadau cyfredol
-advancedPropertySearch.bandStatus.Current = Cyfredol yn unig
-advancedPropertySearch.bandStatus.Deleted = Dileadau cyfredol yn unig
+advancedPropertySearch.bandStatus.default = Dileadau cyfredol a chyfredol
+advancedPropertySearch.bandStatus.Current = Cyfredol
+advancedPropertySearch.bandStatus.Deleted = Cyfredol a ddilëwyd
 advancedPropertySearch.councilTaxBand.allBands = Pob band
 advancedPropertySearch.councilTaxBand.A = A
 advancedPropertySearch.councilTaxBand.B = B

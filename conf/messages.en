@@ -54,6 +54,7 @@ unauthorised.heading = You can’t access this service with this account
 # Buttons
 button.print    = Print this page
 button.continue = Continue
+button.search   = Search
 
 postcodeSearch.title = Enter the property postcode
 postcodeSearch.heading = Enter the property postcode
@@ -367,7 +368,7 @@ advancedPropertySearch.propertyUse.hint = For example, just domestic use, or for
 advancedPropertySearch.checkYourAnswersLabel = Advanced property search
 advancedPropertySearch.change.hidden = advanced property search
 advancedPropertySearch.error.postcode.required = Enter a postcode
-advancedPropertySearch.error.postcode.length = Postcode must be {0} characters or less
+advancedPropertySearch.error.postcode.length = Enter a real postcode
 advancedPropertySearch.error.postcode.invalid = Enter a valid postcode
 advancedPropertySearch.error.propertyNameOrNumber.length = Property name or number must be 80 characters or less
 advancedPropertySearch.error.street.length = Street must be 80 characters or less
@@ -443,17 +444,6 @@ reviewOverview.informal.examples.1               = Addresses of up to 5 similar 
 reviewOverview.informal.examples.2               = The homes can be either in the same street or estate, or in the same village or area.
 reviewOverview.informal.examples.3               = The price your home or similar homes sold for between 1 April 2001 and 31 March 2005.
 reviewOverview.informal.afterDecision            = The decision is final, and you cannot ask for another review.
-advancedPropertySearch.title = advancedPropertySearch
-advancedPropertySearch.heading = advancedPropertySearch
-advancedPropertySearch.PropertyNameorNumber = Property name or number
-advancedPropertySearch.Street = Street
-advancedPropertySearch.checkYourAnswersLabel = AdvancedPropertySearch
-advancedPropertySearch.error.PropertyNameorNumber.required = Enter Property name or number
-advancedPropertySearch.error.Street.required = Enter Street
-advancedPropertySearch.error.PropertyNameorNumber.length = Property name or number must be 100 characters or less
-advancedPropertySearch.error.Street.length = Street must be 100 characters or less
-advancedPropertySearch.PropertyNameorNumber.change.hidden = Property name or number
-advancedPropertySearch.Street.change.hidden = Street
 
 dateNotice.title = What date is on the Notice of Alteration?
 dateNotice.heading = What date is on the Notice of Alteration?
