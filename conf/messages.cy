@@ -12,7 +12,7 @@ site.startAgain = Dechrau eto
 site.signIn = Mewngofnodi
 site.govuk = GOV.UK
 
-date.day = Diwrnod
+date.day = Dydd
 date.month = Mis
 date.year = Blwyddyn
 date.error.day = diwrnod
@@ -218,9 +218,9 @@ propertyDetail.metaDescription                   = Gweld band Treth Gyngor a gwy
 propertyDetail.publicInformation                 = Gwybodaeth gyhoeddus
 propertyDetail.publicInformation.anybody         = Gall unrhyw un weld yr wybodaeth hon.
 propertyDetail.band                              = Band Treth Gyngor
-propertyDetail.band.hint.england                 = Bandiau Treth Gyngor yng Nghymru (yn seiliedig ar werthoedd 1 Ebrill 1991)
-propertyDetail.band.hint.wales                   = Bandiau Treth Gyngor yng Nghymru (yn seiliedig ar werthoedd 1 Ebrill 2003)
-propertyDetail.band.expand.wales                 = Bandiau Treth Gyngor yng Nghymru
+propertyDetail.band.hint.england                 = bandiau Treth Gyngor yng Nghymru (yn seiliedig ar werthoedd 1 Ebrill 1991)
+propertyDetail.band.hint.wales                   = bandiau Treth Gyngor yng Nghymru (yn seiliedig ar werthoedd 1 Ebrill 2003)
+propertyDetail.band.expand.wales                 = bandiau Treth Gyngor yng Nghymru
 propertyDetail.band.table.band                   = Band
 propertyDetail.band.table.value.england          = Gwerth ar 1 Ebrill 1991
 propertyDetail.band.table.value.wales            = Gwerth ar 1 Ebrill 2003
@@ -290,7 +290,7 @@ historicBandFull.challenge.emailAddress          = ctinboxvo@hmrc.gov.uk
  
 # England
 
-propertyDetail.band.expand.england        = Bandiau Treth Gyngor yng Nghymru
+propertyDetail.band.expand.england        = bandiau Treth Gyngor yng Nghymru
 propertyDetail.band.range.england.A       = hyd at £40,000
 propertyDetail.band.range.england.B       = £40,001 i £52,000
 propertyDetail.band.range.england.C       = £52,001 i £68,000
@@ -302,7 +302,7 @@ propertyDetail.band.range.england.H       = mwy na £320,000
 
 # Wales
 
-propertyDetail.band.expand.wales          = Bandiau Treth Gyngor yng Nghymru
+propertyDetail.band.expand.wales          = bandiau Treth Gyngor yng Nghymru
 propertyDetail.band.range.wales.A         = hyd at £44,000
 propertyDetail.band.range.wales.B         = £44,001 i £65,000
 propertyDetail.band.range.wales.C         = £65,001 i £91,000
@@ -378,6 +378,7 @@ scenarioResponsible.title = Ers faint o amser rydych wedi bod yn gyfrifol am dal
 scenarioResponsible.heading = Ers faint o amser rydych wedi bod yn gyfrifol am dalu Treth Gyngor ar yr eiddo?
 scenarioResponsible.less-than = Llai na 6 mis
 scenarioResponsible.more-than = Mwy na 6 mis
+scenarioResponsible.error.required = Dewiswch pa mor hir rydych wedi bod yn talu Treth Gyngor ar yr eiddo hwn
 scenarioResponsible.checkYourAnswersLabel = Ers faint o amser rydych wedi bod yn gyfrifol am dalu Treth Gyngor ar yr eiddo?
 
 deletionOptions.title = Beth sydd wedi newid?
@@ -396,16 +397,6 @@ noticeAlteration.hint = Mae Hysbysiad o Newid yn lythyr sy’n cael ei anfon gan
 noticeAlteration.yes = Ydw
 noticeAlteration.no = Nac ydw
 noticeAlteration.checkYourAnswersLabel = Ydych chi wedi derbyn Hysbysiad o Newid yn ystod y chwe mis diwethaf?
-propertyDetail.band.expand.wales          = Council Tax bands Wales
-propertyDetail.band.range.wales.A         = up to £44,000
-propertyDetail.band.range.wales.B         = £44,001 to £65,000
-propertyDetail.band.range.wales.C         = £65,001 to £91,000
-propertyDetail.band.range.wales.D         = £91,001 to £123,000
-propertyDetail.band.range.wales.E         = £123,001 to £162,000
-propertyDetail.band.range.wales.F         = £162,001 to £223,000
-propertyDetail.band.range.wales.G         = £223,001 to £324,000
-propertyDetail.band.range.wales.H         = £324,001 to £424,000
-propertyDetail.band.range.wales.I         = more than £424,000
 
 councilTaxLiabilityStartDate.title = Pryd gwnaethoch chi ddod yn gyfrifol am dalu Treth Gyngor am eich cartref?
 councilTaxLiabilityStartDate.heading = Pryd gwnaethoch chi ddod yn gyfrifol am dalu Treth Gyngor am eich cartref?
@@ -440,8 +431,10 @@ whyBandIsWrong.evidenceRequirement = Bydd eich band ond yn cael adolygiad os ydy
 whyBandIsWrong.intro = Bydd y dystiolaeth rydych yn ei roi yn cael ei gwirio cyn bod achos yn cael ei agor. Dylech roi cymaint o fanylion â phosib.
 whyBandIsWrong.evidenceDetails = Pa dystiolaeth y gallwch ei chynnwys?
 whyBandIsWrong.evidenceListTitle= Gall tystiolaeth gynnwys:
-whyBandIsWrong.evidenceExample.1 = cyfeiriadau hyd at 5 cartref sy’n debyg i’ch cartref o ran math, maint, oedran, cynllun a steil, sydd mewn band is. Dylai’r cartrefi fod ar yr un stryd neu stad, neu yn yr un pentref neu ardal.
-whyBandIsWrong.evidenceExample.2 = y pris y gwerthwyd eich cartref neu gartrefi tebyg rhwng 1 Ebrill 2001 a 31 Mawrth 2005.
+whyBandIsWrong.evidenceExample.1.england = cyfeiriadau hyd at 5 cartref sy’n debyg i’ch cartref o ran math, maint, oedran, cynllun a steil, sydd mewn band is. Dylai’r cartrefi fod ar yr un stryd neu stad, neu yn yr un pentref neu ardal.
+whyBandIsWrong.evidenceExample.1.wales = cyfeiriadau hyd at 5 cartref sy’n debyg i’ch cartref o ran math, maint, oedran, cynllun a steil, sydd mewn band is. Dylai’r cartrefi fod ar yr un stryd neu stad, neu yn yr un pentref neu ardal.
+whyBandIsWrong.evidenceExample.2.england = y pris y gwerthwyd eich cartref neu gartrefi tebyg rhwng 1 Ebrill 2001 a 31 Mawrth 2005.
+whyBandIsWrong.evidenceExample.2.wales = y pris y gwerthwyd eich cartref neu gartrefi tebyg rhwng 1 Ebrill 2001 a 31 Mawrth 2005.
 whyBandIsWrong.provideEvidence = Sut i roi eich tystiolaeth
 whyBandIsWrong.textareaGuidance = Rydych yn gallu teipio eich tystiolaeth yn y blwch testun. Mae gennych hyd at 5,000 o gymeriadau. Rydych yn gallu uwchlwytho hyd at 5 ffeil, gan gynnwys dogfennau PDF, dogfennau Word, a ffotograffau, ar y dudalen nesaf.
 whyBandIsWrong.error.required = Dywedwch wrthym pam rydych yn meddwl bod y band Treth Gyngor yn anghywir
@@ -500,3 +493,34 @@ requestSent.next.3 = Os bydd angen gwybodaeth ychwanegol arnom, byddwn yn cysyll
 requestSent.next.4 = Byddwn yn cysylltu â chi drwy [lythyr/e-bost] o fewn X wythnos gyda phenderfyniad ynghylch eich cais.
 requestSent.feedback = Beth oeddech yn ei feddwl o’r gwasanaeth hwn?
 requestSent.feedbackTime = (mae’n cymryd 30 eiliad)
+
+dateNotice.title = Pa ddyddiad sydd ar lythyr yr Hysbysiad o Newid?
+dateNotice.heading = Pa ddyddiad sydd ar lythyr yr Hysbysiad o Newid?
+dateNotice.hint = Er enghraifft, os taw’r dyddiad ar lythyr yr Hysbysiad o Newid yw 27 Ebrill 2025, rhowch 27 4 2025.
+dateNotice.checkYourAnswersLabel = DateNotice
+dateNotice.error.required.all = Nodwch y dyddiad sydd wedi'i nodi ar yr Hysbysiad o Addasiad
+dateNotice.error.invalid = Nodwch ddyddiad go iawn
+dateNotice.error.future = Mae'n rhaid i'r dyddiad fod heddiw neu yn y gorffennol
+dateNotice.error.sixMonths = Mae'n rhaid bod yr Hysbysiad o Addasiad wedi'i gyhoeddi o fewn y 6 mis diwethaf
+dateNotice.error.required.two = The notice date must include {0} and {1}
+dateNotice.error.required = The notice date must include {0}
+
+whichBand.title = Beth rydych chi'n meddwl y dylai'r band Treth Gyngor fod?
+whichBand.heading = Beth rydych chi'n meddwl y dylai'r band Treth Gyngor fod?
+whichBand.hint.england = Yn Lloegr, mae''r band Treth Gyngor yn seiliedig ar werth yr eiddo ar 1 Ebrill 1991. Band "A" yw''r un isaf a Band "H" yw''r un uchaf. Dysgwch fwy am
+whichBand.link.england = fandiau Treth Gyngor yng Nghymru
+whichBand.hint.wales = Yng Nghymru, mae''r band Treth Gyngor yn seiliedig ar werth yr eiddo ar 1 Ebrill 2003. Band "A" yw''r un isaf a Band "I" yw''r un uchaf. Dysgwch fwy am
+whichBand.link.wales = fandiau Treth Gyngor yng Nghymru
+whichBand.bandA = Band A
+whichBand.bandB = Band B
+whichBand.bandC = Band C
+whichBand.bandD = Band D
+whichBand.bandE = Band E
+whichBand.bandF = Band F
+whichBand.bandG = Band G
+whichBand.bandH = Band H
+whichBand.bandI = Band I
+whichBand.notSure = Dwi ddim yn siŵr
+whichBand.link.url = https://www.gov.uk/guidance/understand-how-council-tax-bands-are-assessed.cy
+whichBand.checkYourAnswersLabel = Beth rydych chi'n meddwl y dylai'r band Treth Gyngor fod?
+whichBand.error.required = Dewiswch pa fand yr ydych yn credu y dylai'ch Treth Gyngor fod ynddo
