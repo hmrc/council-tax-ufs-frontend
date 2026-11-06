@@ -92,7 +92,7 @@ class ContactDetailsFormProvider @Inject() extends Mappings {
     }
 
   // --- Conditional text with max length (address line 1, town, postcode) ---
-  private def conditionalText(method: String, requiredErrorKey: String, lengthErrorKey: String, maxLength: Int = 100): Formatter[Option[String]] =
+  private def conditionalText(method: String, requiredErrorKey: String, lengthErrorKey: String, maxLength: Int = 80): Formatter[Option[String]] =
     new Formatter[Option[String]] {
       override def bind(key: String, data: Map[String, String]): Either[Seq[FormError], Option[String]] = {
         val methods = selectedMethods(data)
@@ -107,7 +107,7 @@ class ContactDetailsFormProvider @Inject() extends Mappings {
     }
 
   // --- Always-optional text with just a max length (address line 2, county) ---
-  private def optionalTextWithLength(lengthErrorKey: String, maxLength: Int = 100): Formatter[Option[String]] =
+  private def optionalTextWithLength(lengthErrorKey: String, maxLength: Int = 80): Formatter[Option[String]] =
     new Formatter[Option[String]] {
       override def bind(key: String, data: Map[String, String]): Either[Seq[FormError], Option[String]] = {
         val value = data.get(key).map(_.trim).filter(_.nonEmpty)
