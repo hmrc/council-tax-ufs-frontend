@@ -389,8 +389,8 @@ advancedPropertySearch.councilTaxBand.H = H
 advancedPropertySearch.councilTaxBand.I = I
 
 advancedPropertySearch.bandStatus.default = Current and current deletions
-advancedPropertySearch.bandStatus.Current = Current only
-advancedPropertySearch.bandStatus.Deleted = Current deletions only
+advancedPropertySearch.bandStatus.Current = Current
+advancedPropertySearch.bandStatus.Deleted = Current deletions
 
 advancedPropertySearch.courtCode.default = All
 advancedPropertySearch.courtCode.V = VT determination
