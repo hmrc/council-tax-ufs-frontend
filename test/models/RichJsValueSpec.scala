@@ -260,16 +260,19 @@ class RichJsValueSpec extends AnyFreeSpec with Matchers with ScalaCheckPropertyC
     "must remove a value given a keyPathNode and return the new object" in {
 
       val gen = for {
-        keys   <- Gen.listOf(nonEmptyAlphaStr)
+        keys <- Gen.listOf(nonEmptyAlphaStr)
         values <- Gen.listOf(nonEmptyAlphaStr)
-        keyToRemove   <- nonEmptyAlphaStr
+        keyToRemove <- nonEmptyAlphaStr
         valueToRemove <- nonEmptyAlphaStr
       } yield (keys, values, keyToRemove, valueToRemove)
 
       forAll(gen) {
         case (keys, values, keyToRemove, valueToRemove) =>
 
-          val initialObj: JsObject = keys.zip(values).foldLeft(JsObject.empty) {
+          // Filter out any keys that match keyToRemove to avoid duplicates
+          val filteredKeys = keys.filter(_ != keyToRemove)
+
+          val initialObj: JsObject = filteredKeys.zip(values).foldLeft(JsObject.empty) {
             case (acc, (key, value)) => acc + (key -> JsString(value))
           }
 

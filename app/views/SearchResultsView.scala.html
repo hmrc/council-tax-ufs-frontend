@@ -100,19 +100,19 @@
   @govukPagination(pagination)
 
   @* "I cannot find my property" disclosure *@
-  @govukDetails(Details(
-    summary = Text(messages("searchResults.cannotFind")),
-    content = HtmlContent(
-     s"""<p class="govuk-body">
-         |${messages("searchResults.cannotFind.check")}
-         | <a href="#" class="govuk-link">${messages("searchResults.cannotFind.otherOptions")}</a>.
-         |</p>
-         |<p class="govuk-body">
-         |  <a href="https://www.gov.uk/find-local-council" target="_blank" rel="noopener noreferrer" class="govuk-link">${messages("searchResults.cannotFind.contactCouncil")}<span class="govuk-visually-hidden"> ${messages("site.opensInNewTab")}</span></a>
-         |  ${messages("searchResults.cannotFind.contactCouncilDescription")}
-         |</p>""".stripMargin
-    )
-  ))
+    @govukDetails(Details(
+        summary = Text(messages("searchResults.cannotFind")),
+        content = HtmlContent(
+        s"""<p class="govuk-body">
+            |${messages("searchResults.cannotFind.check")}
+            | <a href="${routes.AdvancedPropertySearchController.onPageLoad(NormalMode).url}" class="govuk-link">${messages("searchResults.cannotFind.otherOptions")}</a>.
+            |</p>
+            |<p class="govuk-body">
+            |  <a href="https://www.gov.uk/find-local-council" target="_blank" rel="noopener noreferrer" class="govuk-link">${messages("searchResults.cannotFind.contactCouncil")}<span class="govuk-visually-hidden"> ${messages("site.opensInNewTab")}</span></a>
+            |  ${messages("searchResults.cannotFind.contactCouncilDescription")}
+            |</p>""".stripMargin
+        )
+    ))
 
   <p class="govuk-body">@messages("searchResults.commercialUse")</p>
 

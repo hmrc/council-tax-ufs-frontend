@@ -54,6 +54,7 @@ unauthorised.heading = You can’t access this service with this account
 # Buttons
 button.print    = Print this page
 button.continue = Continue
+button.search   = Search
 
 postcodeSearch.title = Enter the property postcode
 postcodeSearch.heading = Enter the property postcode
@@ -280,7 +281,7 @@ scenarioResponsible.heading = How long have you been responsible for paying Coun
 scenarioResponsible.less-than = Less than 6 months
 scenarioResponsible.more-than = More than 6 months
 scenarioResponsible.checkYourAnswersLabel = How long have you been responsible for paying Council Tax on the property?
-scenarioResponsible.error.required = Select scenarioResponsible
+scenarioResponsible.error.required = Select how long you have been paying Council Tax on this property
 scenarioResponsible.change.hidden = scenarioResponsible
 
 deletionOptions.title = What has changed?
@@ -300,7 +301,7 @@ noticeAlteration.hint = A Notice of Alteration is a letter sent by the Valuation
 noticeAlteration.yes = Yes
 noticeAlteration.no = No
 noticeAlteration.checkYourAnswersLabel = Have you received a Notice of Alteration within the last six months?
-noticeAlteration.error.required = Select noticeAlteration
+noticeAlteration.error.required = Select whether you have received a Notice of Alteration within the last six months
 noticeAlteration.change.hidden = noticeAlteration
 
 councilTaxLiabilityStartDate.title = When did you become responsible for paying Council Tax for your home?
@@ -321,8 +322,10 @@ whyBandIsWrong.evidenceRequirement = Your band will only be reviewed if you prov
 whyBandIsWrong.intro = The evidence you provide will be looked at before a case is opened. You should give as much detail as possible.
 whyBandIsWrong.evidenceDetails = What evidence can you include?
 whyBandIsWrong.evidenceListTitle= Evidence can include:
-whyBandIsWrong.evidenceExample.1 = addresses of up to 5 homes, similar to yours in terms of type, size, age, layout and style, that are in a lower band. The homes should be in the same street or estate, or in the same village or area.
-whyBandIsWrong.evidenceExample.2 = the price that your home or similar homes sold for between 1 April 2001 and 31 March 2005
+whyBandIsWrong.evidenceExample.1.england = addresses of up to 5 homes, similar to yours in terms of type, size, age, layout and style, that are in a lower band. The homes should be in the same street or estate, or in the same village or area.
+whyBandIsWrong.evidenceExample.1.wales = addresses of up to 5 homes, similar to yours in terms of type, size, age, layout and style, that are in a lower band. The homes should be in the same street or estate, or in the same village or area.
+whyBandIsWrong.evidenceExample.2.england = the price that your home or similar homes sold for between 1 April 2001 and 31 March 2005
+whyBandIsWrong.evidenceExample.2.wales = the price that your home or similar homes sold for between 1 April 2001 and 31 March 2005
 whyBandIsWrong.provideEvidence = How to provide your evidence
 whyBandIsWrong.textareaGuidance = You can type your evidence in the text box. You can use up to 1,000 characters. You can also upload up to 5 files, including PDFs, documents and photos on the next page.
 whyBandIsWrong.charactersRemaining = You have {0} characters remaining
@@ -365,7 +368,7 @@ advancedPropertySearch.propertyUse.hint = For example, just domestic use, or for
 advancedPropertySearch.checkYourAnswersLabel = Advanced property search
 advancedPropertySearch.change.hidden = advanced property search
 advancedPropertySearch.error.postcode.required = Enter a postcode
-advancedPropertySearch.error.postcode.length = Postcode must be {0} characters or less
+advancedPropertySearch.error.postcode.length = Enter a real postcode
 advancedPropertySearch.error.postcode.invalid = Enter a valid postcode
 advancedPropertySearch.error.propertyNameOrNumber.length = Property name or number must be 80 characters or less
 advancedPropertySearch.error.street.length = Street must be 80 characters or less
@@ -385,6 +388,7 @@ advancedPropertySearch.councilTaxBand.I = I
 advancedPropertySearch.bandStatus.default = Current and current deletions
 advancedPropertySearch.bandStatus.Current = Current only
 advancedPropertySearch.bandStatus.Deleted = Current deletions only
+
 advancedPropertySearch.courtCode.default = All
 advancedPropertySearch.courtCode.V = VT determination
 advancedPropertySearch.courtCode.C = VT confirmation
@@ -436,6 +440,40 @@ reviewOverview.informal.examples.1               = Addresses of up to 5 similar 
 reviewOverview.informal.examples.2               = The homes can be either in the same street or estate, or in the same village or area.
 reviewOverview.informal.examples.3               = The price your home or similar homes sold for between 1 April 2001 and 31 March 2005.
 reviewOverview.informal.afterDecision            = The decision is final, and you cannot ask for another review.
+
+dateNotice.title = What date is on the Notice of Alteration?
+dateNotice.heading = What date is on the Notice of Alteration?
+dateNotice.hint = For example, if the notice letter is dated 27 April 2025, enter 27 4 2025.
+dateNotice.checkYourAnswersLabel = DateNotice
+dateNotice.error.required.all = Enter the date shown on the Notice of Alteration
+dateNotice.error.invalid = Enter a real date
+dateNotice.error.future = The date must be today or in the past
+dateNotice.error.sixMonths = The Notice of Alteration must have been issued within the last 6 months
+dateNotice.error.required.two = The notice date must include {0} and {1}
+dateNotice.error.required = The notice date must include {0}
+dateNotice.change.hidden = DateNotice
+
+whichBand.title = What do you think the Council Tax band should be?
+whichBand.heading = What do you think the Council Tax band should be?
+whichBand.hint.england = In England, the Council Tax band is based on the value of the property on 1 April 1991. The lowest band is "A", and the highest band is "H". Find out more about
+whichBand.link.england = Council Tax bands in England
+whichBand.hint.wales = In Wales, the Council Tax band is based on the value of the property on 1 April 2003. The lowest band is "A", and the highest band is "I". Find out more about
+whichBand.link.wales = Council Tax bands in Wales
+whichBand.bandA = Band A
+whichBand.bandB = Band B
+whichBand.bandC = Band C
+whichBand.bandD = Band D
+whichBand.bandE = Band E
+whichBand.bandF = Band F
+whichBand.bandG = Band G
+whichBand.bandH = Band H
+whichBand.bandI = Band I
+whichBand.notSure = I'''m not sure
+whichBand.link.url = https://www.gov.uk/guidance/understand-how-council-tax-bands-are-assessed
+whichBand.checkYourAnswersLabel = What do you think the Council Tax band should be?
+whichBand.error.required = Select which band you think your Council Tax should be
+whichBand.change.hidden = WhichBand
+
 
 
 contactDetails.heading                           = What are your contact details?
