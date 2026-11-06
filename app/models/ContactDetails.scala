@@ -18,9 +18,19 @@ package models
 
 import play.api.libs.json._
 
-case class ContactDetails (firstName: String, lastName: String)
+case class ContactDetails(
+                           firstName: String,
+                           lastName: String,
+                           email: Option[String],
+                           phoneNumber: Option[String],
+                           addressLine1: Option[String],
+                           addressLine2: Option[String],
+                           townOrCity: Option[String],
+                           county: Option[String],
+                           postcode: Option[String],
+                           value: Set[String]
+                         )
 
 object ContactDetails {
-
-  implicit val format: OFormat[ContactDetails] = Json.format
+  implicit val format: OFormat[ContactDetails] = Json.format[ContactDetails]
 }

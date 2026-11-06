@@ -76,6 +76,11 @@ POST       /contact-details                              controllers.ContactDeta
 GET        /change-contact-details                      controllers.ContactDetailsController.onPageLoad(mode: Mode = CheckMode)
 POST       /change-contact-details                      controllers.ContactDetailsController.onSubmit(mode: Mode = CheckMode)
 
+GET        /council-tax-payer-details                     controllers.CouncilTaxPayerDetailsController.onPageLoad(mode: Mode = NormalMode)
+POST       /council-tax-payer-details                     controllers.CouncilTaxPayerDetailsController.onSubmit(mode: Mode = NormalMode)
+GET        /change-council-tax-payer-details               controllers.CouncilTaxPayerDetailsController.onPageLoad(mode: Mode = CheckMode)
+POST       /change-council-tax-payer-details               controllers.CouncilTaxPayerDetailsController.onSubmit(mode: Mode = CheckMode)
+
 GET        /formal-review                                controllers.ReviewOverviewController.formalReview()
 GET        /informal-review                              controllers.ReviewOverviewController.informalReview()
 GET        /review/continue/:reviewType                  controllers.ReviewOverviewController.continueToLogin(reviewType: String)

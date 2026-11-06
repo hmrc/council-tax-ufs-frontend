@@ -20,6 +20,7 @@ import controllers.actions._
 import forms.ContactDetailsFormProvider
 import javax.inject.Inject
 import models.Mode
+import play.api.Logging
 import navigation.Navigator
 import pages.ContactDetailsPage
 import play.api.i18n.{I18nSupport, MessagesApi}
@@ -40,7 +41,7 @@ class ContactDetailsController @Inject()(
                                       formProvider: ContactDetailsFormProvider,
                                       val controllerComponents: MessagesControllerComponents,
                                       view: ContactDetailsView
-                                     )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+                                     )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport with Logging{
 
   val form = formProvider()
 
@@ -59,19 +60,21 @@ class ContactDetailsController @Inject()(
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData).async {
     implicit request =>
 
-      val form = formProvider()
+      val rawData = request.body.asFormUrlEncoded.getOrElse(Map.empty).view.mapValues(_.headOption.getOrElse("")).toMap
+      val methodValues = request.body.asFormUrlEncoded.flatMap(_.get("value")).getOrElse(Seq.empty)
+      val indexedEntries = methodValues.zipWithIndex.map { case (v, i) => s"value[$i]" -> v }.toMap
+      val correctedData = (rawData - "value") ++ indexedEntries
 
-      form.bindFromRequest().fold(
+      form.bind(correctedData).fold(
         formWithErrors =>
           Future.successful(BadRequest(view(formWithErrors, mode))),
 
-        value => {
-          val answers = request.userAnswers.getOrElse(models.UserAnswers(request.userId))
+        value =>
           for {
+            answers        <- Future.successful(request.userAnswers.getOrElse(models.UserAnswers(request.userId)))
             updatedAnswers <- Future.fromTry(answers.set(ContactDetailsPage, value))
             _              <- sessionRepository.set(updatedAnswers)
           } yield Redirect(navigator.nextPage(ContactDetailsPage, mode, updatedAnswers))
-        }
       )
   }
 }
