@@ -65,7 +65,7 @@ class ReviewOverviewControllerSpec extends SpecBase {
       }
     }
 
-    "must continue from the formal review with a Notice of Alteration to why the band is wrong" in {
+    "must continue from the formal review with a Notice of Alteration to the notice date" in {
       val answers = UserAnswers(userAnswersId)
         .set(scenarioResponsiblePage, scenarioResponsible.Morethan).success.value
         .set(noticeAlterationPage, noticeAlteration.Yes).success.value
@@ -78,7 +78,7 @@ class ReviewOverviewControllerSpec extends SpecBase {
         val result = route(application, request).value
 
         status(result) mustBe SEE_OTHER
-        redirectLocation(result).value must include("why-band-is-wrong")
+        redirectLocation(result).value must include("date-notice")
       }
     }
 

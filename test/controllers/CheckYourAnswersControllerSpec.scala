@@ -17,7 +17,8 @@
 package controllers
 
 import base.SpecBase
-import pages.{CouncilTaxLiabilityStartDatePage, PostcodeSearchPage, WhyBandIsWrongPage}
+import models.CouncilTaxResponsible
+import pages.{CouncilTaxLiabilityStartDatePage, CouncilTaxResponsiblePage, PropertyAddressPage, WhyBandIsWrongPage}
 import java.time.LocalDate
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
@@ -39,7 +40,7 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
 
         val view = application.injector.instanceOf[CheckYourAnswersView]
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(Seq.empty, routes.WhyBandIsWrongController.onPageLoad(models.NormalMode).url)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(Seq.empty, routes.WhichBandController.onPageLoad(models.NormalMode).url)(request, messages(application)).toString
       }
     }
 
@@ -60,7 +61,7 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
 
     "must group only saved answers under their categories" in {
       val userAnswers = emptyUserAnswers
-        .set(PostcodeSearchPage, "CF14 1AA").success.value
+        .set(PropertyAddressPage, "35 Somerby Court, Nottingham").success.value
         .set(CouncilTaxLiabilityStartDatePage, LocalDate.of(2025, 8, 12)).success.value
         .set(WhyBandIsWrongPage, "My evidence explains why the band is wrong.").success.value
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
@@ -71,13 +72,26 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
         val html = contentAsString(result)
 
         status(result) mustEqual OK
-        html must include("Property details")
         html must include("Challenge details")
-        html must include("Postcode used to find your home")
-        html must include("Date you became responsible for Council Tax")
-        html must include("Why you think the Council Tax band is wrong")
-        html.indexOf("Property details") must be < html.indexOf("Challenge details")
+        html must include("Address")
+        html must include("35 Somerby Court, Nottingham")
+        html must include("When did you become responsible for paying Council Tax for your home?")
+        html must include("Tell us why you think the Council Tax band is wrong?")
+        html.indexOf("Address") must be < html.indexOf("Challenge details")
       }
+    }
+
+    "must show the Authority to Act notice only when acting for someone" in {
+      def page(answers: models.UserAnswers) = {
+        val application = applicationBuilder(userAnswers = Some(answers)).build()
+        running(application) {
+          contentAsString(route(application, FakeRequest(GET, routes.CheckYourAnswersController.onPageLoad().url)).value)
+        }
+      }
+
+      page(emptyUserAnswers.set(CouncilTaxResponsiblePage, CouncilTaxResponsible.ActingFor).success.value) must include("Authority to Act")
+      page(emptyUserAnswers.set(CouncilTaxResponsiblePage, CouncilTaxResponsible.Yes).success.value) must not include "Authority to Act"
+      page(emptyUserAnswers) must include("Print this page")
     }
 
     "must offer a Confirm and send button that posts to the submit route" in {

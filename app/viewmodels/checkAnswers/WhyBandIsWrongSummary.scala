@@ -29,11 +29,11 @@ object WhyBandIsWrongSummary {
   def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
     answers.get(WhyBandIsWrongPage).map { answer =>
       SummaryListRowViewModel(
-        key = "whyBandIsWrong.checkYourAnswersLabel",
+        key = "whyBandIsWrong.heading",
         value = ValueViewModel(HtmlFormat.escape(answer).toString),
         actions = Seq(
           ActionItemViewModel("site.change", routes.WhyBandIsWrongController.onPageLoad(CheckMode).url)
-            .withVisuallyHiddenText(messages("whyBandIsWrong.change.hidden"))
+            .withVisuallyHiddenText(messages("whyBandIsWrong.heading"))
         )
       )
     }

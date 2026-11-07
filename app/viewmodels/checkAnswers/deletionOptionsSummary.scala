@@ -39,11 +39,11 @@ object deletionOptionsSummary  {
         )
 
         SummaryListRowViewModel(
-          key     = "deletionOptions.checkYourAnswersLabel",
+          key     = "deletionOptions.heading",
           value   = value,
           actions = Seq(
             ActionItemViewModel("site.change", routes.deletionOptionsController.onPageLoad(CheckMode).url)
-              .withVisuallyHiddenText(messages("deletionOptions.change.hidden"))
+              .withVisuallyHiddenText(messages("deletionOptions.heading"))
           )
         )
     }

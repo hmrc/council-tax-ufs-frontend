@@ -18,7 +18,7 @@ package forms.mappings
 
 import models.Enumerable
 import play.api.data.{FieldMapping, Mapping}
-import play.api.data.Forms.of
+import play.api.data.Forms.{default, of, text => plainText}
 import play.api.i18n.Messages
 
 import java.time.LocalDate
@@ -30,6 +30,19 @@ trait Mappings extends Formatters with Constraints {
 
   protected def limitedText(requiredKey: String, maxLengthKey: String, max: Int): Mapping[String] =
     text(requiredKey).verifying(maxLength(max, maxLengthKey))
+
+  /**
+   * Free-text answer for a text area. `requiredKey = None` makes the answer optional (a blank answer is
+   * stored as ""), and `max = None` removes the length limit, so one mapping covers every text area.
+   */
+  protected def textArea(requiredKey: Option[String], maxLengthKey: String, max: Option[Int]): Mapping[String] = {
+    // Browsers submit a line break as \r\n but the character counter counts it as one character, so
+    // normalise it first or text the counter says is at the limit would be rejected as too long.
+    val base: Mapping[String] = requiredKey
+      .fold[Mapping[String]](default(plainText, ""))(text(_))
+      .transform[String](_.replace("\r\n", "\n"), identity)
+    max.fold(base)(limit => base.verifying(maxLength(limit, maxLengthKey)))
+  }
 
   protected def int(requiredKey: String = "error.required",
                     wholeNumberKey: String = "error.wholeNumber",

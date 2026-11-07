@@ -33,7 +33,7 @@ class CharacterCountTextareaSpec extends AnyWordSpec with Matchers {
   private val component = app.injector.instanceOf[CharacterCountTextarea]
   private val form = Form(single("value" -> text))
 
-  private def render(f: Form[String], m: Messages = messages, maxLength: Int = 200) =
+  private def render(f: Form[String], m: Messages = messages, maxLength: Option[Int] = Some(200)) =
     component(f("value"), "my-id", "My label", maxLength)(m).body
 
   "CharacterCountTextarea" should {
@@ -42,7 +42,8 @@ class CharacterCountTextareaSpec extends AnyWordSpec with Matchers {
 
       html should include("govuk-character-count")
       html should include("data-maxlength=\"200\"")
-      html should include("maxlength=\"200\"")
+      // No native maxlength: users must be able to go over the limit and be told by how much.
+      html should not include " maxlength=\"200\""
       html should include("id=\"my-id\"")
       html should include("name=\"value\"")
       html should include("aria-describedby=\"my-id-info\"")
@@ -62,6 +63,16 @@ class CharacterCountTextareaSpec extends AnyWordSpec with Matchers {
       html should include("govuk-error-message")
     }
 
+    "render a plain textarea with no counter or limit when no maximum is configured" in {
+      val html = render(form, maxLength = None)
+
+      html should include("id=\"my-id\"")
+      html should include("My label")
+      html should not include "govuk-character-count"
+      html should not include "maxlength"
+      html should not include "characters remaining"
+    }
+
     "provide English runtime counter messages" in {
       val html = render(form)
 
@@ -73,7 +84,7 @@ class CharacterCountTextareaSpec extends AnyWordSpec with Matchers {
       val html = render(form, messagesApi.preferred(Seq(Lang("cy"))))
 
       html should include("data-i18n.characters-under-limit.other='Mae gennych %{count} o cymeriad ar ôl'")
-      html should include("data-i18n.characters-over-limit.other='Mae gennych %{count} o nodau yn ormod'")
+      html should include("data-i18n.characters-over-limit.other='Mae gennych %{count} o gymeriadau yn ormod'")
     }
   }
 }

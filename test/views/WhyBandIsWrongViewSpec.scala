@@ -53,7 +53,7 @@ class WhyBandIsWrongViewSpec extends AnyWordSpec with Matchers {
       val html = view.render(form, NormalMode, "/back-link", BandCountry.England, request, welshMessages).body
 
       html should include("data-i18n.characters-under-limit.other='Mae gennych %{count} o cymeriad ar ôl'")
-      html should include("data-i18n.characters-over-limit.other='Mae gennych %{count} o nodau yn ormod'")
+      html should include("data-i18n.characters-over-limit.other='Mae gennych %{count} o gymeriadau yn ormod'")
     }
   }
 }

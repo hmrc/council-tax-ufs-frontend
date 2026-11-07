@@ -15,6 +15,8 @@
  *@
 
 @import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryList
+@import views.html.components.PrintLink
+@import views.html.helper.CSPNonce
 
 @this(
     layout: templates.Layout,
@@ -23,16 +25,41 @@
     formHelper: FormWithCSRF
 )
 
-@(sections: Seq[(String, SummaryList)], backLinkUrl: String)(implicit request: Request[_], messages: Messages)
+@(sections: Seq[(String, SummaryList)], backLinkUrl: String, actingFor: Boolean = false)(implicit request: Request[_], messages: Messages)
 
-@layout(backLinkUrl = Some(backLinkUrl), pageTitle = titleNoForm(messages("checkYourAnswers.title"))) {
+@scripts = {
+    <script @CSPNonce.attr src='@controllers.routes.Assets.versioned("javascripts/print.js")'></script>
+}
 
+@layout(backLinkUrl = Some(backLinkUrl), scripts = Some(scripts), pageTitle = titleNoForm(messages("checkYourAnswers.title"))) {
+
+    <link href='@routes.Assets.versioned("stylesheets/print_page.css")' rel="stylesheet" type="text/css" />
     <h1 class="govuk-heading-xl">@messages("checkYourAnswers.heading")</h1>
 
     @for((heading, list) <- sections) {
-        <h2 class="govuk-heading-m">@messages(heading)</h2>
+        @if(heading.nonEmpty) {
+            <h2 class="govuk-heading-m">@messages(heading)</h2>
+        }
         @govukSummaryList(list)
     }
+
+    <h2 class="govuk-heading-m">@messages("checkYourAnswers.send.heading")</h2>
+    <p class="govuk-body">@messages("checkYourAnswers.send.body")</p>
+
+    @if(actingFor) {
+        <h2 class="govuk-heading-m">@messages("checkYourAnswers.actingFor.heading")</h2>
+        <p class="govuk-body">
+            @messages("checkYourAnswers.actingFor.before")
+            <a class="govuk-link" href="@messages("checkYourAnswers.actingFor.authorityToAct.url")" rel="noreferrer noopener" target="_blank">@messages("checkYourAnswers.actingFor.authorityToAct") @messages("site.opensInNewTab")</a>
+            @messages("checkYourAnswers.actingFor.or")
+            <a class="govuk-link" href="@messages("checkYourAnswers.actingFor.letterOfAuthority.url")" rel="noreferrer noopener" target="_blank">@messages("checkYourAnswers.actingFor.letterOfAuthority") @messages("site.opensInNewTab")</a>
+            @messages("checkYourAnswers.actingFor.after")
+        </p>
+    }
+
+    <div class="govuk-!-display-none-print">
+        @PrintLink(messages("button.print"))
+    </div>
 
     @formHelper(action = routes.CheckYourAnswersController.onSubmit(), Symbol("autoComplete") -> "off") {
         @govukButton(ButtonViewModel(messages("checkYourAnswers.confirmAndSend")).preventingDoubleClick())

@@ -52,7 +52,7 @@ class ReviewOverviewController @Inject()(
         }
 
         if (noticeBasedFormalReview) {
-          Some(routes.WhyBandIsWrongController.onPageLoad(NormalMode))
+          Some(routes.DateNoticeController.onPageLoad(NormalMode))
         } else {
           Some(routes.CouncilTaxLiabilityStartDateController.onPageLoad(NormalMode))
         }

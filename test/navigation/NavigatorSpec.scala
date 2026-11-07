@@ -40,12 +40,23 @@ class NavigatorSpec extends SpecBase {
           routes.CouncilTaxLiabilityStartDateController.onPageLoad(NormalMode)
       }
 
-      "must send why the band is wrong back to the formal review overview for a Notice of Alteration" in {
+      "must send why the band is wrong back to the notice date for a Notice of Alteration" in {
         val answers = UserAnswers("id")
           .set(scenarioResponsiblePage, scenarioResponsible.Morethan).success.value
           .set(noticeAlterationPage, noticeAlteration.Yes).success.value
         navigator.backLink(WhyBandIsWrongPage, NormalMode, Some(answers)) mustBe
-          routes.ReviewOverviewController.formalReview()
+          routes.DateNoticeController.onPageLoad(NormalMode)
+      }
+
+      "must send the notice date back to the formal review overview" in {
+        val answers = UserAnswers("id").set(noticeAlterationPage, noticeAlteration.Yes).success.value
+        navigator.backLink(DateNoticePage, NormalMode, Some(answers)) mustBe routes.ReviewOverviewController.formalReview()
+        navigator.backLink(DateNoticePage, CheckMode, Some(answers)) mustBe routes.CheckYourAnswersController.onPageLoad()
+      }
+
+      "must route the notice date to why the band is wrong, or Check Your Answers in check mode" in {
+        navigator.nextPage(DateNoticePage, NormalMode, UserAnswers("id")) mustBe routes.WhyBandIsWrongController.onPageLoad(NormalMode)
+        navigator.nextPage(DateNoticePage, CheckMode, UserAnswers("id")) mustBe routes.CheckYourAnswersController.onPageLoad()
       }
 
       "must send why the band is wrong back to the informal review overview otherwise" in {
@@ -81,7 +92,7 @@ class NavigatorSpec extends SpecBase {
       }
 
       "must send Check Your Answers back to why the band is wrong" in {
-        navigator.checkYourAnswersBackLink mustBe routes.WhyBandIsWrongController.onPageLoad(NormalMode)
+        navigator.checkYourAnswersBackLink mustBe routes.WhichBandController.onPageLoad(NormalMode)
       }
 
       "must send each evidence page back to the page before it" in {
@@ -134,9 +145,22 @@ class NavigatorSpec extends SpecBase {
       }
 
       "must route both evidence outcomes to the which band page" in {
-        val expected = routes.WhyBandIsWrongController.onPageLoad(NormalMode).url.replace("why-band-is-wrong", "which-band")
-        navigator.nextPage(UploadEvidencePage, NormalMode, UserAnswers("id")).url mustBe expected
-        navigator.nextPage(ContinueWithoutEvidencePage, NormalMode, UserAnswers("id")).url mustBe expected
+        val expected = routes.WhichBandController.onPageLoad(NormalMode)
+        navigator.nextPage(UploadEvidencePage, NormalMode, UserAnswers("id")) mustBe expected
+        navigator.nextPage(ContinueWithoutEvidencePage, NormalMode, UserAnswers("id")) mustBe expected
+      }
+
+      "must route which band to Check Your Answers in both modes" in {
+        navigator.nextPage(WhichBandPage, NormalMode, UserAnswers("id")) mustBe routes.CheckYourAnswersController.onPageLoad()
+        navigator.nextPage(WhichBandPage, CheckMode, UserAnswers("id")) mustBe routes.CheckYourAnswersController.onPageLoad()
+      }
+
+      "must link back from which band to the evidence page the user came from" in {
+        val yes = UserAnswers("id").set(HasEvidencePage, true).success.value
+        val no  = UserAnswers("id").set(HasEvidencePage, false).success.value
+        navigator.backLink(WhichBandPage, NormalMode, Some(yes)) mustBe routes.UploadEvidenceController.onPageLoad(NormalMode)
+        navigator.backLink(WhichBandPage, NormalMode, Some(no)) mustBe routes.ContinueWithoutEvidenceController.onPageLoad()
+        navigator.backLink(WhichBandPage, CheckMode, Some(yes)) mustBe routes.CheckYourAnswersController.onPageLoad()
       }
 
       "must route less than six months to the formal review overview" in {

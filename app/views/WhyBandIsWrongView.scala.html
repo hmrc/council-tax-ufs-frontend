@@ -61,7 +61,7 @@
       field = form("value"),
       id = "why-band-is-wrong",
       label = messages("whyBandIsWrong.heading"),
-      maxLength = WhyBandIsWrongFormProvider.maxCharacters
+      maxLength = Some(WhyBandIsWrongFormProvider.maxCharacters)
     )
 
     @govukButton(Button(content = Text(messages("site.continue"))))

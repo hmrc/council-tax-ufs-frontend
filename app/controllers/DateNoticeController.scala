@@ -42,6 +42,9 @@ class DateNoticeController @Inject()(
                                         view: DateNoticeView
                                       )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
+  private def backLink(mode: Mode, answers: models.UserAnswers): Option[String] =
+    Some(navigator.backLink(DateNoticePage, mode, Some(answers)).url)
+
   def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
 
@@ -52,7 +55,7 @@ class DateNoticeController @Inject()(
         case Some(value) => form.fill(value)
       }
 
-      Ok(view(preparedForm, mode))
+      Ok(view(preparedForm, mode, backLink(mode, request.userAnswers)))
   }
 
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
@@ -62,7 +65,7 @@ class DateNoticeController @Inject()(
 
       form.bindFromRequest().fold(
         formWithErrors =>
-          Future.successful(BadRequest(view(formWithErrors, mode))),
+          Future.successful(BadRequest(view(formWithErrors, mode, backLink(mode, request.userAnswers)))),
 
         value => {
           for {

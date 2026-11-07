@@ -39,6 +39,43 @@ object MappingsSpec {
 
 class MappingsSpec extends AnyFreeSpec with Matchers with OptionValues with Mappings {
 
+  "textArea" - {
+
+    def form(required: Option[String], max: Option[Int]) =
+      Form("value" -> textArea(required, "error.max", max))
+
+    "must reject a blank answer when required" in {
+      form(Some("error.req"), Some(5)).bind(Map("value" -> " ")).errors mustEqual Seq(FormError("value", "error.req"))
+    }
+
+    "must reject an answer over the maximum" in {
+      form(Some("error.req"), Some(5)).bind(Map("value" -> "123456")).errors.map(_.message) mustEqual Seq("error.max")
+    }
+
+    "must accept a blank answer when optional" in {
+      form(None, Some(5)).bind(Map("value" -> "")).value.value mustEqual ""
+      form(None, Some(5)).bind(Map.empty[String, String]).value.value mustEqual ""
+    }
+
+    "must still enforce the maximum when optional" in {
+      form(None, Some(5)).bind(Map("value" -> "123456")).errors.map(_.message) mustEqual Seq("error.max")
+    }
+
+    "must count a browser line break (CRLF) as one character, as the character counter does" in {
+      val answer = "ab\r\ncd\r\ne"
+      val bound = form(Some("error.req"), Some(7)).bind(Map("value" -> answer))
+
+      bound.hasErrors mustEqual false
+      bound.value.value mustEqual "ab\ncd\ne"
+      form(Some("error.req"), Some(6)).bind(Map("value" -> answer)).errors.map(_.message) mustEqual Seq("error.max")
+    }
+
+    "must accept any length when there is no maximum" in {
+      form(None, None).bind(Map("value" -> "a" * 10000)).hasErrors mustEqual false
+    }
+  }
+
+
   import MappingsSpec._
 
   "limitedText" - {
