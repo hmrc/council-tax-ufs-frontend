@@ -28,10 +28,12 @@ class Navigator @Inject()() {
 
   private val normalRoutes: Page => UserAnswers => Call = {
     case CouncilTaxLiabilityStartDatePage => _ => routes.WhyBandIsWrongController.onPageLoad(NormalMode)
+    case DateNoticePage                  => _ => routes.WhyBandIsWrongController.onPageLoad(NormalMode)
     case WhyBandIsWrongPage              => _ => routes.HasEvidenceController.onPageLoad(NormalMode)
     case HasEvidencePage                 => hasEvidenceRoutes
     case UploadEvidencePage              => _ => whichBand
     case ContinueWithoutEvidencePage     => _ => whichBand
+    case WhichBandPage                   => _ => routes.CheckYourAnswersController.onPageLoad()
     case CouncilTaxResponsiblePage       => councilTaxResponsibleRoutes
     case RequestCouncilTaxBandReviewPage => _ => routes.ReasonForReviewController.onPageLoad(NormalMode)
     case ReasonForReviewPage             => reasonForReviewRoutes
@@ -40,10 +42,7 @@ class Navigator @Inject()() {
     case _                               => _ => routes.PostcodeSearchController.onPageLoad(NormalMode)
   }
 
-  // TODO: replace with routes.WhichBandController.onPageLoad(NormalMode) once feature/which-band-pages is merged.
-  // Derived from a sibling route so the service's URL prefix is respected.
-  private def whichBand: Call =
-    Call("GET", routes.WhyBandIsWrongController.onPageLoad(NormalMode).url.replace("why-band-is-wrong", "which-band"))
+  private def whichBand: Call = routes.WhichBandController.onPageLoad(NormalMode)
 
   private def hasEvidenceRoutes(answers: UserAnswers): Call =
     answers.get(HasEvidencePage) match {
@@ -119,12 +118,18 @@ class Navigator @Inject()() {
         case WhyBandIsWrongPage =>
           if (answers.get(scenarioResponsiblePage).contains(scenarioResponsible.Lessthan)) {
             routes.CouncilTaxLiabilityStartDateController.onPageLoad(NormalMode)
+          } else if (answers.get(noticeAlterationPage).contains(noticeAlteration.Yes)) {
+            routes.DateNoticeController.onPageLoad(NormalMode)
           } else {
             reviewOverviewFor(answers)
           }
+        case DateNoticePage                  => reviewOverviewFor(answers)
         case HasEvidencePage                 => routes.WhyBandIsWrongController.onPageLoad(NormalMode)
         case UploadEvidencePage              => routes.HasEvidenceController.onPageLoad(NormalMode)
         case ContinueWithoutEvidencePage     => routes.HasEvidenceController.onPageLoad(NormalMode)
+        case WhichBandPage =>
+          if (answers.get(HasEvidencePage).contains(true)) routes.UploadEvidenceController.onPageLoad(NormalMode)
+          else routes.ContinueWithoutEvidenceController.onPageLoad()
         case _ =>
           routes.PostcodeSearchController.onPageLoad(NormalMode)
       }
@@ -139,7 +144,7 @@ class Navigator @Inject()() {
   }
 
   def checkYourAnswersBackLink: Call =
-    routes.WhyBandIsWrongController.onPageLoad(NormalMode)
+    routes.WhichBandController.onPageLoad(NormalMode)
 
   private def reviewOverviewFor(answers: UserAnswers): Call =
     if (answers.get(noticeAlterationPage).contains(noticeAlteration.Yes)) {

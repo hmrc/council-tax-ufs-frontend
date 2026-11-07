@@ -18,8 +18,10 @@ package controllers
 
 import com.google.inject.Inject
 import controllers.actions.{DataRequiredAction, DataRetrievalAction, IdentifierAction}
+import models.{CouncilTaxResponsible, ReasonForReview, scenarioResponsible}
 import navigation.Navigator
-import viewmodels.checkAnswers.{CouncilTaxLiabilityStartDateSummary, EvidenceSummary, PostcodeSearchSummary, WhyBandIsWrongSummary}
+import pages.{CouncilTaxResponsiblePage, ReasonForReviewPage, scenarioResponsiblePage}
+import viewmodels.checkAnswers.{CouncilTaxLiabilityStartDateSummary, EvidenceSummary, DateNoticeSummary, PropertyAddressSummary, ReasonForReviewSummary, WhichBandSummary, deletionOptionsSummary, noticeAlterationSummary, scenarioResponsibleSummary, WhyBandIsWrongSummary}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
@@ -43,20 +45,34 @@ class CheckYourAnswersController @Inject()(
   def onPageLoad(): Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
 
+      // Answers from a different path can linger in the session, so only show the rows for the journey being followed.
+      val reason = request.userAnswers.get(ReasonForReviewPage)
+      val bandChallenge = reason.contains(ReasonForReview.Bandiswrong)
+      val propertyChanges = reason.contains(ReasonForReview.Changesaffectedproperty)
+      val moreThanSixMonths = request.userAnswers.get(scenarioResponsiblePage).contains(scenarioResponsible.Morethan)
+
       val sections = Seq(
-        "checkYourAnswers.section.propertyDetails" -> Seq(
-          PostcodeSearchSummary.row(request.userAnswers)
+        "" -> Seq(
+          PropertyAddressSummary.row(request.userAnswers),
+          ReasonForReviewSummary.row(request.userAnswers),
+          Option.when(bandChallenge)(scenarioResponsibleSummary.row(request.userAnswers)).flatten,
+          Option.when(bandChallenge && moreThanSixMonths)(noticeAlterationSummary.row(request.userAnswers)).flatten,
+          Option.when(propertyChanges)(deletionOptionsSummary.row(request.userAnswers)).flatten
         ).flatten,
         "checkYourAnswers.section.challengeDetails" -> Seq(
           CouncilTaxLiabilityStartDateSummary.row(request.userAnswers),
+          DateNoticeSummary.row(request.userAnswers),
           WhyBandIsWrongSummary.row(request.userAnswers),
-          EvidenceSummary.row(request.userAnswers)
+          EvidenceSummary.row(request.userAnswers),
+          WhichBandSummary.row(request.userAnswers)
         ).flatten
       ).collect {
         case (heading, rows) if rows.nonEmpty => heading -> SummaryListViewModel(rows)
       }
 
-      Ok(view(sections, navigator.checkYourAnswersBackLink.url))
+      val actingFor = request.userAnswers.get(CouncilTaxResponsiblePage).contains(CouncilTaxResponsible.ActingFor)
+
+      Ok(view(sections, navigator.checkYourAnswersBackLink.url, actingFor))
   }
 
   def onSubmit(): Action[AnyContent] = (identify andThen getData andThen requireData).async {

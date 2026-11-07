@@ -56,7 +56,7 @@ class WhichBandControllerSpec extends SpecBase with MockitoSugar {
         val view = application.injector.instanceOf[WhichBandView]
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form, NormalMode, views.BandCountry.England, "")(request, messages(application)).toString
+        contentAsString(result) mustEqual view(form, NormalMode, views.BandCountry.England, "", Some(routes.ContinueWithoutEvidenceController.onPageLoad().url))(request, messages(application)).toString
       }
     }
 
@@ -74,7 +74,7 @@ class WhichBandControllerSpec extends SpecBase with MockitoSugar {
         val result = route(application, request).value
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form.fill(WhichBand.values.head), NormalMode, views.BandCountry.England, "")(request, messages(application)).toString
+        contentAsString(result) mustEqual view(form.fill(WhichBand.values.head), NormalMode, views.BandCountry.England, "", Some(routes.ContinueWithoutEvidenceController.onPageLoad().url))(request, messages(application)).toString
       }
     }
 
@@ -120,7 +120,7 @@ class WhichBandControllerSpec extends SpecBase with MockitoSugar {
         val result = route(application, request).value
 
         status(result) mustEqual BAD_REQUEST
-        contentAsString(result) mustEqual view(boundForm, NormalMode, views.BandCountry.England, "")(request, messages(application)).toString
+        contentAsString(result) mustEqual view(boundForm, NormalMode, views.BandCountry.England, "", Some(routes.ContinueWithoutEvidenceController.onPageLoad().url))(request, messages(application)).toString
       }
     }
 

@@ -30,6 +30,6 @@ class WhyBandIsWrongFormProvider @Inject() extends Mappings {
 
   def apply(): Form[String] =
     Form(
-      "value" -> limitedText("whyBandIsWrong.error.required", "whyBandIsWrong.error.maxLength", maxCharacters)
+      "value" -> textArea(Some("whyBandIsWrong.error.required"), "whyBandIsWrong.error.maxLength", Some(maxCharacters))
     )
 }

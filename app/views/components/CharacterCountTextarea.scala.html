@@ -25,14 +25,15 @@
   field: Field,
   id: String,
   label: String,
-  maxLength: Int,
+  maxLength: Option[Int],
   rows: Int = 5,
   labelClasses: String = "govuk-visually-hidden"
 )(implicit messages: Messages)
 
+@maxLength.map { limit =>
 <div class="govuk-character-count"
   data-module="govuk-character-count"
-  data-maxlength="@maxLength"
+  data-maxlength="@limit"
   data-i18n.characters-under-limit.one='@messages("characterCount.underLimit.one", "%{count}")'
   data-i18n.characters-under-limit.other='@messages("characterCount.underLimit.other", "%{count}")'
   data-i18n.characters-at-limit='@messages("characterCount.atLimit")'
@@ -47,11 +48,22 @@
     label = Label(content = Text(label), classes = labelClasses),
     errorMessage = field.error.map(error => ErrorMessage(content = Text(messages(error.message, error.args*)))),
     attributes = Map(
-      "aria-describedby" -> s"$id-info",
-      "maxlength" -> maxLength.toString
+      "aria-describedby" -> s"$id-info"
     )
   ))
   <div id="@id-info" class="govuk-hint govuk-character-count__message">
-    @messages("characterCount.remaining", maxLength - field.value.fold(0)(_.length))
+    @messages("characterCount.remaining", limit - field.value.fold(0)(_.length))
   </div>
 </div>
+}
+
+@if(maxLength.isEmpty) {
+  @govukTextarea(Textarea(
+    id = id,
+    name = field.name,
+    value = field.value,
+    rows = rows,
+    label = Label(content = Text(label), classes = labelClasses),
+    errorMessage = field.error.map(error => ErrorMessage(content = Text(messages(error.message, error.args*))))
+  ))
+}
