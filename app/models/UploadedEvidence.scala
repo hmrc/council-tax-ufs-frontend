@@ -20,7 +20,7 @@ import play.api.libs.json.{Json, OFormat}
 
 import java.util.UUID
 
-/** Metadata of a file the user has chosen as evidence. */
+// details of a file chosen as evidence (the file itself isn't stored yet)
 final case class UploadedEvidence(id: String, fileName: String, contentType: String, sizeInBytes: Long) {
 
   def displaySize: String =
@@ -38,7 +38,7 @@ object UploadedEvidence {
 
   val maxSizeInBytes: Long = 10L * 1024 * 1024
 
-  /** Allowed extensions mapped to the content types browsers send for them. */
+  // allowed extensions and the content types browsers send for them
   val allowedTypes: Map[String, Set[String]] = Map(
     "jpg"  -> Set("image/jpeg"),
     "jpeg" -> Set("image/jpeg"),

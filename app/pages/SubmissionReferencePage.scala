@@ -18,7 +18,7 @@ package pages
 
 import play.api.libs.json.JsPath
 
-/** Set once the request has been accepted, so a refresh or a second click never submits again. */
+// set once the request is accepted, so a refresh or double click doesn't submit twice
 case object SubmissionReferencePage extends QuestionPage[String] {
   override def path: JsPath = JsPath \ toString
   override def toString: String = "submissionReference"

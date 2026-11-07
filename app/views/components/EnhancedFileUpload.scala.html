@@ -14,12 +14,8 @@
  * limitations under the License.
  *@
 
-@*
- * GOV.UK enhanced file upload. The govukFileUpload helper in this play-frontend-govuk version renders a bare
- * <input>, without the wrapper and data-module that govuk-frontend's JavaScript needs to build the
- * "No file chosen / Choose file or drop file" control, so the markup is written out here. Without JavaScript it
- * falls back to the native input.
- *@
+@* GOV.UK enhanced file upload. govukFileUpload in this play-frontend-govuk version only renders a bare input
+   (no wrapper or data-module), so the markup is written out here. Falls back to the native input without JS. *@
 
 @this()
 

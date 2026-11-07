@@ -19,7 +19,7 @@ package models
 import pages.ReasonForReviewPage
 import play.api.mvc.PathBindable
 
-/** Which journey the user is on, taken from the reason chosen on the review-reason page. */
+// which journey the user is on, from the reason they chose on the review-reason page
 enum Journey(val urlSegment: String) {
   case Challenge extends Journey("challenge")
   case Deletion  extends Journey("deletion")
@@ -27,14 +27,14 @@ enum Journey(val urlSegment: String) {
 
 object Journey {
 
-  /** Challenge unless the user chose the property-changes reason; also the default before a reason is chosen. */
+  // challenge unless they picked the property-changes reason (also the default before a reason is chosen)
   def from(answers: UserAnswers): Journey =
     answers.get(ReasonForReviewPage) match {
       case Some(ReasonForReview.Changesaffectedproperty) => Deletion
       case _                                             => Challenge
     }
 
-  /** The journey the URL names, or None when the reason hasn't been chosen yet. */
+  // None until a reason has been chosen
   def chosen(answers: UserAnswers): Option[Journey] =
     answers.get(ReasonForReviewPage).map(_ => from(answers))
 

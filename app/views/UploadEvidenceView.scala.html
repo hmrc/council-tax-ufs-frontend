@@ -83,7 +83,7 @@
     @govukSummaryList(SummaryList(rows = fileRows))
   }
 
-  @* The CSRF token goes in the query string: multipart bodies can exceed what the filter will buffer. *@
+  @* csrf token goes in the query string, multipart bodies can be too big for the filter to buffer *@
   <form action="@formAction" method="POST" enctype="multipart/form-data" autocomplete="off" novalidate>
 
     @if(limitReached) {

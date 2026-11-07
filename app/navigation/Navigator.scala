@@ -51,7 +51,7 @@ class Navigator @Inject()() {
 
   private def whichBand: Call = routes.WhichBandController.onPageLoad(NormalMode)
 
-  // The payer's details are only collected when the user is acting for the person responsible.
+  // payer details are only asked when acting for someone
   private def whichBandRoutes(answers: UserAnswers): Call =
     if (isActingFor(answers)) routes.CouncilTaxPayerDetailsController.onPageLoad(NormalMode)
     else routes.ContactDetailsController.onPageLoad(NormalMode)
@@ -87,12 +87,8 @@ class Navigator @Inject()() {
       case _                          => journeyRecovery
     }
 
-  /**
-   * In Check mode an answer can change which questions apply (acting for someone, a different
-   * review reason, more or less than six months...). Rather than returning straight to Check Your
-   * Answers, send the user to the first question their current path still needs, then back.
-   * Nothing is required until a reason for the review has been chosen.
-   */
+  // In check mode a changed answer can change which questions apply, so instead of going straight back
+  // to CYA, go to the first question the current path still needs. Nothing is needed until a reason is chosen.
   private def missingPage(answers: UserAnswers): Option[Call] =
     answers.get(ReasonForReviewPage).flatMap {
       case ReasonForReview.Bandiswrong =>
@@ -120,7 +116,7 @@ class Navigator @Inject()() {
       case _ => None
     }
 
-  // Switching to "Yes" still needs a file, whatever else has been answered.
+  // changing to "Yes" still needs a file
   private def needsFile(answers: UserAnswers): Boolean =
     answers.get(HasEvidencePage).contains(true) && answers.get(UploadEvidencePage).forall(_.isEmpty)
 

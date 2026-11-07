@@ -1,4 +1,4 @@
-# Messages are grouped by journey stage, then by page. The Welsh file mirrors this layout.
+# grouped by journey stage, then by page. messages.cy uses the same layout
 
 ##############################################################################
 # Global: service, common labels, errors and session

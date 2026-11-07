@@ -43,7 +43,7 @@ class CheckYourAnswersController @Inject()(
                                             submissionService: SubmissionService
                                           )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
-  // A URL naming the other journey is sent to the page for the journey the user actually chose.
+  // url names the other journey -> send them to the one they actually chose
   private def wrongJourney(journey: Journey, answers: models.UserAnswers): Option[Result] =
     Journey.chosen(answers).filter(_ != journey).map(chosen => Redirect(routes.CheckYourAnswersController.onPageLoad(chosen)))
 
@@ -54,7 +54,7 @@ class CheckYourAnswersController @Inject()(
 
   private def page(journey: Journey)(implicit request: DataRequest[AnyContent]): Result = {
 
-      // Answers from a different path can linger in the session, so only show the rows for the journey being followed.
+      // old answers can linger in the session, so only show rows for the journey being followed
       val reason = request.userAnswers.get(ReasonForReviewPage)
       val bandChallenge = reason.contains(ReasonForReview.Bandiswrong)
       val propertyChanges = reason.contains(ReasonForReview.Changesaffectedproperty)

@@ -19,15 +19,10 @@ package utils
 import java.security.SecureRandom
 import javax.inject.{Inject, Singleton}
 
-/**
- * Creates the reference shown to the user when a request is sent: 12 characters such as HDJ2123FK7BN, which is
- * displayed in groups of four (HDJ2-123F-K7BN).
- *
- * The 28-character alphabet leaves out vowels, so no word can be spelt, and 0, 1 so nothing is mistaken for O or I.
- * That gives 28^12 (about 2.3 x 10^17) combinations, which keeps the chance of any duplicate among 20 million
- * references below 0.1%. The frontend can't guarantee uniqueness across instances, so the receiving service must
- * treat the reference as a unique key and report a duplicate, and the caller should retry with a new reference.
- */
+// Reference shown to the user when a request is sent, 12 characters e.g. HDJ2123FK7BN, displayed as HDJ2-123F-K7BN.
+// The alphabet has no vowels (so no words) and no 0/1 (so no mix-up with O/I). 28^12 keeps the chance of any
+// duplicate across 20 million references under 0.1%, but we can't guarantee uniqueness across instances, so
+// the receiving service has to treat it as a unique key and reject duplicates.
 @Singleton
 class ReferenceGenerator @Inject()() {
 
@@ -42,6 +37,6 @@ object ReferenceGenerator {
   val length: Int      = 12
   val pattern: String  = s"^[$alphabet]{$length}$$"
 
-  /** The form shown to users and quoted on calls and in emails, for example HDJ2-123F-K7BN. */
+  // the form shown to users and quoted in emails, e.g. HDJ2-123F-K7BN
   def display(reference: String): String = reference.grouped(4).mkString("-")
 }

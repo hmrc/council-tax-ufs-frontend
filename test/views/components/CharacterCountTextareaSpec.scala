@@ -42,7 +42,7 @@ class CharacterCountTextareaSpec extends AnyWordSpec with Matchers {
 
       html should include("govuk-character-count")
       html should include("data-maxlength=\"200\"")
-      // No native maxlength: users must be able to go over the limit and be told by how much.
+      // no native maxlength, users need to be able to go over and be told by how much
       html should not include " maxlength=\"200\""
       html should include("id=\"my-id\"")
       html should include("name=\"value\"")

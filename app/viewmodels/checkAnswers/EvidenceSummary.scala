@@ -28,7 +28,7 @@ import viewmodels.implicits._
 
 object EvidenceSummary {
 
-  /** The chosen files, one per line, with a Change link to the upload page, or "None" with a link back to the yes/no question. */
+  // files one per line with Change -> upload page, or "None" with Change -> the yes/no question
   def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
     (answers.get(UploadEvidencePage), answers.get(HasEvidencePage)) match {
       case (Some(uploads), _) if uploads.nonEmpty =>

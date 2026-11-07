@@ -34,7 +34,7 @@ class SubmissionService @Inject()(
   sessionRepository: SessionRepository
 )(implicit ec: ExecutionContext) extends Logging {
 
-  /** The reference for the submitted request. Submitting twice returns the first reference without sending again. */
+  // submitting twice returns the first reference and doesn't send again
   def submit(answers: UserAnswers)(implicit hc: HeaderCarrier): Future[Either[String, String]] =
     answers.get(SubmissionReferencePage) match {
       case Some(existing) => Future.successful(Right(existing))

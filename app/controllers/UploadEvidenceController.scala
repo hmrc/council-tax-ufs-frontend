@@ -44,8 +44,8 @@ class UploadEvidenceController @Inject()(
 
   private val fieldName = "file"
 
-  // Rejects oversize requests while the body is being read, with headroom for multipart framing. The inner
-  // parser's own limit is higher so that this one answers first and the user gets an error on the page.
+  // rejects oversize requests while the body is read. The inner parser's limit is higher so this one
+  // answers first and the user sees an error on the page
   private val requestLimit = UploadedEvidence.maxSizeInBytes + 64 * 1024
 
   private val multipartParser: BodyParser[Either[MaxSizeExceeded, MultipartFormData[TemporaryFile]]] =
@@ -61,7 +61,7 @@ class UploadEvidenceController @Inject()(
     Ok(view(uploaded(request.userAnswers), None, mode, backLink(mode, request.userAnswers)))
   }
 
-  /** The first problem with the chosen file, as a message key. */
+  // first problem with the chosen file, as a message key
   private def validate(file: MultipartFormData.FilePart[TemporaryFile], existing: Seq[UploadedEvidence]): Option[String] =
     if (existing.size >= UploadedEvidence.maxFiles) Some("uploadEvidence.error.tooMany")
     else if (!UploadedEvidence.isAllowedType(file.filename, file.contentType)) Some("uploadEvidence.error.invalidType")
@@ -69,7 +69,7 @@ class UploadEvidenceController @Inject()(
     else if (existing.exists(_.fileName.equalsIgnoreCase(file.filename))) Some("uploadEvidence.error.duplicate")
     else None
 
-  /** Handles both buttons: "upload" adds the file and stays here, "continue" adds any chosen file and moves on. */
+  // "upload" adds the file and stays here, "continue" adds any chosen file and moves on
   def onSubmit(mode: Mode): Action[Either[MaxSizeExceeded, MultipartFormData[TemporaryFile]]] =
     (identify andThen getData).async(multipartParser) { implicit request =>
       val existing = uploaded(request.userAnswers)

@@ -14,8 +14,7 @@
   background-color: #f3f2f1;
 }
 
-// No govuk-frontend Sass is imported here, so these use literal GOV.UK values
-// (blue #1d70b8, spacing scale 6 = 30px).
+// govuk-frontend sass isn't imported here so these are literal values (blue #1d70b8, 30px)
 .ct-evidence-panel {
   background-color: #1d70b8;
   color: #ffffff;

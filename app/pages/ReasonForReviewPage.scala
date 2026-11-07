@@ -27,7 +27,7 @@ case object ReasonForReviewPage extends QuestionPage[ReasonForReview] {
 
   override def toString: String = "reasonForReview"
 
-  // Each reason has its own questions, so answers from the other path are dropped.
+  // each reason has its own questions, so drop answers from the other path
   override def cleanup(value: Option[ReasonForReview], userAnswers: UserAnswers): Try[UserAnswers] =
     value match {
       case Some(ReasonForReview.Bandiswrong) =>

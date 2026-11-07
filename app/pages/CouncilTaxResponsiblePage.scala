@@ -27,7 +27,7 @@ case object CouncilTaxResponsiblePage extends QuestionPage[CouncilTaxResponsible
 
   override def toString: String = "councilTaxResponsible"
 
-  // Payer details only apply when acting for someone else.
+  // payer details only apply when acting for someone
   override def cleanup(value: Option[CouncilTaxResponsible], userAnswers: UserAnswers): Try[UserAnswers] =
     if (value.contains(CouncilTaxResponsible.ActingFor)) super.cleanup(value, userAnswers)
     else userAnswers.remove(CouncilTaxPayerDetailsPage)

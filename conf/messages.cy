@@ -1,9 +1,9 @@
-# Messages are grouped by journey stage, then by page. The Welsh file mirrors this layout.
-# TODO (translation): these keys exist in messages.en but have no Welsh yet, so English is shown:
+# grouped by journey stage, then by page, same layout as messages.en
+# TODO translate - in messages.en but not here yet (English shows until then):
 #   councilTaxPayerDetails.title, reasonForReview.checkYourAnswersLabel, noticeAlteration.error.required,
 #   propertyDetail.band.expand, propertyDetail.courtCode.meaning, and the *.change.hidden keys for
 #   dateNotice, deletionOptions, noticeAlteration, reasonForReview, requestCouncilTaxBandReview,
-#   scenarioResponsible and whichBand.
+#   scenarioResponsible and whichBand
 
 ##############################################################################
 # Global: service, common labels, errors and session

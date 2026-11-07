@@ -23,13 +23,9 @@ import uk.gov.hmrc.http.HeaderCarrier
 import javax.inject.{Inject, Singleton}
 import scala.concurrent.Future
 
-/**
- * Sends the completed review request to bridge-integration.
- *
- * TODO: STUB. bridge-integration hasn't given us the submit endpoint yet. Until it does this logs and reports
- * success without sending anything, so it must not reach a real environment. Replace it with an HttpClientV2
- * POST of the reference and answers, returning Left for any non-success response, including a duplicate reference.
- */
+// STUB: bridge-integration hasn't given us the submit endpoint yet, so this just logs and returns success.
+// Must not reach a real environment. TODO: replace with an HttpClientV2 POST of the reference and answers,
+// returning Left on any non-success response (including a duplicate reference).
 @Singleton
 class SubmissionConnector @Inject()() extends Logging {
 

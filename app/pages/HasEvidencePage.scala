@@ -25,7 +25,7 @@ case object HasEvidencePage extends QuestionPage[Boolean] {
   override def path: JsPath = JsPath \ toString
   override def toString: String = "hasEvidence"
 
-  // Answering "No" discards any file chosen earlier, so it can't be submitted by mistake.
+  // answering No drops any file chosen earlier
   override def cleanup(value: Option[Boolean], userAnswers: UserAnswers): Try[UserAnswers] =
     if (value.contains(false)) userAnswers.remove(UploadEvidencePage) else super.cleanup(value, userAnswers)
 }

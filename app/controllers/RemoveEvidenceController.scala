@@ -52,7 +52,7 @@ class RemoveEvidenceController @Inject()(
   }
 
   def onSubmit(id: String, mode: Mode): Action[AnyContent] = (identify andThen getData).async { implicit request =>
-    // A stale link (file already removed, session expired) just returns the user to the upload page.
+    // stale link (file already removed, session expired) -> back to the upload page
     (find(request.userAnswers, id), request.userAnswers) match {
       case (Some(file), Some(answers)) =>
         form.bindFromRequest().fold(

@@ -27,7 +27,7 @@ case object noticeAlterationPage extends QuestionPage[noticeAlteration] {
 
   override def toString: String = "noticeAlteration"
 
-  // The notice date is only asked when a notice was received.
+  // notice date is only asked when a notice was received
   override def cleanup(value: Option[noticeAlteration], userAnswers: UserAnswers): Try[UserAnswers] =
     if (value.contains(noticeAlteration.No)) userAnswers.remove(DateNoticePage)
     else super.cleanup(value, userAnswers)

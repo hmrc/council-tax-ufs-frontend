@@ -39,7 +39,7 @@ class HasEvidenceControllerSpec extends SpecBase with MockitoSugar {
   def onwardRoute = Call("GET", "/foo")
 
   lazy val hasEvidenceRoute = routes.HasEvidenceController.onPageLoad(NormalMode).url
-  // Reverse routes only know the service prefix once an application is running.
+  // reverse routes only know the service prefix once the app is running
   def backLink = routes.WhyBandIsWrongController.onPageLoad(NormalMode).url
   val form = new HasEvidenceFormProvider()()
 

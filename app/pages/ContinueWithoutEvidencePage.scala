@@ -16,5 +16,5 @@
 
 package pages
 
-/** Interstitial page: it asks nothing, so it holds no answer and only exists for navigation. */
+// no question on this page, so no answer is stored - it's only here for navigation
 case object ContinueWithoutEvidencePage extends Page

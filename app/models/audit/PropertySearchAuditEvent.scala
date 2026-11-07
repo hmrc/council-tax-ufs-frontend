@@ -22,9 +22,8 @@ import play.api.libs.json.{Json, OWrites}
 /**
  * Detail for the `PropertySearch` explicit audit event, sent when the user presses Search.
  * Address and postcode fields are PII: only the names of the ones the user filled in are
- * recorded (`redactedFields`), never their values. The one exception is the first three characters
- * of the postcode (`postcodePrefix` in the criteria), which shows broadly where people search
- * without identifying anyone.
+ * recorded (`redactedFields`), never their values. Only exception is the first three characters of
+ * the postcode (`postcodePrefix`).
  */
 final case class PropertySearchAuditEvent(
                                            userId: String,
@@ -45,13 +44,10 @@ object PropertySearchAuditEvent {
 
   val PostcodePrefixKey: String = "postcodePrefix"
 
-  /** Recorded for a dropdown filter the user left on its default, so every filter always appears in the event. */
+  // recorded when a dropdown filter is left on its default, so every filter is always in the event
   val AnyValue: String = "any"
 
-  /**
-   * First three characters of the postcode with spaces removed, e.g. "NG9 3NB" gives "NG9",
-   * "M4 4AY" gives "M44" and "SW1A 1AA" gives "SW1". Nothing is returned for a blank postcode.
-   */
+  // first three characters with spaces removed: "NG9 3NB" -> "NG9", "M4 4AY" -> "M44"
   def postcodePrefix(postcode: String): Option[String] =
     Some(postcode.filterNot(_.isWhitespace).toUpperCase.take(3)).filter(_.nonEmpty)
 
@@ -69,7 +65,7 @@ object PropertySearchAuditEvent {
     def filter(name: String, value: String): (String, String) =
       name -> Some(value.trim).filter(_.nonEmpty).getOrElse(AnyValue)
 
-    // The dropdown filters are always present; "any" means the user left them on the default.
+    // dropdown filters are always present, "any" = left on the default
     val criteria = Seq(
       filter("councilTaxBand", search.councilTaxBand),
       filter("bandStatus", search.bandStatus),

@@ -30,7 +30,7 @@ object ContactDetailsSummary {
 
   private val contactMethodOrder = Seq("email", "phone", "post")
 
-  /** Name, email, phone and correspondence address. */
+  // name, email, phone and correspondence address
   def rows(answers: UserAnswers)(implicit messages: Messages): Seq[SummaryListRow] =
     answers.get(ContactDetailsPage).toSeq.flatMap { answer =>
       val address = Seq(answer.addressLine1, answer.addressLine2, answer.townOrCity, answer.county, answer.postcode).flatten
@@ -43,7 +43,7 @@ object ContactDetailsSummary {
       ).flatten.map { case (key, lines) => row(key, lines) }
     }
 
-  /** How the user asked to be contacted, on one line in a fixed order (Email,Phone,Post). */
+  // preferred contact methods on one line, always Email,Phone,Post order
   def preferredContactRows(answers: UserAnswers)(implicit messages: Messages): Seq[SummaryListRow] =
     answers.get(ContactDetailsPage).toSeq.map { answer =>
       row("contactDetails.checkYourAnswers.contactMethods",

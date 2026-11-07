@@ -27,7 +27,7 @@ case object scenarioResponsiblePage extends QuestionPage[scenarioResponsible] {
 
   override def toString: String = "scenarioResponsible"
 
-  // Less than six months asks for the liability start date; more than six months asks about a notice.
+  // under 6 months asks for the start date, over 6 months asks about a notice
   override def cleanup(value: Option[scenarioResponsible], userAnswers: UserAnswers): Try[UserAnswers] =
     value match {
       case Some(scenarioResponsible.Lessthan) =>

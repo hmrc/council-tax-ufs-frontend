@@ -31,13 +31,10 @@ trait Mappings extends Formatters with Constraints {
   protected def limitedText(requiredKey: String, maxLengthKey: String, max: Int): Mapping[String] =
     text(requiredKey).verifying(maxLength(max, maxLengthKey))
 
-  /**
-   * Free-text answer for a text area. `requiredKey = None` makes the answer optional (a blank answer is
-   * stored as ""), and `max = None` removes the length limit, so one mapping covers every text area.
-   */
+  // free text for text areas. requiredKey = None makes it optional (blank stored as ""), max = None removes the limit
   protected def textArea(requiredKey: Option[String], maxLengthKey: String, max: Option[Int]): Mapping[String] = {
-    // Browsers submit a line break as \r\n but the character counter counts it as one character, so
-    // normalise it first or text the counter says is at the limit would be rejected as too long.
+    // browsers send line breaks as \r\n but the counter counts one character, so normalise first
+    // or text the counter says is at the limit gets rejected
     val base: Mapping[String] = requiredKey
       .fold[Mapping[String]](default(plainText, ""))(text(_))
       .transform[String](_.replace("\r\n", "\n"), identity)
