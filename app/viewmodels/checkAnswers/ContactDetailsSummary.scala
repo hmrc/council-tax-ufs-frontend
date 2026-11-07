@@ -17,7 +17,6 @@
 package viewmodels.checkAnswers
 
 import controllers.routes
-import controllers.ContactDetailsController
 import models.{CheckMode, UserAnswers}
 import pages.ContactDetailsPage
 import play.api.i18n.Messages
@@ -27,21 +26,37 @@ import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 
-object ContactDetailsSummary  {
+object ContactDetailsSummary {
 
-  def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
-    answers.get(ContactDetailsPage).map {
-      answer =>
+  private val contactMethodOrder = Seq("email", "phone", "post")
 
-      val value = HtmlFormat.escape(answer.firstName).toString + "<br/>" + HtmlFormat.escape(answer.lastName).toString
+  /** Name, email, phone and correspondence address. */
+  def rows(answers: UserAnswers)(implicit messages: Messages): Seq[SummaryListRow] =
+    answers.get(ContactDetailsPage).toSeq.flatMap { answer =>
+      val address = Seq(answer.addressLine1, answer.addressLine2, answer.townOrCity, answer.county, answer.postcode).flatten
 
-        SummaryListRowViewModel(
-          key     = "contactDetails.checkYourAnswersLabel",
-          value   = ValueViewModel(HtmlContent(value)),
-          actions = Seq(
-            ActionItemViewModel("site.change", routes.ContactDetailsController.onPageLoad(CheckMode).url)
-              .withVisuallyHiddenText(messages("contactDetails.change.hidden"))
-          )
-        )
+      Seq(
+        Some("contactDetails.checkYourAnswers.name" -> Seq(s"${answer.firstName} ${answer.lastName}")),
+        answer.email.map("contactDetails.checkYourAnswers.email" -> Seq(_)),
+        answer.phoneNumber.map("contactDetails.checkYourAnswers.phoneNumber" -> Seq(_)),
+        Option.when(address.nonEmpty)("contactDetails.checkYourAnswers.address" -> address)
+      ).flatten.map { case (key, lines) => row(key, lines) }
     }
+
+  /** How the user asked to be contacted, on one line in a fixed order (Email,Phone,Post). */
+  def preferredContactRows(answers: UserAnswers)(implicit messages: Messages): Seq[SummaryListRow] =
+    answers.get(ContactDetailsPage).toSeq.map { answer =>
+      row("contactDetails.checkYourAnswers.contactMethods",
+        Seq(contactMethodOrder.filter(answer.value.contains).map(m => messages(s"contactMethod.$m")).mkString(",")))
+    }
+
+  private def row(key: String, lines: Seq[String])(implicit messages: Messages): SummaryListRow =
+    SummaryListRowViewModel(
+      key     = key,
+      value   = ValueViewModel(HtmlContent(lines.map(HtmlFormat.escape(_).toString).mkString("<br/>"))),
+      actions = Seq(
+        ActionItemViewModel("site.change", routes.ContactDetailsController.onPageLoad(CheckMode).url)
+          .withVisuallyHiddenText(messages(s"$key.hidden"))
+      )
+    )
 }

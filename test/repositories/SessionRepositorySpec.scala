@@ -37,7 +37,7 @@ class SessionRepositorySpec extends AnyWordSpec with Matchers with ScalaFutures 
   private val app = new GuiceApplicationBuilder()
     .configure(
       "mongodb.uri" -> "mongodb://localhost:27017/test-session-repository",
-      "cache.ttl"  -> "3600",
+      "mongodb.timeToLiveInSeconds" -> "900",
       "mongodb.encryption.enabled" -> true,
       "mongodb.encryption.key"     -> "u5UbYQV8GRjbQBTqh3CMERpk6GRznMooXLMxWu+TwEI="
     )

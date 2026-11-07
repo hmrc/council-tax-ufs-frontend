@@ -16,12 +16,27 @@
 
 package pages
 
-import models.ReasonForReview
+import models.{ReasonForReview, UserAnswers}
 import play.api.libs.json.JsPath
+
+import scala.util.Try
 
 case object ReasonForReviewPage extends QuestionPage[ReasonForReview] {
 
   override def path: JsPath = JsPath \ toString
 
   override def toString: String = "reasonForReview"
+
+  // Each reason has its own questions, so answers from the other path are dropped.
+  override def cleanup(value: Option[ReasonForReview], userAnswers: UserAnswers): Try[UserAnswers] =
+    value match {
+      case Some(ReasonForReview.Bandiswrong) =>
+        userAnswers.remove(deletionOptionsPage)
+      case Some(ReasonForReview.Changesaffectedproperty) =>
+        userAnswers.remove(scenarioResponsiblePage)
+          .flatMap(_.remove(noticeAlterationPage))
+          .flatMap(_.remove(CouncilTaxLiabilityStartDatePage))
+          .flatMap(_.remove(DateNoticePage))
+      case _ => super.cleanup(value, userAnswers)
+    }
 }

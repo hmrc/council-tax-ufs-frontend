@@ -16,12 +16,24 @@
 
 package pages
 
-import models.scenarioResponsible
+import models.{UserAnswers, scenarioResponsible}
 import play.api.libs.json.JsPath
+
+import scala.util.Try
 
 case object scenarioResponsiblePage extends QuestionPage[scenarioResponsible] {
 
   override def path: JsPath = JsPath \ toString
 
   override def toString: String = "scenarioResponsible"
+
+  // Less than six months asks for the liability start date; more than six months asks about a notice.
+  override def cleanup(value: Option[scenarioResponsible], userAnswers: UserAnswers): Try[UserAnswers] =
+    value match {
+      case Some(scenarioResponsible.Lessthan) =>
+        userAnswers.remove(noticeAlterationPage).flatMap(_.remove(DateNoticePage))
+      case Some(scenarioResponsible.Morethan) =>
+        userAnswers.remove(CouncilTaxLiabilityStartDatePage)
+      case _ => super.cleanup(value, userAnswers)
+    }
 }

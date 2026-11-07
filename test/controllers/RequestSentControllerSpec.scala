@@ -47,7 +47,7 @@ class RequestSentControllerSpec extends SpecBase {
       running(application) {
         val result = route(application, FakeRequest(GET, routes.RequestSentController.onPageLoad().url)).value
         status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual routes.CheckYourAnswersController.onPageLoad().url
+        redirectLocation(result).value mustEqual routes.CheckYourAnswersController.onPageLoad(models.Journey.Challenge).url
       }
     }
 

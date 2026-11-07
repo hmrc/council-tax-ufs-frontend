@@ -24,9 +24,9 @@
     govukButton: GovukButton
 )
 
-@(form: Form[_], mode: Mode)(implicit request: Request[_], messages: Messages)
+@(form: Form[_], mode: Mode, backLinkUrl: Option[String] = None)(implicit request: Request[_], messages: Messages)
 
-@layout(pageTitle = title(form, messages("councilTaxPayerDetails.title"))) {
+@layout(backLinkUrl = backLinkUrl, pageTitle = title(form, messages("councilTaxPayerDetails.title"))) {
 
     @formHelper(action = routes.CouncilTaxPayerDetailsController.onSubmit(mode), Symbol("autoComplete") -> "off") {
 
