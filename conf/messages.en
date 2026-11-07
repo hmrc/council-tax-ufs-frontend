@@ -65,6 +65,7 @@ unauthorised.heading = You can’t access this service with this account
 # Buttons
 button.print    = Print this page
 button.continue = Continue
+button.search   = Search
 
 postcodeSearch.title = Enter the property postcode
 postcodeSearch.heading = Enter the property postcode
@@ -379,15 +380,13 @@ advancedPropertySearch.propertyUse.hint = For example, just domestic use, or for
 advancedPropertySearch.checkYourAnswersLabel = Advanced property search
 advancedPropertySearch.change.hidden = advanced property search
 advancedPropertySearch.error.postcode.required = Enter a postcode
-advancedPropertySearch.error.postcode.length = Postcode must be {0} characters or less
+advancedPropertySearch.error.postcode.length = Enter a real postcode
 advancedPropertySearch.error.postcode.invalid = Enter a valid postcode
 advancedPropertySearch.error.propertyNameOrNumber.length = Property name or number must be 80 characters or less
 advancedPropertySearch.error.street.length = Street must be 80 characters or less
 advancedPropertySearch.error.townOrCity.length = Town or city must be 80 characters or less
 advancedPropertySearch.error.laReferenceNumber.length = Local authority reference number must be 20 characters or fewer
-
 advancedPropertySearch.localAuthority.default = Choose an option
-
 advancedPropertySearch.councilTaxBand.allBands = All bands
 advancedPropertySearch.councilTaxBand.A = A
 advancedPropertySearch.councilTaxBand.B = B
@@ -398,7 +397,6 @@ advancedPropertySearch.councilTaxBand.F = F
 advancedPropertySearch.councilTaxBand.G = G
 advancedPropertySearch.councilTaxBand.H = H
 advancedPropertySearch.councilTaxBand.I = I
-
 advancedPropertySearch.bandStatus.default = Current and current deletions
 advancedPropertySearch.bandStatus.Current = Current only
 advancedPropertySearch.bandStatus.Deleted = Current deletions only
@@ -410,7 +408,6 @@ advancedPropertySearch.courtCode.D = HC determination
 advancedPropertySearch.courtCode.H = HC confirmation
 advancedPropertySearch.courtCode.R = VT re-determination after HC referral
 advancedPropertySearch.courtCode.E = HC consent order
-
 advancedPropertySearch.propertyUse.default = Both purely domestic & mixed use properties
 advancedPropertySearch.propertyUse.C = Mixed use properties only
 advancedPropertySearch.propertyUse.N = Purely domestic properties only
@@ -507,17 +504,6 @@ requestSent.next.4 = We will contact you by [letter/email] within X weeks with a
 requestSent.feedback = What did you think of this service?
 requestSent.feedbackTime = (takes 30 seconds)
 
-advancedPropertySearch.title = advancedPropertySearch
-advancedPropertySearch.heading = advancedPropertySearch
-advancedPropertySearch.PropertyNameorNumber = Property name or number
-advancedPropertySearch.Street = Street
-advancedPropertySearch.checkYourAnswersLabel = AdvancedPropertySearch
-advancedPropertySearch.error.PropertyNameorNumber.required = Enter Property name or number
-advancedPropertySearch.error.Street.required = Enter Street
-advancedPropertySearch.error.PropertyNameorNumber.length = Property name or number must be 100 characters or less
-advancedPropertySearch.error.Street.length = Street must be 100 characters or less
-advancedPropertySearch.PropertyNameorNumber.change.hidden = Property name or number
-advancedPropertySearch.Street.change.hidden = Street
 
 dateNotice.title = What date is on the Notice of Alteration?
 dateNotice.heading = What date is on the Notice of Alteration?
@@ -551,3 +537,61 @@ whichBand.link.url = https://www.gov.uk/guidance/understand-how-council-tax-band
 whichBand.checkYourAnswersLabel = What do you think the Council Tax band should be?
 whichBand.error.required = Select which band you think your Council Tax should be
 whichBand.change.hidden = WhichBand
+
+
+
+contactDetails.heading                           = What are your contact details?
+contactDetails.intro                             = We will only use these details to contact you about your review.
+contactDetails.subheading1                       = Your details
+contactDetails.firstName                         = First name
+contactDetails.lastName                          = Last name
+contactDetails.email                             = Email address
+contactDetails.phoneNumber                       = Phone number
+contactDetails.subheading2                       = Correspondence address
+contactDetails.addressLine1                      = Address Line 1
+contactDetails.addressLine2                      = Address Line 2 (optional)
+contactDetails.townOrCity                        = Town or city
+contactDetails.county                            = County (optional)
+contactDetails.postcode                          = Postcode
+contactDetails.subheading3                       = How would you like us to contact you?
+contactDetails.subheading3.hint                  = Select all that apply
+contactMethod.email                              = Email
+contactMethod.phone                              = Phone
+contactMethod.post                               = Post
+contactDetails.error.firstName.required          = Enter your first name
+contactDetails.error.firstName.invalid           = First name must only include letters, hyphens, apostrophes and spaces
+contactDetails.error.firstName.length            = First name must be 100 characters or less
+contactDetails.error.lastName.required           = Enter your last name
+contactDetails.error.lastName.invalid            = Last name must only include letters, hyphens, apostrophes and spaces
+contactDetails.error.lastName.length             = Last name must be 100 characters or less
+contactDetails.error.email.required              = Enter an email address
+contactDetails.error.email.invalid               = Enter an email address in the correct format ,like name@example.com.
+contactDetails.error.phoneNumber.required        = Enter a telephone number
+contactDetails.error.phoneNumber.invalid         = Enter a valid telephone number
+contactDetails.error.phoneNumber.tooShort        = Enter at least 10 digits
+contactDetails.error.phoneNumber.tooLong         = Enter 15 digits or less
+contactDetails.error.addressLine1.required       = Enter address line 1, typically the building and street
+contactDetails.error.addressLine1.length         = Address line 1 must be 80 characters or less
+contactDetails.error.addressLine2.length         = Address line 2 must be 80 characters or less
+contactDetails.error.townOrCity.required         = Enter a town or city.
+contactDetails.error.townOrCity.length           = Town or city must be 80 characters or less
+contactDetails.error.county.length               = County must be 80 characters or less
+contactDetails.error.postcode.required           = Enter a postcode, like AA1 1AA
+contactDetails.error.postcode.tooShort           = Enter a real postcode
+contactDetails.error.postcode.invalid            = Enter a real postcode
+contactDetails.error.value.required              = Select at least one way for us to contact you.
+
+councilTaxPayerDetails.title                     = What are the contact details for the property's Council Tax payer?
+councilTaxPayerDetails.heading                   = What are the contact details for the property's Council Tax payer?
+councilTaxPayerDetails.firstName                 = First name
+councilTaxPayerDetails.lastName                  = Last name
+councilTaxPayerDetails.email                     = Email address
+councilTaxPayerDetails.error.firstName.required  = Enter your first name
+councilTaxPayerDetails.error.firstName.invalid   = First name must only contain letters, spaces, hyphens and apostrophes
+councilTaxPayerDetails.error.firstName.length    = First name must be 100 characters or less
+councilTaxPayerDetails.error.lastName.required   = Enter your last name
+councilTaxPayerDetails.error.lastName.invalid    = Last name must only contain letters, spaces, hyphens and apostrophes
+councilTaxPayerDetails.error.lastName.length     = Last name must be 100 characters or less
+councilTaxPayerDetails.error.email.required      = Enter an email address
+councilTaxPayerDetails.error.email.invalid       = Enter an email address in the correct format ,like name@example.com.
+

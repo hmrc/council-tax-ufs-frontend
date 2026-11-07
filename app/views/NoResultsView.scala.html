@@ -30,10 +30,8 @@
     @messages("noResults.description")
   </p>
   <p class="govuk-body">
-    @messages("noResults.cannotFind.check")
-     <a href="#" class="govuk-link">
-      @messages("noResults.cannotFind.otherOptions")
-    </a>.
+      @messages("noResults.cannotFind.check")
+      <a href="@routes.AdvancedPropertySearchController.onPageLoad(NormalMode).url" class="govuk-link">@messages("noResults.cannotFind.otherOptions")</a>.
   </p>
 
   <p class="govuk-body">
