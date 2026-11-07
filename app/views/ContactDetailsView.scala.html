@@ -1,0 +1,139 @@
+@*
+ * Copyright 2026 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *@
+
+@import viewmodels.InputWidth._
+
+@this(
+    layout: templates.Layout,
+    formHelper: FormWithCSRF,
+    govukErrorSummary: GovukErrorSummary,
+    govukInput: GovukInput,
+    govukCheckboxes: GovukCheckboxes,
+    govukButton: GovukButton
+)
+
+@(form: Form[_], mode: Mode)(implicit request: Request[_], messages: Messages)
+
+@layout(pageTitle = title(form, messages("contactDetails.title"))) {
+
+    @formHelper(action = routes.ContactDetailsController.onSubmit(mode), Symbol("autoComplete") -> "off") {
+
+        @if(form.errors.nonEmpty) {
+            @govukErrorSummary(ErrorSummaryViewModel(form))
+        }
+
+        <h1 class="govuk-heading-l">@messages("contactDetails.heading")</h1>
+            <p class="govuk-body">@messages("contactDetails.intro")</p>
+
+            <div class="govuk-heading-m">@messages("contactDetails.subheading1")</div>
+
+        @govukInput(
+            InputViewModel(
+                field = form("firstName"),
+                label = LabelViewModel(messages("contactDetails.firstName"))
+            )
+            .withWidth(TwoThirds)
+        )
+
+        @govukInput(
+            InputViewModel(
+                field = form("lastName"),
+                label = LabelViewModel(messages("contactDetails.lastName"))
+            )
+            .withWidth(TwoThirds)
+        )
+
+        @govukInput(
+            InputViewModel(
+                field = form("email"),
+                label = LabelViewModel(messages("contactDetails.email"))
+            )
+            .withWidth(TwoThirds)
+        )
+
+        @govukInput(
+            InputViewModel(
+                field = form("phoneNumber"),
+                label = LabelViewModel(messages("contactDetails.phoneNumber"))
+            )
+            .withWidth(TwoThirds)
+        )
+
+        <div class="govuk-heading-m">@messages("contactDetails.subheading2")</div>
+
+        @govukInput(
+            InputViewModel(
+                field = form("addressLine1"),
+                label = LabelViewModel(messages("contactDetails.addressLine1"))
+            )
+            .withWidth(TwoThirds)
+        )
+
+        @govukInput(
+            InputViewModel(
+                field = form("addressLine2"),
+                label = LabelViewModel(messages("contactDetails.addressLine2"))
+            )
+            .withWidth(TwoThirds)
+        )
+
+        @govukInput(
+            InputViewModel(
+                field = form("townOrCity"),
+                label = LabelViewModel(messages("contactDetails.townOrCity"))
+            )
+            .withWidth(TwoThirds)
+        )
+
+        @govukInput(
+            InputViewModel(
+                field = form("county"),
+                label = LabelViewModel(messages("contactDetails.county"))
+            )
+            .withWidth(TwoThirds)
+        )
+
+        @govukInput(
+            InputViewModel(
+                field = form("postcode"),
+                label = LabelViewModel(messages("contactDetails.postcode"))
+            )
+            .withWidth(Fixed10)
+        )
+
+<!--        <div class="govuk-hint">@messages("contactDetails.subheading3.hint")</div>-->
+        @govukCheckboxes(
+            CheckboxesViewModel(
+                form  = form,
+                name   = "value",
+                legend = LegendViewModel(messages("contactDetails.subheading3"))
+                    .withCssClass("govuk-fieldset__legend--m"),
+                items  = Seq("email", "phone", "post").zipWithIndex.map { case (value, index) =>
+                    CheckboxItem(
+                        content = Text(messages(s"contactMethod.$value")),
+                        value   = value,
+                        id      = Some(s"value[$index]")
+                    )
+                }
+            ).copy(hint = Some(HintViewModel(Text(messages("contactDetails.subheading3.hint")))))
+        )
+
+
+        @govukButton(
+            ButtonViewModel(messages("site.continue"))
+        )
+    }
+}
