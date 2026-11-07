@@ -51,12 +51,12 @@ class NavigatorSpec extends SpecBase {
       "must send the notice date back to the formal review overview" in {
         val answers = UserAnswers("id").set(noticeAlterationPage, noticeAlteration.Yes).success.value
         navigator.backLink(DateNoticePage, NormalMode, Some(answers)) mustBe routes.ReviewOverviewController.formalReview()
-        navigator.backLink(DateNoticePage, CheckMode, Some(answers)) mustBe routes.CheckYourAnswersController.onPageLoad()
+        navigator.backLink(DateNoticePage, CheckMode, Some(answers)) mustBe routes.CheckYourAnswersController.onPageLoad(Journey.Challenge)
       }
 
       "must route the notice date to why the band is wrong, or Check Your Answers in check mode" in {
         navigator.nextPage(DateNoticePage, NormalMode, UserAnswers("id")) mustBe routes.WhyBandIsWrongController.onPageLoad(NormalMode)
-        navigator.nextPage(DateNoticePage, CheckMode, UserAnswers("id")) mustBe routes.CheckYourAnswersController.onPageLoad()
+        navigator.nextPage(DateNoticePage, CheckMode, UserAnswers("id")) mustBe routes.CheckYourAnswersController.onPageLoad(Journey.Challenge)
       }
 
       "must send why the band is wrong back to the informal review overview otherwise" in {
@@ -92,7 +92,7 @@ class NavigatorSpec extends SpecBase {
       }
 
       "must send Check Your Answers back to why the band is wrong" in {
-        navigator.checkYourAnswersBackLink mustBe routes.WhichBandController.onPageLoad(NormalMode)
+        navigator.checkYourAnswersBackLink mustBe routes.ContactDetailsController.onPageLoad(NormalMode)
       }
 
       "must send each evidence page back to the page before it" in {
@@ -102,8 +102,8 @@ class NavigatorSpec extends SpecBase {
       }
 
       "must send both pages back to Check Your Answers in Check mode" in {
-        navigator.backLink(CouncilTaxLiabilityStartDatePage, CheckMode, None) mustBe routes.CheckYourAnswersController.onPageLoad()
-        navigator.backLink(WhyBandIsWrongPage, CheckMode, None) mustBe routes.CheckYourAnswersController.onPageLoad()
+        navigator.backLink(CouncilTaxLiabilityStartDatePage, CheckMode, None) mustBe routes.CheckYourAnswersController.onPageLoad(Journey.Challenge)
+        navigator.backLink(WhyBandIsWrongPage, CheckMode, None) mustBe routes.CheckYourAnswersController.onPageLoad(Journey.Challenge)
       }
     }
 
@@ -135,9 +135,46 @@ class NavigatorSpec extends SpecBase {
         val no = UserAnswers("id").set(HasEvidencePage, false).success.value
 
         navigator.nextPage(HasEvidencePage, CheckMode, yesWithoutFile) mustBe routes.UploadEvidenceController.onPageLoad(CheckMode)
-        navigator.nextPage(HasEvidencePage, CheckMode, yesWithFile) mustBe routes.CheckYourAnswersController.onPageLoad()
-        navigator.nextPage(HasEvidencePage, CheckMode, no) mustBe routes.CheckYourAnswersController.onPageLoad()
-        navigator.nextPage(UploadEvidencePage, CheckMode, yesWithFile) mustBe routes.CheckYourAnswersController.onPageLoad()
+        navigator.nextPage(HasEvidencePage, CheckMode, yesWithFile) mustBe routes.CheckYourAnswersController.onPageLoad(Journey.Challenge)
+        navigator.nextPage(HasEvidencePage, CheckMode, no) mustBe routes.CheckYourAnswersController.onPageLoad(Journey.Challenge)
+        navigator.nextPage(UploadEvidencePage, CheckMode, yesWithFile) mustBe routes.CheckYourAnswersController.onPageLoad(Journey.Challenge)
+      }
+
+      "must collect any question the current path still needs before returning to Check Your Answers" in {
+        val base = UserAnswers("id").set(ReasonForReviewPage, ReasonForReview.Bandiswrong).success.value
+
+        navigator.nextPage(ReasonForReviewPage, CheckMode, base) mustBe routes.scenarioResponsibleController.onPageLoad(CheckMode)
+
+        val moreThan = base.set(scenarioResponsiblePage, scenarioResponsible.Morethan).success.value
+        navigator.nextPage(scenarioResponsiblePage, CheckMode, moreThan) mustBe routes.noticeAlterationController.onPageLoad(CheckMode)
+
+        val noticeYes = moreThan.set(noticeAlterationPage, noticeAlteration.Yes).success.value
+        navigator.nextPage(noticeAlterationPage, CheckMode, noticeYes) mustBe routes.DateNoticeController.onPageLoad(CheckMode)
+
+        val acting = noticeYes.set(CouncilTaxResponsiblePage, CouncilTaxResponsible.ActingFor).success.value
+          .set(DateNoticePage, java.time.LocalDate.of(2026, 1, 1)).success.value
+          .set(WhyBandIsWrongPage, "reason").success.value
+          .set(HasEvidencePage, false).success.value
+          .set(WhichBandPage, WhichBand.Bandc).success.value
+          .set(ContactDetailsPage, ContactDetails("a", "b", None, None, None, None, None, None, None, Set("email"))).success.value
+        navigator.nextPage(CouncilTaxResponsiblePage, CheckMode, acting) mustBe routes.CouncilTaxPayerDetailsController.onPageLoad(CheckMode)
+
+        val complete = acting.set(CouncilTaxPayerDetailsPage, CouncilTaxPayerDetails("p", "q", "p@example.com")).success.value
+        navigator.nextPage(CouncilTaxResponsiblePage, CheckMode, complete) mustBe routes.CheckYourAnswersController.onPageLoad(Journey.Challenge)
+      }
+
+      "must drop answers that no longer apply when an earlier answer changes" in {
+        val all = UserAnswers("id")
+          .set(CouncilTaxResponsiblePage, CouncilTaxResponsible.ActingFor).success.value
+          .set(CouncilTaxPayerDetailsPage, CouncilTaxPayerDetails("p", "q", "p@example.com")).success.value
+          .set(scenarioResponsiblePage, scenarioResponsible.Morethan).success.value
+          .set(noticeAlterationPage, noticeAlteration.Yes).success.value
+          .set(DateNoticePage, java.time.LocalDate.of(2026, 1, 1)).success.value
+
+        all.set(CouncilTaxResponsiblePage, CouncilTaxResponsible.Yes).success.value.get(CouncilTaxPayerDetailsPage) mustBe None
+        all.set(scenarioResponsiblePage, scenarioResponsible.Lessthan).success.value.get(DateNoticePage) mustBe None
+        all.set(noticeAlterationPage, noticeAlteration.No).success.value.get(DateNoticePage) mustBe None
+        all.set(ReasonForReviewPage, ReasonForReview.Changesaffectedproperty).success.value.get(scenarioResponsiblePage) mustBe None
       }
 
       "must route an unanswered evidence question back to itself" in {
@@ -150,9 +187,20 @@ class NavigatorSpec extends SpecBase {
         navigator.nextPage(ContinueWithoutEvidencePage, NormalMode, UserAnswers("id")) mustBe expected
       }
 
-      "must route which band to Check Your Answers in both modes" in {
-        navigator.nextPage(WhichBandPage, NormalMode, UserAnswers("id")) mustBe routes.CheckYourAnswersController.onPageLoad()
-        navigator.nextPage(WhichBandPage, CheckMode, UserAnswers("id")) mustBe routes.CheckYourAnswersController.onPageLoad()
+      "must route which band to contact details, and Check Your Answers in check mode" in {
+        navigator.nextPage(WhichBandPage, NormalMode, UserAnswers("id")) mustBe routes.ContactDetailsController.onPageLoad(NormalMode)
+        navigator.nextPage(WhichBandPage, CheckMode, UserAnswers("id")) mustBe routes.CheckYourAnswersController.onPageLoad(Journey.Challenge)
+      }
+
+        "must navigate the contact pages" in {
+        val acting = UserAnswers("id").set(CouncilTaxResponsiblePage, CouncilTaxResponsible.ActingFor).success.value
+        navigator.nextPage(WhichBandPage, NormalMode, acting) mustBe routes.CouncilTaxPayerDetailsController.onPageLoad(NormalMode)
+        navigator.nextPage(CouncilTaxPayerDetailsPage, NormalMode, acting) mustBe routes.ContactDetailsController.onPageLoad(NormalMode)
+        navigator.nextPage(ContactDetailsPage, NormalMode, acting) mustBe routes.CheckYourAnswersController.onPageLoad(Journey.Challenge)
+        navigator.nextPage(ContactDetailsPage, CheckMode, acting) mustBe routes.CheckYourAnswersController.onPageLoad(Journey.Challenge)
+        navigator.backLink(CouncilTaxPayerDetailsPage, NormalMode, Some(acting)) mustBe routes.WhichBandController.onPageLoad(NormalMode)
+        navigator.backLink(ContactDetailsPage, NormalMode, Some(acting)) mustBe routes.CouncilTaxPayerDetailsController.onPageLoad(NormalMode)
+        navigator.backLink(ContactDetailsPage, NormalMode, Some(UserAnswers("id"))) mustBe routes.WhichBandController.onPageLoad(NormalMode)
       }
 
       "must link back from which band to the evidence page the user came from" in {
@@ -160,7 +208,7 @@ class NavigatorSpec extends SpecBase {
         val no  = UserAnswers("id").set(HasEvidencePage, false).success.value
         navigator.backLink(WhichBandPage, NormalMode, Some(yes)) mustBe routes.UploadEvidenceController.onPageLoad(NormalMode)
         navigator.backLink(WhichBandPage, NormalMode, Some(no)) mustBe routes.ContinueWithoutEvidenceController.onPageLoad()
-        navigator.backLink(WhichBandPage, CheckMode, Some(yes)) mustBe routes.CheckYourAnswersController.onPageLoad()
+        navigator.backLink(WhichBandPage, CheckMode, Some(yes)) mustBe routes.CheckYourAnswersController.onPageLoad(Journey.Challenge)
       }
 
       "must route less than six months to the formal review overview" in {
@@ -203,10 +251,10 @@ class NavigatorSpec extends SpecBase {
           routes.ReviewOverviewController.informalReview()
       }
 
-      "must go from a page that doesn't exist in the route map to postcode search" in {
+      "must go from a page that doesn't exist in the route map to journey recovery" in {
 
         case object UnknownPage extends Page
-        navigator.nextPage(UnknownPage, NormalMode, UserAnswers("id")) mustBe routes.PostcodeSearchController.onPageLoad(NormalMode)
+        navigator.nextPage(UnknownPage, NormalMode, UserAnswers("id")) mustBe routes.JourneyRecoveryController.onPageLoad()
       }
     }
 
@@ -214,13 +262,13 @@ class NavigatorSpec extends SpecBase {
 
       "must return the reason textarea to Check Your Answers after editing" in {
         navigator.nextPage(WhyBandIsWrongPage, CheckMode, UserAnswers("id")) mustBe
-          routes.CheckYourAnswersController.onPageLoad()
+          routes.CheckYourAnswersController.onPageLoad(Journey.Challenge)
       }
 
       "must go from a page that doesn't exist in the edit route map to CheckYourAnswers" in {
 
         case object UnknownPage extends Page
-        navigator.nextPage(UnknownPage, CheckMode, UserAnswers("id")) mustBe routes.CheckYourAnswersController.onPageLoad()
+        navigator.nextPage(UnknownPage, CheckMode, UserAnswers("id")) mustBe routes.CheckYourAnswersController.onPageLoad(Journey.Challenge)
       }
     }
   }

@@ -38,7 +38,7 @@ class RequestSentController @Inject()(
   def onPageLoad(): Action[AnyContent] = (identify andThen getData andThen requireData) { implicit request =>
     request.userAnswers.get(SubmissionReferencePage) match {
       case Some(reference) => Ok(view(reference))
-      case None            => Redirect(routes.CheckYourAnswersController.onPageLoad())
+      case None            => Redirect(routes.CheckYourAnswersController.onPageLoad(models.Journey.from(request.userAnswers)))
     }
   }
 }

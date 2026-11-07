@@ -42,6 +42,8 @@ class CouncilTaxPayerDetailsControllerSpec extends SpecBase with MockitoSugar {
 
   lazy val councilTaxPayerDetailsRoute = routes.CouncilTaxPayerDetailsController.onPageLoad(NormalMode).url
 
+  val backLinkUrl = Some(routes.WhichBandController.onPageLoad(NormalMode).url)
+
   val validAnswer = CouncilTaxPayerDetails("John", "Smith", "john@example.com")
 
   val userAnswers = UserAnswers(userAnswersId).set(CouncilTaxPayerDetailsPage, validAnswer).success.value
@@ -60,7 +62,7 @@ class CouncilTaxPayerDetailsControllerSpec extends SpecBase with MockitoSugar {
         val result = route(application, request).value
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form, NormalMode)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(form, NormalMode, backLinkUrl)(request, messages(application)).toString
       }
     }
 
@@ -76,7 +78,7 @@ class CouncilTaxPayerDetailsControllerSpec extends SpecBase with MockitoSugar {
         val result = route(application, request).value
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form.fill(validAnswer), NormalMode)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(form.fill(validAnswer), NormalMode, backLinkUrl)(request, messages(application)).toString
       }
     }
 
@@ -122,7 +124,7 @@ class CouncilTaxPayerDetailsControllerSpec extends SpecBase with MockitoSugar {
         val result = route(application, request).value
 
         status(result) mustEqual BAD_REQUEST
-        contentAsString(result) mustEqual view(boundForm, NormalMode)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(boundForm, NormalMode, backLinkUrl)(request, messages(application)).toString
       }
     }
 
@@ -138,7 +140,7 @@ class CouncilTaxPayerDetailsControllerSpec extends SpecBase with MockitoSugar {
         val result = route(application, request).value
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form, NormalMode)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(form, NormalMode, backLinkUrl)(request, messages(application)).toString
       }
     }
 

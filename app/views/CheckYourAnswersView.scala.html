@@ -15,6 +15,7 @@
  *@
 
 @import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryList
+@import models.Journey
 @import views.html.components.PrintLink
 @import views.html.helper.CSPNonce
 
@@ -25,7 +26,7 @@
     formHelper: FormWithCSRF
 )
 
-@(sections: Seq[(String, SummaryList)], backLinkUrl: String, actingFor: Boolean = false)(implicit request: Request[_], messages: Messages)
+@(sections: Seq[(String, SummaryList)], backLinkUrl: String, actingFor: Boolean = false, journey: Journey = Journey.Challenge)(implicit request: Request[_], messages: Messages)
 
 @scripts = {
     <script @CSPNonce.attr src='@controllers.routes.Assets.versioned("javascripts/print.js")'></script>
@@ -50,9 +51,9 @@
         <h2 class="govuk-heading-m">@messages("checkYourAnswers.actingFor.heading")</h2>
         <p class="govuk-body">
             @messages("checkYourAnswers.actingFor.before")
-            <a class="govuk-link" href="@messages("checkYourAnswers.actingFor.authorityToAct.url")" rel="noreferrer noopener" target="_blank">@messages("checkYourAnswers.actingFor.authorityToAct") @messages("site.opensInNewTab")</a>
+            <a class="govuk-link" href="@messages("checkYourAnswers.actingFor.authorityToAct.url")" rel="noreferrer noopener" target="_blank">@messages("checkYourAnswers.actingFor.authorityToAct")<span class="govuk-visually-hidden"> @messages("site.opensInNewTab")</span></a>
             @messages("checkYourAnswers.actingFor.or")
-            <a class="govuk-link" href="@messages("checkYourAnswers.actingFor.letterOfAuthority.url")" rel="noreferrer noopener" target="_blank">@messages("checkYourAnswers.actingFor.letterOfAuthority") @messages("site.opensInNewTab")</a>
+            <a class="govuk-link" href="@messages("checkYourAnswers.actingFor.letterOfAuthority.url")" rel="noreferrer noopener" target="_blank">@messages("checkYourAnswers.actingFor.letterOfAuthority")<span class="govuk-visually-hidden"> @messages("site.opensInNewTab")</span></a>
             @messages("checkYourAnswers.actingFor.after")
         </p>
     }
@@ -61,7 +62,7 @@
         @PrintLink(messages("button.print"))
     </div>
 
-    @formHelper(action = routes.CheckYourAnswersController.onSubmit(), Symbol("autoComplete") -> "off") {
+    @formHelper(action = routes.CheckYourAnswersController.onSubmit(journey), Symbol("autoComplete") -> "off") {
         @govukButton(ButtonViewModel(messages("checkYourAnswers.confirmAndSend")).preventingDoubleClick())
     }
 }
