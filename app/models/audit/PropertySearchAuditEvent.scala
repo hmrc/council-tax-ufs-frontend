@@ -22,7 +22,9 @@ import play.api.libs.json.{Json, OWrites}
 /**
  * Detail for the `PropertySearch` explicit audit event, sent when the user presses Search.
  * Address and postcode fields are PII: only the names of the ones the user filled in are
- * recorded (`redactedFields`), never their values.
+ * recorded (`redactedFields`), never their values. The one exception is the first three characters
+ * of the postcode (`postcodePrefix` in the criteria), which shows broadly where people search
+ * without identifying anyone.
  */
 final case class PropertySearchAuditEvent(
                                            userId: String,
@@ -41,21 +43,41 @@ object PropertySearchAuditEvent {
 
   implicit val writes: OWrites[PropertySearchAuditEvent] = Json.writes[PropertySearchAuditEvent]
 
-  def standard(userId: String, searchPage: String): PropertySearchAuditEvent =
-    PropertySearchAuditEvent(userId, Standard, searchPage, Map.empty, Seq("postcode"))
+  val PostcodePrefixKey: String = "postcodePrefix"
+
+  /** Recorded for a dropdown filter the user left on its default, so every filter always appears in the event. */
+  val AnyValue: String = "any"
+
+  /**
+   * First three characters of the postcode with spaces removed, e.g. "NG9 3NB" gives "NG9",
+   * "M4 4AY" gives "M44" and "SW1A 1AA" gives "SW1". Nothing is returned for a blank postcode.
+   */
+  def postcodePrefix(postcode: String): Option[String] =
+    Some(postcode.filterNot(_.isWhitespace).toUpperCase.take(3)).filter(_.nonEmpty)
+
+  def standard(userId: String, searchPage: String, postcode: String): PropertySearchAuditEvent =
+    PropertySearchAuditEvent(
+      userId, Standard, searchPage,
+      postcodePrefix(postcode).map(PostcodePrefixKey -> _).toMap,
+      Seq("postcode")
+    )
 
   def advanced(userId: String, searchPage: String, search: AdvancedPropertySearch): PropertySearchAuditEvent = {
     def provided(fields: (String, String)*): Seq[(String, String)] =
       fields.collect { case (name, value) if value.trim.nonEmpty => name -> value.trim }
 
-    val criteria = provided(
-      "councilTaxBand"                -> search.councilTaxBand,
-      "bandStatus"                    -> search.bandStatus,
-      "localAuthority"                -> search.localAuthority,
-      "localAuthorityReferenceNumber" -> search.localAuthorityReferenceNumber,
-      "courtCode"                     -> search.courtCode,
-      "propertyUse"                   -> search.propertyUse
-    )
+    def filter(name: String, value: String): (String, String) =
+      name -> Some(value.trim).filter(_.nonEmpty).getOrElse(AnyValue)
+
+    // The dropdown filters are always present; "any" means the user left them on the default.
+    val criteria = Seq(
+      filter("councilTaxBand", search.councilTaxBand),
+      filter("bandStatus", search.bandStatus),
+      filter("localAuthority", search.localAuthority),
+      filter("courtCode", search.courtCode),
+      filter("propertyUse", search.propertyUse)
+    ) ++ provided("localAuthorityReferenceNumber" -> search.localAuthorityReferenceNumber) ++
+      postcodePrefix(search.postcode).map(PostcodePrefixKey -> _)
 
     val redacted = provided(
       "propertyNameOrNumber" -> search.propertyNameOrNumber,

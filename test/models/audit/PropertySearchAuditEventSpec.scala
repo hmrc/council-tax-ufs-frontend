@@ -39,8 +39,12 @@ class PropertySearchAuditEventSpec extends AnyFreeSpec with Matchers {
   "standard" - {
 
     "must record a standard search with the postcode redacted" in {
-      PropertySearchAuditEvent.standard("session-1", "/council-tax-ufs/postcode-search") mustBe
-        PropertySearchAuditEvent("session-1", "standard", "/council-tax-ufs/postcode-search", Map.empty, Seq("postcode"))
+      PropertySearchAuditEvent.standard("session-1", "/council-tax-ufs/postcode-search", "NG9 3NB") mustBe
+        PropertySearchAuditEvent("session-1", "standard", "/council-tax-ufs/postcode-search", Map("postcodePrefix" -> "NG9"), Seq("postcode"))
+    }
+
+    "must never record the full postcode" in {
+      Json.stringify(Json.toJson(PropertySearchAuditEvent.standard("s", "/p", "NG9 3NB"))) must not include "3NB"
     }
   }
 
@@ -48,14 +52,24 @@ class PropertySearchAuditEventSpec extends AnyFreeSpec with Matchers {
 
     val event = PropertySearchAuditEvent.advanced("Int-1", "/council-tax-ufs/advanced-property-search", advancedSearch)
 
-    "must record the non-PII criteria the user entered and skip blank ones" in {
+    "must record every filter, using any for the ones left on their default" in {
       event.searchType mustBe "advanced"
       event.searchCriteria mustBe Map(
         "councilTaxBand" -> "E",
+        "bandStatus"     -> "any",
         "localAuthority" -> "W07000064",
         "courtCode"      -> "D",
-        "propertyUse"    -> "Domestic"
+        "propertyUse"    -> "Domestic",
+        "postcodePrefix" -> "M44"
       )
+    }
+
+    "must record the property use as any when the filter is left on its default" in {
+      PropertySearchAuditEvent.advanced("Int-1", "/p", advancedSearch.copy(propertyUse = "")).searchCriteria("propertyUse") mustBe "any"
+    }
+
+    "must not record the second half of the postcode" in {
+      Json.stringify(Json.toJson(event)) must not include "4AY"
     }
 
     "must list the PII fields entered by name only, never their values" in {
@@ -67,14 +81,25 @@ class PropertySearchAuditEventSpec extends AnyFreeSpec with Matchers {
     }
   }
 
+  "postcodePrefix" - {
+
+    "must take the first three characters of the postcode with spaces removed" in {
+      PropertySearchAuditEvent.postcodePrefix("NG9 3NB")   mustBe Some("NG9")
+      PropertySearchAuditEvent.postcodePrefix("ng93nb")    mustBe Some("NG9")
+      PropertySearchAuditEvent.postcodePrefix(" M4 4AY ")  mustBe Some("M44")
+      PropertySearchAuditEvent.postcodePrefix("SW1A 1AA")  mustBe Some("SW1")
+      PropertySearchAuditEvent.postcodePrefix("   ")       mustBe None
+    }
+  }
+
   "writes" - {
 
     "must produce the agreed detail field names" in {
-      Json.toJson(PropertySearchAuditEvent.standard("session-1", "/page")) mustBe Json.obj(
+      Json.toJson(PropertySearchAuditEvent.standard("session-1", "/page", "NG9 3NB")) mustBe Json.obj(
         "userId"         -> "session-1",
         "searchType"     -> "standard",
         "searchPage"     -> "/page",
-        "searchCriteria" -> Json.obj(),
+        "searchCriteria" -> Json.obj("postcodePrefix" -> "NG9"),
         "redactedFields" -> Json.arr("postcode")
       )
     }

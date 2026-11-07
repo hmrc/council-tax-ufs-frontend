@@ -33,7 +33,7 @@ class AuditServiceSpec extends AnyFreeSpec with Matchers with MockitoSugar {
 
     "must send a PropertySearch explicit audit event with the event as its detail" in {
       val auditConnector = mock[AuditConnector]
-      val event          = PropertySearchAuditEvent.standard("session-1", "/council-tax-ufs/postcode-search")
+      val event          = PropertySearchAuditEvent.standard("session-1", "/council-tax-ufs/postcode-search", "NG9 3NB")
 
       new AuditService(auditConnector).auditPropertySearch(event)(HeaderCarrier())
 
