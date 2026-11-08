@@ -528,3 +528,12 @@ whichBand.notSure = Dwi ddim yn siŵr
 whichBand.link.url = https://www.gov.uk/guidance/understand-how-council-tax-bands-are-assessed.cy
 whichBand.checkYourAnswersLabel = Beth rydych chi'n meddwl y dylai'r band Treth Gyngor fod?
 whichBand.error.required = Dewiswch pa fand yr ydych yn credu y dylai'ch Treth Gyngor fod ynddo
+
+propertyUninhabitable.title = Dewiswch pa un sy’n berthnasol i’ch eiddo
+propertyUninhabitable.heading = Dewiswch pa un sy’n berthnasol i’ch eiddo
+propertyUninhabitable.derelict = Mae fy eiddo yn adfeiliedig neu mewn cyflwr gwael ac ni ellir byw ynddo
+propertyUninhabitable.demolished = Mae fy eiddo wedi’i ddymchwel yn llwyr
+propertyUninhabitable.reno = Mae gwaith adeiladu mawr neu waith adnewyddu mawr yn cael ei wneud i fy eiddo ac ni ellir byw ynddo
+propertyUninhabitable.partdemo = Mae rhan o fy eiddo wedi’i dymchwel
+propertyUninhabitable.checkYourAnswersLabel = Dewiswch pa un sy’n berthnasol i’ch eiddo
+propertyUninhabitable.error.required = Dewiswch yr hyn sy’n berthnasol i’ch eiddo

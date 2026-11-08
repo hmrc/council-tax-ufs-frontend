@@ -22,6 +22,46 @@ import org.scalacheck.{Arbitrary, Gen}
 
 trait ModelGenerators {
 
+  implicit lazy val arbitraryPropertyUninhabitable: Arbitrary[PropertyUninhabitable] =
+    Arbitrary {
+      Gen.oneOf(PropertyUninhabitable.values.toSeq)
+    }
+
+  implicit lazy val arbitraryCouncilTaxPayerDetails: Arbitrary[CouncilTaxPayerDetails] =
+    Arbitrary {
+      for {
+        firstName <- arbitrary[String]
+        lastName <- arbitrary[String]
+        email     <- arbitrary[String]
+      } yield CouncilTaxPayerDetails(firstName, lastName, email)
+    }
+
+  implicit lazy val arbitraryContactDetails: Arbitrary[ContactDetails] =
+    Arbitrary {
+      for {
+        firstName    <- arbitrary[String]
+        lastName     <- arbitrary[String]
+        email        <- arbitrary[Option[String]]
+        phoneNumber  <- arbitrary[Option[String]]
+        addressLine1 <- arbitrary[Option[String]]
+        addressLine2 <- arbitrary[Option[String]]
+        townOrCity   <- arbitrary[Option[String]]
+        county       <- arbitrary[Option[String]]
+        postcode     <- arbitrary[Option[String]]
+      } yield ContactDetails(
+        firstName    = firstName,
+        lastName     = lastName,
+        email        = email,
+        phoneNumber  = phoneNumber,
+        addressLine1 = addressLine1,
+        addressLine2 = addressLine2,
+        townOrCity   = townOrCity,
+        county       = county,
+        postcode     = postcode,
+        value        = Set.empty
+      )
+    }
+
   implicit lazy val arbitraryWhichBand: Arbitrary[WhichBand] =
     Arbitrary {
       Gen.oneOf(WhichBand.values.toSeq)

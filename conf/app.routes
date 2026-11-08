@@ -118,3 +118,18 @@ GET         /which-band                                  controllers.WhichBandCo
 POST        /which-band                                  controllers.WhichBandController.onSubmit(mode: Mode = NormalMode)
 GET         /change-which-band                           controllers.WhichBandController.onPageLoad(mode: Mode = CheckMode)
 POST        /change-which-band                           controllers.WhichBandController.onSubmit(mode: Mode = CheckMode)
+
+GET        /contactDetails                               controllers.ContactDetailsController.onPageLoad(mode: Mode = NormalMode)
+POST       /contactDetails                               controllers.ContactDetailsController.onSubmit(mode: Mode = NormalMode)
+GET        /changeContactDetails                         controllers.ContactDetailsController.onPageLoad(mode: Mode = CheckMode)
+POST       /changeContactDetails                         controllers.ContactDetailsController.onSubmit(mode: Mode = CheckMode)
+
+GET        /councilTaxPayerDetails                       controllers.CouncilTaxPayerDetailsController.onPageLoad(mode: Mode = NormalMode)
+POST       /councilTaxPayerDetails                       controllers.CouncilTaxPayerDetailsController.onSubmit(mode: Mode = NormalMode)
+GET        /changeCouncilTaxPayerDetails                 controllers.CouncilTaxPayerDetailsController.onPageLoad(mode: Mode = CheckMode)
+POST       /changeCouncilTaxPayerDetails                 controllers.CouncilTaxPayerDetailsController.onSubmit(mode: Mode = CheckMode)
+
+GET        /property-uninhabitable                       controllers.PropertyUninhabitableController.onPageLoad(mode: Mode = NormalMode)
+POST       /property-uninhabitable                       controllers.PropertyUninhabitableController.onSubmit(mode: Mode = NormalMode)
+GET        /changePropertyUninhabitable                  controllers.PropertyUninhabitableController.onPageLoad(mode: Mode = CheckMode)
+POST       /changePropertyUninhabitable                  controllers.PropertyUninhabitableController.onSubmit(mode: Mode = CheckMode)

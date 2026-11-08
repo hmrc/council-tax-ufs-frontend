@@ -531,3 +531,37 @@ councilTaxPayerDetails.error.lastName.length     = Last name must be 100 charact
 councilTaxPayerDetails.error.email.required      = Enter an email address
 councilTaxPayerDetails.error.email.invalid       = Enter an email address in the correct format ,like name@example.com.
 
+
+contactDetails.title = contactDetails
+contactDetails.heading = contactDetails
+contactDetails.firstName = firstName
+contactDetails.lastName = lastName
+contactDetails.checkYourAnswersLabel = ContactDetails
+contactDetails.error.firstName.required = Enter firstName
+contactDetails.error.lastName.required = Enter lastName
+contactDetails.error.firstName.length = firstName must be 100 characters or less
+contactDetails.error.lastName.length = lastName must be 100 characters or less
+contactDetails.firstName.change.hidden = firstName
+contactDetails.lastName.change.hidden = lastName
+
+councilTaxPayerDetails.title = councilTaxPayerDetails
+councilTaxPayerDetails.heading = councilTaxPayerDetails
+councilTaxPayerDetails.firstName = firstName
+councilTaxPayerDetails.lastName = lastName
+councilTaxPayerDetails.checkYourAnswersLabel = CouncilTaxPayerDetails
+councilTaxPayerDetails.error.firstName.required = Enter firstName
+councilTaxPayerDetails.error.lastName.required = Enter lastName
+councilTaxPayerDetails.error.firstName.length = firstName must be 100 characters or less
+councilTaxPayerDetails.error.lastName.length = lastName must be 100 characters or less
+councilTaxPayerDetails.firstName.change.hidden = firstName
+councilTaxPayerDetails.lastName.change.hidden = lastName
+
+propertyUninhabitable.title = Choose which applies to your property
+propertyUninhabitable.heading = Choose which applies to your property
+propertyUninhabitable.derelict = My property is derelict or in a state of disrepair and cannot be lived in
+propertyUninhabitable.demolished = My property has been fully demolished
+propertyUninhabitable.reno = My property is having major works or renovations done and cannot be lived in
+propertyUninhabitable.partdemo = Part of the property has been demolished
+propertyUninhabitable.checkYourAnswersLabel = Choose which applies to your property
+propertyUninhabitable.error.required = Select which applies to your property
+propertyUninhabitable.change.hidden = PropertyUninhabitable
