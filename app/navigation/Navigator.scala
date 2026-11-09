@@ -27,48 +27,109 @@ import models._
 class Navigator @Inject()() {
 
   private val normalRoutes: Page => UserAnswers => Call = {
+    case CouncilTaxResponsiblePage        => councilTaxResponsibleRoutes
+    case RequestCouncilTaxBandReviewPage  => _ => routes.ReasonForReviewController.onPageLoad(NormalMode)
+    case ReasonForReviewPage              => reasonForReviewRoutes
+    case `scenarioResponsiblePage`        => scenarioResponsibleRoutes
+    case `noticeAlterationPage`           => noticeAlterationRoutes
     case CouncilTaxLiabilityStartDatePage => _ => routes.WhyBandIsWrongController.onPageLoad(NormalMode)
-    case WhyBandIsWrongPage              => _ => routes.CheckYourAnswersController.onPageLoad()
-    // case CouncilTaxResponsiblePage       => councilTaxResponsibleRoutes
-    case RequestCouncilTaxBandReviewPage => _ => routes.ReasonForReviewController.onPageLoad(NormalMode)
-    case ReasonForReviewPage             => reasonForReviewRoutes
-    case `scenarioResponsiblePage`      => scenarioResponsibleRoutes
-    case `noticeAlterationPage`          => noticeAlterationRoutes
-    case _                               => _ => routes.PostcodeSearchController.onPageLoad(NormalMode)
+    case DateNoticePage                   => _ => routes.WhyBandIsWrongController.onPageLoad(NormalMode)
+    case WhyBandIsWrongPage               => _ => routes.HasEvidenceController.onPageLoad(NormalMode)
+    case HasEvidencePage                  => hasEvidenceRoutes
+    case UploadEvidencePage               => _ => whichBand
+    case ContinueWithoutEvidencePage      => _ => whichBand
+    case WhichBandPage                    => whichBandRoutes
+    case CouncilTaxPayerDetailsPage       => _ => routes.ContactDetailsController.onPageLoad(NormalMode)
+    case ContactDetailsPage               => checkYourAnswers
+    case _                                => _ => journeyRecovery
   }
+
+  private def journeyRecovery: Call = routes.JourneyRecoveryController.onPageLoad()
+
+  private def checkYourAnswers(answers: UserAnswers): Call =
+    routes.CheckYourAnswersController.onPageLoad(Journey.from(answers))
+
+  private def whichBand: Call = routes.WhichBandController.onPageLoad(NormalMode)
+
+  // payer details are only asked when acting for someone
+  private def whichBandRoutes(answers: UserAnswers): Call =
+    if (isActingFor(answers)) routes.CouncilTaxPayerDetailsController.onPageLoad(NormalMode)
+    else routes.ContactDetailsController.onPageLoad(NormalMode)
+
+  private def isActingFor(answers: UserAnswers): Boolean =
+    answers.get(CouncilTaxResponsiblePage).contains(CouncilTaxResponsible.ActingFor)
+
+  private def hasEvidenceRoutes(answers: UserAnswers): Call =
+    answers.get(HasEvidencePage) match {
+      case Some(true)  => routes.UploadEvidenceController.onPageLoad(NormalMode)
+      case Some(false) => routes.ContinueWithoutEvidenceController.onPageLoad()
+      case None        => routes.HasEvidenceController.onPageLoad(NormalMode)
+    }
 
   private def reasonForReviewRoutes(answers: UserAnswers): Call =
     answers.get(ReasonForReviewPage) match {
       case Some(ReasonForReview.Bandiswrong) => routes.scenarioResponsibleController.onPageLoad(NormalMode)
       case Some(ReasonForReview.Changesaffectedproperty) => routes.deletionOptionsController.onPageLoad(NormalMode)
-      case _                             => routes.PostcodeSearchController.onPageLoad(NormalMode)
+      case _                             => journeyRecovery
     }
 
   private def scenarioResponsibleRoutes(answers: UserAnswers): Call =
     answers.get(scenarioResponsiblePage) match {
       case Some(scenarioResponsible.Lessthan) => routes.ReviewOverviewController.formalReview()
       case Some(scenarioResponsible.Morethan) => routes.noticeAlterationController.onPageLoad(NormalMode)
-      case _                                 => routes.PostcodeSearchController.onPageLoad(NormalMode)
+      case _                                 => journeyRecovery
     }
 
   private def noticeAlterationRoutes(answers: UserAnswers): Call =
     answers.get(noticeAlterationPage) match {
       case Some(noticeAlteration.Yes) => routes.ReviewOverviewController.formalReview()
       case Some(noticeAlteration.No)  => routes.ReviewOverviewController.informalReview()
-      case _                          => routes.PostcodeSearchController.onPageLoad(NormalMode)
+      case _                          => journeyRecovery
     }
 
-  private val checkRouteMap: Page => UserAnswers => Call = {
-    case CouncilTaxLiabilityStartDatePage => _ => routes.CheckYourAnswersController.onPageLoad()
-    case WhyBandIsWrongPage              => _ => routes.CheckYourAnswersController.onPageLoad()
-    case _ => _ => routes.CheckYourAnswersController.onPageLoad()
-  }
+  // In check mode a changed answer can change which questions apply, so instead of going straight back
+  // to CYA, go to the first question the current path still needs. Nothing is needed until a reason is chosen.
+  private def missingPage(answers: UserAnswers): Option[Call] =
+    answers.get(ReasonForReviewPage).flatMap {
+      case ReasonForReview.Bandiswrong =>
+        val scenario      = answers.get(scenarioResponsiblePage)
+        val moreThan      = scenario.contains(scenarioResponsible.Morethan)
+        val noticeAltered = answers.get(noticeAlterationPage).contains(noticeAlteration.Yes)
+
+        Seq(
+          scenario.isEmpty                                                              -> routes.scenarioResponsibleController.onPageLoad(CheckMode),
+          (scenario.contains(scenarioResponsible.Lessthan)
+            && answers.get(CouncilTaxLiabilityStartDatePage).isEmpty)                   -> routes.CouncilTaxLiabilityStartDateController.onPageLoad(CheckMode),
+          (moreThan && answers.get(noticeAlterationPage).isEmpty)                       -> routes.noticeAlterationController.onPageLoad(CheckMode),
+          (moreThan && noticeAltered && answers.get(DateNoticePage).isEmpty)            -> routes.DateNoticeController.onPageLoad(CheckMode),
+          answers.get(WhyBandIsWrongPage).isEmpty                                       -> routes.WhyBandIsWrongController.onPageLoad(CheckMode),
+          answers.get(HasEvidencePage).isEmpty                                          -> routes.HasEvidenceController.onPageLoad(CheckMode),
+          needsFile(answers)                                                            -> routes.UploadEvidenceController.onPageLoad(CheckMode),
+          answers.get(WhichBandPage).isEmpty                                            -> routes.WhichBandController.onPageLoad(CheckMode),
+          (isActingFor(answers) && answers.get(CouncilTaxPayerDetailsPage).isEmpty)     -> routes.CouncilTaxPayerDetailsController.onPageLoad(CheckMode),
+          answers.get(ContactDetailsPage).isEmpty                                       -> routes.ContactDetailsController.onPageLoad(CheckMode)
+        ).collectFirst { case (true, call) => call }
+
+      case ReasonForReview.Changesaffectedproperty =>
+        Option.when(answers.get(deletionOptionsPage).isEmpty)(routes.deletionOptionsController.onPageLoad(CheckMode))
+
+      case _ => None
+    }
+
+  // changing to "Yes" still needs a file
+  private def needsFile(answers: UserAnswers): Boolean =
+    answers.get(HasEvidencePage).contains(true) && answers.get(UploadEvidencePage).forall(_.isEmpty)
+
+  private def checkRoutes(answers: UserAnswers): Call =
+    missingPage(answers)
+      .orElse(Option.when(needsFile(answers))(routes.UploadEvidenceController.onPageLoad(CheckMode)))
+      .getOrElse(checkYourAnswers(answers))
 
   def nextPage(page: Page, mode: Mode, userAnswers: UserAnswers): Call = mode match {
     case NormalMode =>
       normalRoutes(page)(userAnswers)
     case CheckMode =>
-      checkRouteMap(page)(userAnswers)
+      checkRoutes(userAnswers)
   }
 
   /**
@@ -78,7 +139,7 @@ class Navigator @Inject()() {
    */
   def backLink(page: Page, mode: Mode, userAnswers: Option[UserAnswers]): Call = mode match {
     case CheckMode =>
-      routes.CheckYourAnswersController.onPageLoad()
+      checkYourAnswers(userAnswers.getOrElse(UserAnswers("")))
     case NormalMode =>
       val answers = userAnswers.getOrElse(UserAnswers(""))
       page match {
@@ -95,9 +156,22 @@ class Navigator @Inject()() {
         case WhyBandIsWrongPage =>
           if (answers.get(scenarioResponsiblePage).contains(scenarioResponsible.Lessthan)) {
             routes.CouncilTaxLiabilityStartDateController.onPageLoad(NormalMode)
+          } else if (answers.get(noticeAlterationPage).contains(noticeAlteration.Yes)) {
+            routes.DateNoticeController.onPageLoad(NormalMode)
           } else {
             reviewOverviewFor(answers)
           }
+        case DateNoticePage                  => reviewOverviewFor(answers)
+        case HasEvidencePage                 => routes.WhyBandIsWrongController.onPageLoad(NormalMode)
+        case UploadEvidencePage              => routes.HasEvidenceController.onPageLoad(NormalMode)
+        case ContinueWithoutEvidencePage     => routes.HasEvidenceController.onPageLoad(NormalMode)
+        case WhichBandPage =>
+          if (answers.get(HasEvidencePage).contains(true)) routes.UploadEvidenceController.onPageLoad(NormalMode)
+          else routes.ContinueWithoutEvidenceController.onPageLoad()
+        case CouncilTaxPayerDetailsPage => routes.WhichBandController.onPageLoad(NormalMode)
+        case ContactDetailsPage =>
+          if (isActingFor(answers)) routes.CouncilTaxPayerDetailsController.onPageLoad(NormalMode)
+          else routes.WhichBandController.onPageLoad(NormalMode)
         case _ =>
           routes.PostcodeSearchController.onPageLoad(NormalMode)
       }
@@ -112,7 +186,7 @@ class Navigator @Inject()() {
   }
 
   def checkYourAnswersBackLink: Call =
-    routes.WhyBandIsWrongController.onPageLoad(NormalMode)
+    routes.ContactDetailsController.onPageLoad(NormalMode)
 
   private def reviewOverviewFor(answers: UserAnswers): Call =
     if (answers.get(noticeAlterationPage).contains(noticeAlteration.Yes)) {
@@ -130,6 +204,6 @@ class Navigator @Inject()() {
           case None => routes.PostcodeSearchController.onPageLoad(NormalMode)
         }
       case Some(CouncilTaxResponsible.ActingFor) => routes.RequestCouncilTaxBandReviewController.onPageLoad(NormalMode)
-      case _                                     => routes.IndexController.onPageLoad()
+      case _                                     => journeyRecovery
     }
 }

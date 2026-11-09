@@ -16,12 +16,19 @@
 
 package pages
 
-import models.CouncilTaxResponsible
+import models.{CouncilTaxResponsible, UserAnswers}
 import play.api.libs.json.JsPath
+
+import scala.util.Try
 
 case object CouncilTaxResponsiblePage extends QuestionPage[CouncilTaxResponsible] {
 
   override def path: JsPath = JsPath \ toString
 
   override def toString: String = "councilTaxResponsible"
+
+  // payer details only apply when acting for someone
+  override def cleanup(value: Option[CouncilTaxResponsible], userAnswers: UserAnswers): Try[UserAnswers] =
+    if (value.contains(CouncilTaxResponsible.ActingFor)) super.cleanup(value, userAnswers)
+    else userAnswers.remove(CouncilTaxPayerDetailsPage)
 }

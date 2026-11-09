@@ -58,7 +58,7 @@ class WhyBandIsWrongControllerSpec extends SpecBase with MockitoSugar {
       }
     }
 
-    "must continue to Check Your Answers after a valid Normal-mode answer" in {
+    "must continue to the evidence question after a valid Normal-mode answer" in {
       val sessionRepository = mock[SessionRepository]
       when(sessionRepository.set(any())) thenReturn Future.successful(true)
       val application = applicationBuilder(userAnswers = Some(emptyUserAnswers))
@@ -71,7 +71,7 @@ class WhyBandIsWrongControllerSpec extends SpecBase with MockitoSugar {
         val result = route(application, request).value
 
         status(result) mustBe SEE_OTHER
-        redirectLocation(result).value mustBe routes.CheckYourAnswersController.onPageLoad().url
+        redirectLocation(result).value mustBe routes.HasEvidenceController.onPageLoad(NormalMode).url
       }
     }
 
@@ -88,7 +88,7 @@ class WhyBandIsWrongControllerSpec extends SpecBase with MockitoSugar {
         val result = route(application, request).value
 
         status(result) mustBe SEE_OTHER
-        redirectLocation(result).value mustBe routes.CheckYourAnswersController.onPageLoad().url
+        redirectLocation(result).value mustBe routes.HasEvidenceController.onPageLoad(NormalMode).url
       }
     }
   }

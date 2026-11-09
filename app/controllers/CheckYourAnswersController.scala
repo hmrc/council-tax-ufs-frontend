@@ -18,13 +18,19 @@ package controllers
 
 import com.google.inject.Inject
 import controllers.actions.{DataRequiredAction, DataRetrievalAction, IdentifierAction}
+import models.{CouncilTaxResponsible, Journey, ReasonForReview, scenarioResponsible}
 import navigation.Navigator
-import viewmodels.checkAnswers.{CouncilTaxLiabilityStartDateSummary, PostcodeSearchSummary, WhyBandIsWrongSummary}
+import pages.{CouncilTaxResponsiblePage, ReasonForReviewPage, scenarioResponsiblePage}
+import viewmodels.checkAnswers.{ContactDetailsSummary, CouncilTaxPayerDetailsSummary, CouncilTaxLiabilityStartDateSummary, EvidenceSummary, DateNoticeSummary, PropertyAddressSummary, ReasonForReviewSummary, WhichBandSummary, deletionOptionsSummary, noticeAlterationSummary, scenarioResponsibleSummary, WhyBandIsWrongSummary}
 import play.api.i18n.{I18nSupport, MessagesApi}
-import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
+import models.requests.DataRequest
+import play.api.mvc.{Action, AnyContent, MessagesControllerComponents, Result}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import viewmodels.govuk.summarylist._
+import services.SubmissionService
 import views.html.CheckYourAnswersView
+
+import scala.concurrent.{ExecutionContext, Future}
 
 class CheckYourAnswersController @Inject()(
                                             override val messagesApi: MessagesApi,
@@ -33,24 +39,63 @@ class CheckYourAnswersController @Inject()(
                                             requireData: DataRequiredAction,
                                             val controllerComponents: MessagesControllerComponents,
                                             view: CheckYourAnswersView,
-                                            navigator: Navigator
-                                          ) extends FrontendBaseController with I18nSupport {
+                                            navigator: Navigator,
+                                            submissionService: SubmissionService
+                                          )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
-  def onPageLoad(): Action[AnyContent] = (identify andThen getData andThen requireData) {
+  // url names the other journey -> send them to the one they actually chose
+  private def wrongJourney(journey: Journey, answers: models.UserAnswers): Option[Result] =
+    Journey.chosen(answers).filter(_ != journey).map(chosen => Redirect(routes.CheckYourAnswersController.onPageLoad(chosen)))
+
+  def onPageLoad(journey: Journey): Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
+      wrongJourney(journey, request.userAnswers).getOrElse(page(journey))
+  }
+
+  private def page(journey: Journey)(implicit request: DataRequest[AnyContent]): Result = {
+
+      // old answers can linger in the session, so only show rows for the journey being followed
+      val reason = request.userAnswers.get(ReasonForReviewPage)
+      val bandChallenge = reason.contains(ReasonForReview.Bandiswrong)
+      val propertyChanges = reason.contains(ReasonForReview.Changesaffectedproperty)
+      val moreThanSixMonths = request.userAnswers.get(scenarioResponsiblePage).contains(scenarioResponsible.Morethan)
+
+      val actingFor = request.userAnswers.get(CouncilTaxResponsiblePage).contains(CouncilTaxResponsible.ActingFor)
 
       val sections = Seq(
-        "checkYourAnswers.section.propertyDetails" -> Seq(
-          PostcodeSearchSummary.row(request.userAnswers)
+        "" -> Seq(
+          PropertyAddressSummary.row(request.userAnswers),
+          ReasonForReviewSummary.row(request.userAnswers),
+          Option.when(bandChallenge)(scenarioResponsibleSummary.row(request.userAnswers)).flatten,
+          Option.when(bandChallenge && moreThanSixMonths)(noticeAlterationSummary.row(request.userAnswers)).flatten,
+          Option.when(propertyChanges)(deletionOptionsSummary.row(request.userAnswers)).flatten
         ).flatten,
         "checkYourAnswers.section.challengeDetails" -> Seq(
           CouncilTaxLiabilityStartDateSummary.row(request.userAnswers),
-          WhyBandIsWrongSummary.row(request.userAnswers)
-        ).flatten
+          DateNoticeSummary.row(request.userAnswers),
+          WhyBandIsWrongSummary.row(request.userAnswers),
+          EvidenceSummary.row(request.userAnswers),
+          WhichBandSummary.row(request.userAnswers)
+        ).flatten,
+        "checkYourAnswers.section.councilTaxPayer" -> Option.when(actingFor)(CouncilTaxPayerDetailsSummary.rows(request.userAnswers)).toSeq.flatten,
+        "checkYourAnswers.section.contactDetails" -> ContactDetailsSummary.rows(request.userAnswers),
+        "checkYourAnswers.section.preferredContact" -> ContactDetailsSummary.preferredContactRows(request.userAnswers)
       ).collect {
         case (heading, rows) if rows.nonEmpty => heading -> SummaryListViewModel(rows)
       }
 
-      Ok(view(sections, navigator.checkYourAnswersBackLink.url))
+      Ok(view(sections, navigator.checkYourAnswersBackLink.url, actingFor, journey))
+  }
+
+  def onSubmit(journey: Journey): Action[AnyContent] = (identify andThen getData andThen requireData).async {
+    implicit request =>
+      wrongJourney(journey, request.userAnswers) match {
+        case Some(redirect) => Future.successful(redirect)
+        case None =>
+          submissionService.submit(request.userAnswers).map {
+            case Right(_) => Redirect(routes.RequestSentController.onPageLoad())
+            case Left(_)  => Redirect(routes.JourneyRecoveryController.onPageLoad())
+          }
+      }
   }
 }

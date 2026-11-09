@@ -20,7 +20,6 @@ import controllers.actions._
 import forms.ContactDetailsFormProvider
 import javax.inject.Inject
 import models.Mode
-import play.api.Logging
 import navigation.Navigator
 import pages.ContactDetailsPage
 import play.api.i18n.{I18nSupport, MessagesApi}
@@ -41,9 +40,12 @@ class ContactDetailsController @Inject()(
                                       formProvider: ContactDetailsFormProvider,
                                       val controllerComponents: MessagesControllerComponents,
                                       view: ContactDetailsView
-                                     )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport with Logging{
+                                     )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
   val form = formProvider()
+
+  private def backLink(mode: Mode, answers: Option[models.UserAnswers]): Option[String] =
+    Some(navigator.backLink(ContactDetailsPage, mode, answers).url)
 
   def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData) {
     implicit request =>
@@ -53,21 +55,16 @@ class ContactDetailsController @Inject()(
         case Some(value) => form.fill(value)
       }
 
-      Ok(view(preparedForm, mode))
+      Ok(view(preparedForm, mode, backLink(mode, request.userAnswers)))
   }
 
 
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData).async {
     implicit request =>
 
-      val rawData = request.body.asFormUrlEncoded.getOrElse(Map.empty).view.mapValues(_.headOption.getOrElse("")).toMap
-      val methodValues = request.body.asFormUrlEncoded.flatMap(_.get("value")).getOrElse(Seq.empty)
-      val indexedEntries = methodValues.zipWithIndex.map { case (v, i) => s"value[$i]" -> v }.toMap
-      val correctedData = (rawData - "value") ++ indexedEntries
-
-      form.bind(correctedData).fold(
+      form.bindFromRequest().fold(
         formWithErrors =>
-          Future.successful(BadRequest(view(formWithErrors, mode))),
+          Future.successful(BadRequest(view(formWithErrors, mode, backLink(mode, request.userAnswers)))),
 
         value =>
           for {

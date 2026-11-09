@@ -34,11 +34,11 @@ object DateNoticeSummary  {
         implicit val lang: Lang = messages.lang
 
         SummaryListRowViewModel(
-          key     = "dateNotice.checkYourAnswersLabel",
+          key     = "dateNotice.heading",
           value   = ValueViewModel(answer.format(dateTimeFormat())),
           actions = Seq(
             ActionItemViewModel("site.change", routes.DateNoticeController.onPageLoad(CheckMode).url)
-              .withVisuallyHiddenText(messages("dateNotice.change.hidden"))
+              .withVisuallyHiddenText(messages("dateNotice.heading"))
           )
         )
     }

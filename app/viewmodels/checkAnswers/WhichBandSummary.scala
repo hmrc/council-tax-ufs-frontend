@@ -39,11 +39,11 @@ object WhichBandSummary  {
         )
 
         SummaryListRowViewModel(
-          key     = "whichBand.checkYourAnswersLabel",
+          key     = "whichBand.heading",
           value   = value,
           actions = Seq(
             ActionItemViewModel("site.change", routes.WhichBandController.onPageLoad(CheckMode).url)
-              .withVisuallyHiddenText(messages("whichBand.change.hidden"))
+              .withVisuallyHiddenText(messages("whichBand.heading"))
           )
         )
     }

@@ -1,533 +1,684 @@
+# grouped by journey stage, then by page. messages.cy uses the same layout
+
+##############################################################################
+# Global: service, common labels, errors and session
+##############################################################################
+
+# --- service ---
 service.name = Review your Council Tax band
 
+# --- site ---
 site.opensInNewTab = (opens in new tab)
-site.back = Back
-site.remove = Remove
-site.change = Change
-site.no = No
-site.yes = Yes
-site.continue = Continue
-site.start = Start now
-site.startAgain = Start again
-site.signIn = Sign in
-site.govuk = GOV.UK
+site.back          = Back
+site.remove        = Remove
+site.change        = Change
+site.no            = No
+site.yes           = Yes
+site.continue      = Continue
+site.start         = Start now
+site.startAgain    = Start again
+site.signIn        = Sign in
+site.govuk         = GOV.UK
+site.warning       = Warning
 
-date.day = Day
-date.month = Month
-date.year = Year
-date.error.day = day
-date.error.month = month
-date.error.year = year
-
-timeout.title = You’re about to be signed out
-timeout.message = For security reasons, you will be signed out of this service in
-timeout.keepAlive = Stay signed in
-timeout.signOut = Sign out
-
-error.title.prefix = Error:
-error.prefix = Error
-error.summary.title = There is a problem
-
-index.title = council-tax-ufs-frontend
-index.heading = council-tax-ufs-frontend
-index.guidance = Welcome to your new frontend. Please see the README file for a guide to getting started.
-
-checkYourAnswers.title = Check your answers
-checkYourAnswers.heading = Check your answers
-checkYourAnswers.section.propertyDetails = Property details
-checkYourAnswers.section.challengeDetails = Challenge details
-
-journeyRecovery.continue.title = Sorry, there is a problem with the service
-journeyRecovery.continue.heading = Sorry, there is a problem with the service
-journeyRecovery.continue.guidance = [Add content to explain how to proceed.]
-journeyRecovery.startAgain.title = Sorry, there is a problem with the service
-journeyRecovery.startAgain.heading = Sorry, there is a problem with the service
-journeyRecovery.startAgain.guidance = [Add content to explain why the user needs to start again.]
-
-signedOut.title = For your security, we signed you out
-signedOut.heading = For your security, we signed you out
-signedOut.guidance = We did not save your answers.
-
-unauthorised.title = You can’t access this service with this account
-unauthorised.heading = You can’t access this service with this account
-
+# --- button ---
 # Buttons
 button.print    = Print this page
 button.continue = Continue
 button.search   = Search
 
-postcodeSearch.title = Enter the property postcode
-postcodeSearch.heading = Enter the property postcode
-postcodeSearch.description = You can search for any home in England and Wales by entering the postcode.
-postcodeSearch.label = Postcode
-postcodeSearch.hint = For example CF5 4GP
+# --- date ---
+date.day         = Day
+date.month       = Month
+date.year        = Year
+date.error.day   = day
+date.error.month = month
+date.error.year  = year
+
+# --- characterCount ---
+characterCount.remaining        = You have {0} characters remaining
+characterCount.underLimit.one   = You have {0} character remaining
+characterCount.underLimit.other = You have {0} characters remaining
+characterCount.atLimit          = You have 0 characters remaining
+characterCount.overLimit.one    = You have {0} character too many
+characterCount.overLimit.other  = You have {0} characters too many
+
+# --- error ---
+error.title.prefix  = Error:
+error.prefix        = Error
+error.summary.title = There is a problem
+error.title         = Sorry, there is a problem with the service
+error.heading       = Sorry, there is a problem with the service
+error.guidance      = Try again later.
+
+# --- timeout ---
+timeout.title     = You’re about to be signed out
+timeout.message   = For security reasons, you will be signed out of this service in
+timeout.keepAlive = Stay signed in
+timeout.signOut   = Sign out
+
+# --- signedOut ---
+signedOut.title    = For your security, we signed you out
+signedOut.heading  = For your security, we signed you out
+signedOut.guidance = We did not save your answers.
+
+# --- unauthorised ---
+unauthorised.title   = You can’t access this service with this account
+unauthorised.heading = You can’t access this service with this account
+
+# --- journeyRecovery ---
+journeyRecovery.continue.title      = Sorry, there is a problem with the service
+journeyRecovery.continue.heading    = Sorry, there is a problem with the service
+journeyRecovery.continue.guidance   = [Add content to explain how to proceed.]
+journeyRecovery.startAgain.title    = Sorry, there is a problem with the service
+journeyRecovery.startAgain.heading  = Sorry, there is a problem with the service
+journeyRecovery.startAgain.guidance = [Add content to explain why the user needs to start again.]
+
+##############################################################################
+# Start page
+##############################################################################
+
+# --- index ---
+index.title    = council-tax-ufs-frontend
+index.heading  = council-tax-ufs-frontend
+index.guidance = Welcome to your new frontend. Please see the README file for a guide to getting started.
+
+##############################################################################
+# 1. Find the property: postcode search, results and advanced search
+##############################################################################
+
+# --- postcodeSearch ---
+postcodeSearch.title                 = Enter the property postcode
+postcodeSearch.heading               = Enter the property postcode
+postcodeSearch.description           = You can search for any home in England and Wales by entering the postcode.
+postcodeSearch.label                 = Postcode
+postcodeSearch.hint                  = For example CF5 4GP
 postcodeSearch.checkYourAnswersLabel = Postcode used to find your home
-postcodeSearch.checkYourAnswersLabel = Postcode used to find your home
-postcodeSearch.dontKnowPostcode = Other search options
-postcodeSearch.error.required = Enter a postcode, like AA1 1AA
-postcodeSearch.error.invalid = Enter a real postcode
-postcodeSearch.error.length = Enter a real postcode
-postcodeSearch.change.hidden = Postcode Search
+postcodeSearch.dontKnowPostcode      = Other search options
+postcodeSearch.error.required        = Enter a postcode, like AA1 1AA
+postcodeSearch.error.invalid         = Enter a real postcode
+postcodeSearch.error.length          = Enter a real postcode
+postcodeSearch.change.hidden         = Postcode Search
 
-
-error.title    = Sorry, there is a problem with the service
-error.heading  = Sorry, there is a problem with the service
-error.guidance = Try again later.
-
+# --- searchResults ---
 # Search Results
-searchResults.title                      = Search results for {0}
-searchResults.title.paged                = Search results for {0} (page {1} of {2})
-searchResults.heading                    = Search results for {0}
-searchResults.lastUpdated                = Last updated on {0}
-searchResults.showing                    = Showing {0} to {1} of {2} results
-searchResults.column.address             = Address
-searchResults.column.band                = Council Tax band
-searchResults.column.localAuthority      = Local authority
-searchResults.cannotFind                 = I cannot find my property
-searchResults.cannotFind.check           = Check the details you have entered are correct or search for a property using the
-searchResults.cannotFind.otherOptions    = other search options
-searchResults.cannotFind.contactCouncil  = Contact your local council
+searchResults.title                                = Search results for {0}
+searchResults.title.paged                          = Search results for {0} (page {1} of {2})
+searchResults.heading                              = Search results for {0}
+searchResults.lastUpdated                          = Last updated on {0}
+searchResults.showing                              = Showing {0} to {1} of {2} results
+searchResults.column.address                       = Address
+searchResults.column.band                          = Council Tax band
+searchResults.column.localAuthority                = Local authority
+searchResults.cannotFind                           = I cannot find my property
+searchResults.cannotFind.check                     = Check the details you have entered are correct or search for a property using the
+searchResults.cannotFind.otherOptions              = other search options
+searchResults.cannotFind.contactCouncil            = Contact your local council
 searchResults.cannotFind.contactCouncilDescription = if you still cannot find your property. They will provide the Valuation Office with the information they need to allocate a Council Tax band.
-searchResults.commercialUse              = This data is not to be used for commercial use
-searchResults.searchAgain                = Search again
-searchResults.searchAgain.label          = Enter a postcode
-searchResults.searchAgain.button         = Search
-searchResults.otherSearchOptions         = Other search options
-searchResults.error                      = There was a problem with your search. Please try again.
-searchResults.voa.england                = The <a class="govuk-link" href="https://www.gov.uk/government/organisations/valuation-office-agency">Valuation Office (VO)</a> puts every home in England into a group called a ''band'', based on the value of the property on 1 April 1991.
-searchResults.bands.england              = The lowest band is ''A'', and the highest band is ''H''.
-searchResults.voa.wales                  = The <a class="govuk-link" href="https://www.gov.uk/government/organisations/valuation-office-agency">Valuation Office (VO)</a> puts every home in Wales into a group called a ''band'', based on the value of the property on 1 April 2003.
-searchResults.bands.wales                = The lowest band is ''A'', and the highest band is ''I''.
-propertyDetail.searchAnother              = Search for another property
+searchResults.commercialUse                        = This data is not to be used for commercial use
+searchResults.searchAgain                          = Search again
+searchResults.searchAgain.label                    = Enter a postcode
+searchResults.searchAgain.button                   = Search
+searchResults.otherSearchOptions                   = Other search options
+searchResults.error                                = There was a problem with your search. Please try again.
+searchResults.voa.england                          = The <a class="govuk-link" href="https://www.gov.uk/government/organisations/valuation-office-agency">Valuation Office (VO)</a> puts every home in England into a group called a ''band'', based on the value of the property on 1 April 1991.
+searchResults.bands.england                        = The lowest band is ''A'', and the highest band is ''H''.
+searchResults.voa.wales                            = The <a class="govuk-link" href="https://www.gov.uk/government/organisations/valuation-office-agency">Valuation Office (VO)</a> puts every home in Wales into a group called a ''band'', based on the value of the property on 1 April 2003.
+searchResults.bands.wales                          = The lowest band is ''A'', and the highest band is ''I''.
 
+# --- noResults ---
 # No Results
-noResults.title                          = No results found for {0}
-noResults.heading                        = No results found for {0}
-noResults.description                    = We could not find any addresses for that postcode.
-noResults.label                          = Enter a postcode
-noResults.button                         = Search again
-noResults.cannotFind.check               = Check the details you have entered are correct or search for a property using the
-noResults.cannotFind.otherOptions        = other search options
-noResults.contactCouncil                 = Contact your local council
-noResults.contactCouncilDescription      = if you still cannot find your property. They will provide the Valuation Office with the information they need to allocate a Council Tax band.
+noResults.title                     = No results found for {0}
+noResults.heading                   = No results found for {0}
+noResults.description               = We could not find any addresses for that postcode.
+noResults.label                     = Enter a postcode
+noResults.button                    = Search again
+noResults.cannotFind.check          = Check the details you have entered are correct or search for a property using the
+noResults.cannotFind.otherOptions   = other search options
+noResults.contactCouncil            = Contact your local council
+noResults.contactCouncilDescription = if you still cannot find your property. They will provide the Valuation Office with the information they need to allocate a Council Tax band.
 
+# --- advancedPropertySearch ---
+# Advance Search
+advancedPropertySearch.title                               = Search for a property by other details
+advancedPropertySearch.heading                             = Search for a property by other details
+advancedPropertySearch.propertyNameOrNumber                = Property name or number (optional)
+advancedPropertySearch.street                              = Street (optional)
+advancedPropertySearch.townOrCity                          = Town or city (optional)
+advancedPropertySearch.postcode                            = Postcode
+advancedPropertySearch.checkYourAnswersLabel               = Advanced property search
+advancedPropertySearch.error.propertyNameOrNumber.required = Enter property name or number
+advancedPropertySearch.error.street.required               = Enter street
+advancedPropertySearch.error.propertyNameOrNumber.length   = Property name or number must be 80 characters or less
+advancedPropertySearch.error.street.length                 = Street must be 80 characters or less
+advancedPropertySearch.propertyNameOrNumber.change.hidden  = property name or number
+advancedPropertySearch.street.change.hidden                = street
+advancedPropertySearch.showSearchFilters                   = Show search filters
+advancedPropertySearch.councilTaxBand                      = Council Tax band
+advancedPropertySearch.bandStatus                          = Band status
+advancedPropertySearch.localAuthority                      = Local Authority (optional)
+advancedPropertySearch.bandStatus.hint                     = Current deletions are records for properties that are no longer paying Council Tax, for example, because they’ve been demolished.
+advancedPropertySearch.laReferenceNumber                   = Local authority reference number (optional)
+advancedPropertySearch.laReferenceNumber.hint              = A unique reference number for your property.
+advancedPropertySearch.courtCode                           = Court Code
+advancedPropertySearch.courtCode.hint                      = The property will have a court code if the Council Tax band has been changed (determination) or confirmed (confirmation) by a Valuation Tribunal or High Court.
+advancedPropertySearch.propertyUse                         = Property use
+advancedPropertySearch.propertyUse.hint                    = For example, just domestic use, or for both domestic and business.
+advancedPropertySearch.change.hidden                       = advanced property search
+advancedPropertySearch.error.postcode.required             = Enter a postcode
+advancedPropertySearch.error.postcode.length               = Enter a real postcode
+advancedPropertySearch.error.postcode.invalid              = Enter a valid postcode
+advancedPropertySearch.error.townOrCity.length             = Town or city must be 80 characters or less
+advancedPropertySearch.error.laReferenceNumber.length      = Local authority reference number must be 20 characters or fewer
+advancedPropertySearch.localAuthority.default              = Choose an option
+advancedPropertySearch.councilTaxBand.allBands             = All bands
+advancedPropertySearch.councilTaxBand.A                    = A
+advancedPropertySearch.councilTaxBand.B                    = B
+advancedPropertySearch.councilTaxBand.C                    = C
+advancedPropertySearch.councilTaxBand.D                    = D
+advancedPropertySearch.councilTaxBand.E                    = E
+advancedPropertySearch.councilTaxBand.F                    = F
+advancedPropertySearch.councilTaxBand.G                    = G
+advancedPropertySearch.councilTaxBand.H                    = H
+advancedPropertySearch.councilTaxBand.I                    = I
+advancedPropertySearch.bandStatus.default                  = Current and current deletions
+advancedPropertySearch.bandStatus.Current                  = Current only
+advancedPropertySearch.bandStatus.Deleted                  = Current deletions only
+advancedPropertySearch.courtCode.default                   = All
+advancedPropertySearch.courtCode.V                         = VT determination
+advancedPropertySearch.courtCode.C                         = VT confirmation
+advancedPropertySearch.courtCode.D                         = HC determination
+advancedPropertySearch.courtCode.H                         = HC confirmation
+advancedPropertySearch.courtCode.R                         = VT re-determination after HC referral
+advancedPropertySearch.courtCode.E                         = HC consent order
+advancedPropertySearch.propertyUse.default                 = Both purely domestic & mixed use properties
+advancedPropertySearch.propertyUse.C                       = Mixed use properties only
+advancedPropertySearch.propertyUse.N                       = Purely domestic properties only
 
-propertyDetail.informationFor                    = Information for:
-propertyDetail.metaDescription                   = View the Council Tax band and property information for this address.
-propertyDetail.publicInformation                 = Public information
-propertyDetail.publicInformation.anybody         = Anybody can view this information.
-propertyDetail.band                              = Council Tax band
-propertyDetail.band.hint.england                 = The current band for the property. This is based on the property value on 1 April 1991.
-propertyDetail.band.hint.wales                   = The current band for the property. This is based on the property value on 1 April 2003.
-propertyDetail.band.expand                       = Council Tax bands England
-propertyDetail.band.table.band                   = Band
-propertyDetail.band.table.value.england          = Property value at 1 April 1991
-propertyDetail.band.table.value.wales            = Property value at 1 April 2003
-propertyDetail.band.current                      = current band
-propertyDetail.band.range.A                      = up to £40,000
-propertyDetail.band.range.B                      = £40,001 to £52,000
-propertyDetail.band.range.C                      = £52,001 to £68,000
-propertyDetail.band.range.D                      = £68,001 to £88,000
-propertyDetail.band.range.E                      = £88,001 to £120,000
-propertyDetail.band.range.F                      = £120,001 to £160,000
-propertyDetail.band.range.G                      = £160,001 to £320,000
-propertyDetail.band.range.H                      = More than £320,000
-propertyDetail.effectiveFrom                     = With effect from
-propertyDetail.effectiveFrom.hint                = The date the current band came into effect.
-propertyDetail.localCouncil                      = Local Council
-propertyDetail.localCouncil.hint                 = The Local Council sets the amount of Council Tax you pay each year, based on the band.
-propertyDetail.councilRef                        = Local Council reference number
-propertyDetail.councilRef.hint                   = A reference number for the property.
-propertyDetail.improvement                       = Improvement indicator
-propertyDetail.improvement.hint                  = If a property has been improved or extended since it was placed in a Council Tax band, a Yes will be shown. This means the band will be reviewed and may increase following the sale of the property.
-propertyDetail.mixedUse                          = Mixed-use property
-propertyDetail.mixedUse.hint                     = A property which is used as a home and a business. For example, a working farm or a flat above a shop.
-propertyDetail.courtCode                         = Court code
-propertyDetail.courtCode.hint                    = If the Council Tax band has been reviewed by a Valuation Tribunal or High Court, a court code will be shown.
-propertyDetail.courtCode.none                    = None
-propertyDetail.notAvailable                      = Not available
-propertyDetail.courtCode.expand                  = What the codes mean
-propertyDetail.courtCode.meaning                 = Court codes indicate the outcome of a tribunal or court review of the Council Tax band.
-propertyDetail.courtCode.V                       = Valuation Tribunal determination
-propertyDetail.courtCode.C                       = Valuation Tribunal confirmation
-propertyDetail.courtCode.R                       = Valuation Tribunal redetermination following High Court referral
-propertyDetail.courtCode.D                       = High Court determination
-propertyDetail.courtCode.H                       = High Court confirmation
-propertyDetail.courtCode.E                       = High Court consent order
-propertyDetail.beforeYouContinue                 = Before you continue
-propertyDetail.beforeYouContinue.youCan          = You can:
-propertyDetail.beforeYouContinue.viewPrevious    = View previous Council Tax bands for this property
-propertyDetail.beforeYouContinue.challenge       = tell us if you think the Council Tax band is wrong if you pay Council Tax for the property, or have permission from the Council Tax payer
-propertyDetail.beforeYouContinue.remove          = ask us to remove the property from the Council Tax list if it has been demolished, is derelict, or is undergoing major renovation.
-propertyDetail.beforeYouContinue.signIn          = You''ll need a GOV Gateway or GOV.UK One Login Account to sign in.
+##############################################################################
+# 2. Property details and historic bands
+##############################################################################
 
-historicBands.title                              = Previous Council Tax bands
-historicBands.metaDescription                    = View the previous Council Tax bands for this property.
-historicBands.fullTitle                         = Historic Council Tax band details
-historicBands.fullHeading                       = Council Tax band {0}
-historicBands.band                               = Council Tax band
-historicBands.effectiveFrom                      = With effect from
-historicBands.effectiveTo                        = Until
-historicBands.none                               = No previous Council Tax bands are available for this property.
-historicBands.details.summary                    = What does my property information mean?
-historicBands.details.band                       = Council Tax band
-historicBands.details.bandDescription            = The band the property was in. This determines how much Council Tax is paid.
-historicBands.details.effectiveFrom               = With effect from
-historicBands.details.effectiveFromDescription   = The date the Council Tax band became effective from.
-
-historicBandFull.localAuthority                  = Local Authority
-historicBandFull.metaDescription                 = View historic Council Tax band details for this property, including when the band applied.
-historicBandFull.valuationList                   = Valuation list
-historicBandFull.valuationListDescription        = This identifies all properties banded for Council Tax purposes. Lists of Council Tax bands were originally created for England and Wales in 1993 and again in Wales in 2005.
-historicBandFull.challenge.summary               = Challenge your previous Council Tax band
-historicBandFull.challenge.telephone              = Telephone
-historicBandFull.challenge.england               = 03000 501 501 for England
-historicBandFull.challenge.wales                 = 03000 505 505 for Wales
-historicBandFull.challenge.hours                 = Monday to Friday, 9:00am to 4:30pm (except public holidays)
-historicBandFull.challenge.email                 = Email
-historicBandFull.challenge.emailAddress          = ctinboxvo@hmrc.gov.uk
-
- 
+# --- propertyDetail ---
+propertyDetail.searchAnother                  = Search for another property
+propertyDetail.informationFor                 = Information for:
+propertyDetail.metaDescription                = View the Council Tax band and property information for this address.
+propertyDetail.publicInformation              = Public information
+propertyDetail.publicInformation.anybody      = Anybody can view this information.
+propertyDetail.band                           = Council Tax band
+propertyDetail.band.hint.england              = The current band for the property. This is based on the property value on 1 April 1991.
+propertyDetail.band.hint.wales                = The current band for the property. This is based on the property value on 1 April 2003.
+propertyDetail.band.expand                    = Council Tax bands England
+propertyDetail.band.table.band                = Band
+propertyDetail.band.table.value.england       = Property value at 1 April 1991
+propertyDetail.band.table.value.wales         = Property value at 1 April 2003
+propertyDetail.band.current                   = current band
+propertyDetail.band.range.A                   = up to £40,000
+propertyDetail.band.range.B                   = £40,001 to £52,000
+propertyDetail.band.range.C                   = £52,001 to £68,000
+propertyDetail.band.range.D                   = £68,001 to £88,000
+propertyDetail.band.range.E                   = £88,001 to £120,000
+propertyDetail.band.range.F                   = £120,001 to £160,000
+propertyDetail.band.range.G                   = £160,001 to £320,000
+propertyDetail.band.range.H                   = More than £320,000
+propertyDetail.effectiveFrom                  = With effect from
+propertyDetail.effectiveFrom.hint             = The date the current band came into effect.
+propertyDetail.localCouncil                   = Local Council
+propertyDetail.localCouncil.hint              = The Local Council sets the amount of Council Tax you pay each year, based on the band.
+propertyDetail.councilRef                     = Local Council reference number
+propertyDetail.councilRef.hint                = A reference number for the property.
+propertyDetail.improvement                    = Improvement indicator
+propertyDetail.improvement.hint               = If a property has been improved or extended since it was placed in a Council Tax band, a Yes will be shown. This means the band will be reviewed and may increase following the sale of the property.
+propertyDetail.mixedUse                       = Mixed-use property
+propertyDetail.mixedUse.hint                  = A property which is used as a home and a business. For example, a working farm or a flat above a shop.
+propertyDetail.courtCode                      = Court code
+propertyDetail.courtCode.hint                 = If the Council Tax band has been reviewed by a Valuation Tribunal or High Court, a court code will be shown.
+propertyDetail.courtCode.none                 = None
+propertyDetail.notAvailable                   = Not available
+propertyDetail.courtCode.expand               = What the codes mean
+propertyDetail.courtCode.meaning              = Court codes indicate the outcome of a tribunal or court review of the Council Tax band.
+propertyDetail.courtCode.V                    = Valuation Tribunal determination
+propertyDetail.courtCode.C                    = Valuation Tribunal confirmation
+propertyDetail.courtCode.R                    = Valuation Tribunal redetermination following High Court referral
+propertyDetail.courtCode.D                    = High Court determination
+propertyDetail.courtCode.H                    = High Court confirmation
+propertyDetail.courtCode.E                    = High Court consent order
+propertyDetail.beforeYouContinue              = Before you continue
+propertyDetail.beforeYouContinue.youCan       = You can:
+propertyDetail.beforeYouContinue.viewPrevious = View previous Council Tax bands for this property
+propertyDetail.beforeYouContinue.challenge    = tell us if you think the Council Tax band is wrong if you pay Council Tax for the property, or have permission from the Council Tax payer
+propertyDetail.beforeYouContinue.remove       = ask us to remove the property from the Council Tax list if it has been demolished, is derelict, or is undergoing major renovation.
+propertyDetail.beforeYouContinue.signIn       = You''ll need a GOV Gateway or GOV.UK One Login Account to sign in.
 # England bands
-
-propertyDetail.band.expand.england        = Council Tax bands England
-propertyDetail.band.range.england.A       = up to £40,000
-propertyDetail.band.range.england.B       = £40,001 to £52,000
-propertyDetail.band.range.england.C       = £52,001 to £68,000
-propertyDetail.band.range.england.D       = £68,001 to £88,000
-propertyDetail.band.range.england.E       = £88,001 to £120,000
-propertyDetail.band.range.england.F       = £120,001 to £160,000
-propertyDetail.band.range.england.G       = £160,001 to £320,000
-propertyDetail.band.range.england.H       = More than £320,000
-
+propertyDetail.band.expand.england            = Council Tax bands England
+propertyDetail.band.range.england.A           = up to £40,000
+propertyDetail.band.range.england.B           = £40,001 to £52,000
+propertyDetail.band.range.england.C           = £52,001 to £68,000
+propertyDetail.band.range.england.D           = £68,001 to £88,000
+propertyDetail.band.range.england.E           = £88,001 to £120,000
+propertyDetail.band.range.england.F           = £120,001 to £160,000
+propertyDetail.band.range.england.G           = £160,001 to £320,000
+propertyDetail.band.range.england.H           = More than £320,000
 # Wales
+propertyDetail.band.expand.wales              = Council Tax bands Wales
+propertyDetail.band.range.wales.A             = up to £44,000
+propertyDetail.band.range.wales.B             = £44,001 to £65,000
+propertyDetail.band.range.wales.C             = £65,001 to £91,000
+propertyDetail.band.range.wales.D             = £91,001 to £123,000
+propertyDetail.band.range.wales.E             = £123,001 to £162,000
+propertyDetail.band.range.wales.F             = £162,001 to £223,000
+propertyDetail.band.range.wales.G             = £223,001 to £324,000
+propertyDetail.band.range.wales.H             = £324,001 to £424,000
+propertyDetail.band.range.wales.I             = more than £424,000
 
-propertyDetail.band.expand.wales          = Council Tax bands Wales
-propertyDetail.band.range.wales.A         = up to £44,000
-propertyDetail.band.range.wales.B         = £44,001 to £65,000
-propertyDetail.band.range.wales.C         = £65,001 to £91,000
-propertyDetail.band.range.wales.D         = £91,001 to £123,000
-propertyDetail.band.range.wales.E         = £123,001 to £162,000
-propertyDetail.band.range.wales.F         = £162,001 to £223,000
-propertyDetail.band.range.wales.G         = £223,001 to £324,000
-propertyDetail.band.range.wales.H         = £324,001 to £424,000
-propertyDetail.band.range.wales.I         = more than £424,000
+# --- historicBands ---
+historicBands.title                            = Previous Council Tax bands
+historicBands.metaDescription                  = View the previous Council Tax bands for this property.
+historicBands.fullTitle                        = Historic Council Tax band details
+historicBands.fullHeading                      = Council Tax band {0}
+historicBands.band                             = Council Tax band
+historicBands.effectiveFrom                    = With effect from
+historicBands.effectiveTo                      = Until
+historicBands.none                             = No previous Council Tax bands are available for this property.
+historicBands.details.summary                  = What does my property information mean?
+historicBands.details.band                     = Council Tax band
+historicBands.details.bandDescription          = The band the property was in. This determines how much Council Tax is paid.
+historicBands.details.effectiveFrom            = With effect from
+historicBands.details.effectiveFromDescription = The date the Council Tax band became effective from.
 
+# --- historicBandFull ---
+historicBandFull.localAuthority           = Local Authority
+historicBandFull.metaDescription          = View historic Council Tax band details for this property, including when the band applied.
+historicBandFull.valuationList            = Valuation list
+historicBandFull.valuationListDescription = This identifies all properties banded for Council Tax purposes. Lists of Council Tax bands were originally created for England and Wales in 1993 and again in Wales in 2005.
+historicBandFull.challenge.summary        = Challenge your previous Council Tax band
+historicBandFull.challenge.telephone      = Telephone
+historicBandFull.challenge.england        = 03000 501 501 for England
+historicBandFull.challenge.wales          = 03000 505 505 for Wales
+historicBandFull.challenge.hours          = Monday to Friday, 9:00am to 4:30pm (except public holidays)
+historicBandFull.challenge.email          = Email
+historicBandFull.challenge.emailAddress   = ctinboxvo@hmrc.gov.uk
 
-councilTaxResponsible.title = Are you responsible for the Council Tax on this property?
-councilTaxResponsible.heading = Are you responsible for the Council Tax on this property?
-councilTaxResponsible.yes = Yes
-councilTaxResponsible.no = No
-councilTaxResponsible.actingFor = I am acting for someone who is responsible
-councilTaxResponsible.hint = Only people who are responsible for the Council Tax on this property have permission to view more details. This includes people acting for someone who is responsible.
-councilTaxResponsible.actingFor.hint = You will need their written permission
-site.warning = Warning
-councilTaxResponsible.warning = If you are not responsible for the Council Tax on this property, you should not continue with this service.
+##############################################################################
+# 3. Responsibility for Council Tax
+##############################################################################
+
+# --- councilTaxResponsible ---
+councilTaxResponsible.title                 = Are you responsible for the Council Tax on this property?
+councilTaxResponsible.heading               = Are you responsible for the Council Tax on this property?
+councilTaxResponsible.yes                   = Yes
+councilTaxResponsible.no                    = No
+councilTaxResponsible.actingFor             = I am acting for someone who is responsible
+councilTaxResponsible.hint                  = Only people who are responsible for the Council Tax on this property have permission to view more details. This includes people acting for someone who is responsible.
+councilTaxResponsible.actingFor.hint        = You will need their written permission
+councilTaxResponsible.warning               = If you are not responsible for the Council Tax on this property, you should not continue with this service.
 councilTaxResponsible.checkYourAnswersLabel = Are you responsible for the Council Tax on this property?
-councilTaxResponsible.error.required = Select whether you are responsible for the Council Tax on this property
-councilTaxResponsible.change.hidden = CouncilTaxResponsible
+councilTaxResponsible.error.required        = Select whether you are responsible for the Council Tax on this property
+councilTaxResponsible.change.hidden         = CouncilTaxResponsible
 
-requestCouncilTaxBandReview.title = Request a Council Tax band review
-requestCouncilTaxBandReview.heading = Request a Council Tax band review
-requestCouncilTaxBandReview.p1.1 = You can ask the VO (Valuation Office) for a Council Tax band review at any time.
-requestCouncilTaxBandReview.p1.2 = There is no charge for this service
-requestCouncilTaxBandReview.p1.3 = You will need to tell us why you think the band should be reviewed. We may ask you for more details, and you may be required to provide evidence to support your request.
-requestCouncilTaxBandReview.subheading1 = When you can request a Council Tax band review
-requestCouncilTaxBandReview.p2.1 =You can request a review of your Council Tax band if:
-requestCouncilTaxBandReview.subheading2.bullet1 = you became the new taxpayer within the last 6 months
-requestCouncilTaxBandReview.subheading2.bullet2 = the council tax band has changed in the last 6 months
-requestCouncilTaxBandReview.subheading2.bullet3 = the local area has physically changed
-requestCouncilTaxBandReview.p2.2 = You can also request a review if something has changed. For example the property;
-requestCouncilTaxBandReview.subheading2.bullet4 = has been demolished
-requestCouncilTaxBandReview.subheading2.bullet5 = property is derelict and cannot be lived in
-requestCouncilTaxBandReview.subheading2.bullet6 = is undergoing major renovations or repairs
-requestCouncilTaxBandReview.subheading2.bullet7 = is partly used for business
-requestCouncilTaxBandReview.subheading2.bullet8 = has been split into multiple properties or merged into one
-requestCouncilTaxBandReview.p2.3 = If you request a review for one of these reasons, but don''t agree with the outcome, you can appeal the decision.
-requestCouncilTaxBandReview.p2.4 = We will take any improvements into account when setting the new band, which could be higher than the previous one. The new band will usually take effect from the date the property becomes fit to live in again.
-requestCouncilTaxBandReview.subheading2 = Contacting your Local Council
-requestCouncilTaxBandReview.p3.1 = You should also check with your local council for advice and information about Council Tax. Visit your local council''s website for more details.
-requestCouncilTaxBandReview.subheading3 = Reviewing the band for any other reason
-requestCouncilTaxBandReview.p4.1 = If none of the above apply, we will only review your band if you provide supporting evidence. Your request for a band review will be rejected without this.
-requestCouncilTaxBandReview.p4.2 = You won''t have any legal rights to appeal the outcome of a review.
-requestCouncilTaxBandReview.readContent.label = I have read this page and want to continue
-requestCouncilTaxBandReview.checkYourAnswersLabel = Request a Council Tax band review
-requestCouncilTaxBandReview.error.required = Select to confirm you have read this page
-requestCouncilTaxBandReview.change.hidden = RequestCouncilTaxBandReview
-
-noPermission.title = You do not have permission to view more details
-noPermission.heading = You do not have permission to view more details
-noPermission.body = Only people who are responsible for the Council Tax on this property have permission to view more details. This includes people acting for someone who is responsible.
+# --- noPermission ---
+noPermission.title                 = You do not have permission to view more details
+noPermission.heading               = You do not have permission to view more details
+noPermission.body                  = Only people who are responsible for the Council Tax on this property have permission to view more details. This includes people acting for someone who is responsible.
 noPermission.backToPropertyDetails = Back to property details
 
-reasonForReview.title = Reasons for reviewing your Council Tax band
-reasonForReview.heading = Why do you want to review your Council Tax band?
-reasonForReview.subheading1 = If you think your band is wrong
-reasonForReview.p1 = If you think your Council Tax band is too high, or you disagree with recent band or effective date change we will review it. You can also ask for a review following a tribunal or court decision about a similar property.
-reasonForReview.subheading2 = If changes have affected your property
-reasonForReview.p2 = We can review your band if the property has undergone, or is undergoing certain changes including, but not limited to:
-reasonForReview.bullet1 = partial or complete demolition
-reasonForReview.bullet2 = major building work that means it cannot be lived in
-reasonForReview.bullet3 = how the building is used
-reasonForReview.p3 = We can also review your band if changes to your local area may have affected your property.
-reasonForReview.band-is-wrong = I think my band is wrong
+##############################################################################
+# 4. Request a review and reason for review
+##############################################################################
+
+# --- requestCouncilTaxBandReview ---
+requestCouncilTaxBandReview.title                 = Request a Council Tax band review
+requestCouncilTaxBandReview.heading               = Request a Council Tax band review
+requestCouncilTaxBandReview.p1.1                  = You can ask the VO (Valuation Office) for a Council Tax band review at any time.
+requestCouncilTaxBandReview.p1.2                  = There is no charge for this service
+requestCouncilTaxBandReview.p1.3                  = You will need to tell us why you think the band should be reviewed. We may ask you for more details, and you may be required to provide evidence to support your request.
+requestCouncilTaxBandReview.subheading1           = When you can request a Council Tax band review
+requestCouncilTaxBandReview.p2.1                  = You can request a review of your Council Tax band if:
+requestCouncilTaxBandReview.subheading2.bullet1   = you became the new taxpayer within the last 6 months
+requestCouncilTaxBandReview.subheading2.bullet2   = the council tax band has changed in the last 6 months
+requestCouncilTaxBandReview.subheading2.bullet3   = the local area has physically changed
+requestCouncilTaxBandReview.p2.2                  = You can also request a review if something has changed. For example the property;
+requestCouncilTaxBandReview.subheading2.bullet4   = has been demolished
+requestCouncilTaxBandReview.subheading2.bullet5   = property is derelict and cannot be lived in
+requestCouncilTaxBandReview.subheading2.bullet6   = is undergoing major renovations or repairs
+requestCouncilTaxBandReview.subheading2.bullet7   = is partly used for business
+requestCouncilTaxBandReview.subheading2.bullet8   = has been split into multiple properties or merged into one
+requestCouncilTaxBandReview.p2.3                  = If you request a review for one of these reasons, but don''t agree with the outcome, you can appeal the decision.
+requestCouncilTaxBandReview.p2.4                  = We will take any improvements into account when setting the new band, which could be higher than the previous one. The new band will usually take effect from the date the property becomes fit to live in again.
+requestCouncilTaxBandReview.subheading2           = Contacting your Local Council
+requestCouncilTaxBandReview.p3.1                  = You should also check with your local council for advice and information about Council Tax. Visit your local council''s website for more details.
+requestCouncilTaxBandReview.subheading3           = Reviewing the band for any other reason
+requestCouncilTaxBandReview.p4.1                  = If none of the above apply, we will only review your band if you provide supporting evidence. Your request for a band review will be rejected without this.
+requestCouncilTaxBandReview.p4.2                  = You won''t have any legal rights to appeal the outcome of a review.
+requestCouncilTaxBandReview.readContent.label     = I have read this page and want to continue
+requestCouncilTaxBandReview.checkYourAnswersLabel = Request a Council Tax band review
+requestCouncilTaxBandReview.error.required        = Select to confirm you have read this page
+requestCouncilTaxBandReview.change.hidden         = RequestCouncilTaxBandReview
+
+# --- reasonForReview ---
+reasonForReview.title                     = Reasons for reviewing your Council Tax band
+reasonForReview.heading                   = Why do you want to review your Council Tax band?
+reasonForReview.subheading1               = If you think your band is wrong
+reasonForReview.p1                        = If you think your Council Tax band is too high, or you disagree with recent band or effective date change we will review it. You can also ask for a review following a tribunal or court decision about a similar property.
+reasonForReview.subheading2               = If changes have affected your property
+reasonForReview.p2                        = We can review your band if the property has undergone, or is undergoing certain changes including, but not limited to:
+reasonForReview.bullet1                   = partial or complete demolition
+reasonForReview.bullet2                   = major building work that means it cannot be lived in
+reasonForReview.bullet3                   = how the building is used
+reasonForReview.p3                        = We can also review your band if changes to your local area may have affected your property.
+reasonForReview.band-is-wrong             = I think my band is wrong
 reasonForReview.changes-affected-property = Changes have affected the property
-reasonForReview.checkYourAnswersLabel = Why do you want to review your Council Tax band?
-reasonForReview.error.required = Select why you want to challenge your Council Tax band
-reasonForReview.change.hidden = ReasonForReview
+reasonForReview.checkYourAnswersLabel     = Why do you want to review your Council Tax band?
+reasonForReview.error.required            = Select why you want to challenge your Council Tax band
+reasonForReview.change.hidden             = ReasonForReview
 
-scenarioResponsible.title = How long have you been responsible for paying Council Tax on the property?
-scenarioResponsible.heading = How long have you been responsible for paying Council Tax on the property?
-scenarioResponsible.less-than = Less than 6 months
-scenarioResponsible.more-than = More than 6 months
+##############################################################################
+# 5. Challenge journey: eligibility, review overview and details
+##############################################################################
+
+# --- scenarioResponsible ---
+scenarioResponsible.title                 = How long have you been responsible for paying Council Tax on the property?
+scenarioResponsible.heading               = How long have you been responsible for paying Council Tax on the property?
+scenarioResponsible.less-than             = Less than 6 months
+scenarioResponsible.more-than             = More than 6 months
 scenarioResponsible.checkYourAnswersLabel = How long have you been responsible for paying Council Tax on the property?
-scenarioResponsible.error.required = Select how long you have been paying Council Tax on this property
-scenarioResponsible.change.hidden = scenarioResponsible
+scenarioResponsible.error.required        = Select how long you have been paying Council Tax on this property
+scenarioResponsible.change.hidden         = scenarioResponsible
 
-deletionOptions.title = What has changed?
-deletionOptions.heading = What has changed?
-deletionOptions.demolished = My property has been demolished, is derelict or is undergoing significant renovation and repairs and cannot be lived in
-deletionOptions.split = My property has been split into multiple properties or merged into a single larger property
-deletionOptions.changed = There has been a change of use to my property
-deletionOptions.affected = There have been changes to the local area that have affected my property
-deletionOptions.anotherReason = Another reason
-deletionOptions.checkYourAnswersLabel = What has changed?
-deletionOptions.error.required = Select what has changed
-deletionOptions.change.hidden = deletionOptions
-
-noticeAlteration.title = Have you received a Notice of Alteration within the last six months?
-noticeAlteration.heading = Have you received a Notice of Alteration within the last six months?
-noticeAlteration.hint = A Notice of Alteration is a letter sent by the Valuation Office (VO) if any change to the valuation list has been made.
-noticeAlteration.yes = Yes
-noticeAlteration.no = No
+# --- noticeAlteration ---
+noticeAlteration.title                 = Have you received a Notice of Alteration within the last six months?
+noticeAlteration.heading               = Have you received a Notice of Alteration within the last six months?
+noticeAlteration.hint                  = A Notice of Alteration is a letter sent by the Valuation Office (VO) if any change to the valuation list has been made.
+noticeAlteration.yes                   = Yes
+noticeAlteration.no                    = No
 noticeAlteration.checkYourAnswersLabel = Have you received a Notice of Alteration within the last six months?
-noticeAlteration.error.required = Select whether you have received a Notice of Alteration within the last six months
-noticeAlteration.change.hidden = noticeAlteration
+noticeAlteration.error.required        = Select whether you have received a Notice of Alteration within the last six months
+noticeAlteration.change.hidden         = noticeAlteration
 
-councilTaxLiabilityStartDate.title = When did you become responsible for paying Council Tax for your home?
-councilTaxLiabilityStartDate.heading = When did you become responsible for paying Council Tax for your home?
-councilTaxLiabilityStartDate.hint = You are responsible from the date you bought, or started renting, the home. Enter a date within the last 6 months.
-councilTaxLiabilityStartDate.example = For example, if the date was 27 April 2025, enter 27 4 2025.
+# --- reviewOverview ---
+reviewOverview.changeSelection        = You can change your selection if this option is not right for you.
+reviewOverview.row.whatItIs           = What it is
+reviewOverview.row.whatFor            = What it''s for
+reviewOverview.row.duration           = How long it takes
+reviewOverview.row.evidence           = Evidence required
+reviewOverview.row.examples           = Examples of evidence
+reviewOverview.row.decision           = Decision
+reviewOverview.row.afterDecision      = After a decision has been made
+reviewOverview.decision.intro         = There are 3 possible decisions that can be made:
+reviewOverview.decision.1             = your home stays in the same band
+reviewOverview.decision.2             = your home is moved into a lower band
+reviewOverview.decision.3             = your home is moved into a higher band
+reviewOverview.formal.title           = Asking for a formal review
+reviewOverview.formal.intro           = You have told us that you''ve been responsible for paying Council Tax on your home for <strong>less than 6 months</strong>.
+reviewOverview.formal.description     = This means that you can ask for a formal review of your Council Tax band. This is also known as a ''Formal Challenge'' or ''Making a Proposal''.
+reviewOverview.formal.table.heading   = How a formal review works
+reviewOverview.formal.whatItIs        = You can ask the Valuation Office (VO) to review the Council Tax band your home is in.
+reviewOverview.formal.whatFor         = You can ask for a formal review if you think that your home is in the wrong Council Tax band.
+reviewOverview.formal.when.label      = When you can ask for a formal review
+reviewOverview.formal.when.value      = You can ask if you have been responsible for the Council Tax on your home for <strong>less than 6 months</strong>.
+reviewOverview.formal.duration        = Up to 16 weeks
+reviewOverview.formal.evidence        = You do not need to provide any evidence. However, any information you give us will help the VO understand why you think your home should be in a different band.
+reviewOverview.formal.examples.1      = addresses of similar homes in a lower band than yours.
+reviewOverview.formal.examples.2      = the price that your home or similar homes sold for between 1 April 2001 and 31 March 2005.
+reviewOverview.formal.examples.3      = you can submit written evidence and upload up to 5 files including PDFs, documents and photos.
+reviewOverview.formal.afterDecision   = You have 4 months after the date of the decision to appeal to the Valuation Tribunal Wales if you are not satisfied with the outcome.
+reviewOverview.informal.title         = Asking for an informal review
+reviewOverview.informal.intro         = You have told us that you''ve been responsible for paying Council Tax on your home for <strong>more than 6 months</strong>.
+reviewOverview.informal.description   = This means that you can ask for an informal review of your Council Tax band. This is also known as an ''Informal Challenge'' or ''Band Review''.
+reviewOverview.informal.table.heading = How an informal review works
+reviewOverview.informal.whatItIs      = You can ask the Valuation Office (VO) to review the Council Tax band your home is in.
+reviewOverview.informal.whatFor       = You can ask for an informal review if you think your home is in the wrong Council Tax band.
+reviewOverview.informal.when.label    = When you can ask for an informal review
+reviewOverview.informal.when.value    = You can ask for a band review at any time.
+reviewOverview.informal.duration      = Up to 48 weeks
+reviewOverview.informal.evidence      = The VO will only review the band if you provide supporting evidence.
+reviewOverview.informal.examples.1    = Addresses of up to 5 similar homes in a lower band than yours. The homes should be similar in type, size, age and style.
+reviewOverview.informal.examples.2    = The homes can be either in the same street or estate, or in the same village or area.
+reviewOverview.informal.examples.3    = The price your home or similar homes sold for between 1 April 2001 and 31 March 2005.
+reviewOverview.informal.afterDecision = The decision is final, and you cannot ask for another review.
+
+# --- councilTaxLiabilityStartDate ---
+councilTaxLiabilityStartDate.title                 = When did you become responsible for paying Council Tax for your home?
+councilTaxLiabilityStartDate.heading               = When did you become responsible for paying Council Tax for your home?
+councilTaxLiabilityStartDate.hint                  = You are responsible from the date you bought, or started renting, the home. Enter a date within the last 6 months.
+councilTaxLiabilityStartDate.example               = For example, if the date was 27 April 2025, enter 27 4 2025.
 councilTaxLiabilityStartDate.checkYourAnswersLabel = Date you became responsible for Council Tax
-councilTaxLiabilityStartDate.error.required.all = Enter the date you became responsible for paying Council Tax
-councilTaxLiabilityStartDate.error.required.two = The date you became responsible for paying Council Tax must include {0} and {1}
-councilTaxLiabilityStartDate.error.required = The date you became responsible for paying Council Tax must include {0}
-councilTaxLiabilityStartDate.error.invalid = Enter a real date you became responsible for paying Council Tax
-councilTaxLiabilityStartDate.error.range = Enter a date within the last 6 months
-councilTaxLiabilityStartDate.change.hidden = Date you became responsible for paying Council Tax
+councilTaxLiabilityStartDate.error.required.all    = Enter the date you became responsible for paying Council Tax
+councilTaxLiabilityStartDate.error.required.two    = The date you became responsible for paying Council Tax must include {0} and {1}
+councilTaxLiabilityStartDate.error.required        = The date you became responsible for paying Council Tax must include {0}
+councilTaxLiabilityStartDate.error.invalid         = Enter a real date you became responsible for paying Council Tax
+councilTaxLiabilityStartDate.error.range           = Enter a date within the last 6 months
+councilTaxLiabilityStartDate.change.hidden         = Date you became responsible for paying Council Tax
 
-whyBandIsWrong.title = Tell us why you think the Council Tax band is wrong?
-whyBandIsWrong.heading = Tell us why you think the Council Tax band is wrong?
-whyBandIsWrong.evidenceRequirement = Your band will only be reviewed if you provide supporting evidence
-whyBandIsWrong.intro = The evidence you provide will be looked at before a case is opened. You should give as much detail as possible.
-whyBandIsWrong.evidenceDetails = What evidence can you include?
-whyBandIsWrong.evidenceListTitle= Evidence can include:
-whyBandIsWrong.evidenceExample.1.england = addresses of up to 5 homes, similar to yours in terms of type, size, age, layout and style, that are in a lower band. The homes should be in the same street or estate, or in the same village or area.
-whyBandIsWrong.evidenceExample.1.wales = addresses of up to 5 homes, similar to yours in terms of type, size, age, layout and style, that are in a lower band. The homes should be in the same street or estate, or in the same village or area.
-whyBandIsWrong.evidenceExample.2.england = the price that your home or similar homes sold for between 1 April 2001 and 31 March 2005
-whyBandIsWrong.evidenceExample.2.wales = the price that your home or similar homes sold for between 1 April 2001 and 31 March 2005
-whyBandIsWrong.provideEvidence = How to provide your evidence
-whyBandIsWrong.textareaGuidance = You can type your evidence in the text box. You can use up to 1,000 characters. You can also upload up to 5 files, including PDFs, documents and photos on the next page.
-whyBandIsWrong.charactersRemaining = You have {0} characters remaining
-whyBandIsWrong.charactersUnderLimit.one = You have {0} character remaining
-whyBandIsWrong.charactersUnderLimit.other = You have {0} characters remaining
-whyBandIsWrong.charactersAtLimit = You have 0 characters remaining
-whyBandIsWrong.charactersOverLimit.one = You have {0} character too many
-whyBandIsWrong.charactersOverLimit.other = You have {0} characters too many
-whyBandIsWrong.error.required = Tell us why you think the Council Tax band is wrong
-whyBandIsWrong.error.maxLength = Your answer must be 1,000 characters or less
-whyBandIsWrong.checkYourAnswersLabel = Why you think the Council Tax band is wrong
-whyBandIsWrong.change.hidden = Why you think the Council Tax band is wrong
-
-
-# Advance Search
-advancedPropertySearch.title = Search for a property by other details
-advancedPropertySearch.heading = Search for a property by other details
-advancedPropertySearch.propertyNameOrNumber = Property name or number (optional)
-advancedPropertySearch.street = Street (optional)
-advancedPropertySearch.townOrCity = Town or city (optional)
-advancedPropertySearch.postcode = Postcode
-advancedPropertySearch.checkYourAnswersLabel = Advanced property search
-advancedPropertySearch.error.propertyNameOrNumber.required = Enter property name or number
-advancedPropertySearch.error.street.required = Enter street
-advancedPropertySearch.error.propertyNameOrNumber.length = Property name or number must be 100 characters or less
-advancedPropertySearch.error.street.length = Street must be 100 characters or less
-advancedPropertySearch.propertyNameOrNumber.change.hidden = property name or number
-advancedPropertySearch.street.change.hidden = street
-advancedPropertySearch.showSearchFilters = Show search filters
-advancedPropertySearch.councilTaxBand = Council Tax band
-advancedPropertySearch.bandStatus = Band status
-advancedPropertySearch.localAuthority = Local Authority (optional)
-advancedPropertySearch.bandStatus.hint = Current deletions are records for properties that are no longer paying Council Tax, for example, because they’ve been demolished.
-advancedPropertySearch.laReferenceNumber = Local authority reference number (optional)
-advancedPropertySearch.laReferenceNumber.hint = A unique reference number for your property.
-advancedPropertySearch.courtCode = Court Code
-advancedPropertySearch.courtCode.hint = The property will have a court code if the Council Tax band has been changed (determination) or confirmed (confirmation) by a Valuation Tribunal or High Court.
-advancedPropertySearch.propertyUse = Property use
-advancedPropertySearch.propertyUse.hint = For example, just domestic use, or for both domestic and business.
-advancedPropertySearch.checkYourAnswersLabel = Advanced property search
-advancedPropertySearch.change.hidden = advanced property search
-advancedPropertySearch.error.postcode.required = Enter a postcode
-advancedPropertySearch.error.postcode.length = Enter a real postcode
-advancedPropertySearch.error.postcode.invalid = Enter a valid postcode
-advancedPropertySearch.error.propertyNameOrNumber.length = Property name or number must be 80 characters or less
-advancedPropertySearch.error.street.length = Street must be 80 characters or less
-advancedPropertySearch.error.townOrCity.length = Town or city must be 80 characters or less
-advancedPropertySearch.error.laReferenceNumber.length = Local authority reference number must be 20 characters or fewer
-advancedPropertySearch.localAuthority.default = Choose an option
-advancedPropertySearch.councilTaxBand.allBands = All bands
-advancedPropertySearch.councilTaxBand.A = A
-advancedPropertySearch.councilTaxBand.B = B
-advancedPropertySearch.councilTaxBand.C = C
-advancedPropertySearch.councilTaxBand.D = D
-advancedPropertySearch.councilTaxBand.E = E
-advancedPropertySearch.councilTaxBand.F = F
-advancedPropertySearch.councilTaxBand.G = G
-advancedPropertySearch.councilTaxBand.H = H
-advancedPropertySearch.councilTaxBand.I = I
-advancedPropertySearch.bandStatus.default = Current and current deletions
-advancedPropertySearch.bandStatus.Current = Current only
-advancedPropertySearch.bandStatus.Deleted = Current deletions only
-
-advancedPropertySearch.courtCode.default = All
-advancedPropertySearch.courtCode.V = VT determination
-advancedPropertySearch.courtCode.C = VT confirmation
-advancedPropertySearch.courtCode.D = HC determination
-advancedPropertySearch.courtCode.H = HC confirmation
-advancedPropertySearch.courtCode.R = VT re-determination after HC referral
-advancedPropertySearch.courtCode.E = HC consent order
-advancedPropertySearch.propertyUse.default = Both purely domestic & mixed use properties
-advancedPropertySearch.propertyUse.C = Mixed use properties only
-advancedPropertySearch.propertyUse.N = Purely domestic properties only
-
-reviewOverview.changeSelection                   = You can change your selection if this option is not right for you.
-reviewOverview.row.whatItIs                      = What it is
-reviewOverview.row.whatFor                       = What it''s for
-reviewOverview.row.duration                      = How long it takes
-reviewOverview.row.evidence                      = Evidence required
-reviewOverview.row.examples                      = Examples of evidence
-reviewOverview.row.decision                      = Decision
-reviewOverview.row.afterDecision                 = After a decision has been made
-reviewOverview.decision.intro                    = There are 3 possible decisions that can be made:
-reviewOverview.decision.1                        = your home stays in the same band
-reviewOverview.decision.2                        = your home is moved into a lower band
-reviewOverview.decision.3                        = your home is moved into a higher band
-reviewOverview.formal.title                      = Asking for a formal review
-reviewOverview.formal.intro                      = You have told us that you''ve been responsible for paying Council Tax on your home for <strong>less than 6 months</strong>.
-reviewOverview.formal.description                = This means that you can ask for a formal review of your Council Tax band. This is also known as a ''Formal Challenge'' or ''Making a Proposal''.
-reviewOverview.formal.table.heading              = How a formal review works
-reviewOverview.formal.whatItIs                   = You can ask the Valuation Office (VO) to review the Council Tax band your home is in.
-reviewOverview.formal.whatFor                    = You can ask for a formal review if you think that your home is in the wrong Council Tax band.
-reviewOverview.formal.when.label                 = When you can ask for a formal review
-reviewOverview.formal.when.value                 = You can ask if you have been responsible for the Council Tax on your home for <strong>less than 6 months</strong>.
-reviewOverview.formal.duration                   = Up to 16 weeks
-reviewOverview.formal.evidence                   = You do not need to provide any evidence. However, any information you give us will help the VO understand why you think your home should be in a different band.
-reviewOverview.formal.examples.1                 = addresses of similar homes in a lower band than yours.
-reviewOverview.formal.examples.2                 = the price that your home or similar homes sold for between 1 April 2001 and 31 March 2005.
-reviewOverview.formal.examples.3                 = you can submit written evidence and upload up to 5 files including PDFs, documents and photos.
-reviewOverview.formal.afterDecision              = You have 4 months after the date of the decision to appeal to the Valuation Tribunal Wales if you are not satisfied with the outcome.
-reviewOverview.informal.title                    = Asking for an informal review
-reviewOverview.informal.intro                    = You have told us that you''ve been responsible for paying Council Tax on your home for <strong>more than 6 months</strong>.
-reviewOverview.informal.description              = This means that you can ask for an informal review of your Council Tax band. This is also known as an ''Informal Challenge'' or ''Band Review''.
-reviewOverview.informal.table.heading            = How an informal review works
-reviewOverview.informal.whatItIs                 = You can ask the Valuation Office (VO) to review the Council Tax band your home is in.
-reviewOverview.informal.whatFor                  = You can ask for an informal review if you think your home is in the wrong Council Tax band.
-reviewOverview.informal.when.label               = When you can ask for an informal review
-reviewOverview.informal.when.value               = You can ask for a band review at any time.
-reviewOverview.informal.duration                 = Up to 48 weeks
-reviewOverview.informal.evidence                 = The VO will only review the band if you provide supporting evidence.
-reviewOverview.informal.examples.1               = Addresses of up to 5 similar homes in a lower band than yours. The homes should be similar in type, size, age and style.
-reviewOverview.informal.examples.2               = The homes can be either in the same street or estate, or in the same village or area.
-reviewOverview.informal.examples.3               = The price your home or similar homes sold for between 1 April 2001 and 31 March 2005.
-reviewOverview.informal.afterDecision            = The decision is final, and you cannot ask for another review.
-
-dateNotice.title = What date is on the Notice of Alteration?
-dateNotice.heading = What date is on the Notice of Alteration?
-dateNotice.hint = For example, if the notice letter is dated 27 April 2025, enter 27 4 2025.
+# --- dateNotice ---
+dateNotice.title                 = What date is on the Notice of Alteration?
+dateNotice.heading               = What date is on the Notice of Alteration?
+dateNotice.hint                  = For example, if the notice letter is dated 27 April 2025, enter 27 4 2025.
 dateNotice.checkYourAnswersLabel = DateNotice
-dateNotice.error.required.all = Enter the date shown on the Notice of Alteration
-dateNotice.error.invalid = Enter a real date
-dateNotice.error.future = The date must be today or in the past
-dateNotice.error.sixMonths = The Notice of Alteration must have been issued within the last 6 months
-dateNotice.error.required.two = The notice date must include {0} and {1}
-dateNotice.error.required = The notice date must include {0}
-dateNotice.change.hidden = DateNotice
+dateNotice.error.required.all    = Enter the date shown on the Notice of Alteration
+dateNotice.error.invalid         = Enter a real date
+dateNotice.error.future          = The date must be today or in the past
+dateNotice.error.sixMonths       = The Notice of Alteration must have been issued within the last 6 months
+dateNotice.error.required.two    = The notice date must include {0} and {1}
+dateNotice.error.required        = The notice date must include {0}
+dateNotice.change.hidden         = DateNotice
 
-whichBand.title = What do you think the Council Tax band should be?
-whichBand.heading = What do you think the Council Tax band should be?
-whichBand.hint.england = In England, the Council Tax band is based on the value of the property on 1 April 1991. The lowest band is "A", and the highest band is "H". Find out more about
-whichBand.link.england = Council Tax bands in England
-whichBand.hint.wales = In Wales, the Council Tax band is based on the value of the property on 1 April 2003. The lowest band is "A", and the highest band is "I". Find out more about
-whichBand.link.wales = Council Tax bands in Wales
-whichBand.bandA = Band A
-whichBand.bandB = Band B
-whichBand.bandC = Band C
-whichBand.bandD = Band D
-whichBand.bandE = Band E
-whichBand.bandF = Band F
-whichBand.bandG = Band G
-whichBand.bandH = Band H
-whichBand.bandI = Band I
-whichBand.notSure = I'''m not sure
-whichBand.link.url = https://www.gov.uk/guidance/understand-how-council-tax-bands-are-assessed
+# --- whyBandIsWrong ---
+whyBandIsWrong.title                     = Tell us why you think the Council Tax band is wrong?
+whyBandIsWrong.heading                   = Tell us why you think the Council Tax band is wrong?
+whyBandIsWrong.evidenceRequirement       = Your band will only be reviewed if you provide supporting evidence
+whyBandIsWrong.intro                     = The evidence you provide will be looked at before a case is opened. You should give as much detail as possible.
+whyBandIsWrong.evidenceDetails           = What evidence can you include?
+whyBandIsWrong.evidenceListTitle         = Evidence can include:
+whyBandIsWrong.evidenceExample.1.england = addresses of up to 5 homes, similar to yours in terms of type, size, age, layout and style, that are in a lower band. The homes should be in the same street or estate, or in the same village or area.
+whyBandIsWrong.evidenceExample.1.wales   = addresses of up to 5 homes, similar to yours in terms of type, size, age, layout and style, that are in a lower band. The homes should be in the same street or estate, or in the same village or area.
+whyBandIsWrong.evidenceExample.2.england = the price that your home or similar homes sold for between 1 April 2001 and 31 March 2005
+whyBandIsWrong.evidenceExample.2.wales   = the price that your home or similar homes sold for between 1 April 2001 and 31 March 2005
+whyBandIsWrong.provideEvidence           = How to provide your evidence
+whyBandIsWrong.textareaGuidance          = You can type your evidence in the text box. You can use up to 5,000 characters. You can also upload up to 5 files, including PDFs, documents and photos on the next page.
+whyBandIsWrong.error.required            = Enter the reason you think your Council Tax band is wrong
+whyBandIsWrong.error.maxLength           = The reason you think your Council Tax band is wrong must be 5000 characters or fewer
+whyBandIsWrong.checkYourAnswersLabel     = Why you think the Council Tax band is wrong
+whyBandIsWrong.change.hidden             = Why you think the Council Tax band is wrong
+
+##############################################################################
+# 6. Deletion journey
+##############################################################################
+
+# --- deletionOptions ---
+deletionOptions.title                 = What has changed?
+deletionOptions.heading               = What has changed?
+deletionOptions.demolished            = My property has been demolished, is derelict or is undergoing significant renovation and repairs and cannot be lived in
+deletionOptions.split                 = My property has been split into multiple properties or merged into a single larger property
+deletionOptions.changed               = There has been a change of use to my property
+deletionOptions.affected              = There have been changes to the local area that have affected my property
+deletionOptions.anotherReason         = Another reason
+deletionOptions.checkYourAnswersLabel = What has changed?
+deletionOptions.error.required        = Select what has changed
+deletionOptions.change.hidden         = deletionOptions
+
+##############################################################################
+# 7. Evidence
+##############################################################################
+
+# --- hasEvidence ---
+hasEvidence.title          = Do you have documents to upload as evidence?
+hasEvidence.heading        = Do you have documents to upload as evidence?
+hasEvidence.hint           = This could include screenshots of property listings, sale records, or other documents that support your request.
+hasEvidence.error.required = Select yes if you have documents to upload as evidence
+
+# --- continueWithoutEvidence ---
+continueWithoutEvidence.title       = Continue without adding evidence?
+continueWithoutEvidence.heading     = Continue without adding evidence?
+continueWithoutEvidence.body        = When you provide evidence, your caseworker can review your request without delays, and it helps us make a decision sooner.
+continueWithoutEvidence.continue    = Continue without evidence
+continueWithoutEvidence.addEvidence = Add evidence
+
+# --- uploadEvidence ---
+uploadEvidence.title             = Upload evidence
+uploadEvidence.heading           = Upload evidence
+uploadEvidence.hint              = You can upload JPG, PNG or PDF files, up to {0} files in total. Each file must be smaller than 10MB.
+uploadEvidence.label             = Upload a file
+uploadEvidence.error.required    = Select a file to upload
+uploadEvidence.error.tooBig      = The selected file must be smaller than 10MB
+uploadEvidence.error.invalidType = The selected file must be a JPG, PNG or PDF
+uploadEvidence.upload            = Upload file
+uploadEvidence.labelAnother      = Upload another file
+uploadEvidence.uploadedCount     = You have uploaded {0} of {1} files
+uploadEvidence.limitReached      = You have uploaded the maximum of {0} files. Remove a file if you want to upload a different one.
+uploadEvidence.success.title     = Success
+uploadEvidence.success           = {0} has been uploaded
+uploadEvidence.error.tooMany     = You can only upload up to 5 files
+uploadEvidence.error.duplicate   = You have already uploaded a file with this name
+
+# --- evidence ---
+evidence.checkYourAnswers.label = Uploaded documents
+evidence.checkYourAnswers.none  = No documents uploaded
+evidence.change.hidden          = uploaded documents
+
+# --- removeEvidence ---
+removeEvidence.title          = Are you sure you want to remove this file?
+removeEvidence.heading        = Are you sure you want to remove {0}?
+removeEvidence.error.required = Select yes if you want to remove this file
+
+##############################################################################
+# 8. Which band
+##############################################################################
+
+# --- whichBand ---
+whichBand.title                 = What do you think the Council Tax band should be?
+whichBand.heading               = What do you think the Council Tax band should be?
+whichBand.hint.england          = In England, the Council Tax band is based on the value of the property on 1 April 1991. The lowest band is "A", and the highest band is "H". Find out more about
+whichBand.link.england          = Council Tax bands in England
+whichBand.hint.wales            = In Wales, the Council Tax band is based on the value of the property on 1 April 2003. The lowest band is "A", and the highest band is "I". Find out more about
+whichBand.link.wales            = Council Tax bands in Wales
+whichBand.bandA                 = Band A
+whichBand.bandB                 = Band B
+whichBand.bandC                 = Band C
+whichBand.bandD                 = Band D
+whichBand.bandE                 = Band E
+whichBand.bandF                 = Band F
+whichBand.bandG                 = Band G
+whichBand.bandH                 = Band H
+whichBand.bandI                 = Band I
+whichBand.notSure               = I'''m not sure
+whichBand.link.url              = https://www.gov.uk/guidance/understand-how-council-tax-bands-are-assessed
 whichBand.checkYourAnswersLabel = What do you think the Council Tax band should be?
-whichBand.error.required = Select which band you think your Council Tax should be
-whichBand.change.hidden = WhichBand
+whichBand.error.required        = Select which band you think your Council Tax should be
+whichBand.change.hidden         = WhichBand
 
+##############################################################################
+# 9. Contact details
+##############################################################################
 
+# --- councilTaxPayerDetails ---
+councilTaxPayerDetails.title                         = What are the contact details for the property's Council Tax payer?
+councilTaxPayerDetails.heading                       = What are the contact details for the property's Council Tax payer?
+councilTaxPayerDetails.firstName                     = First name
+councilTaxPayerDetails.lastName                      = Last name
+councilTaxPayerDetails.email                         = Email address
+councilTaxPayerDetails.error.firstName.required      = Enter your first name
+councilTaxPayerDetails.error.firstName.invalid       = First name must only contain letters, spaces, hyphens and apostrophes
+councilTaxPayerDetails.error.firstName.length        = First name must be 100 characters or less
+councilTaxPayerDetails.error.lastName.required       = Enter your last name
+councilTaxPayerDetails.error.lastName.invalid        = Last name must only contain letters, spaces, hyphens and apostrophes
+councilTaxPayerDetails.error.lastName.length         = Last name must be 100 characters or less
+councilTaxPayerDetails.error.email.required          = Enter an email address
+councilTaxPayerDetails.error.email.invalid           = Enter an email address in the correct format ,like name@example.com.
+councilTaxPayerDetails.checkYourAnswers.name         = Name
+councilTaxPayerDetails.checkYourAnswers.name.hidden  = Council Tax payer name
+councilTaxPayerDetails.checkYourAnswers.email        = Email address
+councilTaxPayerDetails.checkYourAnswers.email.hidden = Council Tax payer email address
 
-contactDetails.heading                           = What are your contact details?
-contactDetails.intro                             = We will only use these details to contact you about your review.
-contactDetails.subheading1                       = Your details
-contactDetails.firstName                         = First name
-contactDetails.lastName                          = Last name
-contactDetails.email                             = Email address
-contactDetails.phoneNumber                       = Phone number
-contactDetails.subheading2                       = Correspondence address
-contactDetails.addressLine1                      = Address Line 1
-contactDetails.addressLine2                      = Address Line 2 (optional)
-contactDetails.townOrCity                        = Town or city
-contactDetails.county                            = County (optional)
-contactDetails.postcode                          = Postcode
-contactDetails.subheading3                       = How would you like us to contact you?
-contactDetails.subheading3.hint                  = Select all that apply
-contactMethod.email                              = Email
-contactMethod.phone                              = Phone
-contactMethod.post                               = Post
-contactDetails.error.firstName.required          = Enter your first name
-contactDetails.error.firstName.invalid           = First name must only include letters, hyphens, apostrophes and spaces
-contactDetails.error.firstName.length            = First name must be 100 characters or less
-contactDetails.error.lastName.required           = Enter your last name
-contactDetails.error.lastName.invalid            = Last name must only include letters, hyphens, apostrophes and spaces
-contactDetails.error.lastName.length             = Last name must be 100 characters or less
-contactDetails.error.email.required              = Enter an email address
-contactDetails.error.email.invalid               = Enter an email address in the correct format ,like name@example.com.
-contactDetails.error.phoneNumber.required        = Enter a telephone number
-contactDetails.error.phoneNumber.invalid         = Enter a valid telephone number
-contactDetails.error.phoneNumber.tooShort        = Enter at least 10 digits
-contactDetails.error.phoneNumber.tooLong         = Enter 15 digits or less
-contactDetails.error.addressLine1.required       = Enter address line 1, typically the building and street
-contactDetails.error.addressLine1.length         = Address line 1 must be 80 characters or less
-contactDetails.error.addressLine2.length         = Address line 2 must be 80 characters or less
-contactDetails.error.townOrCity.required         = Enter a town or city.
-contactDetails.error.townOrCity.length           = Town or city must be 80 characters or less
-contactDetails.error.county.length               = County must be 80 characters or less
-contactDetails.error.postcode.required           = Enter a postcode, like AA1 1AA
-contactDetails.error.postcode.tooShort           = Enter a real postcode
-contactDetails.error.postcode.invalid            = Enter a real postcode
-contactDetails.error.value.required              = Select at least one way for us to contact you.
+# --- contactDetails ---
+contactDetails.title                                  = What are your contact details?
+contactDetails.heading                                = What are your contact details?
+contactDetails.intro                                  = We will only use these details to contact you about your review.
+contactDetails.subheading1                            = Your details
+contactDetails.firstName                              = First name
+contactDetails.lastName                               = Last name
+contactDetails.email                                  = Email address
+contactDetails.phoneNumber                            = Phone number
+contactDetails.subheading2                            = Correspondence address
+contactDetails.addressLine1                           = Address Line 1
+contactDetails.addressLine2                           = Address Line 2 (optional)
+contactDetails.townOrCity                             = Town or city
+contactDetails.county                                 = County (optional)
+contactDetails.postcode                               = Postcode
+contactDetails.subheading3                            = How would you like us to contact you?
+contactDetails.subheading3.hint                       = Select all that apply
+contactDetails.error.firstName.required               = Enter your first name
+contactDetails.error.firstName.invalid                = First name must only include letters, hyphens, apostrophes and spaces
+contactDetails.error.firstName.length                 = First name must be 100 characters or less
+contactDetails.error.lastName.required                = Enter your last name
+contactDetails.error.lastName.invalid                 = Last name must only include letters, hyphens, apostrophes and spaces
+contactDetails.error.lastName.length                  = Last name must be 100 characters or less
+contactDetails.error.email.required                   = Enter an email address
+contactDetails.error.email.invalid                    = Enter an email address in the correct format ,like name@example.com.
+contactDetails.error.phoneNumber.required             = Enter a telephone number
+contactDetails.error.phoneNumber.invalid              = Enter a valid telephone number
+contactDetails.error.phoneNumber.tooShort             = Enter at least 10 digits
+contactDetails.error.phoneNumber.tooLong              = Enter 15 digits or less
+contactDetails.error.addressLine1.required            = Enter address line 1, typically the building and street
+contactDetails.error.addressLine1.length              = Address line 1 must be 80 characters or less
+contactDetails.error.addressLine2.length              = Address line 2 must be 80 characters or less
+contactDetails.error.townOrCity.required              = Enter a town or city.
+contactDetails.error.townOrCity.length                = Town or city must be 80 characters or less
+contactDetails.error.county.length                    = County must be 80 characters or less
+contactDetails.error.postcode.required                = Enter a postcode, like AA1 1AA
+contactDetails.error.postcode.tooShort                = Enter a real postcode
+contactDetails.error.postcode.invalid                 = Enter a real postcode
+contactDetails.error.value.required                   = Select at least one way for us to contact you.
+contactDetails.checkYourAnswers.name                  = Name
+contactDetails.checkYourAnswers.name.hidden           = name
+contactDetails.checkYourAnswers.email                 = Email address
+contactDetails.checkYourAnswers.email.hidden          = email address
+contactDetails.checkYourAnswers.phoneNumber           = Phone number
+contactDetails.checkYourAnswers.phoneNumber.hidden    = phone number
+contactDetails.checkYourAnswers.address               = Correspondence address
+contactDetails.checkYourAnswers.address.hidden        = correspondence address
+contactDetails.checkYourAnswers.contactMethods        = Preferred contact
+contactDetails.checkYourAnswers.contactMethods.hidden = preferred contact
 
-councilTaxPayerDetails.title                     = What are the contact details for the property's Council Tax payer?
-councilTaxPayerDetails.heading                   = What are the contact details for the property's Council Tax payer?
-councilTaxPayerDetails.firstName                 = First name
-councilTaxPayerDetails.lastName                  = Last name
-councilTaxPayerDetails.email                     = Email address
-councilTaxPayerDetails.error.firstName.required  = Enter your first name
-councilTaxPayerDetails.error.firstName.invalid   = First name must only contain letters, spaces, hyphens and apostrophes
-councilTaxPayerDetails.error.firstName.length    = First name must be 100 characters or less
-councilTaxPayerDetails.error.lastName.required   = Enter your last name
-councilTaxPayerDetails.error.lastName.invalid    = Last name must only contain letters, spaces, hyphens and apostrophes
-councilTaxPayerDetails.error.lastName.length     = Last name must be 100 characters or less
-councilTaxPayerDetails.error.email.required      = Enter an email address
-councilTaxPayerDetails.error.email.invalid       = Enter an email address in the correct format ,like name@example.com.
+# --- contactMethod ---
+contactMethod.email = Email
+contactMethod.phone = Phone
+contactMethod.post  = Post
 
+##############################################################################
+# 10. Check your answers and submission
+##############################################################################
+
+# --- checkYourAnswers ---
+checkYourAnswers.title                           = Check your answers
+checkYourAnswers.heading                         = Check your answers
+checkYourAnswers.section.propertyDetails         = Property details
+checkYourAnswers.address                         = Address
+checkYourAnswers.send.heading                    = Send your request for a review
+checkYourAnswers.send.body                       = By sending your request for a review you confirm that, to the best of your knowledge, these details are correct.
+checkYourAnswers.actingFor.heading               = Acting for someone who is responsible
+checkYourAnswers.actingFor.before                = You must send the VO an
+checkYourAnswers.actingFor.authorityToAct        = Authority to Act
+checkYourAnswers.actingFor.authorityToAct.url    = https://www.gov.uk/guidance/give-authority-to-act-for-council-tax-challenges
+checkYourAnswers.actingFor.or                    = form or a
+checkYourAnswers.actingFor.letterOfAuthority     = Letter of Authority
+checkYourAnswers.actingFor.letterOfAuthority.url = https://www.gov.uk/guidance/give-authority-to-act-for-council-tax-challenges
+checkYourAnswers.actingFor.after                 = within 28 days before we will review your request.
+checkYourAnswers.section.challengeDetails        = Challenge details
+checkYourAnswers.confirmAndSend                  = Confirm and send
+checkYourAnswers.section.councilTaxPayer         = Contact details for the property''s Council Tax payer
+checkYourAnswers.section.contactDetails          = Contact details
+checkYourAnswers.section.preferredContact        = Preferred contact methods
+
+# --- requestSent ---
+requestSent.title           = Your request has been sent
+requestSent.heading         = Your request has been sent
+requestSent.referenceLabel  = Your reference number
+requestSent.emailSent       = We have sent you an email to confirm that we have received your request for a review.
+requestSent.whatHappensNext = What happens next
+requestSent.next.1          = Your request has been sent to the Valuation Office (VO).
+requestSent.next.2          = When your request has been registered, you will receive an email with a unique case reference number within X days.
+requestSent.next.3          = If we require additional information we will contact you.
+requestSent.next.4          = We will contact you by [letter/email] within X weeks with a decision about your request.
+requestSent.feedback        = What did you think of this service?
+requestSent.feedbackTime    = (takes 30 seconds)

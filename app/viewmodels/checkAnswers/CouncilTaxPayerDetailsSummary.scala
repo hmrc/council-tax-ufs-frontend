@@ -26,21 +26,22 @@ import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 
-object CouncilTaxPayerDetailsSummary  {
+object CouncilTaxPayerDetailsSummary {
 
-  def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
-    answers.get(CouncilTaxPayerDetailsPage).map {
-      answer =>
-
-      val value = HtmlFormat.escape(answer.firstName).toString + "<br/>" + HtmlFormat.escape(answer.lastName).toString
-
+  def rows(answers: UserAnswers)(implicit messages: Messages): Seq[SummaryListRow] =
+    answers.get(CouncilTaxPayerDetailsPage).toSeq.flatMap { answer =>
+      Seq(
+        "councilTaxPayerDetails.checkYourAnswers.name"  -> s"${answer.firstName} ${answer.lastName}",
+        "councilTaxPayerDetails.checkYourAnswers.email" -> answer.email
+      ).map { case (key, value) =>
         SummaryListRowViewModel(
-          key     = "councilTaxPayerDetails.checkYourAnswersLabel",
-          value   = ValueViewModel(HtmlContent(value)),
+          key     = key,
+          value   = ValueViewModel(HtmlContent(HtmlFormat.escape(value))),
           actions = Seq(
             ActionItemViewModel("site.change", routes.CouncilTaxPayerDetailsController.onPageLoad(CheckMode).url)
-              .withVisuallyHiddenText(messages("councilTaxPayerDetails.change.hidden"))
+              .withVisuallyHiddenText(messages(s"$key.hidden"))
           )
         )
+      }
     }
 }

@@ -39,11 +39,11 @@ object ReasonForReviewSummary  {
         )
 
         SummaryListRowViewModel(
-          key     = "reasonForReview.checkYourAnswersLabel",
+          key     = "reasonForReview.heading",
           value   = value,
           actions = Seq(
             ActionItemViewModel("site.change", routes.ReasonForReviewController.onPageLoad(CheckMode).url)
-              .withVisuallyHiddenText(messages("reasonForReview.change.hidden"))
+              .withVisuallyHiddenText(messages("reasonForReview.heading"))
           )
         )
     }

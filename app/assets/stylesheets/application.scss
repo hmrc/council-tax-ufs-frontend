@@ -13,3 +13,16 @@
 .ct-band-table__row--current {
   background-color: #f3f2f1;
 }
+
+// govuk-frontend sass isn't imported here so these are literal values (blue #1d70b8, 30px)
+.ct-evidence-panel {
+  background-color: #1d70b8;
+  color: #ffffff;
+  padding: 30px;
+  margin-bottom: 30px;
+}
+
+.ct-evidence-panel .ct-evidence-panel__heading,
+.ct-evidence-panel .ct-evidence-panel__body {
+  color: #ffffff;
+}

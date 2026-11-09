@@ -1,0 +1,41 @@
+@*
+ * Copyright 2026 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *@
+
+@* GOV.UK enhanced file upload. govukFileUpload in this play-frontend-govuk version only renders a bare input
+   (no wrapper or data-module), so the markup is written out here. Falls back to the native input without JS. *@
+
+@this()
+
+@(
+  id: String,
+  name: String,
+  label: String,
+  labelClasses: String = "govuk-label--m",
+  accept: Option[String] = None,
+  errorMessage: Option[String] = None
+)(implicit messages: Messages)
+
+<div class="govuk-form-group@if(errorMessage.isDefined) { govuk-form-group--error}">
+  <label class="govuk-label @labelClasses" for="@id">@label</label>
+  @errorMessage.map { error =>
+    <p id="@id-error" class="govuk-error-message">
+      <span class="govuk-visually-hidden">@messages("error.prefix"):</span> @error
+    </p>
+  }
+  <div class="govuk-file-upload-wrapper" data-module="govuk-file-upload">
+    <input class="govuk-file-upload@if(errorMessage.isDefined) { govuk-file-upload--error}" id="@id" name="@name" type="file"@accept.map { a => accept="@a"}@errorMessage.map { _ => aria-describedby="@id-error"}>
+  </div>
+</div>

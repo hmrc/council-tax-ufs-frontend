@@ -23,13 +23,13 @@ class WhyBandIsWrongFormProviderSpec extends AnyWordSpec with Matchers {
   private val form = new WhyBandIsWrongFormProvider()()
 
   "WhyBandIsWrongFormProvider" should {
-    "bind an answer up to 1,000 characters" in {
-      val answer = "a" * 1000
+    "bind an answer up to 5,000 characters" in {
+      val answer = "a" * 5000
       form.bind(Map("value" -> answer)).get shouldBe answer
     }
 
-    "reject answers over 1,000 characters" in {
-      val bound = form.bind(Map("value" -> ("a" * 1001)))
+    "reject answers over 5,000 characters" in {
+      val bound = form.bind(Map("value" -> ("a" * 5001)))
       bound.errors.map(_.message) should contain("whyBandIsWrong.error.maxLength")
     }
 
