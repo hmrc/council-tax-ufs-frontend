@@ -394,12 +394,13 @@ scenarioResponsible.checkYourAnswersLabel = Ers faint o amser rydych wedi bod yn
 scenarioResponsible.error.required        = Dewiswch pa mor hir rydych wedi bod yn talu Treth Gyngor ar yr eiddo hwn
 
 # --- noticeAlteration ---
-noticeAlteration.title                 = Ydych chi wedi derbyn Hysbysiad o Newid yn ystod y chwe mis diwethaf?
-noticeAlteration.heading               = Ydych chi wedi derbyn Hysbysiad o Newid yn ystod y chwe mis diwethaf?
-noticeAlteration.hint                  = Mae Hysbysiad o Newid yn lythyr sy’n cael ei anfon gan Asiantaeth y Swyddfa Brisio os yw newid wedi bod i''r Rhestr Brisio.
+noticeAlteration.title                 = Ydych chi wedi derbyn Hysbysiad o Addasiad yn ystod y chwe mis diwethaf?
+noticeAlteration.heading               = Ydych chi wedi derbyn Hysbysiad o Addasiad yn ystod y chwe mis diwethaf?
+noticeAlteration.hint                  = Mae Hysbysiad o Addasiad yn lythyr sy’n cael ei anfon gan Asiantaeth y Swyddfa Brisio os yw newid wedi bod i''r Rhestr Brisio.
 noticeAlteration.yes                   = Ydw
 noticeAlteration.no                    = Nac ydw
-noticeAlteration.checkYourAnswersLabel = Ydych chi wedi derbyn Hysbysiad o Newid yn ystod y chwe mis diwethaf?
+noticeAlteration.checkYourAnswersLabel = Ydych chi wedi derbyn Hysbysiad o Addasiad yn ystod y chwe mis diwethaf?
+noticeAlteration.error.required        = Dewiswch a ydych wedi cael Hysbysiad o Addasiad o fewn y chwe mis diwethaf
 
 # --- reviewOverview ---
 # Review overview pages
@@ -458,16 +459,16 @@ councilTaxLiabilityStartDate.error.range           = Nodwch ddyddiad o fewn y 6 
 councilTaxLiabilityStartDate.change.hidden         = Y dyddiad y daethoch yn gyfrifol am dalu Treth Gyngor
 
 # --- dateNotice ---
-dateNotice.title                 = Pa ddyddiad sydd ar lythyr yr Hysbysiad o Newid?
-dateNotice.heading               = Pa ddyddiad sydd ar lythyr yr Hysbysiad o Newid?
-dateNotice.hint                  = Er enghraifft, os taw’r dyddiad ar lythyr yr Hysbysiad o Newid yw 27 Ebrill 2025, rhowch 27 4 2025.
+dateNotice.title                 = Pa ddyddiad sydd ar lythyr yr Hysbysiad o Addasiad?
+dateNotice.heading               = Pa ddyddiad sydd ar lythyr yr Hysbysiad o Addasiad?
+dateNotice.hint                  = Er enghraifft, os taw’r dyddiad ar lythyr yr Hysbysiad o Addasiad yw 27 Ebrill 2025, rhowch 27 4 2025.
 dateNotice.checkYourAnswersLabel = DateNotice
-dateNotice.error.required.all    = Nodwch y dyddiad sydd wedi'i nodi ar yr Hysbysiad o Addasiad
+dateNotice.error.required.all    = Nodwch y dyddiad sydd wedi''i nodi ar yr Hysbysiad o Addasiad
 dateNotice.error.invalid         = Nodwch ddyddiad go iawn
-dateNotice.error.future          = Mae'n rhaid i'r dyddiad fod heddiw neu yn y gorffennol
-dateNotice.error.sixMonths       = Mae'n rhaid bod yr Hysbysiad o Addasiad wedi'i gyhoeddi o fewn y 6 mis diwethaf
-dateNotice.error.required.two    = The notice date must include {0} and {1}
-dateNotice.error.required        = The notice date must include {0}
+dateNotice.error.future          = Mae''n rhaid i''r dyddiad fod heddiw neu yn y gorffennol
+dateNotice.error.sixMonths       = Mae''n rhaid bod yr Hysbysiad o Addasiad wedi''i gyhoeddi o fewn y 6 mis diwethaf
+dateNotice.error.required.two    = Rhaid i ddyddiad yr hysbysiad gynnwys {0} a {1}
+dateNotice.error.required        = Rhaid i ddyddiad yr hysbysiad gynnwys {0}
 
 # --- whyBandIsWrong ---
 whyBandIsWrong.title                     = Dywedwch wrthym pam rydych yn meddwl bod y band Treth Gyngor yn anghywir
