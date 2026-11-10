@@ -48,8 +48,8 @@ class FrontendAppConfig @Inject() (configuration: Configuration, servicesConfig:
     }
   }
 
-  private val exitSurveyBaseUrl: String = configuration.get[Service]("microservice.services.feedback-frontend").baseUrl
-  val exitSurveyUrl: String             = s"$exitSurveyBaseUrl/feedback/council-tax-ufs-frontend"
+  private val feedbackFrontendHost: String = configuration.get[String]("feedback-frontend.host")
+  val exitSurveyUrl: String                 = s"$feedbackFrontendHost/feedback/council-tax-ufs-frontend"
 
   val languageTranslationEnabled: Boolean =
     configuration.get[Boolean]("features.welsh-translation")

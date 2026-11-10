@@ -273,6 +273,7 @@ propertyDetail.band.range.wales.I             = more than £424,000
 
 # --- historicBands ---
 historicBands.title                            = Previous Council Tax bands
+historicBands.informationFor                   = Previous Council Tax bands for
 historicBands.metaDescription                  = View the previous Council Tax bands for this property.
 historicBands.fullTitle                        = Historic Council Tax band details
 historicBands.fullHeading                      = Council Tax band {0}

@@ -284,6 +284,7 @@ propertyDetail.band.range.wales.I             = mwy na £424,000
 
 # --- historicBands ---
 historicBands.title                            = Bandiau Treth Gyngor blaenorol
+historicBands.informationFor                   = Bandiau Treth Gyngor blaenorol ar gyfer
 historicBands.metaDescription                  = Gweld bandiau Treth Gyngor blaenorol yr eiddo hwn.
 historicBands.fullTitle                        = Manylion band Treth Gyngor hanesyddol
 historicBands.fullHeading                      = Band Treth Gyngor {0}
