@@ -128,6 +128,21 @@ class ContactDetailsControllerSpec extends SpecBase with MockitoSugar {
       }
     }
 
+    "must link the contact method error summary to the first checkbox when no contact method is selected" in {
+
+      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+
+      running(application) {
+        val request = FakeRequest(POST, contactDetailsRoute).withFormUrlEncodedBody()
+        val result  = route(application, request).value
+        val html    = contentAsString(result)
+
+        status(result) mustEqual BAD_REQUEST
+        html must include("href=\"#value_0\"")
+        html must include("id=\"value_0\"")
+      }
+    }
+
     "must return OK and an empty form for a GET if no existing data is found" in {
 
       val application = applicationBuilder(userAnswers = None).build()

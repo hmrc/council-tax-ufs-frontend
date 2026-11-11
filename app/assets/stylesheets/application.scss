@@ -26,3 +26,9 @@
 .ct-evidence-panel .ct-evidence-panel__body {
   color: #ffffff;
 }
+
+@media print {
+  .hmrc-sign-out-nav {
+    display: none !important;
+  }
+}
