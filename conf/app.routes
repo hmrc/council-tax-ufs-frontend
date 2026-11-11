@@ -101,8 +101,8 @@ GET   /change-contact-details                       controllers.ContactDetailsCo
 POST  /change-contact-details                       controllers.ContactDetailsController.onSubmit(mode: Mode = CheckMode)
 
 # ---- 8. Check your answers and submission ----
-GET   /:journey/review-details                         controllers.CheckYourAnswersController.onPageLoad(journey: Journey)
-POST  /:journey/review-details                         controllers.CheckYourAnswersController.onSubmit(journey: Journey)
+GET   /:journey/review-details                      controllers.CheckYourAnswersController.onPageLoad(journey: Journey)
+POST  /:journey/review-details                      controllers.CheckYourAnswersController.onSubmit(journey: Journey)
 GET   /request-sent                                 controllers.RequestSentController.onPageLoad()
 
 # ---- Deletion journey (pages not yet stitched) ----
@@ -111,8 +111,8 @@ POST  /deletion-options                             controllers.deletionOptionsC
 GET   /change-deletion-options                      controllers.deletionOptionsController.onPageLoad(mode: Mode = CheckMode)
 POST  /change-deletion-options                      controllers.deletionOptionsController.onSubmit(mode: Mode = CheckMode)
 
-# ---- Property uninhabitable
-GET        /property-uninhabitable                       controllers.PropertyUninhabitableController.onPageLoad(mode: Mode = NormalMode)
-POST       /property-uninhabitable                       controllers.PropertyUninhabitableController.onSubmit(mode: Mode = NormalMode)
-GET        /changePropertyUninhabitable                  controllers.PropertyUninhabitableController.onPageLoad(mode: Mode = CheckMode)
-POST       /changePropertyUninhabitable                  controllers.PropertyUninhabitableController.onSubmit(mode: Mode = CheckMode)
+# ---- Property uninhabitable ----
+GET   /property-uninhabitable                       controllers.PropertyUninhabitableController.onPageLoad(mode: Mode = NormalMode)
+POST  /property-uninhabitable                       controllers.PropertyUninhabitableController.onSubmit(mode: Mode = NormalMode)
+GET   /change-property-uninhabitable                controllers.PropertyUninhabitableController.onPageLoad(mode: Mode = CheckMode)
+POST  /change-property-uninhabitable                controllers.PropertyUninhabitableController.onSubmit(mode: Mode = CheckMode)
