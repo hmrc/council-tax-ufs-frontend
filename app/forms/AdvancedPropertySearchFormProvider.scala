@@ -48,19 +48,22 @@ class AdvancedPropertySearchFormProvider @Inject() extends Mappings {
         Valid
     }
 
+  // '%' is a wildcard in the downstream search and causes it to fail, so it is ignored
+  private def stripWildcards(value: String): String = value.replace("%", "").trim
+
+  private def freeText(errorKey: String, max: Int) =
+    optional(text())
+      .transform[Option[String]](_.map(stripWildcards).filter(_.nonEmpty), identity)
+      .verifying(errorKey, _.forall(_.length <= max))
+      .transform[String](_.getOrElse(""), s => if (s.trim.isEmpty) None else Some(s))
+
   def apply(): Form[AdvancedPropertySearch] = Form(
     mapping(
-      "propertyNameOrNumber" -> optional(text())
-        .verifying("advancedPropertySearch.error.propertyNameOrNumber.length", _.forall(_.length <= 80))
-        .transform[String](_.getOrElse(""), s => if (s.trim.isEmpty) None else Some(s)),
+      "propertyNameOrNumber" -> freeText("advancedPropertySearch.error.propertyNameOrNumber.length", 80),
 
-      "street" -> optional(text())
-        .verifying("advancedPropertySearch.error.street.length", _.forall(_.length <= 80))
-        .transform[String](_.getOrElse(""), s => if (s.trim.isEmpty) None else Some(s)),
+      "street" -> freeText("advancedPropertySearch.error.street.length", 80),
 
-      "townOrCity" -> optional(text())
-        .verifying("advancedPropertySearch.error.townOrCity.length", _.forall(_.length <= 80))
-        .transform[String](_.getOrElse(""), s => if (s.trim.isEmpty) None else Some(s)),
+      "townOrCity" -> freeText("advancedPropertySearch.error.townOrCity.length", 80),
 
       "postcode" -> text("advancedPropertySearch.error.postcode.required")
         .transform[String](_.trim.toUpperCase, identity)
@@ -72,9 +75,7 @@ class AdvancedPropertySearchFormProvider @Inject() extends Mappings {
         .transform[String](_.getOrElse(""), s => if (s.trim.isEmpty) None else Some(s)),
       "localAuthority" -> optional(text())
         .transform[String](_.getOrElse(""), s => if (s.trim.isEmpty) None else Some(s)),
-      "laReferenceNumber" -> optional(text())
-        .verifying("advancedPropertySearch.error.laReferenceNumber.length", _.forall(_.length <= 20))
-        .transform[String](_.getOrElse(""), s => if (s.trim.isEmpty) None else Some(s)),
+      "laReferenceNumber" -> freeText("advancedPropertySearch.error.laReferenceNumber.length", 20),
       "courtCode" -> optional(text())
         .transform[String](_.getOrElse(""), s => if (s.trim.isEmpty) None else Some(s)),
       "propertyUse" -> optional(text())
