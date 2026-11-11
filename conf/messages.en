@@ -47,8 +47,8 @@ characterCount.overLimit.other  = You have {0} characters too many
 error.title.prefix  = Error:
 error.prefix        = Error
 error.summary.title = There is a problem
-error.title         = Sorry, there is a problem with the service
-error.heading       = Sorry, there is a problem with the service
+error.title         = Sorry, there is a problem with the service.
+error.heading       = Sorry, there is a problem with the service.
 error.guidance      = Try again later.
 
 # --- timeout ---
