@@ -18,12 +18,14 @@ package utils
 
 object PostcodeFormatter {
 
+  // Inward code is always a digit followed by two letters; anything else (e.g. a partial postcode) is left as is
+  private val FullPostcode = """^(.+)(\d[A-Z]{2})$""".r
+
   def format(postcode: String): String = {
     val cleaned = postcode.trim.toUpperCase.replaceAll("\\s+", "")
-    if (cleaned.length <= 3) cleaned
-    else {
-      val (outward, inward) = cleaned.splitAt(cleaned.length - 3)
-      s"$outward $inward"
+    cleaned match {
+      case FullPostcode(outward, inward) => s"$outward $inward"
+      case other                         => other
     }
   }
 }

@@ -60,9 +60,9 @@ characterCount.overLimit.many   = Mae gennych {0} o gymeriadau yn ormod
 error.title.prefix  = Gwall:
 error.prefix        = Gwall
 error.summary.title = Mae problem
-error.title         = Mae’n ddrwg gennym - mae problem gyda’r gwasanaeth
-error.heading       = Mae’n ddrwg gennym - mae problem gyda’r gwasanaeth
-error.guidance      = Rhowch gynnig arall arni yn nes ymlaen.
+error.title         = Mae'n ddrwg gennym, mae problem gyda'r gwasanaeth hwn.
+error.heading       = Mae'n ddrwg gennym, mae problem gyda'r gwasanaeth hwn.
+error.guidance      = Rhowch gynnig arall arni yn ddiweddarach.
 
 # --- timeout ---
 timeout.title     = Rydych ar fin cael eich allgofnodi
