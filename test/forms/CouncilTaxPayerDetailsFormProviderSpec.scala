@@ -17,11 +17,19 @@
 package forms
 
 import forms.behaviours.StringFieldBehaviours
+import org.scalacheck.Gen
 import play.api.data.FormError
 
 class CouncilTaxPayerDetailsFormProviderSpec extends StringFieldBehaviours {
 
   val form = new CouncilTaxPayerDetailsFormProvider()()
+
+  // names only allow letters, spaces, hyphens and apostrophes
+  private val validNames: Gen[String] =
+    Gen.choose(1, 100).flatMap(n => Gen.listOfN(n, Gen.alphaChar).map(_.mkString))
+
+  private val tooLongNames: Gen[String] =
+    Gen.choose(101, 200).flatMap(n => Gen.listOfN(n, Gen.alphaChar).map(_.mkString))
 
   ".firstName" - {
 
@@ -33,15 +41,14 @@ class CouncilTaxPayerDetailsFormProviderSpec extends StringFieldBehaviours {
     behave like fieldThatBindsValidData(
       form,
       fieldName,
-      stringsWithMaxLength(maxLength)
+      validNames
     )
 
-    behave like fieldWithMaxLength(
-      form,
-      fieldName,
-      maxLength = maxLength,
-      lengthError = FormError(fieldName, lengthKey, Seq(maxLength))
-    )
+    s"not bind strings longer than $maxLength characters" in {
+      forAll(tooLongNames -> "longString") { (string: String) =>
+        form.bind(Map(fieldName -> string)).apply(fieldName).errors must contain only FormError(fieldName, lengthKey)
+      }
+    }
 
     behave like mandatoryField(
       form,
@@ -60,15 +67,14 @@ class CouncilTaxPayerDetailsFormProviderSpec extends StringFieldBehaviours {
     behave like fieldThatBindsValidData(
       form,
       fieldName,
-      stringsWithMaxLength(maxLength)
+      validNames
     )
 
-    behave like fieldWithMaxLength(
-      form,
-      fieldName,
-      maxLength = maxLength,
-      lengthError = FormError(fieldName, lengthKey, Seq(maxLength))
-    )
+    s"not bind strings longer than $maxLength characters" in {
+      forAll(tooLongNames -> "longString") { (string: String) =>
+        form.bind(Map(fieldName -> string)).apply(fieldName).errors must contain only FormError(fieldName, lengthKey)
+      }
+    }
 
     behave like mandatoryField(
       form,
