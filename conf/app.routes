@@ -1,134 +1,117 @@
 # microservice specific routes
 
-->          /hmrc-frontend                               hmrcfrontend.Routes
+->    /hmrc-frontend                                hmrcfrontend.Routes
 
-GET         /assets/*file                                controllers.Assets.versioned(path="/public", file: Asset)
+# ---- Platform ----
+GET   /assets/*file                                 controllers.Assets.versioned(path="/public", file: Asset)
+GET   /                                             controllers.IndexController.onPageLoad()
+GET   /language/:lang                               controllers.LanguageSwitchController.switchToLanguage(lang: String)
+GET   /refresh-session                              controllers.KeepAliveController.keepAlive()
+GET   /there-is-a-problem                           controllers.JourneyRecoveryController.onPageLoad(continueUrl: Option[RedirectUrl] ?= None)
+GET   /unauthorised                                 controllers.UnauthorisedController.onPageLoad()
+GET   /account/sign-out-survey                      controllers.auth.AuthController.signOut()
+GET   /account/sign-out                             controllers.auth.AuthController.signOutNoSurvey()
+GET   /account/signed-out                           controllers.auth.SignedOutController.onPageLoad()
 
-GET         /                                            controllers.IndexController.onPageLoad()
+# ---- 1. Find the property ----
+GET   /postcode-search                              controllers.PostcodeSearchController.onPageLoad(mode: Mode = NormalMode)
+POST  /postcode-search                              controllers.PostcodeSearchController.onSubmit(mode: Mode = NormalMode)
+GET   /change-postcode                              controllers.PostcodeSearchController.onPageLoad(mode: Mode = CheckMode)
+POST  /change-postcode                              controllers.PostcodeSearchController.onSubmit(mode: Mode = CheckMode)
+GET   /advanced-search                              controllers.AdvancedPropertySearchController.onPageLoad(mode: Mode = NormalMode)
+POST  /advanced-search                              controllers.AdvancedPropertySearchController.onSubmit(mode: Mode = NormalMode)
+GET   /change-advanced-search                       controllers.AdvancedPropertySearchController.onPageLoad(mode: Mode = CheckMode)
+POST  /change-advanced-search                       controllers.AdvancedPropertySearchController.onSubmit(mode: Mode = CheckMode)
+GET   /search-results                               controllers.SearchResultsController.show(postcode: String, page: Int ?= 1)
+GET   /property/:id                                 controllers.PropertyDetailController.onPageLoad(id: String)
+GET   /historic-bands/:propertyId                   controllers.HistoricBandsController.onPageLoad(propertyId: String)
+GET   /historic-bands-full/:propertyId/:bandIndex   controllers.HistoricBandsController.onBandPageLoad(propertyId: String, bandIndex: Int)
 
-GET         /language/:lang                              controllers.LanguageSwitchController.switchToLanguage(lang: String)
+# ---- 2. Responsibility and reason for review ----
+GET   /responsible-for-council-tax                  controllers.CouncilTaxResponsibleController.onPageLoad(mode: Mode = NormalMode)
+POST  /responsible-for-council-tax                  controllers.CouncilTaxResponsibleController.onSubmit(mode: Mode = NormalMode)
+GET   /change-counciltax-responsible                controllers.CouncilTaxResponsibleController.onPageLoad(mode: Mode = CheckMode)
+POST  /change-counciltax-responsible                controllers.CouncilTaxResponsibleController.onSubmit(mode: Mode = CheckMode)
+GET   /no-liable/:propertyId                        controllers.PermissionController.onPageLoad(propertyId: String)
+GET   /challenge-reason                             controllers.RequestCouncilTaxBandReviewController.onPageLoad(mode: Mode = NormalMode)
+POST  /challenge-reason                             controllers.RequestCouncilTaxBandReviewController.onSubmit(mode: Mode = NormalMode)
+GET   /change-challenge-reason                      controllers.RequestCouncilTaxBandReviewController.onPageLoad(mode: Mode = CheckMode)
+POST  /change-challenge-reason                      controllers.RequestCouncilTaxBandReviewController.onSubmit(mode: Mode = CheckMode)
+GET   /scenario-review-options                      controllers.ReasonForReviewController.onPageLoad(mode: Mode = NormalMode)
+POST  /scenario-review-options                      controllers.ReasonForReviewController.onSubmit(mode: Mode = NormalMode)
+GET   /change-reason-for-review                     controllers.ReasonForReviewController.onPageLoad(mode: Mode = CheckMode)
+POST  /change-reason-for-review                     controllers.ReasonForReviewController.onSubmit(mode: Mode = CheckMode)
 
-GET         /refresh-session                             controllers.KeepAliveController.keepAlive()
+# ---- 3. Challenge: how long responsible, notice of alteration, review type ----
+GET   /scenario-responsible                         controllers.scenarioResponsibleController.onPageLoad(mode: Mode = NormalMode)
+POST  /scenario-responsible                         controllers.scenarioResponsibleController.onSubmit(mode: Mode = NormalMode)
+GET   /change-scenario-responsible                  controllers.scenarioResponsibleController.onPageLoad(mode: Mode = CheckMode)
+POST  /change-scenario-responsible                  controllers.scenarioResponsibleController.onSubmit(mode: Mode = CheckMode)
+GET   /notice-alteration                            controllers.noticeAlterationController.onPageLoad(mode: Mode = NormalMode)
+POST  /notice-alteration                            controllers.noticeAlterationController.onSubmit(mode: Mode = NormalMode)
+GET   /change-notice-alteration                     controllers.noticeAlterationController.onPageLoad(mode: Mode = CheckMode)
+POST  /change-notice-alteration                     controllers.noticeAlterationController.onSubmit(mode: Mode = CheckMode)
+GET   /formal-review                                controllers.ReviewOverviewController.formalReview()
+GET   /informal-review                              controllers.ReviewOverviewController.informalReview()
+GET   /review/continue/:reviewType                  controllers.ReviewOverviewController.continueToLogin(reviewType: String)
 
-GET         /there-is-a-problem                          controllers.JourneyRecoveryController.onPageLoad(continueUrl: Option[RedirectUrl] ?= None)
+# ---- 4. Challenge details ----
+GET   /council-tax-liability-start-date             controllers.CouncilTaxLiabilityStartDateController.onPageLoad(mode: Mode = NormalMode)
+POST  /council-tax-liability-start-date             controllers.CouncilTaxLiabilityStartDateController.onSubmit(mode: Mode = NormalMode)
+GET   /change-council-tax-liability-start-date      controllers.CouncilTaxLiabilityStartDateController.onPageLoad(mode: Mode = CheckMode)
+POST  /change-council-tax-liability-start-date      controllers.CouncilTaxLiabilityStartDateController.onSubmit(mode: Mode = CheckMode)
+GET   /date-notice                                  controllers.DateNoticeController.onPageLoad(mode: Mode = NormalMode)
+POST  /date-notice                                  controllers.DateNoticeController.onSubmit(mode: Mode = NormalMode)
+GET   /change-date-notice                           controllers.DateNoticeController.onPageLoad(mode: Mode = CheckMode)
+POST  /change-date-notice                           controllers.DateNoticeController.onSubmit(mode: Mode = CheckMode)
+GET   /why-band-is-wrong                            controllers.WhyBandIsWrongController.onPageLoad(mode: Mode = NormalMode)
+POST  /why-band-is-wrong                            controllers.WhyBandIsWrongController.onSubmit(mode: Mode = NormalMode)
+GET   /change-why-band-is-wrong                     controllers.WhyBandIsWrongController.onPageLoad(mode: Mode = CheckMode)
+POST  /change-why-band-is-wrong                     controllers.WhyBandIsWrongController.onSubmit(mode: Mode = CheckMode)
 
-GET         /check-your-answers                          controllers.CheckYourAnswersController.onPageLoad()
+# ---- 5. Evidence ----
+GET   /has-evidence                                 controllers.HasEvidenceController.onPageLoad(mode: Mode = NormalMode)
+POST  /has-evidence                                 controllers.HasEvidenceController.onSubmit(mode: Mode = NormalMode)
+GET   /change-has-evidence                          controllers.HasEvidenceController.onPageLoad(mode: Mode = CheckMode)
+POST  /change-has-evidence                          controllers.HasEvidenceController.onSubmit(mode: Mode = CheckMode)
+GET   /upload-evidence                              controllers.UploadEvidenceController.onPageLoad(mode: Mode = NormalMode)
+POST  /upload-evidence                              controllers.UploadEvidenceController.onSubmit(mode: Mode = NormalMode)
+GET   /change-upload-evidence                       controllers.UploadEvidenceController.onPageLoad(mode: Mode = CheckMode)
+POST  /change-upload-evidence                       controllers.UploadEvidenceController.onSubmit(mode: Mode = CheckMode)
+GET   /continue-without-evidence                    controllers.ContinueWithoutEvidenceController.onPageLoad()
+GET   /remove-evidence/:id                          controllers.RemoveEvidenceController.onPageLoad(id: String, mode: Mode = NormalMode)
+POST  /remove-evidence/:id                          controllers.RemoveEvidenceController.onSubmit(id: String, mode: Mode = NormalMode)
+GET   /change-remove-evidence/:id                   controllers.RemoveEvidenceController.onPageLoad(id: String, mode: Mode = CheckMode)
+POST  /change-remove-evidence/:id                   controllers.RemoveEvidenceController.onSubmit(id: String, mode: Mode = CheckMode)
 
-GET         /account/sign-out-survey                     controllers.auth.AuthController.signOut()
-GET         /account/sign-out                            controllers.auth.AuthController.signOutNoSurvey()
-GET         /account/signed-out                          controllers.auth.SignedOutController.onPageLoad()
+# ---- 6. Which band ----
+GET   /which-band                                   controllers.WhichBandController.onPageLoad(mode: Mode = NormalMode)
+POST  /which-band                                   controllers.WhichBandController.onSubmit(mode: Mode = NormalMode)
+GET   /change-which-band                            controllers.WhichBandController.onPageLoad(mode: Mode = CheckMode)
+POST  /change-which-band                            controllers.WhichBandController.onSubmit(mode: Mode = CheckMode)
 
-GET         /unauthorised                                controllers.UnauthorisedController.onPageLoad()
+# ---- 7. Contact details ----
+GET   /council-tax-payer-details                    controllers.CouncilTaxPayerDetailsController.onPageLoad(mode: Mode = NormalMode)
+POST  /council-tax-payer-details                    controllers.CouncilTaxPayerDetailsController.onSubmit(mode: Mode = NormalMode)
+GET   /change-council-tax-payer-details             controllers.CouncilTaxPayerDetailsController.onPageLoad(mode: Mode = CheckMode)
+POST  /change-council-tax-payer-details             controllers.CouncilTaxPayerDetailsController.onSubmit(mode: Mode = CheckMode)
+GET   /contact-details                              controllers.ContactDetailsController.onPageLoad(mode: Mode = NormalMode)
+POST  /contact-details                              controllers.ContactDetailsController.onSubmit(mode: Mode = NormalMode)
+GET   /change-contact-details                       controllers.ContactDetailsController.onPageLoad(mode: Mode = CheckMode)
+POST  /change-contact-details                       controllers.ContactDetailsController.onSubmit(mode: Mode = CheckMode)
 
-GET         /postcode-search                             controllers.PostcodeSearchController.onPageLoad(mode: Mode = NormalMode)
-POST        /postcode-search                             controllers.PostcodeSearchController.onSubmit(mode: Mode = NormalMode)
-GET         /change-postcode                             controllers.PostcodeSearchController.onPageLoad(mode: Mode = CheckMode)
-POST        /change-postcode                             controllers.PostcodeSearchController.onSubmit(mode: Mode = CheckMode)
+# ---- 8. Check your answers and submission ----
+GET   /:journey/review-details                         controllers.CheckYourAnswersController.onPageLoad(journey: Journey)
+POST  /:journey/review-details                         controllers.CheckYourAnswersController.onSubmit(journey: Journey)
+GET   /request-sent                                 controllers.RequestSentController.onPageLoad()
 
-GET         /search-results                              controllers.SearchResultsController.show(postcode: String, page: Int ?= 1)
-GET         /property/:id                                controllers.PropertyDetailController.onPageLoad(id: String)
-GET         /historic-bands/:propertyId                  controllers.HistoricBandsController.onPageLoad(propertyId: String)
-GET         /historic-bands-full/:propertyId/:bandIndex  controllers.HistoricBandsController.onBandPageLoad(propertyId: String, bandIndex: Int)
+# ---- Deletion journey (pages not yet stitched) ----
+GET   /deletion-options                             controllers.deletionOptionsController.onPageLoad(mode: Mode = NormalMode)
+POST  /deletion-options                             controllers.deletionOptionsController.onSubmit(mode: Mode = NormalMode)
+GET   /change-deletion-options                      controllers.deletionOptionsController.onPageLoad(mode: Mode = CheckMode)
+POST  /change-deletion-options                      controllers.deletionOptionsController.onSubmit(mode: Mode = CheckMode)
 
-GET         /responsible-for-council-tax                 controllers.CouncilTaxResponsibleController.onPageLoad(mode: Mode = NormalMode)
-POST        /responsible-for-council-tax                 controllers.CouncilTaxResponsibleController.onSubmit(mode: Mode = NormalMode)
-GET         /change-counciltax-responsible               controllers.CouncilTaxResponsibleController.onPageLoad(mode: Mode = CheckMode)
-POST        /change-counciltax-responsible               controllers.CouncilTaxResponsibleController.onSubmit(mode: Mode = CheckMode)
-
-GET         /challenge-reason                            controllers.RequestCouncilTaxBandReviewController.onPageLoad(mode: Mode = NormalMode)
-POST        /challenge-reason                            controllers.RequestCouncilTaxBandReviewController.onSubmit(mode: Mode = NormalMode)
-GET         /change-challenge-reason                     controllers.RequestCouncilTaxBandReviewController.onPageLoad(mode: Mode = CheckMode)
-POST        /change-challenge-reason                     controllers.RequestCouncilTaxBandReviewController.onSubmit(mode: Mode = CheckMode)
-
-GET         /no-liable/:propertyId                       controllers.PermissionController.onPageLoad(propertyId: String)
-
-GET         /scenario-review-options                     controllers.ReasonForReviewController.onPageLoad(mode: Mode = NormalMode)
-POST        /scenario-review-options                     controllers.ReasonForReviewController.onSubmit(mode: Mode = NormalMode)
-GET         /change-reason-for-review                    controllers.ReasonForReviewController.onPageLoad(mode: Mode = CheckMode)
-POST        /change-reason-for-review                    controllers.ReasonForReviewController.onSubmit(mode: Mode = CheckMode)
-
-GET         /scenario-responsible                        controllers.scenarioResponsibleController.onPageLoad(mode: Mode = NormalMode)
-POST        /scenario-responsible                        controllers.scenarioResponsibleController.onSubmit(mode: Mode = NormalMode)
-GET         /change-scenario-responsible                 controllers.scenarioResponsibleController.onPageLoad(mode: Mode = CheckMode)
-POST        /change-scenario-responsible                 controllers.scenarioResponsibleController.onSubmit(mode: Mode = CheckMode)
-
-GET         /deletion-options                            controllers.deletionOptionsController.onPageLoad(mode: Mode = NormalMode)
-POST        /deletion-options                            controllers.deletionOptionsController.onSubmit(mode: Mode = NormalMode)
-GET         /change-deletion-options                     controllers.deletionOptionsController.onPageLoad(mode: Mode = CheckMode)
-POST        /change-deletion-options                     controllers.deletionOptionsController.onSubmit(mode: Mode = CheckMode)
-
-GET         /notice-alteration                           controllers.noticeAlterationController.onPageLoad(mode: Mode = NormalMode)
-POST        /notice-alteration                           controllers.noticeAlterationController.onSubmit(mode: Mode = NormalMode)
-GET         /change-notice-alteration                    controllers.noticeAlterationController.onPageLoad(mode: Mode = CheckMode)
-POST        /change-notice-alteration                    controllers.noticeAlterationController.onSubmit(mode: Mode = CheckMode)
-
-GET         /advanced-search                             controllers.AdvancedPropertySearchController.onPageLoad(mode: Mode = NormalMode)
-POST        /advanced-search                             controllers.AdvancedPropertySearchController.onSubmit(mode: Mode = NormalMode)
-GET         /change-advanced-search                      controllers.AdvancedPropertySearchController.onPageLoad(mode: Mode = CheckMode)
-POST        /change-advanced-search                      controllers.AdvancedPropertySearchController.onSubmit(mode: Mode = CheckMode)
-
-GET         /formal-review                               controllers.ReviewOverviewController.formalReview()
-GET         /informal-review                             controllers.ReviewOverviewController.informalReview()
-GET         /review/continue/:reviewType                 controllers.ReviewOverviewController.continueToLogin(reviewType: String)
-
-GET         /council-tax-liability-start-date            controllers.CouncilTaxLiabilityStartDateController.onPageLoad(mode: Mode = NormalMode)
-POST        /council-tax-liability-start-date            controllers.CouncilTaxLiabilityStartDateController.onSubmit(mode: Mode = NormalMode)
-GET         /change-council-tax-liability-start-date     controllers.CouncilTaxLiabilityStartDateController.onPageLoad(mode: Mode = CheckMode)
-POST        /change-council-tax-liability-start-date     controllers.CouncilTaxLiabilityStartDateController.onSubmit(mode: Mode = CheckMode)
-
-GET         /why-band-is-wrong                           controllers.WhyBandIsWrongController.onPageLoad(mode: Mode = NormalMode)
-POST        /why-band-is-wrong                           controllers.WhyBandIsWrongController.onSubmit(mode: Mode = NormalMode)
-GET         /change-why-band-is-wrong                    controllers.WhyBandIsWrongController.onPageLoad(mode: Mode = CheckMode)
-POST        /change-why-band-is-wrong                    controllers.WhyBandIsWrongController.onSubmit(mode: Mode = CheckMode)
-
-GET        /advanced-search                              controllers.AdvancedPropertySearchController.onPageLoad(mode: Mode = NormalMode)
-POST       /advanced-search                              controllers.AdvancedPropertySearchController.onSubmit(mode: Mode = NormalMode)
-GET        /change-advanced-search                       controllers.AdvancedPropertySearchController.onPageLoad(mode: Mode = CheckMode)
-POST       /change-advanced-search                       controllers.AdvancedPropertySearchController.onSubmit(mode: Mode = CheckMode)
-
-GET        /contact-details                              controllers.ContactDetailsController.onPageLoad(mode: Mode = NormalMode)
-POST       /contact-details                              controllers.ContactDetailsController.onSubmit(mode: Mode = NormalMode)
-GET        /change-contact-details                      controllers.ContactDetailsController.onPageLoad(mode: Mode = CheckMode)
-POST       /change-contact-details                      controllers.ContactDetailsController.onSubmit(mode: Mode = CheckMode)
-
-GET        /council-tax-payer-details                     controllers.CouncilTaxPayerDetailsController.onPageLoad(mode: Mode = NormalMode)
-POST       /council-tax-payer-details                     controllers.CouncilTaxPayerDetailsController.onSubmit(mode: Mode = NormalMode)
-GET        /change-council-tax-payer-details               controllers.CouncilTaxPayerDetailsController.onPageLoad(mode: Mode = CheckMode)
-POST       /change-council-tax-payer-details               controllers.CouncilTaxPayerDetailsController.onSubmit(mode: Mode = CheckMode)
-
-GET        /formal-review                                controllers.ReviewOverviewController.formalReview()
-GET        /informal-review                              controllers.ReviewOverviewController.informalReview()
-GET        /review/continue/:reviewType                  controllers.ReviewOverviewController.continueToLogin(reviewType: String)
-
-GET        /council-tax-liability-start-date              controllers.CouncilTaxLiabilityStartDateController.onPageLoad(mode: Mode = NormalMode)
-POST       /council-tax-liability-start-date              controllers.CouncilTaxLiabilityStartDateController.onSubmit(mode: Mode = NormalMode)
-GET        /change-council-tax-liability-start-date       controllers.CouncilTaxLiabilityStartDateController.onPageLoad(mode: Mode = CheckMode)
-POST       /change-council-tax-liability-start-date       controllers.CouncilTaxLiabilityStartDateController.onSubmit(mode: Mode = CheckMode)
-GET        /why-band-is-wrong                             controllers.WhyBandIsWrongController.onPageLoad(mode: Mode = NormalMode)
-POST       /why-band-is-wrong                             controllers.WhyBandIsWrongController.onSubmit(mode: Mode = NormalMode)
-GET        /change-why-band-is-wrong                      controllers.WhyBandIsWrongController.onPageLoad(mode: Mode = CheckMode)
-POST       /change-why-band-is-wrong                      controllers.WhyBandIsWrongController.onSubmit(mode: Mode = CheckMode)
-
-GET         /date-notice                                 controllers.DateNoticeController.onPageLoad(mode: Mode = NormalMode)
-POST        /date-notice                                 controllers.DateNoticeController.onSubmit(mode: Mode = NormalMode)
-GET         /change-date-notice                          controllers.DateNoticeController.onPageLoad(mode: Mode = CheckMode)
-POST        /change-date-notice                          controllers.DateNoticeController.onSubmit(mode: Mode = CheckMode)
-
-GET         /which-band                                  controllers.WhichBandController.onPageLoad(mode: Mode = NormalMode)
-POST        /which-band                                  controllers.WhichBandController.onSubmit(mode: Mode = NormalMode)
-GET         /change-which-band                           controllers.WhichBandController.onPageLoad(mode: Mode = CheckMode)
-POST        /change-which-band                           controllers.WhichBandController.onSubmit(mode: Mode = CheckMode)
-
-GET        /contactDetails                               controllers.ContactDetailsController.onPageLoad(mode: Mode = NormalMode)
-POST       /contactDetails                               controllers.ContactDetailsController.onSubmit(mode: Mode = NormalMode)
-GET        /changeContactDetails                         controllers.ContactDetailsController.onPageLoad(mode: Mode = CheckMode)
-POST       /changeContactDetails                         controllers.ContactDetailsController.onSubmit(mode: Mode = CheckMode)
-
-GET        /councilTaxPayerDetails                       controllers.CouncilTaxPayerDetailsController.onPageLoad(mode: Mode = NormalMode)
-POST       /councilTaxPayerDetails                       controllers.CouncilTaxPayerDetailsController.onSubmit(mode: Mode = NormalMode)
-GET        /changeCouncilTaxPayerDetails                 controllers.CouncilTaxPayerDetailsController.onPageLoad(mode: Mode = CheckMode)
-POST       /changeCouncilTaxPayerDetails                 controllers.CouncilTaxPayerDetailsController.onSubmit(mode: Mode = CheckMode)
-
+# ---- Property uninhabitable
 GET        /property-uninhabitable                       controllers.PropertyUninhabitableController.onPageLoad(mode: Mode = NormalMode)
 POST       /property-uninhabitable                       controllers.PropertyUninhabitableController.onSubmit(mode: Mode = NormalMode)
 GET        /changePropertyUninhabitable                  controllers.PropertyUninhabitableController.onPageLoad(mode: Mode = CheckMode)

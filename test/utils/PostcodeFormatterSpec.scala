@@ -51,8 +51,10 @@ class PostcodeFormatterSpec extends AnyFreeSpec with Matchers {
       PostcodeFormatter.format("CF1") mustBe "CF1"
     }
 
-    "must insert a space for a postcode of exactly 4 characters" in {
-      PostcodeFormatter.format("BR34") mustBe "B R34"
+    "must not split a partial postcode" in {
+      PostcodeFormatter.format("BR34") mustBe "BR34"
+      PostcodeFormatter.format("np20") mustBe "NP20"
+      PostcodeFormatter.format("SW1A") mustBe "SW1A"
     }
 
     "must handle an empty string without error" in {

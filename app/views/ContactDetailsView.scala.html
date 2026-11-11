@@ -25,14 +25,14 @@
     govukButton: GovukButton
 )
 
-@(form: Form[_], mode: Mode)(implicit request: Request[_], messages: Messages)
+@(form: Form[_], mode: Mode, backLinkUrl: Option[String] = None)(implicit request: Request[_], messages: Messages)
 
-@layout(pageTitle = title(form, messages("contactDetails.title"))) {
+@layout(backLinkUrl = backLinkUrl, pageTitle = title(form, messages("contactDetails.title"))) {
 
     @formHelper(action = routes.ContactDetailsController.onSubmit(mode), Symbol("autoComplete") -> "off") {
 
         @if(form.errors.nonEmpty) {
-            @govukErrorSummary(ErrorSummaryViewModel(form))
+            @govukErrorSummary(ErrorSummaryViewModel(form, errorLinkOverrides = Map("value" -> "value_0")))
         }
 
         <h1 class="govuk-heading-l">@messages("contactDetails.heading")</h1>
@@ -114,7 +114,6 @@
             .withWidth(Fixed10)
         )
 
-<!--        <div class="govuk-hint">@messages("contactDetails.subheading3.hint")</div>-->
         @govukCheckboxes(
             CheckboxesViewModel(
                 form  = form,
@@ -122,10 +121,11 @@
                 legend = LegendViewModel(messages("contactDetails.subheading3"))
                     .withCssClass("govuk-fieldset__legend--m"),
                 items  = Seq("email", "phone", "post").zipWithIndex.map { case (value, index) =>
-                    CheckboxItem(
+                    CheckboxItemViewModel(
                         content = Text(messages(s"contactMethod.$value")),
-                        value   = value,
-                        id      = Some(s"value[$index]")
+                        fieldId = "value",
+                        index   = index,
+                        value   = value
                     )
                 }
             ).copy(hint = Some(HintViewModel(Text(messages("contactDetails.subheading3.hint")))))

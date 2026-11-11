@@ -39,11 +39,11 @@ object scenarioResponsibleSummary  {
         )
 
         SummaryListRowViewModel(
-          key     = "scenarioResponsible.checkYourAnswersLabel",
+          key     = "scenarioResponsible.heading",
           value   = value,
           actions = Seq(
             ActionItemViewModel("site.change", routes.scenarioResponsibleController.onPageLoad(CheckMode).url)
-              .withVisuallyHiddenText(messages("scenarioResponsible.change.hidden"))
+              .withVisuallyHiddenText(messages("scenarioResponsible.heading"))
           )
         )
     }

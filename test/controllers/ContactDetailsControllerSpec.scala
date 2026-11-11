@@ -42,6 +42,8 @@ class ContactDetailsControllerSpec extends SpecBase with MockitoSugar {
 
   lazy val contactDetailsRoute = routes.ContactDetailsController.onPageLoad(NormalMode).url
 
+  val backLinkUrl = Some(routes.WhichBandController.onPageLoad(NormalMode).url)
+
   val validAnswer = ContactDetails("John", "Smith", Some("john@example.com"), None, None, None, None, None, None, Set("email"))
 
   val userAnswers = UserAnswers(userAnswersId).set(ContactDetailsPage, validAnswer).success.value
@@ -60,7 +62,7 @@ class ContactDetailsControllerSpec extends SpecBase with MockitoSugar {
         val result = route(application, request).value
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form, NormalMode)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(form, NormalMode, backLinkUrl)(request, messages(application)).toString
       }
     }
 
@@ -76,7 +78,7 @@ class ContactDetailsControllerSpec extends SpecBase with MockitoSugar {
         val result = route(application, request).value
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form.fill(validAnswer), NormalMode)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(form.fill(validAnswer), NormalMode, backLinkUrl)(request, messages(application)).toString
       }
     }
 
@@ -97,7 +99,7 @@ class ContactDetailsControllerSpec extends SpecBase with MockitoSugar {
       running(application) {
         val request =
           FakeRequest(POST, contactDetailsRoute)
-            .withFormUrlEncodedBody(("firstName", "John"), ("lastName", "Smith"), ("email", "john@example.com"), ("value", "email"))
+            .withFormUrlEncodedBody(("firstName", "John"), ("lastName", "Smith"), ("email", "john@example.com"), ("value[0]", "email"))
 
         val result = route(application, request).value
 
@@ -113,7 +115,7 @@ class ContactDetailsControllerSpec extends SpecBase with MockitoSugar {
       running(application) {
         val request =
           FakeRequest(POST, contactDetailsRoute)
-            .withFormUrlEncodedBody(("value", "invalid value"))
+            .withFormUrlEncodedBody(("value[0]", "invalid value"))
 
         val boundForm = form.bind(Map("value[0]" -> "invalid value"))
 
@@ -122,7 +124,22 @@ class ContactDetailsControllerSpec extends SpecBase with MockitoSugar {
         val result = route(application, request).value
 
         status(result) mustEqual BAD_REQUEST
-        contentAsString(result) mustEqual view(boundForm, NormalMode)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(boundForm, NormalMode, backLinkUrl)(request, messages(application)).toString
+      }
+    }
+
+    "must link the contact method error summary to the first checkbox when no contact method is selected" in {
+
+      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+
+      running(application) {
+        val request = FakeRequest(POST, contactDetailsRoute).withFormUrlEncodedBody()
+        val result  = route(application, request).value
+        val html    = contentAsString(result)
+
+        status(result) mustEqual BAD_REQUEST
+        html must include("href=\"#value_0\"")
+        html must include("id=\"value_0\"")
       }
     }
 
@@ -138,7 +155,7 @@ class ContactDetailsControllerSpec extends SpecBase with MockitoSugar {
         val result = route(application, request).value
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form, NormalMode)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(form, NormalMode, backLinkUrl)(request, messages(application)).toString
       }
     }
 
@@ -159,7 +176,7 @@ class ContactDetailsControllerSpec extends SpecBase with MockitoSugar {
       running(application) {
         val request =
           FakeRequest(POST, contactDetailsRoute)
-            .withFormUrlEncodedBody(("firstName", "John"), ("lastName", "Smith"), ("email", "john@example.com"), ("value", "email"))
+            .withFormUrlEncodedBody(("firstName", "John"), ("lastName", "Smith"), ("email", "john@example.com"), ("value[0]", "email"))
 
         val result = route(application, request).value
 

@@ -60,6 +60,8 @@ class HistoricBandsControllerSpec extends SpecBase with MockitoSugar {
 
         status(result) mustEqual OK
       html.split("class=\"govuk-back-link\"", -1).length - 1 mustEqual 1
+        html must include("Previous Council Tax bands for")
+        html must not include "Information for:"
         html must include("Cardiff, CF5 4GP")
         html must include("Council Tax band")
         html must include("What does my property information mean?")
@@ -97,6 +99,8 @@ class HistoricBandsControllerSpec extends SpecBase with MockitoSugar {
         status(result) mustEqual OK
         html must include("<meta name=\"description\" content=\"View historic Council Tax band details for this property, including when the band applied.\">")
       html.split("class=\"govuk-back-link\"", -1).length - 1 mustEqual 1
+        html must include("Previous Council Tax bands for")
+        html must not include "Information for:"
         html must include("19, St David Crescent, Cardiff, CF5 4GP")
         html must include("<th scope=\"row\" class=\"govuk-table__header\">Council Tax band</th>")
         html must include("<td class=\"govuk-table__cell\">C</td>")

@@ -39,11 +39,11 @@ object noticeAlterationSummary  {
         )
 
         SummaryListRowViewModel(
-          key     = "noticeAlteration.checkYourAnswersLabel",
+          key     = "noticeAlteration.heading",
           value   = value,
           actions = Seq(
             ActionItemViewModel("site.change", routes.noticeAlterationController.onPageLoad(CheckMode).url)
-              .withVisuallyHiddenText(messages("noticeAlteration.change.hidden"))
+              .withVisuallyHiddenText(messages("noticeAlteration.heading"))
           )
         )
     }

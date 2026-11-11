@@ -49,6 +49,9 @@ class WhichBandController @Inject()(
   private def currentBand(answers: models.UserAnswers): String =
     answers.get(PropertyBandPage).getOrElse("")
 
+  private def backLink(mode: Mode, answers: models.UserAnswers): Option[String] =
+    Some(navigator.backLink(WhichBandPage, mode, Some(answers)).url)
+
   def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
 
@@ -59,7 +62,7 @@ class WhichBandController @Inject()(
 
       val country = BandCountry.fromAnswers(Some(request.userAnswers))
 
-      Ok(view(preparedForm, mode, country, currentBand(request.userAnswers)))
+      Ok(view(preparedForm, mode, country, currentBand(request.userAnswers), backLink(mode, request.userAnswers)))
   }
 
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
@@ -69,7 +72,7 @@ class WhichBandController @Inject()(
 
       form.bindFromRequest().fold(
         formWithErrors =>
-          Future.successful(BadRequest(view(formWithErrors, mode, country, currentBand(request.userAnswers)))),
+          Future.successful(BadRequest(view(formWithErrors, mode, country, currentBand(request.userAnswers), backLink(mode, request.userAnswers)))),
 
         value => {
           for {

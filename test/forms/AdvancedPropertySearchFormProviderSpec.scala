@@ -56,6 +56,15 @@ class AdvancedPropertySearchFormProviderSpec extends AnyFreeSpec with Matchers w
       result.localAuthorityReferenceNumber mustBe "12345"
     }
 
+    "must ignore % wildcard characters in free text fields" in {
+      val data = validData ++ Map("propertyNameOrNumber" -> "%", "street" -> "Vic%toria", "townOrCity" -> " % ", "laReferenceNumber" -> "%")
+      val result = form.bind(data).value.value
+      result.propertyNameOrNumber mustBe ""
+      result.street mustBe "Victoria"
+      result.townOrCity mustBe ""
+      result.localAuthorityReferenceNumber mustBe ""
+    }
+
     "must require a postcode" in {
       form.bind(Map.empty[String, String]).errors must contain(
         FormError("postcode", "advancedPropertySearch.error.postcode.required")

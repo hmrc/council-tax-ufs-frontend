@@ -1,0 +1,47 @@
+@*
+ * Copyright 2026 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *@
+
+@import uk.gov.hmrc.govukfrontend.views.viewmodels.content.{HtmlContent, Text}
+@import uk.gov.hmrc.govukfrontend.views.viewmodels.panel.Panel
+
+@this(
+  layout: templates.Layout,
+  govukPanel: GovukPanel
+)
+
+@(reference: String)(implicit request: Request[_], messages: Messages)
+
+@layout(pageTitle = titleNoForm(messages("requestSent.title")), showBackLink = false) {
+
+  @govukPanel(Panel(
+    title = Text(messages("requestSent.heading")),
+    content = HtmlContent(messages("requestSent.referenceLabel") + "<br><strong id=\"reference\">" + HtmlFormat.escape(utils.ReferenceGenerator.display(reference)) + "</strong>")
+  ))
+
+  <p class="govuk-body">@messages("requestSent.emailSent")</p>
+
+  <h2 class="govuk-heading-m">@messages("requestSent.whatHappensNext")</h2>
+  <p class="govuk-body">@messages("requestSent.next.1")</p>
+  <p class="govuk-body">@messages("requestSent.next.2")</p>
+  <p class="govuk-body">@messages("requestSent.next.3")</p>
+  <p class="govuk-body">@messages("requestSent.next.4")</p>
+
+  <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+  <p class="govuk-body">
+    <a class="govuk-link" href="@controllers.auth.routes.AuthController.signOut().url">@messages("requestSent.feedback")</a>
+    @messages("requestSent.feedbackTime")
+  </p>
+}

@@ -16,15 +16,14 @@
 
 @import uk.gov.hmrc.govukfrontend.views.html.components._
 @import uk.gov.hmrc.govukfrontend.views.viewmodels.content.Text
-@import uk.gov.hmrc.govukfrontend.views.viewmodels.errormessage.ErrorMessage
-@import uk.gov.hmrc.govukfrontend.views.viewmodels.label.Label
+@import forms.WhyBandIsWrongFormProvider
 
 @this(
   layout: templates.Layout,
   formHelper: FormWithCSRF,
   govukErrorSummary: GovukErrorSummary,
   govukDetails: GovukDetails,
-  govukTextarea: GovukTextarea,
+  characterCountTextarea: components.CharacterCountTextarea,
   govukButton: GovukButton
 )
 
@@ -58,31 +57,12 @@
     <h2 class="govuk-heading-m">@messages("whyBandIsWrong.provideEvidence")</h2>
     <p class="govuk-body">@messages("whyBandIsWrong.textareaGuidance")</p>
 
-        <div class="govuk-character-count"
-          data-module="govuk-character-count"
-          data-maxlength="1000"
-          data-i18n.characters-under-limit.one='@messages("whyBandIsWrong.charactersUnderLimit.one", "%{count}")'
-          data-i18n.characters-under-limit.other='@messages("whyBandIsWrong.charactersUnderLimit.other", "%{count}")'
-          data-i18n.characters-at-limit='@messages("whyBandIsWrong.charactersAtLimit")'
-          data-i18n.characters-over-limit.one='@messages("whyBandIsWrong.charactersOverLimit.one", "%{count}")'
-          data-i18n.characters-over-limit.other='@messages("whyBandIsWrong.charactersOverLimit.other", "%{count}")'>
-      @govukTextarea(Textarea(
-        id = "why-band-is-wrong",
-        name = "value",
-        value = form("value").value,
-        rows = 5,
-        classes = "govuk-js-character-count",
-        label = Label(content = Text(messages("whyBandIsWrong.heading")), classes = "govuk-visually-hidden"),
-        errorMessage = form("value").error.map(error => ErrorMessage(content = Text(messages(error.message, error.args*)))),
-        attributes = Map(
-          "aria-describedby" -> "why-band-is-wrong-info",
-          "maxlength" -> "1000"
-        )
-      ))
-      <div id="why-band-is-wrong-info" class="govuk-hint govuk-character-count__message">
-        @messages("whyBandIsWrong.charactersRemaining", 1000 - form("value").value.fold(0)(_.length))
-      </div>
-    </div>
+    @characterCountTextarea(
+      field = form("value"),
+      id = "why-band-is-wrong",
+      label = messages("whyBandIsWrong.heading"),
+      maxLength = Some(WhyBandIsWrongFormProvider.maxCharacters)
+    )
 
     @govukButton(Button(content = Text(messages("site.continue"))))
   }

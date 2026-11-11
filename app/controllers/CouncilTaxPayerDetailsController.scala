@@ -44,6 +44,9 @@ class CouncilTaxPayerDetailsController @Inject()(
 
   val form = formProvider()
 
+  private def backLink(mode: Mode, answers: Option[models.UserAnswers]): Option[String] =
+    Some(navigator.backLink(CouncilTaxPayerDetailsPage, mode, answers).url)
+
   def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData) {
     implicit request =>
 
@@ -52,7 +55,7 @@ class CouncilTaxPayerDetailsController @Inject()(
         case Some(value) => form.fill(value)
       }
 
-      Ok(view(preparedForm, mode))
+      Ok(view(preparedForm, mode, backLink(mode, request.userAnswers)))
   }
 
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData).async {
@@ -60,7 +63,7 @@ class CouncilTaxPayerDetailsController @Inject()(
 
       form.bindFromRequest().fold(
         formWithErrors =>
-          Future.successful(BadRequest(view(formWithErrors, mode))),
+          Future.successful(BadRequest(view(formWithErrors, mode, backLink(mode, request.userAnswers)))),
 
         value =>
           for {

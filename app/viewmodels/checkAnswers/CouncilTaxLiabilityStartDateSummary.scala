@@ -34,11 +34,11 @@ object CouncilTaxLiabilityStartDateSummary  {
         implicit val lang: Lang = messages.lang
 
         SummaryListRowViewModel(
-          key     = "councilTaxLiabilityStartDate.checkYourAnswersLabel",
+          key     = "councilTaxLiabilityStartDate.heading",
           value   = ValueViewModel(answer.format(dateTimeFormat())),
           actions = Seq(
             ActionItemViewModel("site.change", routes.CouncilTaxLiabilityStartDateController.onPageLoad(CheckMode).url)
-              .withVisuallyHiddenText(messages("councilTaxLiabilityStartDate.change.hidden"))
+              .withVisuallyHiddenText(messages("councilTaxLiabilityStartDate.heading"))
           )
         )
     }
