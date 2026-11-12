@@ -693,3 +693,68 @@ propertyUninhabitable.partdemo = Part of the property has been demolished
 propertyUninhabitable.checkYourAnswersLabel = Choose which applies to your property
 propertyUninhabitable.error.required = Select which applies to your property
 propertyUninhabitable.change.hidden = PropertyUninhabitable
+
+# --- Deletion: derelict or cannot be lived in ---
+
+# --- uninhabitableDetails ---
+uninhabitableDetails.title                 = Why do you think the property cannot be lived in?
+uninhabitableDetails.heading               = Why do you think the property cannot be lived in?
+uninhabitableDetails.fireDamage            = Fire damage
+uninhabitableDetails.floodDamage           = Flood damage
+uninhabitableDetails.other                 = Other
+uninhabitableDetails.checkYourAnswersLabel = Why you think the property cannot be lived in
+uninhabitableDetails.error.required        = Select why you think your property cannot be lived in
+uninhabitableDetails.change.hidden         = Why you think the property cannot be lived in
+
+# --- uninhabitableDate ---
+uninhabitableDate.title                 = When did the property become derelict or could not be lived in?
+uninhabitableDate.heading               = When did the property become derelict or could not be lived in?
+uninhabitableDate.hint                  = This is the earliest date that you were unable to live in it because of the condition of the property.
+uninhabitableDate.example               = For example, if the date was 27 April 2025, enter 27 4 2025.
+uninhabitableDate.checkYourAnswersLabel = Date the property became derelict or could not be lived in
+uninhabitableDate.error.required.all    = Enter the date you could no longer live in your property
+uninhabitableDate.error.required.two    = Date must include a day, month and year
+uninhabitableDate.error.required        = Date must include a day, month and year
+uninhabitableDate.error.invalid         = Enter a real date
+uninhabitableDate.error.minimum         = Date must be on or after 1 April 1993
+uninhabitableDate.error.future          = Date must be today or in the past
+uninhabitableDate.change.hidden         = Date the property became derelict or could not be lived in
+
+# --- uninhabitableDateLastOccupied ---
+uninhabitableDateLastOccupied.title                 = When did someone last live in the property?
+uninhabitableDateLastOccupied.heading               = When did someone last live in the property?
+uninhabitableDateLastOccupied.hint                  = For example, if the date was 27 April 2025, enter 27 4 2025.
+uninhabitableDateLastOccupied.checkYourAnswersLabel = Date someone last lived in the property
+uninhabitableDateLastOccupied.error.required.all    = Enter the date the property was last occupied
+uninhabitableDateLastOccupied.error.required.two    = Date must include a day, month and year
+uninhabitableDateLastOccupied.error.required        = Date must include a day, month and year
+uninhabitableDateLastOccupied.error.invalid         = Enter a real date
+uninhabitableDateLastOccupied.error.future          = Date must be today or in the past
+uninhabitableDateLastOccupied.change.hidden         = Date someone last lived in the property
+
+# --- uninhabitableDetailsPlan ---
+uninhabitableDetailsPlan.title                 = What do you plan to do with the property?
+uninhabitableDetailsPlan.heading               = What do you plan to do with the property?
+uninhabitableDetailsPlan.hint                  = For example, tell us if you are going to demolish, renovate or rebuild the property.
+uninhabitableDetailsPlan.checkYourAnswersLabel = What you plan to do with the property
+uninhabitableDetailsPlan.error.required        = Enter details about your plans for the property
+uninhabitableDetailsPlan.error.maxLength       = Enter 5,000 characters or less
+uninhabitableDetailsPlan.change.hidden         = What you plan to do with the property
+
+# --- uninhabitableDetailsPlanHabitable ---
+uninhabitableDetailsPlanHabitable.title                 = What do you need to do to make the property habitable?
+uninhabitableDetailsPlanHabitable.heading               = What do you need to do to make the property habitable?
+uninhabitableDetailsPlanHabitable.hint                  = For example, tell us about any major work you will have to do so the property can be lived in again.
+uninhabitableDetailsPlanHabitable.checkYourAnswersLabel = What you need to do to make the property habitable
+uninhabitableDetailsPlanHabitable.error.required        = Enter what you need to do to make the property habitable
+uninhabitableDetailsPlanHabitable.error.maxLength       = Enter 5,000 characters or less
+uninhabitableDetailsPlanHabitable.change.hidden         = What you need to do to make the property habitable
+
+# --- uninhabitableDetailsPlanPlanningApplication ---
+uninhabitableDetailsPlanPlanningApplication.title                 = Have you made any planning applications for the property?
+uninhabitableDetailsPlanPlanningApplication.heading               = Have you made any planning applications for the property?
+uninhabitableDetailsPlanPlanningApplication.hint                  = For example, tell us about any applications including planning reference numbers you have received from your local council.
+uninhabitableDetailsPlanPlanningApplication.checkYourAnswersLabel = Planning applications for the property
+uninhabitableDetailsPlanPlanningApplication.error.required        = Enter some text
+uninhabitableDetailsPlanPlanningApplication.error.maxLength       = Enter 5,000 characters or less
+uninhabitableDetailsPlanPlanningApplication.change.hidden         = Planning applications for the property

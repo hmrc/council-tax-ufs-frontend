@@ -41,6 +41,14 @@ class Navigator @Inject()() {
     case WhichBandPage                    => whichBandRoutes
     case CouncilTaxPayerDetailsPage       => _ => routes.ContactDetailsController.onPageLoad(NormalMode)
     case ContactDetailsPage               => checkYourAnswers
+    case UninhabitableDetailsPage         => _ => routes.UninhabitableDateController.onPageLoad(NormalMode)
+    case UninhabitableDatePage            => _ => routes.UninhabitableDateLastOccupiedController.onPageLoad(NormalMode)
+    case UninhabitableDateLastOccupiedPage => _ => routes.UninhabitableDetailsPlanController.onPageLoad(NormalMode)
+    case UninhabitableDetailsPlanPage     => _ => routes.UninhabitableDetailsPlanHabitableController.onPageLoad(NormalMode)
+    case UninhabitableDetailsPlanHabitablePage =>
+      _ => routes.UninhabitableDetailsPlanPlanningApplicationController.onPageLoad(NormalMode)
+    case UninhabitableDetailsPlanPlanningApplicationPage =>
+      _ => routes.HasEvidenceController.onPageLoad(NormalMode)
     case _                                => _ => journeyRecovery
   }
 
@@ -168,6 +176,14 @@ class Navigator @Inject()() {
         case WhichBandPage =>
           if (answers.get(HasEvidencePage).contains(true)) routes.UploadEvidenceController.onPageLoad(NormalMode)
           else routes.ContinueWithoutEvidenceController.onPageLoad()
+        // the user signs in at the formal review page before the first of these questions
+        case UninhabitableDetailsPage          => routes.ReviewOverviewController.formalReview()
+        case UninhabitableDatePage             => routes.UninhabitableDetailsController.onPageLoad(NormalMode)
+        case UninhabitableDateLastOccupiedPage => routes.UninhabitableDateController.onPageLoad(NormalMode)
+        case UninhabitableDetailsPlanPage      => routes.UninhabitableDateLastOccupiedController.onPageLoad(NormalMode)
+        case UninhabitableDetailsPlanHabitablePage => routes.UninhabitableDetailsPlanController.onPageLoad(NormalMode)
+        case UninhabitableDetailsPlanPlanningApplicationPage =>
+          routes.UninhabitableDetailsPlanHabitableController.onPageLoad(NormalMode)
         case CouncilTaxPayerDetailsPage => routes.WhichBandController.onPageLoad(NormalMode)
         case ContactDetailsPage =>
           if (isActingFor(answers)) routes.CouncilTaxPayerDetailsController.onPageLoad(NormalMode)

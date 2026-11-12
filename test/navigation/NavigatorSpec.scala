@@ -271,5 +271,41 @@ class NavigatorSpec extends SpecBase {
         navigator.nextPage(UnknownPage, CheckMode, UserAnswers("id")) mustBe routes.CheckYourAnswersController.onPageLoad(Journey.Challenge)
       }
     }
+
+    "for a property that is derelict or cannot be lived in" - {
+
+      "must ask each question in turn, ending at the evidence question" in {
+        navigator.nextPage(UninhabitableDetailsPage, NormalMode, UserAnswers("id")) mustBe
+          routes.UninhabitableDateController.onPageLoad(NormalMode)
+        navigator.nextPage(UninhabitableDatePage, NormalMode, UserAnswers("id")) mustBe
+          routes.UninhabitableDateLastOccupiedController.onPageLoad(NormalMode)
+        navigator.nextPage(UninhabitableDateLastOccupiedPage, NormalMode, UserAnswers("id")) mustBe
+          routes.UninhabitableDetailsPlanController.onPageLoad(NormalMode)
+        navigator.nextPage(UninhabitableDetailsPlanPage, NormalMode, UserAnswers("id")) mustBe
+          routes.UninhabitableDetailsPlanHabitableController.onPageLoad(NormalMode)
+        navigator.nextPage(UninhabitableDetailsPlanHabitablePage, NormalMode, UserAnswers("id")) mustBe
+          routes.UninhabitableDetailsPlanPlanningApplicationController.onPageLoad(NormalMode)
+        navigator.nextPage(UninhabitableDetailsPlanPlanningApplicationPage, NormalMode, UserAnswers("id")) mustBe
+          routes.HasEvidenceController.onPageLoad(NormalMode)
+      }
+
+      "must send the first question back to the formal review overview the user signed in from" in {
+        navigator.backLink(UninhabitableDetailsPage, NormalMode, None) mustBe
+          routes.ReviewOverviewController.formalReview()
+      }
+
+      "must send each later question back to the question before it" in {
+        navigator.backLink(UninhabitableDatePage, NormalMode, None) mustBe
+          routes.UninhabitableDetailsController.onPageLoad(NormalMode)
+        navigator.backLink(UninhabitableDateLastOccupiedPage, NormalMode, None) mustBe
+          routes.UninhabitableDateController.onPageLoad(NormalMode)
+        navigator.backLink(UninhabitableDetailsPlanPage, NormalMode, None) mustBe
+          routes.UninhabitableDateLastOccupiedController.onPageLoad(NormalMode)
+        navigator.backLink(UninhabitableDetailsPlanHabitablePage, NormalMode, None) mustBe
+          routes.UninhabitableDetailsPlanController.onPageLoad(NormalMode)
+        navigator.backLink(UninhabitableDetailsPlanPlanningApplicationPage, NormalMode, None) mustBe
+          routes.UninhabitableDetailsPlanHabitableController.onPageLoad(NormalMode)
+      }
+    }
   }
 }

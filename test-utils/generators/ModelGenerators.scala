@@ -27,6 +27,11 @@ trait ModelGenerators {
       Gen.oneOf(PropertyUninhabitable.values.toSeq)
     }
 
+  implicit lazy val arbitraryUninhabitableDetails: Arbitrary[UninhabitableDetails] =
+    Arbitrary {
+      Gen.oneOf(UninhabitableDetails.values.toSeq)
+    }
+
   implicit lazy val arbitraryCouncilTaxPayerDetails: Arbitrary[CouncilTaxPayerDetails] =
     Arbitrary {
       for {

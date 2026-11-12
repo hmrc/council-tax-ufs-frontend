@@ -695,3 +695,68 @@ propertyUninhabitable.reno = Mae gwaith adeiladu mawr neu waith adnewyddu mawr y
 propertyUninhabitable.partdemo = Mae rhan o fy eiddo wedi’i dymchwel
 propertyUninhabitable.checkYourAnswersLabel = Dewiswch pa un sy’n berthnasol i’ch eiddo
 propertyUninhabitable.error.required = Dewiswch yr hyn sy’n berthnasol i’ch eiddo
+
+# --- Deletion: derelict or cannot be lived in ---
+
+# --- uninhabitableDetails ---
+uninhabitableDetails.title                 = Pam rydych yn meddwl na ellir byw yn yr eiddo?
+uninhabitableDetails.heading               = Pam rydych yn meddwl na ellir byw yn yr eiddo?
+uninhabitableDetails.fireDamage            = Difrod a achoswyd gan dân
+uninhabitableDetails.floodDamage           = Difrod a achoswyd gan lifogydd
+uninhabitableDetails.other                 = Arall
+uninhabitableDetails.checkYourAnswersLabel = Pam rydych yn meddwl na ellir byw yn yr eiddo
+uninhabitableDetails.error.required        = Dewiswch pam yr ydych yn meddwl nad yw eich eiddo yn addas i fyw ynddo
+uninhabitableDetails.change.hidden         = Pam rydych yn meddwl na ellir byw yn yr eiddo
+
+# --- uninhabitableDate ---
+uninhabitableDate.title                 = Pryd y daeth yr eiddo’n adfeiliedig neu’n anaddas i fyw ynddo?
+uninhabitableDate.heading               = Pryd y daeth yr eiddo’n adfeiliedig neu’n anaddas i fyw ynddo?
+uninhabitableDate.hint                  = Dyma’r dyddiad cynharaf pan nad oeddech yn gallu byw yn eich eiddo oherwydd cyflwr yr eiddo.
+uninhabitableDate.example               = Er enghraifft, os taw 27 Ebrill 2025 oedd y dyddiad, nodwch 27 4 2025.
+uninhabitableDate.checkYourAnswersLabel = Y dyddiad y daeth yr eiddo’n adfeiliedig neu’n anaddas i fyw ynddo
+uninhabitableDate.error.required.all    = Nodwch y dyddiad pan nad oedd modd i chi fyw yn eich eiddo mwyach
+uninhabitableDate.error.required.two    = Rhaid i’r dyddiad gynnwys dydd, mis a blwyddyn
+uninhabitableDate.error.required        = Rhaid i’r dyddiad gynnwys dydd, mis a blwyddyn
+uninhabitableDate.error.invalid         = Rhowch ddyddiad cywir
+uninhabitableDate.error.minimum         = Rhaid i’r dyddiad fod ar ôl 1 Ebrill 1993
+uninhabitableDate.error.future          = Rhaid i’r dyddiad fod yn ddyddiad heddiw neu’n ddyddiad yn y gorffennol
+uninhabitableDate.change.hidden         = Y dyddiad y daeth yr eiddo’n adfeiliedig neu’n anaddas i fyw ynddo
+
+# --- uninhabitableDateLastOccupied ---
+uninhabitableDateLastOccupied.title                 = Pryd y bu rhywun yn byw yn yr eiddo ddiwethaf?
+uninhabitableDateLastOccupied.heading               = Pryd y bu rhywun yn byw yn yr eiddo ddiwethaf?
+uninhabitableDateLastOccupied.hint                  = Er enghraifft, os taw 27 Ebrill 2025 oedd y dyddiad, nodwch 27 4 2025.
+uninhabitableDateLastOccupied.checkYourAnswersLabel = Y dyddiad y bu rhywun yn byw yn yr eiddo ddiwethaf
+uninhabitableDateLastOccupied.error.required.all    = Rhowch y dyddiad pan oedd pobl yn byw yn yr eiddo ddiwethaf
+uninhabitableDateLastOccupied.error.required.two    = Rhaid i’r dyddiad gynnwys dydd, mis a blwyddyn
+uninhabitableDateLastOccupied.error.required        = Rhaid i’r dyddiad gynnwys dydd, mis a blwyddyn
+uninhabitableDateLastOccupied.error.invalid         = Rhowch ddyddiad cywir
+uninhabitableDateLastOccupied.error.future          = Rhaid i’r dyddiad fod yn ddyddiad heddiw neu’n ddyddiad yn y gorffennol
+uninhabitableDateLastOccupied.change.hidden         = Y dyddiad y bu rhywun yn byw yn yr eiddo ddiwethaf
+
+# --- uninhabitableDetailsPlan ---
+uninhabitableDetailsPlan.title                 = Beth rydych yn bwriadu ei wneud gyda’r eiddo?
+uninhabitableDetailsPlan.heading               = Beth rydych yn bwriadu ei wneud gyda’r eiddo?
+uninhabitableDetailsPlan.hint                  = Er enghraifft, dywedwch wrthym os ydych yn bwriadu dymchwel, adnewyddu neu ailadeiladu’r eiddo.
+uninhabitableDetailsPlan.checkYourAnswersLabel = Yr hyn rydych yn bwriadu ei wneud gyda’r eiddo
+uninhabitableDetailsPlan.error.required        = Nodwch fanylion am yr eiddo
+uninhabitableDetailsPlan.error.maxLength       = Nodwch 5,000 o gymeriadau neu lai
+uninhabitableDetailsPlan.change.hidden         = Yr hyn rydych yn bwriadu ei wneud gyda’r eiddo
+
+# --- uninhabitableDetailsPlanHabitable ---
+uninhabitableDetailsPlanHabitable.title                 = Beth sydd angen i chi ei wneud i wneud yr eiddo yn addas i fyw ynddo?
+uninhabitableDetailsPlanHabitable.heading               = Beth sydd angen i chi ei wneud i wneud yr eiddo yn addas i fyw ynddo?
+uninhabitableDetailsPlanHabitable.hint                  = Er enghraifft, dywedwch wrthym am unrhyw waith mawr y bydd angen i chi ei wneud er mwyn gallu byw yn yr eiddo eto.
+uninhabitableDetailsPlanHabitable.checkYourAnswersLabel = Yr hyn sydd angen i chi ei wneud i wneud yr eiddo yn addas i fyw ynddo
+uninhabitableDetailsPlanHabitable.error.required        = Nodwch beth sydd angen i chi ei wneud i wneud yr eiddo yn addas i fyw ynddo
+uninhabitableDetailsPlanHabitable.error.maxLength       = Nodwch 5,000 o gymeriadau neu lai
+uninhabitableDetailsPlanHabitable.change.hidden         = Yr hyn sydd angen i chi ei wneud i wneud yr eiddo yn addas i fyw ynddo
+
+# --- uninhabitableDetailsPlanPlanningApplication ---
+uninhabitableDetailsPlanPlanningApplication.title                 = Ydych chi wedi gwneud unrhyw geisiadau cynllunio ar gyfer yr eiddo?
+uninhabitableDetailsPlanPlanningApplication.heading               = Ydych chi wedi gwneud unrhyw geisiadau cynllunio ar gyfer yr eiddo?
+uninhabitableDetailsPlanPlanningApplication.hint                  = Er enghraifft, dywedwch wrthym am unrhyw geisiadau, gan gynnwys cyfeirnodau cynllunio, yr ydych wedi’u cael gan eich cyngor lleol.
+uninhabitableDetailsPlanPlanningApplication.checkYourAnswersLabel = Ceisiadau cynllunio ar gyfer yr eiddo
+uninhabitableDetailsPlanPlanningApplication.error.required        = Nodwch rai geiriau
+uninhabitableDetailsPlanPlanningApplication.error.maxLength       = Nodwch 5,000 o gymeriadau neu lai
+uninhabitableDetailsPlanPlanningApplication.change.hidden         = Ceisiadau cynllunio ar gyfer yr eiddo
