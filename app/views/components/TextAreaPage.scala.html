@@ -24,9 +24,11 @@
 
 @(form: Form[_], action: Call, prefix: String, id: String, maxLength: Option[Int] = None, backLinkUrl: Option[String] = None)(implicit request: Request[_], messages: Messages)
 
-@* Single free text question page. Content comes from <prefix>.title/.heading and an optional <prefix>.hint. *@
+@* Single free text question page. Content comes from <prefix>.title/.heading and, where the page
+   needs them, a grey <prefix>.hint and a <prefix>.body paragraph sitting above the text area. *@
 
 @hasHint = @{ messages.isDefinedAt(s"$prefix.hint") }
+@hasBody = @{ messages.isDefinedAt(s"$prefix.body") }
 
 @layout(backLinkUrl = backLinkUrl, pageTitle = title(form, messages(s"$prefix.title"))) {
 
@@ -40,6 +42,10 @@
 
         @if(hasHint) {
             <div class="govuk-hint" id="@{s"$id-hint"}">@messages(s"$prefix.hint")</div>
+        }
+
+        @if(hasBody) {
+            <p class="govuk-body">@messages(s"$prefix.body")</p>
         }
 
         @characterCountTextarea(

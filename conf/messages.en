@@ -758,3 +758,27 @@ uninhabitableDetailsPlanPlanningApplication.checkYourAnswersLabel = Planning app
 uninhabitableDetailsPlanPlanningApplication.error.required        = Enter some text
 uninhabitableDetailsPlanPlanningApplication.error.maxLength       = Enter 5,000 characters or less
 uninhabitableDetailsPlanPlanningApplication.change.hidden         = Planning applications for the property
+
+# --- uninhabitableDetailsOther ---
+uninhabitableDetailsOther.title                 = Tell us about your derelict property and why it cannot be lived in
+uninhabitableDetailsOther.heading               = Tell us about your derelict property and why it cannot be lived in
+uninhabitableDetailsOther.hint                  = This will help us make a decision on your request to delete your property’s Council Tax band.
+uninhabitableDetailsOther.body                  = Provide details of the property plans if you intend to demolish, renovate or reconfigure
+uninhabitableDetailsOther.checkYourAnswersLabel = About the derelict property and why it cannot be lived in
+uninhabitableDetailsOther.error.required        = Enter details about the derelict property
+uninhabitableDetailsOther.error.maxLength       = Enter 5,000 characters or less
+uninhabitableDetailsOther.change.hidden         = About the derelict property and why it cannot be lived in
+
+# --- uninhabitableDateOther ---
+uninhabitableDateOther.title                 = When did the property become derelict or could not be lived in?
+uninhabitableDateOther.heading               = When did the property become derelict or could not be lived in?
+uninhabitableDateOther.hint                  = This is the earliest date that you were unable to live in it because of the condition of the property.
+uninhabitableDateOther.example               = For example, if the date was 27 April 2025, enter 27 4 2025.
+uninhabitableDateOther.checkYourAnswersLabel = Date the property became derelict or could not be lived in
+uninhabitableDateOther.error.required.all    = Enter the date you could no longer live in your property
+uninhabitableDateOther.error.required.two    = Date must include a day, month and year
+uninhabitableDateOther.error.required        = Date must include a day, month and year
+uninhabitableDateOther.error.invalid         = Enter a real date
+uninhabitableDateOther.error.minimum         = Date must be on or after 1 April 1993
+uninhabitableDateOther.error.future          = Date must be today or in the past
+uninhabitableDateOther.change.hidden         = Date the property became derelict or could not be lived in

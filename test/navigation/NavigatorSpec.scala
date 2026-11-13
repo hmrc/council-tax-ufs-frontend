@@ -274,8 +274,14 @@ class NavigatorSpec extends SpecBase {
 
     "for a property that is derelict or cannot be lived in" - {
 
+      val fireDamage =
+        UserAnswers("id").set(UninhabitableDetailsPage, UninhabitableDetails.FireDamage).success.value
+
+      val other =
+        UserAnswers("id").set(UninhabitableDetailsPage, UninhabitableDetails.Other).success.value
+
       "must ask each question in turn, ending at the evidence question" in {
-        navigator.nextPage(UninhabitableDetailsPage, NormalMode, UserAnswers("id")) mustBe
+        navigator.nextPage(UninhabitableDetailsPage, NormalMode, fireDamage) mustBe
           routes.UninhabitableDateController.onPageLoad(NormalMode)
         navigator.nextPage(UninhabitableDatePage, NormalMode, UserAnswers("id")) mustBe
           routes.UninhabitableDateLastOccupiedController.onPageLoad(NormalMode)
@@ -289,6 +295,29 @@ class NavigatorSpec extends SpecBase {
           routes.HasEvidenceController.onPageLoad(NormalMode)
       }
 
+      "must divert an Other answer to its own details and date questions, then rejoin" in {
+        navigator.nextPage(UninhabitableDetailsPage, NormalMode, other) mustBe
+          routes.UninhabitableDetailsOtherController.onPageLoad(NormalMode)
+        navigator.nextPage(UninhabitableDetailsOtherPage, NormalMode, other) mustBe
+          routes.UninhabitableDateOtherController.onPageLoad(NormalMode)
+        navigator.nextPage(UninhabitableDateOtherPage, NormalMode, other) mustBe
+          routes.UninhabitableDateLastOccupiedController.onPageLoad(NormalMode)
+      }
+
+      "must send the Other questions back to the question before them" in {
+        navigator.backLink(UninhabitableDetailsOtherPage, NormalMode, Some(other)) mustBe
+          routes.UninhabitableDetailsController.onPageLoad(NormalMode)
+        navigator.backLink(UninhabitableDateOtherPage, NormalMode, Some(other)) mustBe
+          routes.UninhabitableDetailsOtherController.onPageLoad(NormalMode)
+      }
+
+      "must send last occupied back to whichever date question the branch used" in {
+        navigator.backLink(UninhabitableDateLastOccupiedPage, NormalMode, Some(other)) mustBe
+          routes.UninhabitableDateOtherController.onPageLoad(NormalMode)
+        navigator.backLink(UninhabitableDateLastOccupiedPage, NormalMode, Some(fireDamage)) mustBe
+          routes.UninhabitableDateController.onPageLoad(NormalMode)
+      }
+
       "must send the first question back to the formal review overview the user signed in from" in {
         navigator.backLink(UninhabitableDetailsPage, NormalMode, None) mustBe
           routes.ReviewOverviewController.formalReview()
@@ -297,8 +326,6 @@ class NavigatorSpec extends SpecBase {
       "must send each later question back to the question before it" in {
         navigator.backLink(UninhabitableDatePage, NormalMode, None) mustBe
           routes.UninhabitableDetailsController.onPageLoad(NormalMode)
-        navigator.backLink(UninhabitableDateLastOccupiedPage, NormalMode, None) mustBe
-          routes.UninhabitableDateController.onPageLoad(NormalMode)
         navigator.backLink(UninhabitableDetailsPlanPage, NormalMode, None) mustBe
           routes.UninhabitableDateLastOccupiedController.onPageLoad(NormalMode)
         navigator.backLink(UninhabitableDetailsPlanHabitablePage, NormalMode, None) mustBe

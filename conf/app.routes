@@ -126,6 +126,16 @@ GET   /uninhabitable-date                           controllers.UninhabitableDat
 POST  /uninhabitable-date                           controllers.UninhabitableDateController.onSubmit(mode: Mode = NormalMode)
 GET   /change-uninhabitable-date                    controllers.UninhabitableDateController.onPageLoad(mode: Mode = CheckMode)
 POST  /change-uninhabitable-date                    controllers.UninhabitableDateController.onSubmit(mode: Mode = CheckMode)
+
+GET   /uninhabitable-details-other                  controllers.UninhabitableDetailsOtherController.onPageLoad(mode: Mode = NormalMode)
+POST  /uninhabitable-details-other                  controllers.UninhabitableDetailsOtherController.onSubmit(mode: Mode = NormalMode)
+GET   /change-uninhabitable-details-other           controllers.UninhabitableDetailsOtherController.onPageLoad(mode: Mode = CheckMode)
+POST  /change-uninhabitable-details-other           controllers.UninhabitableDetailsOtherController.onSubmit(mode: Mode = CheckMode)
+GET   /uninhabitable-date-other                     controllers.UninhabitableDateOtherController.onPageLoad(mode: Mode = NormalMode)
+POST  /uninhabitable-date-other                     controllers.UninhabitableDateOtherController.onSubmit(mode: Mode = NormalMode)
+GET   /change-uninhabitable-date-other              controllers.UninhabitableDateOtherController.onPageLoad(mode: Mode = CheckMode)
+POST  /change-uninhabitable-date-other              controllers.UninhabitableDateOtherController.onSubmit(mode: Mode = CheckMode)
+
 GET   /uninhabitable-date-last-occupied             controllers.UninhabitableDateLastOccupiedController.onPageLoad(mode: Mode = NormalMode)
 POST  /uninhabitable-date-last-occupied             controllers.UninhabitableDateLastOccupiedController.onSubmit(mode: Mode = NormalMode)
 GET   /change-uninhabitable-date-last-occupied      controllers.UninhabitableDateLastOccupiedController.onPageLoad(mode: Mode = CheckMode)

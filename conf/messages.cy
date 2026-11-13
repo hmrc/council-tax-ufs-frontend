@@ -760,3 +760,27 @@ uninhabitableDetailsPlanPlanningApplication.checkYourAnswersLabel = Ceisiadau cy
 uninhabitableDetailsPlanPlanningApplication.error.required        = Nodwch rai geiriau
 uninhabitableDetailsPlanPlanningApplication.error.maxLength       = Nodwch 5,000 o gymeriadau neu lai
 uninhabitableDetailsPlanPlanningApplication.change.hidden         = Ceisiadau cynllunio ar gyfer yr eiddo
+
+# --- uninhabitableDetailsOther ---
+uninhabitableDetailsOther.title                 = Dywedwch wrthym am eich eiddo adfeiliedig a pham na ellir byw ynddo
+uninhabitableDetailsOther.heading               = Dywedwch wrthym am eich eiddo adfeiliedig a pham na ellir byw ynddo
+uninhabitableDetailsOther.hint                  = Bydd hyn yn ein helpu i wneud penderfyniad ynghylch eich cais i ddileu band Treth Gyngor eich eiddo.
+uninhabitableDetailsOther.body                  = Rhowch fanylion am eich cynlluniau ar gyfer yr eiddo os ydych yn bwriadu ei ddymchwel, ei adnewyddu neu ei ailadeiladu.
+uninhabitableDetailsOther.checkYourAnswersLabel = Am yr eiddo adfeiliedig a pham na ellir byw ynddo
+uninhabitableDetailsOther.error.required        = Nodwch fanylion am yr eiddo adfeiliedig
+uninhabitableDetailsOther.error.maxLength       = Nodwch 5,000 o gymeriadau neu lai
+uninhabitableDetailsOther.change.hidden         = Am yr eiddo adfeiliedig a pham na ellir byw ynddo
+
+# --- uninhabitableDateOther ---
+uninhabitableDateOther.title                 = Pryd y daeth yr eiddo’n adfeiliedig neu’n anaddas i fyw ynddo?
+uninhabitableDateOther.heading               = Pryd y daeth yr eiddo’n adfeiliedig neu’n anaddas i fyw ynddo?
+uninhabitableDateOther.hint                  = Dyma’r dyddiad cynharaf pan nad oeddech yn gallu byw yn eich eiddo oherwydd cyflwr yr eiddo.
+uninhabitableDateOther.example               = Er enghraifft, os taw 27 Ebrill 2025 oedd y dyddiad, nodwch 27 4 2025.
+uninhabitableDateOther.checkYourAnswersLabel = Y dyddiad y daeth yr eiddo’n adfeiliedig neu’n anaddas i fyw ynddo
+uninhabitableDateOther.error.required.all    = Nodwch y dyddiad pan nad oedd modd i chi fyw yn eich eiddo mwyach
+uninhabitableDateOther.error.required.two    = Rhaid i’r dyddiad gynnwys dydd, mis a blwyddyn
+uninhabitableDateOther.error.required        = Rhaid i’r dyddiad gynnwys dydd, mis a blwyddyn
+uninhabitableDateOther.error.invalid         = Rhowch ddyddiad cywir
+uninhabitableDateOther.error.minimum         = Rhaid i’r dyddiad fod ar ôl 1 Ebrill 1993
+uninhabitableDateOther.error.future          = Rhaid i’r dyddiad fod yn ddyddiad heddiw neu’n ddyddiad yn y gorffennol
+uninhabitableDateOther.change.hidden         = Y dyddiad y daeth yr eiddo’n adfeiliedig neu’n anaddas i fyw ynddo

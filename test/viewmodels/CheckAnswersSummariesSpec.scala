@@ -226,6 +226,32 @@ class CheckAnswersSummariesSpec extends SpecBase with OptionValues {
     }
   }
 
+  "UninhabitableDetailsOtherSummary" - {
+    "must show the answer with a change link" in withMessages { implicit msgs =>
+      val answers = emptyUserAnswers.set(UninhabitableDetailsOtherPage, "Storm damage & subsidence").success.value
+      val row     = UninhabitableDetailsOtherSummary.row(answers).value
+      valueHtml(row) mustBe "Storm damage &amp; subsidence"
+      row.actions.value.items.head.href mustBe
+        controllers.routes.UninhabitableDetailsOtherController.onPageLoad(CheckMode).url
+    }
+    "must return None when unanswered" in withMessages { implicit msgs =>
+      UninhabitableDetailsOtherSummary.row(emptyUserAnswers) mustBe None
+    }
+  }
+
+  "UninhabitableDateOtherSummary" - {
+    "must show the formatted date with a change link" in withMessages { implicit msgs =>
+      val answers = emptyUserAnswers.set(UninhabitableDateOtherPage, LocalDate.of(2025, 4, 27)).success.value
+      val row     = UninhabitableDateOtherSummary.row(answers).value
+      valueHtml(row) must include("27 April 2025")
+      row.actions.value.items.head.href mustBe
+        controllers.routes.UninhabitableDateOtherController.onPageLoad(CheckMode).url
+    }
+    "must return None when unanswered" in withMessages { implicit msgs =>
+      UninhabitableDateOtherSummary.row(emptyUserAnswers) mustBe None
+    }
+  }
+
   "Page" - {
     "must implicitly convert to its string name" in {
       val name: String = PostcodeSearchPage

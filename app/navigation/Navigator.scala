@@ -41,7 +41,10 @@ class Navigator @Inject()() {
     case WhichBandPage                    => whichBandRoutes
     case CouncilTaxPayerDetailsPage       => _ => routes.ContactDetailsController.onPageLoad(NormalMode)
     case ContactDetailsPage               => checkYourAnswers
-    case UninhabitableDetailsPage         => _ => routes.UninhabitableDateController.onPageLoad(NormalMode)
+    case UninhabitableDetailsPage         => uninhabitableDetailsRoutes
+    case UninhabitableDetailsOtherPage    => _ => routes.UninhabitableDateOtherController.onPageLoad(NormalMode)
+    case UninhabitableDateOtherPage =>
+      _ => routes.HasEvidenceController.onPageLoad(NormalMode)
     case UninhabitableDatePage            => _ => routes.UninhabitableDateLastOccupiedController.onPageLoad(NormalMode)
     case UninhabitableDateLastOccupiedPage => _ => routes.UninhabitableDetailsPlanController.onPageLoad(NormalMode)
     case UninhabitableDetailsPlanPage     => _ => routes.UninhabitableDetailsPlanHabitableController.onPageLoad(NormalMode)
@@ -51,6 +54,14 @@ class Navigator @Inject()() {
       _ => routes.HasEvidenceController.onPageLoad(NormalMode)
     case _                                => _ => journeyRecovery
   }
+
+  // "Other" asks for the reason in free text, on its own pair of pages
+  private def uninhabitableOther(answers: UserAnswers): Boolean =
+    answers.get(UninhabitableDetailsPage).contains(UninhabitableDetails.Other)
+
+  private def uninhabitableDetailsRoutes(answers: UserAnswers): Call =
+    if (uninhabitableOther(answers)) routes.UninhabitableDetailsOtherController.onPageLoad(NormalMode)
+    else routes.UninhabitableDateController.onPageLoad(NormalMode)
 
   private def journeyRecovery: Call = routes.JourneyRecoveryController.onPageLoad()
 
@@ -179,7 +190,11 @@ class Navigator @Inject()() {
         // the user signs in at the formal review page before the first of these questions
         case UninhabitableDetailsPage          => routes.ReviewOverviewController.formalReview()
         case UninhabitableDatePage             => routes.UninhabitableDetailsController.onPageLoad(NormalMode)
-        case UninhabitableDateLastOccupiedPage => routes.UninhabitableDateController.onPageLoad(NormalMode)
+        case UninhabitableDetailsOtherPage     => routes.UninhabitableDetailsController.onPageLoad(NormalMode)
+        case UninhabitableDateOtherPage        => routes.UninhabitableDetailsOtherController.onPageLoad(NormalMode)
+        case UninhabitableDateLastOccupiedPage =>
+          if (uninhabitableOther(answers)) routes.UninhabitableDateOtherController.onPageLoad(NormalMode)
+          else routes.UninhabitableDateController.onPageLoad(NormalMode)
         case UninhabitableDetailsPlanPage      => routes.UninhabitableDateLastOccupiedController.onPageLoad(NormalMode)
         case UninhabitableDetailsPlanHabitablePage => routes.UninhabitableDetailsPlanController.onPageLoad(NormalMode)
         case UninhabitableDetailsPlanPlanningApplicationPage =>
