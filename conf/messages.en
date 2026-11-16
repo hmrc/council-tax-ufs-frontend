@@ -782,3 +782,14 @@ uninhabitableDateOther.error.invalid         = Enter a real date
 uninhabitableDateOther.error.minimum         = Date must be on or after 1 April 1993
 uninhabitableDateOther.error.future          = Date must be today or in the past
 uninhabitableDateOther.change.hidden         = Date the property became derelict or could not be lived in
+
+uninhabitableDateLastOccupiedOther.title = When did someone last live in the property?
+uninhabitableDateLastOccupiedOther.heading = When did someone last live in the property?
+uninhabitableDateLastOccupiedOther.hint = For example, if the date was 27 April 2025, enter 27 4 2025.
+uninhabitableDateLastOccupiedOther.checkYourAnswersLabel = Date someone last lived in the property
+uninhabitableDateLastOccupiedOther.error.required.all = Enter the date the property was last occupied
+uninhabitableDateLastOccupiedOther.error.required.two = Date must include a day, month and year
+uninhabitableDateLastOccupiedOther.error.required = Date must include a day, month and year
+uninhabitableDateLastOccupiedOther.error.invalid = Enter a real date
+uninhabitableDateLastOccupiedOther.error.future = Date must be today or in the past
+uninhabitableDateLastOccupiedOther.change.hidden = Date someone last lived in the property

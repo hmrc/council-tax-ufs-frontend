@@ -152,3 +152,9 @@ GET   /uninhabitable-details-plan-planning-application         controllers.Uninh
 POST  /uninhabitable-details-plan-planning-application         controllers.UninhabitableDetailsPlanPlanningApplicationController.onSubmit(mode: Mode = NormalMode)
 GET   /change-uninhabitable-details-plan-planning-application  controllers.UninhabitableDetailsPlanPlanningApplicationController.onPageLoad(mode: Mode = CheckMode)
 POST  /change-uninhabitable-details-plan-planning-application  controllers.UninhabitableDetailsPlanPlanningApplicationController.onSubmit(mode: Mode = CheckMode)
+
+
+GET        /uninhabitable-date-last-occupied-other                  controllers.UninhabitableDateLastOccupiedOtherController.onPageLoad(mode: Mode = NormalMode)
+POST       /uninhabitable-date-last-occupied-other                  controllers.UninhabitableDateLastOccupiedOtherController.onSubmit(mode: Mode = NormalMode)
+GET        /changeUninhabitableDateLastOccupiedOther                        controllers.UninhabitableDateLastOccupiedOtherController.onPageLoad(mode: Mode = CheckMode)
+POST       /changeUninhabitableDateLastOccupiedOther                        controllers.UninhabitableDateLastOccupiedOtherController.onSubmit(mode: Mode = CheckMode)

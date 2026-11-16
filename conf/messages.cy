@@ -784,3 +784,14 @@ uninhabitableDateOther.error.invalid         = Rhowch ddyddiad cywir
 uninhabitableDateOther.error.minimum         = Rhaid i’r dyddiad fod ar ôl 1 Ebrill 1993
 uninhabitableDateOther.error.future          = Rhaid i’r dyddiad fod yn ddyddiad heddiw neu’n ddyddiad yn y gorffennol
 uninhabitableDateOther.change.hidden         = Y dyddiad y daeth yr eiddo’n adfeiliedig neu’n anaddas i fyw ynddo
+
+uninhabitableDateLastOccupiedOther.title = Pryd y bu rhywun yn byw yn yr eiddo ddiwethaf?
+uninhabitableDateLastOccupiedOther.heading = Pryd y bu rhywun yn byw yn yr eiddo ddiwethaf?
+uninhabitableDateLastOccupiedOther.hint = Er enghraifft, os taw 27 Ebrill 2025 oedd y dyddiad, nodwch 27 4 2025.
+uninhabitableDateLastOccupiedOther.checkYourAnswersLabel = Y dyddiad y bu rhywun yn byw yn yr eiddo ddiwethaf
+uninhabitableDateLastOccupiedOther.error.required.all = Nodwch y dyddiad y bu rhywun yn byw yn yr eiddo ddiwethaf
+uninhabitableDateLastOccupiedOther.error.required.two = Rhaid i'r dyddiad gynnwys diwrnod, mis a blwyddyn
+uninhabitableDateLastOccupiedOther.error.required = Rhaid i'r dyddiad gynnwys diwrnod, mis a blwyddyn
+uninhabitableDateLastOccupiedOther.error.invalid = Nodwch ddyddiad go iawn
+uninhabitableDateLastOccupiedOther.error.future = Rhaid i'r dyddiad fod heddiw neu yn y gorffennol
+uninhabitableDateLastOccupiedOther.change.hidden = Y dyddiad y bu rhywun yn byw yn yr eiddo ddiwethaf

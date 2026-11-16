@@ -44,9 +44,10 @@ class Navigator @Inject()() {
     case UninhabitableDetailsPage         => uninhabitableDetailsRoutes
     case UninhabitableDetailsOtherPage    => _ => routes.UninhabitableDateOtherController.onPageLoad(NormalMode)
     case UninhabitableDateOtherPage =>
-      _ => routes.HasEvidenceController.onPageLoad(NormalMode)
+      _ => routes.UninhabitableDateLastOccupiedOtherController.onPageLoad(NormalMode)
     case UninhabitableDatePage            => _ => routes.UninhabitableDateLastOccupiedController.onPageLoad(NormalMode)
     case UninhabitableDateLastOccupiedPage => _ => routes.UninhabitableDetailsPlanController.onPageLoad(NormalMode)
+    case UninhabitableDateLastOccupiedOtherPage => _ => routes.HasEvidenceController.onPageLoad(NormalMode)
     case UninhabitableDetailsPlanPage     => _ => routes.UninhabitableDetailsPlanHabitableController.onPageLoad(NormalMode)
     case UninhabitableDetailsPlanHabitablePage =>
       _ => routes.UninhabitableDetailsPlanPlanningApplicationController.onPageLoad(NormalMode)
@@ -55,7 +56,6 @@ class Navigator @Inject()() {
     case _                                => _ => journeyRecovery
   }
 
-  // "Other" asks for the reason in free text, on its own pair of pages
   private def uninhabitableOther(answers: UserAnswers): Boolean =
     answers.get(UninhabitableDetailsPage).contains(UninhabitableDetails.Other)
 
@@ -195,6 +195,8 @@ class Navigator @Inject()() {
         case UninhabitableDateLastOccupiedPage =>
           if (uninhabitableOther(answers)) routes.UninhabitableDateOtherController.onPageLoad(NormalMode)
           else routes.UninhabitableDateController.onPageLoad(NormalMode)
+        case UninhabitableDateLastOccupiedOtherPage =>
+          routes.UninhabitableDateOtherController.onPageLoad(mode)
         case UninhabitableDetailsPlanPage      => routes.UninhabitableDateLastOccupiedController.onPageLoad(NormalMode)
         case UninhabitableDetailsPlanHabitablePage => routes.UninhabitableDetailsPlanController.onPageLoad(NormalMode)
         case UninhabitableDetailsPlanPlanningApplicationPage =>
