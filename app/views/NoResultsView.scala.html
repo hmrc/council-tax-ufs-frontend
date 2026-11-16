@@ -39,7 +39,7 @@
     @messages("noResults.contactCouncilDescription")
   </p>
 
-  @formHelper(action = routes.PostcodeSearchController.onSubmit(models.NormalMode)) {
+  @formHelper(action = play.api.mvc.Call("POST", s"${routes.PostcodeSearchController.onSubmit(models.NormalMode).url}?${models.SearchOrigin.QueryKey}=${models.SearchOrigin.NoResults.queryValue}")) {
     @govukInput(Input(
       id    = "value",
       name  = "value",

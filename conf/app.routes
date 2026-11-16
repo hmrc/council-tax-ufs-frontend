@@ -23,6 +23,7 @@ POST  /advanced-search                              controllers.AdvancedProperty
 GET   /change-advanced-search                       controllers.AdvancedPropertySearchController.onPageLoad(mode: Mode = CheckMode)
 POST  /change-advanced-search                       controllers.AdvancedPropertySearchController.onSubmit(mode: Mode = CheckMode)
 GET   /search-results                               controllers.SearchResultsController.show(postcode: String, page: Int ?= 1)
+GET   /search-no-results                            controllers.SearchResultsController.noResults(postcode: String)
 GET   /property/:id                                 controllers.PropertyDetailController.onPageLoad(id: String)
 GET   /historic-bands/:propertyId                   controllers.HistoricBandsController.onPageLoad(propertyId: String)
 GET   /historic-bands-full/:propertyId/:bandIndex   controllers.HistoricBandsController.onBandPageLoad(propertyId: String, bandIndex: Int)

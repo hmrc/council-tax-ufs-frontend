@@ -98,7 +98,7 @@ class NoResultsViewSpec extends SpecBase {
     "must render a form with the correct action" in {
       val doc = asDocument(applyView(postcode))
       doc.select("form").attr("action") mustBe
-        routes.PostcodeSearchController.onSubmit(NormalMode).url
+        s"${routes.PostcodeSearchController.onSubmit(NormalMode).url}?origin=search-no-results"
     }
   }
 }
