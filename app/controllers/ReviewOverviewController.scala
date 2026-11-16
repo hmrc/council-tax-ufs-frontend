@@ -39,12 +39,16 @@ class ReviewOverviewController @Inject()(
   navigator: Navigator
 ) extends FrontendBaseController with I18nSupport {
 
-  def formalReview(): Action[AnyContent] = show(ReviewType.Formal)
+  // same page and URL for both journeys, with the wording chosen from the answers given so far
+  def formalReview(): Action[AnyContent] = show(answers =>
+    if (answers.exists(navigator.isLocalAreaChange)) ReviewType.Deletion else ReviewType.Formal
+  )
 
-  def informalReview(): Action[AnyContent] = show(ReviewType.Informal)
+  def informalReview(): Action[AnyContent] = show(_ => ReviewType.Informal)
 
   def continueToLogin(reviewType: String): Action[AnyContent] = (sessionIdentify andThen getData) { implicit request =>
     val continueCall = reviewType match {
+      case "deletion" => Some(routes.WhatHasChangedController.onPageLoad(NormalMode))
       case "formal" =>
         val noticeBasedFormalReview = request.userAnswers.exists { answers =>
           answers.get(scenarioResponsiblePage).contains(scenarioResponsible.Morethan) &&
@@ -68,7 +72,8 @@ class ReviewOverviewController @Inject()(
     }
   }
 
-  private def show(reviewType: ReviewType): Action[AnyContent] = (sessionIdentify andThen getData) { implicit request =>
+  private def show(reviewTypeFor: Option[models.UserAnswers] => ReviewType): Action[AnyContent] = (sessionIdentify andThen getData) { implicit request =>
+    val reviewType = reviewTypeFor(request.userAnswers)
     Ok(reviewOverviewView(reviewType, navigator.reviewOverviewBackLink(reviewType, request.userAnswers).url))
   }
 

@@ -32,6 +32,9 @@ class Navigator @Inject()() {
     case ReasonForReviewPage              => reasonForReviewRoutes
     case `scenarioResponsiblePage`        => scenarioResponsibleRoutes
     case `noticeAlterationPage`           => noticeAlterationRoutes
+    case `deletionOptionsPage`            => deletionOptionsRoutes
+    case WhatHasChangedPage               => _ => routes.WhenDidChangeHappenController.onPageLoad(NormalMode)
+    case WhenDidChangeHappenPage          => payerOrContactDetails
     case CouncilTaxLiabilityStartDatePage => _ => routes.WhyBandIsWrongController.onPageLoad(NormalMode)
     case DateNoticePage                   => _ => routes.WhyBandIsWrongController.onPageLoad(NormalMode)
     case WhyBandIsWrongPage               => _ => routes.HasEvidenceController.onPageLoad(NormalMode)
@@ -71,9 +74,18 @@ class Navigator @Inject()() {
   private def whichBand: Call = routes.WhichBandController.onPageLoad(NormalMode)
 
   // payer details are only asked when acting for someone
-  private def whichBandRoutes(answers: UserAnswers): Call =
+  private def whichBandRoutes(answers: UserAnswers): Call = payerOrContactDetails(answers)
+
+  private def payerOrContactDetails(answers: UserAnswers): Call =
     if (isActingFor(answers)) routes.CouncilTaxPayerDetailsController.onPageLoad(NormalMode)
     else routes.ContactDetailsController.onPageLoad(NormalMode)
+
+  def isLocalAreaChange(answers: UserAnswers): Boolean =
+    answers.get(ReasonForReviewPage).contains(ReasonForReview.Changesaffectedproperty) &&
+      answers.get(deletionOptionsPage).contains(deletionOptions.Affected)
+
+  private def isPropertyChanges(answers: UserAnswers): Boolean =
+    answers.get(ReasonForReviewPage).contains(ReasonForReview.Changesaffectedproperty)
 
   private def isActingFor(answers: UserAnswers): Boolean =
     answers.get(CouncilTaxResponsiblePage).contains(CouncilTaxResponsible.ActingFor)
@@ -90,6 +102,14 @@ class Navigator @Inject()() {
       case Some(ReasonForReview.Bandiswrong) => routes.scenarioResponsibleController.onPageLoad(NormalMode)
       case Some(ReasonForReview.Changesaffectedproperty) => routes.deletionOptionsController.onPageLoad(NormalMode)
       case _                             => journeyRecovery
+    }
+
+  // only "another reason" and "local area changes" have pages built so far
+  private def deletionOptionsRoutes(answers: UserAnswers): Call =
+    answers.get(deletionOptionsPage) match {
+      case Some(deletionOptions.AnotherReason) => routes.ScenarioOtherController.onPageLoad()
+      case Some(deletionOptions.Affected)      => routes.ReviewOverviewController.formalReview()
+      case _                                   => journeyRecovery
     }
 
   private def scenarioResponsibleRoutes(answers: UserAnswers): Call =
@@ -130,7 +150,17 @@ class Navigator @Inject()() {
         ).collectFirst { case (true, call) => call }
 
       case ReasonForReview.Changesaffectedproperty =>
-        Option.when(answers.get(deletionOptionsPage).isEmpty)(routes.deletionOptionsController.onPageLoad(CheckMode))
+        // both of these options go on to the same change questions
+        val anotherReason = answers.get(deletionOptionsPage).exists(Seq(deletionOptions.AnotherReason, deletionOptions.Affected).contains)
+
+        Seq(
+          answers.get(deletionOptionsPage).isEmpty                                -> routes.deletionOptionsController.onPageLoad(CheckMode),
+          (anotherReason && answers.get(WhatHasChangedPage).isEmpty)              -> routes.WhatHasChangedController.onPageLoad(CheckMode),
+          (anotherReason && answers.get(WhenDidChangeHappenPage).isEmpty)         -> routes.WhenDidChangeHappenController.onPageLoad(CheckMode),
+          (anotherReason && isActingFor(answers)
+            && answers.get(CouncilTaxPayerDetailsPage).isEmpty)                   -> routes.CouncilTaxPayerDetailsController.onPageLoad(CheckMode),
+          (anotherReason && answers.get(ContactDetailsPage).isEmpty)              -> routes.ContactDetailsController.onPageLoad(CheckMode)
+        ).collectFirst { case (true, call) => call }
 
       case _ => None
     }
@@ -171,6 +201,11 @@ class Navigator @Inject()() {
         case `scenarioResponsiblePage`       => routes.ReasonForReviewController.onPageLoad(NormalMode)
         case `deletionOptionsPage`           => routes.ReasonForReviewController.onPageLoad(NormalMode)
         case `noticeAlterationPage`          => routes.scenarioResponsibleController.onPageLoad(NormalMode)
+        case `scenarioOtherPage`             => routes.deletionOptionsController.onPageLoad(NormalMode)
+        case WhatHasChangedPage if answers.get(deletionOptionsPage).contains(deletionOptions.Affected) =>
+          routes.ReviewOverviewController.formalReview()
+        case WhatHasChangedPage              => routes.ScenarioOtherController.onPageLoad()
+        case WhenDidChangeHappenPage         => routes.WhatHasChangedController.onPageLoad(NormalMode)
         case CouncilTaxLiabilityStartDatePage => routes.ReviewOverviewController.formalReview()
         case WhyBandIsWrongPage =>
           if (answers.get(scenarioResponsiblePage).contains(scenarioResponsible.Lessthan)) {
@@ -201,7 +236,11 @@ class Navigator @Inject()() {
         case UninhabitableDetailsPlanHabitablePage => routes.UninhabitableDetailsPlanController.onPageLoad(NormalMode)
         case UninhabitableDetailsPlanPlanningApplicationPage =>
           routes.UninhabitableDetailsPlanHabitableController.onPageLoad(NormalMode)
+        case CouncilTaxPayerDetailsPage if isPropertyChanges(answers) =>
+          routes.WhenDidChangeHappenController.onPageLoad(NormalMode)
         case CouncilTaxPayerDetailsPage => routes.WhichBandController.onPageLoad(NormalMode)
+        case ContactDetailsPage if isPropertyChanges(answers) && !isActingFor(answers) =>
+          routes.WhenDidChangeHappenController.onPageLoad(NormalMode)
         case ContactDetailsPage =>
           if (isActingFor(answers)) routes.CouncilTaxPayerDetailsController.onPageLoad(NormalMode)
           else routes.WhichBandController.onPageLoad(NormalMode)
@@ -211,6 +250,8 @@ class Navigator @Inject()() {
   }
 
   def reviewOverviewBackLink(reviewType: ReviewType, userAnswers: Option[UserAnswers]): Call = reviewType match {
+    case ReviewType.Deletion =>
+      routes.deletionOptionsController.onPageLoad(NormalMode)
     case ReviewType.Formal
       if userAnswers.exists(_.get(scenarioResponsiblePage).contains(scenarioResponsible.Lessthan)) =>
       routes.scenarioResponsibleController.onPageLoad(NormalMode)

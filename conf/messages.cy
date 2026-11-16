@@ -4,6 +4,11 @@
 #   propertyDetail.band.expand, propertyDetail.courtCode.meaning, and the *.change.hidden keys for
 #   dateNotice, deletionOptions, noticeAlteration, reasonForReview, requestCouncilTaxBandReview,
 #   scenarioResponsible and whichBand
+# TODO translate - whenDidChangeHappen.error.tooEarly, whenDidChangeHappen.checkYourAnswersLabel,
+#   whenDidChangeHappen.change.hidden, whatHasChanged.checkYourAnswersLabel, whatHasChanged.change.hidden,
+#   reviewOverview.deletion.intro, .when.value, .decision.intro, .decision.4,
+#   localAreaChanges.error.maxLength, localAreaChanges.checkYourAnswersLabel, localAreaChanges.change.hidden,
+#   localAreaChangesDate.title, .heading, .hint, .error.tooEarly, .checkYourAnswersLabel, .change.hidden
 
 ##############################################################################
 # Global: service, common labels, errors and session
@@ -59,9 +64,9 @@ characterCount.overLimit.many   = Mae gennych {0} o gymeriadau yn ormod
 # --- error ---
 error.title.prefix  = Gwall:
 error.prefix        = Gwall
-error.summary.title = Mae problem
-error.title         = Mae'n ddrwg gennym, mae problem gyda'r gwasanaeth hwn.
-error.heading       = Mae'n ddrwg gennym, mae problem gyda'r gwasanaeth hwn.
+error.summary.title = Mae problem wedi codi
+error.title         = Mae’n ddrwg gennym, mae problem gyda’r gwasanaeth hwn.
+error.heading       = Mae’n ddrwg gennym, mae problem gyda’r gwasanaeth hwn.
 error.guidance      = Rhowch gynnig arall arni yn ddiweddarach.
 
 # --- timeout ---
@@ -162,8 +167,8 @@ advancedPropertySearch.postcode                            = Cod Post
 advancedPropertySearch.checkYourAnswersLabel               = Advanced property search
 advancedPropertySearch.error.propertyNameOrNumber.required = Enter property name or number
 advancedPropertySearch.error.street.required               = Enter street
-advancedPropertySearch.error.propertyNameOrNumber.length   = Property name or number must be 80 characters or less
-advancedPropertySearch.error.street.length                 = Street must be 80 characters or less
+advancedPropertySearch.error.propertyNameOrNumber.length   = Mae''n rhaid i enw neu rif yr eiddo fod yn 80 o gymeriadau neu lai
+advancedPropertySearch.error.street.length                 = Mae''n rhaid i''r stryd fod yn 80 o gymeriadau neu lai
 advancedPropertySearch.propertyNameOrNumber.change.hidden  = property name or number
 advancedPropertySearch.street.change.hidden                = street
 advancedPropertySearch.showSearchFilters                   = Dangos hidlwyr chwilio
@@ -178,10 +183,10 @@ advancedPropertySearch.courtCode.hint                      = Bydd gan yr eiddo g
 advancedPropertySearch.propertyUse                         = Defnyddio’r eiddo
 advancedPropertySearch.propertyUse.hint                    = Er enghraifft, dim ond at ddefnydd domestig, neu at ddibenion domestig a busnes
 advancedPropertySearch.change.hidden                       = advanced property search
-advancedPropertySearch.error.postcode.required             = Rhowch god post
-advancedPropertySearch.error.postcode.length               = Postcode must be {0} characters or less
-advancedPropertySearch.error.postcode.invalid              = Enter a valid postcode
-advancedPropertySearch.error.townOrCity.length             = Town or city must be 80 characters or less
+advancedPropertySearch.error.postcode.required             = Nodwch god post, fel AA1 1AA
+advancedPropertySearch.error.postcode.length               = Nodwch god post go iawn
+advancedPropertySearch.error.postcode.invalid              = Nodwch god post go iawn
+advancedPropertySearch.error.townOrCity.length             = Mae''n rhaid i''r dref fod yn 80 o gymeriadau neu lai
 advancedPropertySearch.error.laReferenceNumber.length      = Local authority reference number must be 20 characters or fewer
 advancedPropertySearch.localAuthority.default              = Dewiswch opsiwn
 advancedPropertySearch.councilTaxBand.allBands             = Pob band
@@ -444,6 +449,20 @@ reviewOverview.informal.examples.1    = cyfeiriadau hyd at 5 cartref tebyg sydd 
 reviewOverview.informal.examples.2    = gall y cartrefi fod naill ai yn yr un stryd neu ystâd, neu yn yr un pentref neu ardal os ydych yn byw yng nghefn gwlad.
 reviewOverview.informal.examples.3    = y pris y gwerthwyd eich cartref neu gartrefi tebyg amdano rhwng 1 Ebrill 2001 a 31 Mawrth 2005.
 reviewOverview.informal.afterDecision = Mae’r penderfyniad yn derfynol, a dydych chi ddim yn gallu gofyn am adolygiad arall.
+reviewOverview.deletion.title = Gofyn am adolygiad ffurfiol
+reviewOverview.deletion.description = Mae hyn yn golygu eich bod yn gallu gofyn am adolygiad ffurfiol o’ch band Treth Gyngor. Enw arall am hyn ydy ‘Her Ffurfiol’ neu ‘Gwneud Cynnig’.
+reviewOverview.deletion.table.heading = Sut mae adolygiad ffurfiol yn gweithio
+reviewOverview.deletion.whatItIs = Rydych yn gallu gofyn i Asiantaeth y Swyddfa Brisio (VO) adolygu’r band Treth Gyngor mae eich cartref ynddo.
+reviewOverview.deletion.whatFor = Rydych yn gallu gofyn am adolygiad ffurfiol os ydych yn meddwl bod eich cartref yn y band Treth Gyngor anghywir.
+reviewOverview.deletion.when.label = Pryd rydych yn gallu gofyn am adolygiad ffurfiol
+reviewOverview.deletion.duration = Hyd at 16 wythnos
+reviewOverview.deletion.evidence = Dydych chi ddim angen rhoi unrhyw dystiolaeth. Ond, bydd unrhyw wybodaeth rydych yn ei roi yn helpu’r VO i ddeall pam rydych yn meddwl y dylai’r cartref fod mewn band gwahanol.
+reviewOverview.deletion.examples.1 = cyfeiriadau cartrefi tebyg sydd mewn band is na’ch un chi.
+reviewOverview.deletion.examples.2 = y pris y gwerthwyd eich cartref neu gartrefi tebyg amdano rhwng 1 Ebrill 2001 a 31 Mawrth 2005.
+reviewOverview.deletion.afterDecision = Os nad ydych yn hapus gyda’r canlyniad, mae gennych 4 mis ar ôl dyddiad y penderfyniad i apelio i Dribiwnlys Prisio Cymru.
+reviewOverview.deletion.decision.1 = mae eich cartref yn aros yn yr un band
+reviewOverview.deletion.decision.2 = mae eich cartref yn symud i fand is
+reviewOverview.deletion.decision.3 = mae eich cartref yn symud i fand uwch
 
 # --- councilTaxLiabilityStartDate ---
 councilTaxLiabilityStartDate.title                 = Pryd gwnaethoch chi ddod yn gyfrifol am dalu Treth Gyngor am eich cartref?
@@ -503,6 +522,42 @@ deletionOptions.anotherReason         = Rheswm arall
 deletionOptions.checkYourAnswersLabel = Beth sydd wedi newid?
 deletionOptions.error.required        = Dewiswch beth sydd wedi newid
 
+# --- scenarioOther ---
+scenarioOther.title           = Arall
+scenarioOther.heading         = Arall
+scenarioOther.intro           = Rydych wedi dweud wrthym eich bod chi eisiau adolygu eich band Treth Gyngor <strong>am reswm arall</strong>.
+scenarioOther.changeSelection = Os nad yw’r opsiwn hwn yn gywir i chi, rydych yn gallu newid eich dewis.
+
+# --- whatHasChanged ---
+whatHasChanged.title                 = Beth sydd wedi newid?
+whatHasChanged.heading               = Beth sydd wedi newid?
+whatHasChanged.hint                  = Rhowch gymaint o wybodaeth â phosibl.
+whatHasChanged.error.required        = Nodwch beth sydd wedi newid
+whatHasChanged.error.maxLength       = Nodwch beth sydd wedi newid
+
+# --- whenDidChangeHappen ---
+whenDidChangeHappen.title              = Pryd ddigwyddodd y newid hwn?
+whenDidChangeHappen.heading            = Pryd ddigwyddodd y newid hwn?
+whenDidChangeHappen.hint               = Er enghraifft, os digwyddodd y newid ar 27 Ebrill 2025, rhowch 27 4 2025.
+whenDidChangeHappen.error.required.all = Nodwch y dyddiad y digwyddodd y newid
+whenDidChangeHappen.error.required.two = Nodwch y dyddiad y digwyddodd y newid
+whenDidChangeHappen.error.required     = Nodwch y dyddiad y digwyddodd y newid
+whenDidChangeHappen.error.invalid      = Nodwch ddyddiad go iawn
+whenDidChangeHappen.error.future       = Mae’n rhaid i’r dyddiad fod yn heddiw neu yn y gorffennol
+
+# --- localAreaChanges ---
+localAreaChanges.title           = Pa newidiadau parhaol sydd wedi digwydd yn eich ardal lleol?
+localAreaChanges.heading         = Pa newidiadau parhaol sydd wedi digwydd yn eich ardal lleol?
+localAreaChanges.hint            = Er enghraifft, mae archfarchnad newydd neu draffordd wedi’i adeiladu, ac rydych yn credu ei bod wedi effeithio ar werth eich cartref. Rhowch gymaint o wybodaeth â phosibl.
+localAreaChanges.error.required  = Nodwch fanylion y newidiadau
+
+# --- localAreaChangesDate ---
+localAreaChangesDate.error.required.all = Nodwch y dyddiad y digwyddodd y newidiadau
+localAreaChangesDate.error.required.two = Nodwch y dyddiad y digwyddodd y newidiadau
+localAreaChangesDate.error.required     = Nodwch y dyddiad y digwyddodd y newidiadau
+localAreaChangesDate.error.invalid      = Nodwch ddyddiad go iawn
+localAreaChangesDate.error.future       = Mae’n rhaid i’r dyddiad fod yn heddiw neu yn y gorffennol
+
 ##############################################################################
 # 7. Evidence
 ##############################################################################
@@ -552,8 +607,8 @@ removeEvidence.error.required = Dewiswch ‘Ie’ os ydych eisiau dileu’r ffei
 ##############################################################################
 
 # --- whichBand ---
-whichBand.title                 = Beth rydych chi'n meddwl y dylai'r band Treth Gyngor fod?
-whichBand.heading               = Beth rydych chi'n meddwl y dylai'r band Treth Gyngor fod?
+whichBand.title                 = Beth rydych chi’n meddwl y dylai’r band Treth Gyngor fod?
+whichBand.heading               = Beth rydych chi’n meddwl y dylai’r band Treth Gyngor fod?
 whichBand.hint.england          = Yn Lloegr, mae''r band Treth Gyngor yn seiliedig ar werth yr eiddo ar 1 Ebrill 1991. Band "A" yw''r un isaf a Band "H" yw''r un uchaf. Dysgwch fwy am
 whichBand.link.england          = fandiau Treth Gyngor yng Nghymru
 whichBand.hint.wales            = Yng Nghymru, mae''r band Treth Gyngor yn seiliedig ar werth yr eiddo ar 1 Ebrill 2003. Band "A" yw''r un isaf a Band "I" yw''r un uchaf. Dysgwch fwy am
@@ -569,24 +624,24 @@ whichBand.bandH                 = Band H
 whichBand.bandI                 = Band I
 whichBand.notSure               = Dwi ddim yn siŵr
 whichBand.link.url              = https://www.gov.uk/guidance/understand-how-council-tax-bands-are-assessed.cy
-whichBand.checkYourAnswersLabel = Beth rydych chi'n meddwl y dylai'r band Treth Gyngor fod?
-whichBand.error.required        = Dewiswch pa fand yr ydych yn credu y dylai'ch Treth Gyngor fod ynddo
+whichBand.checkYourAnswersLabel = Beth rydych chi’n meddwl y dylai’r band Treth Gyngor fod?
+whichBand.error.required        = Dewiswch pa fand yr ydych yn credu y dylai’ch Treth Gyngor fod ynddo
 
 ##############################################################################
 # 9. Contact details
 ##############################################################################
 
 # --- councilTaxPayerDetails ---
-councilTaxPayerDetails.heading                       = Beth yw manylion cyswllt y person sy’'n talu'’r Dreth Gyngor ar gyfer yr eiddo hwn?
+councilTaxPayerDetails.heading                       = Beth yw manylion cyswllt y person sy’n talu’r Dreth Gyngor ar gyfer yr eiddo hwn?
 councilTaxPayerDetails.firstName                     = Enw cyntaf
 councilTaxPayerDetails.lastName                      = Cyfenw
 councilTaxPayerDetails.email                         = Cyfeiriad e-bost
 councilTaxPayerDetails.error.firstName.required      = Nodwch eich enw cyntaf
-councilTaxPayerDetails.error.firstName.invalid       = Mae’'n rhaid i'’r enw cyntaf gynnwys llythrennau, bylchau, cysylltnodau a chollnodau yn unig
-councilTaxPayerDetails.error.firstName.length        = Mae’'n rhaid i’'r enw cyntaf fod yn 100 o gymeriadau neu lai
+councilTaxPayerDetails.error.firstName.invalid       = Mae’n rhaid i’r enw cyntaf gynnwys llythrennau, bylchau, cysylltnodau a chollnodau yn unig
+councilTaxPayerDetails.error.firstName.length        = Mae’n rhaid i’r enw cyntaf fod yn 100 o gymeriadau neu lai
 councilTaxPayerDetails.error.lastName.required       = Nodwch eich enw olaf
-councilTaxPayerDetails.error.lastName.invalid        = Mae’'n rhaid i'’r enw olaf gynnwys llythrennau, bylchau, cysylltnodau a chollnodau yn unig
-councilTaxPayerDetails.error.lastName.length         = Mae’'n rhaid i’'r enw olaf fod yn 100 o gymeriadau neu lai
+councilTaxPayerDetails.error.lastName.invalid        = Mae’n rhaid i’r enw olaf gynnwys llythrennau, bylchau, cysylltnodau a chollnodau yn unig
+councilTaxPayerDetails.error.lastName.length         = Mae’n rhaid i’r enw olaf fod yn 100 o gymeriadau neu lai
 councilTaxPayerDetails.error.email.required          = Nodwch gyfeiriad e-bost
 councilTaxPayerDetails.error.email.invalid           = Nodwch gyfeiriad e-bost yn y fformat cywir, fel enw@enghraifft.com
 councilTaxPayerDetails.checkYourAnswers.name         = Enw
@@ -609,25 +664,25 @@ contactDetails.townOrCity                             = Tref neu ddinas
 contactDetails.county                                 = Sir (dewisol)
 contactDetails.postcode                               = Cod post
 contactDetails.subheading3                            = Sut yr hoffech i ni gysylltu â chi?
-contactDetails.subheading3.hint                       = Dewiswch yr holl opsiynau sy'n berthnasol i chi:
+contactDetails.subheading3.hint                       = Dewiswch yr holl opsiynau sy’n berthnasol i chi:
 contactDetails.error.firstName.required               = Nodwch eich enw cyntaf
-contactDetails.error.firstName.invalid                = Mae’'n rhaid i'’r enw cyntaf gynnwys llythrennau, bylchau, cysylltnodau a chollnodau yn unig
-contactDetails.error.firstName.length                 = Mae’'n rhaid i’'r enw cyntaf fod yn 100 o gymeriadau neu lai
+contactDetails.error.firstName.invalid                = Mae’n rhaid i’r enw cyntaf gynnwys llythrennau, bylchau, cysylltnodau a chollnodau yn unig
+contactDetails.error.firstName.length                 = Mae’n rhaid i’r enw cyntaf fod yn 100 o gymeriadau neu lai
 contactDetails.error.lastName.required                = Nodwch eich enw olaf
-contactDetails.error.lastName.invalid                 = Mae’'n rhaid i'’r enw olaf gynnwys llythrennau, bylchau, cysylltnodau a chollnodau yn unig
-contactDetails.error.lastName.length                  = Mae’'n rhaid i’'r enw olaf fod yn 100 o gymeriadau neu lai
+contactDetails.error.lastName.invalid                 = Mae’n rhaid i’r enw olaf gynnwys llythrennau, bylchau, cysylltnodau a chollnodau yn unig
+contactDetails.error.lastName.length                  = Mae’n rhaid i’r enw olaf fod yn 100 o gymeriadau neu lai
 contactDetails.error.email.required                   = Nodwch gyfeiriad e-bost
 contactDetails.error.email.invalid                    = Nodwch gyfeiriad e-bost yn y fformat cywir, fel enw@enghraifft.com
 contactDetails.error.phoneNumber.required             = Nodwch rif ffôn
 contactDetails.error.phoneNumber.invalid              = Nodwch rif ffôn dilys
 contactDetails.error.phoneNumber.tooShort             = Nodwch o leiaf 10 digid
 contactDetails.error.phoneNumber.tooLong              = Nodwch 15 digid neu lai
-contactDetails.error.addressLine1.required            = Nodwch linell 1 y cyfeiriad (enw’'r adeilad a'’r stryd gan amlaf)
-contactDetails.error.addressLine1.length              = Mae’'n rhaid i linell 1 y cyfeiriad fod yn 80 o gymeriadau neu lai
-contactDetails.error.addressLine2.length              = Mae’'n rhaid i linell 2 y cyfeiriad fod yn 80 o gymeriadau neu lai
+contactDetails.error.addressLine1.required            = Nodwch linell 1 y cyfeiriad (enw’r adeilad a’r stryd gan amlaf)
+contactDetails.error.addressLine1.length              = Mae’n rhaid i linell 1 y cyfeiriad fod yn 80 o gymeriadau neu lai
+contactDetails.error.addressLine2.length              = Mae’n rhaid i linell 2 y cyfeiriad fod yn 80 o gymeriadau neu lai
 contactDetails.error.townOrCity.required              = Nodwch dref neu ddinas
-contactDetails.error.townOrCity.length                = Mae’'n rhaid i’'r dref neu’'r ddinas fod yn 80 o gymeriadau neu lai
-contactDetails.error.county.length                    = Mae’'n rhaid i linell 2 y cyfeiriad fod yn 80 o gymeriadau neu lai
+contactDetails.error.townOrCity.length                = Mae’n rhaid i’r dref neu’r ddinas fod yn 80 o gymeriadau neu lai
+contactDetails.error.county.length                    = Mae’n rhaid i linell 2 y cyfeiriad fod yn 80 o gymeriadau neu lai
 contactDetails.error.postcode.required                = Nodwch god post, megis AA1 1AA
 contactDetails.error.postcode.tooShort                = Nodwch god post go iawn
 contactDetails.error.postcode.invalid                 = Nodwch god post go iawn

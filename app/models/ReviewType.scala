@@ -19,4 +19,6 @@ package models
 enum ReviewType(val messageKey: String, val continueRoute: String) {
   case Formal   extends ReviewType("formal", "formal")
   case Informal extends ReviewType("informal", "informal")
+  // formal review wording for changes to the property or local area
+  case Deletion extends ReviewType("deletion", "deletion")
 }

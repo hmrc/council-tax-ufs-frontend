@@ -67,7 +67,7 @@ class SearchResultsControllerSpec extends SpecBase with MockitoSugar {
       }
     }
 
-    "must render no results for an upstream not-found response" in {
+    "must redirect to the no results page for an upstream not-found response" in {
       val searchResultsService = mock[SearchResultsService]
       val urlEncryptor         = mock[UrlEncryptor]
 
@@ -90,8 +90,60 @@ class SearchResultsControllerSpec extends SpecBase with MockitoSugar {
 
         val result = route(application, request).value
 
+        status(result) mustEqual SEE_OTHER
+        redirectLocation(result).value mustEqual routes.SearchResultsController.noResults(postcodeToken).url
+      }
+    }
+
+    "must redirect to the no results page when the search returns nothing" in {
+      val searchResultsService = mock[SearchResultsService]
+      val urlEncryptor         = mock[UrlEncryptor]
+
+      when(urlEncryptor.decrypt(postcodeToken)).thenReturn(decodedPostcode)
+      when(searchResultsService.search(any[SearchQuery])(any[HeaderCarrier]))
+        .thenReturn(Future.successful(Right(None)))
+
+      val application = applicationBuilder(userAnswers = None)
+        .overrides(
+          bind[SearchResultsService].toInstance(searchResultsService),
+          bind[UrlEncryptor].toInstance(urlEncryptor)
+        )
+        .build()
+
+      running(application) {
+        val request = FakeRequest(GET, routes.SearchResultsController.show(postcodeToken, 1).url)
+          .withSession(SessionKeys.sessionId -> "test-session")
+
+        val result = route(application, request).value
+
+        status(result) mustEqual SEE_OTHER
+        redirectLocation(result).value mustEqual routes.SearchResultsController.noResults(postcodeToken).url
+      }
+    }
+
+    "must render the no results page without calling the search service" in {
+      val searchResultsService = mock[SearchResultsService]
+      val urlEncryptor         = mock[UrlEncryptor]
+
+      when(urlEncryptor.decrypt(postcodeToken)).thenReturn(decodedPostcode)
+
+      val application = applicationBuilder(userAnswers = None)
+        .overrides(
+          bind[SearchResultsService].toInstance(searchResultsService),
+          bind[UrlEncryptor].toInstance(urlEncryptor)
+        )
+        .build()
+
+      running(application) {
+        val request = FakeRequest(GET, routes.SearchResultsController.noResults(postcodeToken).url)
+          .withSession(SessionKeys.sessionId -> "test-session")
+
+        val result = route(application, request).value
+
         status(result) mustEqual OK
         contentAsString(result) must include("No results found for")
+        contentAsString(result) must include("/postcode-search?origin=search-no-results")
+        org.mockito.Mockito.verifyNoInteractions(searchResultsService)
       }
     }
   }

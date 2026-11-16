@@ -150,5 +150,41 @@ class PropertyDetailServiceSpec extends SpecBase with MockitoSugar {
       result.toOption.flatten.map(_.councilRefNumber) mustBe Some("273996000001")
       result.toOption.flatten.map(_.courtCode) mustBe Some("R")
     }
+
+    "must show the council label and an absolute link for a scheme-less pointer" in {
+      val connector = mock[BridgeIntegrationConnector]
+      val response = Json.parse(
+        """
+          |{
+          |  "results": {
+          |    "records": [{
+          |      "data": {
+          |        "list": {
+          |          "collection_authority": {
+          |            "code": "W07000064", "label": "Manchester", "pointer": "www.manchester.gov.uk"
+          |          }
+          |        },
+          |        "list_entry": {
+          |          "valuation": { "value": "C" },
+          |          "period": { "effective_from_date": "2024-01-01" },
+          |          "property": { "id": { "value": "PROP-123" }, "address": { "full": "1 Test Street" } }
+          |        }
+          |      }
+          |    }]
+          |  }
+          |}
+          |""".stripMargin
+      ).as[PropertyDetailResponse]
+
+      when(connector.propertyDetail(eqTo("PROP-123"))(any[HeaderCarrier]))
+        .thenReturn(Future.successful(Right(response)))
+
+      val model = new PropertyDetailService(connector)
+        .getPropertyDetail("PROP-123")(HeaderCarrier(), Lang("en")).futureValue.toOption.flatten.value
+
+      model.localCouncil mustBe "Manchester"
+      model.localCouncilCode mustBe "W07000064"
+      model.localCouncilLink mustBe Some("https://www.manchester.gov.uk")
+    }
   }
 }

@@ -18,8 +18,8 @@ package controllers
 
 import base.SpecBase
 import config.FrontendAppConfig
-import models.{UserAnswers, noticeAlteration, scenarioResponsible}
-import pages.{noticeAlterationPage, scenarioResponsiblePage}
+import models.{NormalMode, ReasonForReview, UserAnswers, deletionOptions, noticeAlteration, scenarioResponsible}
+import pages.{ReasonForReviewPage, deletionOptionsPage, noticeAlterationPage, scenarioResponsiblePage}
 import play.api.inject.guice.GuiceApplicationBuilder
 import play.api.test.FakeRequest
 import play.api.test.Helpers.*
@@ -62,6 +62,56 @@ class ReviewOverviewControllerSpec extends SpecBase {
 
         status(result) mustBe SEE_OTHER
         redirectLocation(result).value must include("council-tax-liability-start-date")
+      }
+    }
+
+    "must continue from the formal review for local area changes to what has changed" in {
+      val answers = UserAnswers(userAnswersId)
+        .set(ReasonForReviewPage, ReasonForReview.Changesaffectedproperty).success.value
+        .set(deletionOptionsPage, deletionOptions.Affected).success.value
+      val application = applicationBuilder(userAnswers = Some(answers)).build()
+
+      running(application) {
+        val request = FakeRequest(GET, routes.ReviewOverviewController.continueToLogin("deletion").url)
+          .withSession("sessionId" -> userAnswersId)
+        val result = route(application, request).value
+
+        status(result) mustBe SEE_OTHER
+        redirectLocation(result).value mustBe routes.WhatHasChangedController.onPageLoad(NormalMode).url
+      }
+    }
+
+    "must send the formal review back to the deletion options for local area changes" in {
+      val answers = UserAnswers(userAnswersId)
+        .set(ReasonForReviewPage, ReasonForReview.Changesaffectedproperty).success.value
+        .set(deletionOptionsPage, deletionOptions.Affected).success.value
+      val application = applicationBuilder(userAnswers = Some(answers)).build()
+
+      running(application) {
+        val result = route(application, FakeRequest(GET, routes.ReviewOverviewController.formalReview().url).withSession("sessionId" -> userAnswersId)).value
+
+        val html = contentAsString(result)
+        html must include(routes.deletionOptionsController.onPageLoad(NormalMode).url)
+        html must include("changes made to your home or significant changes made in the local area")
+        html must include("all or part of your home has been demolished")
+        html must include("There are 4 possible decisions that can be made:")
+        html must include("your home is deleted from the Council Tax list")
+        html must include(routes.ReviewOverviewController.continueToLogin("deletion").url)
+        html must not include "less than 6 months"
+      }
+    }
+
+    "must keep the original formal review wording and three decisions for the band challenge" in {
+      val answers = UserAnswers(userAnswersId).set(scenarioResponsiblePage, scenarioResponsible.Lessthan).success.value
+      val application = applicationBuilder(userAnswers = Some(answers)).build()
+
+      running(application) {
+        val result = route(application, FakeRequest(GET, routes.ReviewOverviewController.formalReview().url).withSession("sessionId" -> userAnswersId)).value
+        val html = contentAsString(result)
+
+        html must include("less than 6 months")
+        html must include("There are 3 possible decisions that can be made:")
+        html must not include "your home is deleted from the Council Tax list"
       }
     }
 

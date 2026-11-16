@@ -21,7 +21,7 @@ import controllers.actions.{DataRequiredAction, DataRetrievalAction, IdentifierA
 import models.{CouncilTaxResponsible, Journey, ReasonForReview, scenarioResponsible}
 import navigation.Navigator
 import pages.{CouncilTaxResponsiblePage, ReasonForReviewPage, scenarioResponsiblePage}
-import viewmodels.checkAnswers.{ContactDetailsSummary, CouncilTaxPayerDetailsSummary, CouncilTaxLiabilityStartDateSummary, EvidenceSummary, DateNoticeSummary, PropertyAddressSummary, ReasonForReviewSummary, WhichBandSummary, deletionOptionsSummary, noticeAlterationSummary, scenarioResponsibleSummary, WhyBandIsWrongSummary}
+import viewmodels.checkAnswers.{ContactDetailsSummary, CouncilTaxPayerDetailsSummary, CouncilTaxLiabilityStartDateSummary, EvidenceSummary, DateNoticeSummary, PropertyAddressSummary, ReasonForReviewSummary, WhichBandSummary, deletionOptionsSummary, noticeAlterationSummary, scenarioResponsibleSummary, WhyBandIsWrongSummary, WhatHasChangedSummary, WhenDidChangeHappenSummary}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import models.requests.DataRequest
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents, Result}
@@ -68,7 +68,9 @@ class CheckYourAnswersController @Inject()(
           ReasonForReviewSummary.row(request.userAnswers),
           Option.when(bandChallenge)(scenarioResponsibleSummary.row(request.userAnswers)).flatten,
           Option.when(bandChallenge && moreThanSixMonths)(noticeAlterationSummary.row(request.userAnswers)).flatten,
-          Option.when(propertyChanges)(deletionOptionsSummary.row(request.userAnswers)).flatten
+          Option.when(propertyChanges)(deletionOptionsSummary.row(request.userAnswers)).flatten,
+          Option.when(propertyChanges)(WhatHasChangedSummary.row(request.userAnswers)).flatten,
+          Option.when(propertyChanges)(WhenDidChangeHappenSummary.row(request.userAnswers)).flatten
         ).flatten,
         "checkYourAnswers.section.challengeDetails" -> Seq(
           CouncilTaxLiabilityStartDateSummary.row(request.userAnswers),

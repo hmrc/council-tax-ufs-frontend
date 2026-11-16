@@ -32,6 +32,8 @@ case object ReasonForReviewPage extends QuestionPage[ReasonForReview] {
     value match {
       case Some(ReasonForReview.Bandiswrong) =>
         userAnswers.remove(deletionOptionsPage)
+          .flatMap(_.remove(WhatHasChangedPage))
+          .flatMap(_.remove(WhenDidChangeHappenPage))
       case Some(ReasonForReview.Changesaffectedproperty) =>
         userAnswers.remove(scenarioResponsiblePage)
           .flatMap(_.remove(noticeAlterationPage))

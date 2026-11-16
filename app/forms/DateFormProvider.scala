@@ -36,11 +36,20 @@ class DateFormProvider @Inject() extends Mappings {
     maxErrorKey: Option[String] = None
   )(implicit messages: Messages): Form[LocalDate] =
     boundedDateForm(
-      prefix   = prefix,
-      earliest = Some(LocalDate.now(ZoneOffset.UTC).minusMonths(monthsBack)),
+      prefix      = prefix,
+      earliest    = Some(LocalDate.now(ZoneOffset.UTC).minusMonths(monthsBack)),
       minErrorKey = minErrorKey,
       maxErrorKey = maxErrorKey
     )
+
+  /** As [[dateForm]] but with a fixed earliest allowed date instead of a number of months back. */
+  protected def dateFormFrom(
+    prefix:       String,
+    earliestDate: LocalDate,
+    minErrorKey:  Option[String] = None,
+    maxErrorKey:  Option[String] = None
+  )(implicit messages: Messages): Form[LocalDate] =
+    boundedDateForm(prefix, Some(earliestDate), minErrorKey, maxErrorKey)
 
   /** Dates up to and including today. `earliest = None` leaves the date open ended at the
     * start, for pages that only ask the answer not to be in the future.
