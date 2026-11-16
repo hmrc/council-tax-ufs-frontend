@@ -16,12 +16,23 @@
 
 package pages
 
-import models.deletionOptions
+import models.{UserAnswers, deletionOptions}
 import play.api.libs.json.JsPath
+
+import scala.util.Try
 
 case object deletionOptionsPage extends QuestionPage[deletionOptions] {
 
   override def path: JsPath = JsPath \ toString
 
   override def toString: String = "deletionOptions"
+
+  // the follow-up questions belong to "another reason" and "local area changes" only
+  override def cleanup(value: Option[deletionOptions], userAnswers: UserAnswers): Try[UserAnswers] =
+    value match {
+      case Some(deletionOptions.AnotherReason) | Some(deletionOptions.Affected) => super.cleanup(value, userAnswers)
+      case _ =>
+        userAnswers.remove(WhatHasChangedPage)
+          .flatMap(_.remove(WhenDidChangeHappenPage))
+    }
 }

@@ -177,6 +177,103 @@ class NavigatorSpec extends SpecBase {
         all.set(ReasonForReviewPage, ReasonForReview.Changesaffectedproperty).success.value.get(scenarioResponsiblePage) mustBe None
       }
 
+      "must take another reason through the scenario-other page, what has changed and when it happened, to Contact Details" in {
+        val answers = UserAnswers("id")
+          .set(ReasonForReviewPage, ReasonForReview.Changesaffectedproperty).success.value
+          .set(deletionOptionsPage, deletionOptions.AnotherReason).success.value
+
+        navigator.nextPage(deletionOptionsPage, NormalMode, answers) mustBe routes.ScenarioOtherController.onPageLoad()
+        navigator.nextPage(WhatHasChangedPage, NormalMode, answers) mustBe routes.WhenDidChangeHappenController.onPageLoad(NormalMode)
+        navigator.nextPage(WhenDidChangeHappenPage, NormalMode, answers) mustBe routes.ContactDetailsController.onPageLoad(NormalMode)
+        navigator.nextPage(ContactDetailsPage, NormalMode, answers) mustBe routes.CheckYourAnswersController.onPageLoad(Journey.Deletion)
+      }
+
+      "must ask for the Council Tax payer details before contact details when acting for someone on another reason" in {
+        val acting = UserAnswers("id")
+          .set(CouncilTaxResponsiblePage, CouncilTaxResponsible.ActingFor).success.value
+          .set(ReasonForReviewPage, ReasonForReview.Changesaffectedproperty).success.value
+          .set(deletionOptionsPage, deletionOptions.AnotherReason).success.value
+
+        navigator.nextPage(WhenDidChangeHappenPage, NormalMode, acting) mustBe routes.CouncilTaxPayerDetailsController.onPageLoad(NormalMode)
+        navigator.nextPage(CouncilTaxPayerDetailsPage, NormalMode, acting) mustBe routes.ContactDetailsController.onPageLoad(NormalMode)
+        navigator.nextPage(ContactDetailsPage, NormalMode, acting) mustBe routes.CheckYourAnswersController.onPageLoad(Journey.Deletion)
+
+        navigator.backLink(CouncilTaxPayerDetailsPage, NormalMode, Some(acting)) mustBe routes.WhenDidChangeHappenController.onPageLoad(NormalMode)
+        navigator.backLink(ContactDetailsPage, NormalMode, Some(acting)) mustBe routes.CouncilTaxPayerDetailsController.onPageLoad(NormalMode)
+
+        val answered = acting
+          .set(WhatHasChangedPage, "Split").success.value
+          .set(WhenDidChangeHappenPage, java.time.LocalDate.of(2025, 4, 27)).success.value
+        navigator.nextPage(WhenDidChangeHappenPage, CheckMode, answered) mustBe routes.CouncilTaxPayerDetailsController.onPageLoad(CheckMode)
+
+        val complete = answered
+          .set(CouncilTaxPayerDetailsPage, CouncilTaxPayerDetails("p", "q", "p@example.com")).success.value
+          .set(ContactDetailsPage, ContactDetails("a", "b", None, None, None, None, None, None, None, Set("email"))).success.value
+        navigator.nextPage(ContactDetailsPage, CheckMode, complete) mustBe routes.CheckYourAnswersController.onPageLoad(Journey.Deletion)
+      }
+
+      "must take local area changes through the formal review, what changed and when, to Contact Details" in {
+        val answers = UserAnswers("id")
+          .set(ReasonForReviewPage, ReasonForReview.Changesaffectedproperty).success.value
+          .set(deletionOptionsPage, deletionOptions.Affected).success.value
+
+        navigator.nextPage(deletionOptionsPage, NormalMode, answers) mustBe routes.ReviewOverviewController.formalReview()
+        navigator.nextPage(WhatHasChangedPage, NormalMode, answers) mustBe routes.WhenDidChangeHappenController.onPageLoad(NormalMode)
+        navigator.nextPage(WhenDidChangeHappenPage, NormalMode, answers) mustBe routes.ContactDetailsController.onPageLoad(NormalMode)
+
+        navigator.reviewOverviewBackLink(ReviewType.Deletion, Some(answers)) mustBe routes.deletionOptionsController.onPageLoad(NormalMode)
+        navigator.backLink(WhatHasChangedPage, NormalMode, Some(answers)) mustBe routes.ReviewOverviewController.formalReview()
+        navigator.nextPage(deletionOptionsPage, CheckMode, answers) mustBe routes.WhatHasChangedController.onPageLoad(CheckMode)
+
+        val acting = answers.set(CouncilTaxResponsiblePage, CouncilTaxResponsible.ActingFor).success.value
+        navigator.nextPage(WhenDidChangeHappenPage, NormalMode, acting) mustBe routes.CouncilTaxPayerDetailsController.onPageLoad(NormalMode)
+      }
+
+      "must give the another reason pages explicit back links" in {
+        val answers = Some(UserAnswers("id").set(ReasonForReviewPage, ReasonForReview.Changesaffectedproperty).success.value)
+
+        navigator.backLink(scenarioOtherPage, NormalMode, answers) mustBe routes.deletionOptionsController.onPageLoad(NormalMode)
+        navigator.backLink(WhatHasChangedPage, NormalMode, answers) mustBe routes.ScenarioOtherController.onPageLoad()
+        navigator.backLink(WhenDidChangeHappenPage, NormalMode, answers) mustBe routes.WhatHasChangedController.onPageLoad(NormalMode)
+        navigator.backLink(ContactDetailsPage, NormalMode, answers) mustBe routes.WhenDidChangeHappenController.onPageLoad(NormalMode)
+        navigator.backLink(WhatHasChangedPage, CheckMode, answers) mustBe routes.CheckYourAnswersController.onPageLoad(Journey.Deletion)
+      }
+
+      "must ask for whichever another reason answer is missing in check mode" in {
+        val base = UserAnswers("id")
+          .set(ReasonForReviewPage, ReasonForReview.Changesaffectedproperty).success.value
+          .set(deletionOptionsPage, deletionOptions.AnotherReason).success.value
+
+        navigator.nextPage(deletionOptionsPage, CheckMode, base) mustBe routes.WhatHasChangedController.onPageLoad(CheckMode)
+
+        val withWhat = base.set(WhatHasChangedPage, "Split").success.value
+        navigator.nextPage(WhatHasChangedPage, CheckMode, withWhat) mustBe routes.WhenDidChangeHappenController.onPageLoad(CheckMode)
+
+        val withWhen = withWhat.set(WhenDidChangeHappenPage, java.time.LocalDate.of(2025, 4, 27)).success.value
+        navigator.nextPage(WhenDidChangeHappenPage, CheckMode, withWhen) mustBe routes.ContactDetailsController.onPageLoad(CheckMode)
+
+        val complete = withWhen.set(ContactDetailsPage, ContactDetails("a", "b", None, None, None, None, None, None, None, Set("email"))).success.value
+        navigator.nextPage(ContactDetailsPage, CheckMode, complete) mustBe routes.CheckYourAnswersController.onPageLoad(Journey.Deletion)
+      }
+
+      "must drop the another reason answers when they no longer apply" in {
+        val all = UserAnswers("id")
+          .set(ReasonForReviewPage, ReasonForReview.Changesaffectedproperty).success.value
+          .set(deletionOptionsPage, deletionOptions.AnotherReason).success.value
+          .set(WhatHasChangedPage, "Split").success.value
+          .set(WhenDidChangeHappenPage, java.time.LocalDate.of(2025, 4, 27)).success.value
+
+        val otherOption = all.set(deletionOptionsPage, deletionOptions.Split).success.value
+        otherOption.get(WhatHasChangedPage) mustBe None
+        otherOption.get(WhenDidChangeHappenPage) mustBe None
+
+        all.set(deletionOptionsPage, deletionOptions.AnotherReason).success.value.get(WhatHasChangedPage) mustBe Some("Split")
+
+        val bandChallenge = all.set(ReasonForReviewPage, ReasonForReview.Bandiswrong).success.value
+        bandChallenge.get(WhatHasChangedPage) mustBe None
+        bandChallenge.get(WhenDidChangeHappenPage) mustBe None
+      }
+
       "must route an unanswered evidence question back to itself" in {
         navigator.nextPage(HasEvidencePage, NormalMode, UserAnswers("id")) mustBe routes.HasEvidenceController.onPageLoad(NormalMode)
       }

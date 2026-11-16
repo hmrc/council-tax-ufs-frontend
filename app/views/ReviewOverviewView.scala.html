@@ -24,6 +24,9 @@
 @(reviewType: ReviewType, backLinkUrl: String)(implicit request: Request[_], messages: Messages)
 
 @messagePrefix = @{ s"reviewOverview.${reviewType.messageKey}" }
+@* a review type can give its own decisions (and any number of examples); otherwise the shared three apply *@
+@decisionPrefix = @{ if (messages.isDefinedAt(s"$messagePrefix.decision.intro")) s"$messagePrefix.decision" else "reviewOverview.decision" }
+@numbered(prefix: String) = @{ (1 to 6).filter(index => messages.isDefinedAt(s"$prefix.$index")) }
 @detailRows = @{
   Seq(
     "reviewOverview.row.whatItIs" -> s"$messagePrefix.whatItIs",
@@ -65,7 +68,7 @@
         <th scope="row" class="govuk-table__header">@messages("reviewOverview.row.examples")</th>
         <td class="govuk-table__cell">
           <ul class="govuk-list govuk-list--bullet">
-            @for(index <- 1 to 3) {
+            @for(index <- numbered(s"$messagePrefix.examples")) {
               <li>@messages(s"$messagePrefix.examples.$index")</li>
             }
           </ul>
@@ -74,10 +77,10 @@
       <tr class="govuk-table__row">
         <th scope="row" class="govuk-table__header">@messages("reviewOverview.row.decision")</th>
         <td class="govuk-table__cell">
-           @messages("reviewOverview.decision.intro")
+           @messages(s"$decisionPrefix.intro")
           <ul class="govuk-list govuk-list--bullet">
-            @for(index <- 1 to 3) {
-              <li>@messages(s"reviewOverview.decision.$index")</li>
+            @for(index <- numbered(decisionPrefix)) {
+              <li>@messages(s"$decisionPrefix.$index")</li>
             }
           </ul>
         </td>

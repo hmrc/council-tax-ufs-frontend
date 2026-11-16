@@ -81,14 +81,14 @@ class SearchResultsController @Inject()(
         case Left(error) =>
           error.statusCode match {
             case 404 =>
-              Ok(noResultsView(PostcodeFormatter.format(searchPostcode)))
+              Redirect(routes.SearchResultsController.noResults(postcode))
             case status =>
               logger.error(s"[SearchResultsController] API error status=$status")
               searchError(status, error.message)
           }
 
         case Right(None) =>
-          Ok(noResultsView(PostcodeFormatter.format(searchPostcode)))
+          Redirect(routes.SearchResultsController.noResults(postcode))
 
         case Right(Some(viewModel)) =>
           val cappedPage = Math.min(safePage, viewModel.totalPages)
@@ -103,5 +103,11 @@ class SearchResultsController @Inject()(
             Ok(searchResultsView(viewModel, postcode, pagination))
           }
       }
+    }
+
+  // own URL so searches started from this page can be told apart from those started on the results page
+  def noResults(postcode: String): Action[AnyContent] =
+    sessionIdentify { implicit request =>
+      Ok(noResultsView(PostcodeFormatter.format(urlEncryptor.decrypt(postcode))))
     }
 }

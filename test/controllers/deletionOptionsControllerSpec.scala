@@ -23,7 +23,7 @@ import navigation.{FakeNavigator, Navigator}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
-import pages.deletionOptionsPage
+import pages.{WhatHasChangedPage, WhenDidChangeHappenPage, deletionOptionsPage}
 import play.api.inject.bind
 import play.api.mvc.Call
 import play.api.test.FakeRequest
@@ -122,6 +122,35 @@ class deletionOptionsControllerSpec extends SpecBase with MockitoSugar {
         status(result) mustEqual BAD_REQUEST
         contentAsString(result) mustEqual view(boundForm, NormalMode, routes.ReasonForReviewController.onPageLoad(NormalMode).url)(request, messages(application)).toString
       }
+    }
+
+    "must clear the change details when a different option is chosen, and keep them when the same option is re-submitted" in {
+
+      val answers = emptyUserAnswers
+        .set(deletionOptionsPage, deletionOptions.AnotherReason).success.value
+        .set(WhatHasChangedPage, "Split").success.value
+        .set(WhenDidChangeHappenPage, java.time.LocalDate.of(2025, 4, 27)).success.value
+
+      def submit(option: deletionOptions): models.UserAnswers = {
+        val sessionRepository = mock[SessionRepository]
+        val captor = org.mockito.ArgumentCaptor.forClass(classOf[models.UserAnswers])
+        when(sessionRepository.set(captor.capture())) thenReturn Future.successful(true)
+        val application = applicationBuilder(userAnswers = Some(answers))
+          .overrides(bind[SessionRepository].toInstance(sessionRepository)).build()
+
+        running(application) {
+          val request = FakeRequest(POST, deletionOptionsRoute).withFormUrlEncodedBody("value" -> option.toString)
+          status(route(application, request).value) mustEqual SEE_OTHER
+        }
+        captor.getValue
+      }
+
+      val switched = submit(deletionOptions.Affected)
+      switched.get(WhatHasChangedPage) mustBe None
+      switched.get(WhenDidChangeHappenPage) mustBe None
+
+      val same = submit(deletionOptions.AnotherReason)
+      same.get(WhatHasChangedPage) mustBe Some("Split")
     }
   }
 }

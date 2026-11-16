@@ -72,6 +72,7 @@ class SearchResultsService @Inject() (
             val authorityLink = record.list
               .flatMap(_.collection_authority)
               .flatMap(_.pointer)
+              .flatMap(utils.ExternalLink.absolute)
 
             val propertyId = record.list_entry
               .flatMap(_.property)

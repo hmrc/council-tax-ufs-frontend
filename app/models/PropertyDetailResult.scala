@@ -74,6 +74,7 @@ object PropertyDetailClassification {
 
 case class PropertyDetailCollectionAuthority(
   code: Option[String],
+  label: Option[String] = None,
   pointer: Option[String] = None
 )
 
