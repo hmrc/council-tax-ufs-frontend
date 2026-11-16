@@ -49,7 +49,7 @@ class UninhabitableDetailsPlanPlanningApplicationControllerSpec extends SpecBase
 
     "must return OK and the correct view for a GET" in {
 
-      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+      val application = applicationBuilder(userAnswers = Some(derelictAnswers())).build()
 
       running(application) {
         val request = FakeRequest(GET, pageRoute)
@@ -65,7 +65,7 @@ class UninhabitableDetailsPlanPlanningApplicationControllerSpec extends SpecBase
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
-      val userAnswers = UserAnswers(userAnswersId).set(UninhabitableDetailsPlanPlanningApplicationPage, validAnswer).success.value
+      val userAnswers = derelictAnswers().set(UninhabitableDetailsPlanPlanningApplicationPage, validAnswer).success.value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
@@ -89,7 +89,7 @@ class UninhabitableDetailsPlanPlanningApplicationControllerSpec extends SpecBase
       when(mockSessionRepository.set(any())) thenReturn Future.successful(true)
 
       val application =
-        applicationBuilder(userAnswers = Some(emptyUserAnswers))
+        applicationBuilder(userAnswers = Some(derelictAnswers()))
           .overrides(
             bind[Navigator].toInstance(new FakeNavigator(onwardRoute)),
             bind[SessionRepository].toInstance(mockSessionRepository)
@@ -106,14 +106,31 @@ class UninhabitableDetailsPlanPlanningApplicationControllerSpec extends SpecBase
       }
     }
 
-    "must return a Bad Request and errors when invalid data is submitted" in {
+    "must redirect to the next page when the optional answer is left blank" in {
 
-      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+      val mockSessionRepository = mock[SessionRepository]
+      when(mockSessionRepository.set(any())) thenReturn Future.successful(true)
+
+      val application =
+        applicationBuilder(userAnswers = Some(derelictAnswers()))
+          .overrides(bind[SessionRepository].toInstance(mockSessionRepository))
+          .build()
 
       running(application) {
         val request = FakeRequest(POST, pageRoute).withFormUrlEncodedBody(("value", ""))
 
-        val boundForm = form.bind(Map("value" -> ""))
+        status(route(application, request).value) mustEqual SEE_OTHER
+      }
+    }
+
+    "must return a Bad Request and errors when the answer is too long" in {
+
+      val application = applicationBuilder(userAnswers = Some(derelictAnswers())).build()
+
+      running(application) {
+        val request = FakeRequest(POST, pageRoute).withFormUrlEncodedBody(("value", "a" * 5001))
+
+        val boundForm = form.bind(Map("value" -> ("a" * 5001)))
 
         val view = application.injector.instanceOf[UninhabitableDetailsPlanPlanningApplicationView]
 

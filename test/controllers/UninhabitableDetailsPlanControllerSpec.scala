@@ -49,7 +49,7 @@ class UninhabitableDetailsPlanControllerSpec extends SpecBase with MockitoSugar 
 
     "must return OK and the correct view for a GET" in {
 
-      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+      val application = applicationBuilder(userAnswers = Some(derelictAnswers())).build()
 
       running(application) {
         val request = FakeRequest(GET, pageRoute)
@@ -65,7 +65,7 @@ class UninhabitableDetailsPlanControllerSpec extends SpecBase with MockitoSugar 
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
-      val userAnswers = UserAnswers(userAnswersId).set(UninhabitableDetailsPlanPage, validAnswer).success.value
+      val userAnswers = derelictAnswers().set(UninhabitableDetailsPlanPage, validAnswer).success.value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
@@ -89,7 +89,7 @@ class UninhabitableDetailsPlanControllerSpec extends SpecBase with MockitoSugar 
       when(mockSessionRepository.set(any())) thenReturn Future.successful(true)
 
       val application =
-        applicationBuilder(userAnswers = Some(emptyUserAnswers))
+        applicationBuilder(userAnswers = Some(derelictAnswers()))
           .overrides(
             bind[Navigator].toInstance(new FakeNavigator(onwardRoute)),
             bind[SessionRepository].toInstance(mockSessionRepository)
@@ -108,7 +108,7 @@ class UninhabitableDetailsPlanControllerSpec extends SpecBase with MockitoSugar 
 
     "must return a Bad Request and errors when invalid data is submitted" in {
 
-      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+      val application = applicationBuilder(userAnswers = Some(derelictAnswers())).build()
 
       running(application) {
         val request = FakeRequest(POST, pageRoute).withFormUrlEncodedBody(("value", ""))

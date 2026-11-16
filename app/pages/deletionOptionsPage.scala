@@ -27,12 +27,16 @@ case object deletionOptionsPage extends QuestionPage[deletionOptions] {
 
   override def toString: String = "deletionOptions"
 
-  // the follow-up questions belong to "another reason" and "local area changes" only
+  // each option has its own follow-up questions, so choosing one drops the others'
   override def cleanup(value: Option[deletionOptions], userAnswers: UserAnswers): Try[UserAnswers] =
     value match {
-      case Some(deletionOptions.AnotherReason) | Some(deletionOptions.Affected) => super.cleanup(value, userAnswers)
-      case _ =>
-        userAnswers.remove(WhatHasChangedPage)
-          .flatMap(_.remove(WhenDidChangeHappenPage))
+      case Some(deletionOptions.AnotherReason) | Some(deletionOptions.Affected) =>
+        userAnswers.removeAll(ChangesPages.demolishedJourney ++ ChangesPages.changeOfUse ++ ChangesPages.evidence)
+      case Some(deletionOptions.Demolished) =>
+        userAnswers.removeAll(ChangesPages.changeDetails ++ ChangesPages.changeOfUse)
+      case Some(deletionOptions.Changed) =>
+        userAnswers.removeAll(ChangesPages.changeDetails ++ ChangesPages.demolishedJourney ++ ChangesPages.evidence)
+      case Some(_) => userAnswers.removeAll(ChangesPages.followUps)
+      case None    => super.cleanup(value, userAnswers)
     }
 }

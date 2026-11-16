@@ -31,14 +31,9 @@ case object ReasonForReviewPage extends QuestionPage[ReasonForReview] {
   override def cleanup(value: Option[ReasonForReview], userAnswers: UserAnswers): Try[UserAnswers] =
     value match {
       case Some(ReasonForReview.Bandiswrong) =>
-        userAnswers.remove(deletionOptionsPage)
-          .flatMap(_.remove(WhatHasChangedPage))
-          .flatMap(_.remove(WhenDidChangeHappenPage))
+        userAnswers.remove(deletionOptionsPage).flatMap(_.removeAll(ChangesPages.changeDetails ++ ChangesPages.derelict))
       case Some(ReasonForReview.Changesaffectedproperty) =>
-        userAnswers.remove(scenarioResponsiblePage)
-          .flatMap(_.remove(noticeAlterationPage))
-          .flatMap(_.remove(CouncilTaxLiabilityStartDatePage))
-          .flatMap(_.remove(DateNoticePage))
+        userAnswers.removeAll(ChangesPages.bandChallenge)
       case _ => super.cleanup(value, userAnswers)
     }
 }

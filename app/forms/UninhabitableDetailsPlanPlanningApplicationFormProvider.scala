@@ -22,5 +22,5 @@ import javax.inject.Inject
 
 class UninhabitableDetailsPlanPlanningApplicationFormProvider @Inject() extends TextAreaFormProvider {
 
-  def apply(): Form[String] = textAreaForm("uninhabitableDetailsPlanPlanningApplication")
+  def apply(): Form[String] = textAreaForm("uninhabitableDetailsPlanPlanningApplication", optional = true)
 }

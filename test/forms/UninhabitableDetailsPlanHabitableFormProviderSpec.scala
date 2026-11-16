@@ -35,8 +35,10 @@ class UninhabitableDetailsPlanHabitableFormProviderSpec extends AnyWordSpec with
       bound.errors.map(_.message) should contain("uninhabitableDetailsPlanHabitable.error.maxLength")
     }
 
-    "require an answer" in {
-      form.bind(Map("value" -> " ")).errors.map(_.message) should contain("uninhabitableDetailsPlanHabitable.error.required")
+    "accept a blank answer because the question is optional" in {
+      form.bind(Map("value" -> " ")).errors shouldBe empty
+      form.bind(Map("value" -> "")).errors shouldBe empty
+      form.bind(Map.empty[String, String]).errors shouldBe empty
     }
   }
 }

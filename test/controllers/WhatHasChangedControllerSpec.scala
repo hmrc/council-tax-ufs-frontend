@@ -32,6 +32,8 @@ import scala.concurrent.Future
 
 class WhatHasChangedControllerSpec extends SpecBase with MockitoSugar {
 
+  private def anotherReason = emptyUserAnswers.set(deletionOptionsPage, deletionOptions.AnotherReason).success.value
+
   private def appWithRepo(userAnswers: Option[models.UserAnswers]) = {
     val sessionRepository = mock[SessionRepository]
     when(sessionRepository.set(any())) thenReturn Future.successful(true)
@@ -41,7 +43,7 @@ class WhatHasChangedControllerSpec extends SpecBase with MockitoSugar {
   "WhatHasChangedController" - {
 
     "must render the question" in {
-      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+      val application = applicationBuilder(userAnswers = Some(anotherReason)).build()
 
       running(application) {
         val result = route(application, FakeRequest(GET, routes.WhatHasChangedController.onPageLoad(NormalMode).url)).value
@@ -82,7 +84,7 @@ class WhatHasChangedControllerSpec extends SpecBase with MockitoSugar {
     }
 
     "must continue to When did this change happen after a valid answer" in {
-      val application = appWithRepo(Some(emptyUserAnswers))
+      val application = appWithRepo(Some(anotherReason))
 
       running(application) {
         val request = FakeRequest(POST, routes.WhatHasChangedController.onSubmit(NormalMode).url).withFormUrlEncodedBody("value" -> "Split into two flats")

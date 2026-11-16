@@ -16,12 +16,23 @@
 
 package pages
 
-import models.UninhabitableDetails
+import models.{UninhabitableDetails, UserAnswers}
 import play.api.libs.json.JsPath
+
+import scala.util.Try
 
 case object UninhabitableDetailsPage extends QuestionPage[UninhabitableDetails] {
 
   override def path: JsPath = JsPath \ toString
 
   override def toString: String = "uninhabitableDetails"
+
+  // "Other" asks for its own details and has no plan questions; fire and flood damage are the other way round
+  override def cleanup(value: Option[UninhabitableDetails], userAnswers: UserAnswers): Try[UserAnswers] =
+    value match {
+      case Some(UninhabitableDetails.Other)                                    => userAnswers.removeAll(ChangesPages.derelictPlans)
+      case Some(UninhabitableDetails.FireDamage | UninhabitableDetails.FloodDamage) =>
+        userAnswers.remove(UninhabitableDetailsOtherPage)
+      case None                                                                => super.cleanup(value, userAnswers)
+    }
 }

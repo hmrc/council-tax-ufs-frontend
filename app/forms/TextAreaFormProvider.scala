@@ -26,13 +26,18 @@ object TextAreaFormProvider {
 }
 
 /** Base for free text question pages. Message keys follow the convention
-  * `<prefix>.error.required` and `<prefix>.error.maxLength`.
+  * `<prefix>.error.required` (mandatory pages only) and `<prefix>.error.maxLength`.
+  * An optional page accepts a blank answer, which is stored as "".
   */
 class TextAreaFormProvider @Inject() extends Mappings {
   import TextAreaFormProvider.maxCharacters
 
-  protected def textAreaForm(prefix: String): Form[String] =
+  protected def textAreaForm(prefix: String, optional: Boolean = false): Form[String] =
     Form(
-      "value" -> textArea(Some(s"$prefix.error.required"), s"$prefix.error.maxLength", Some(maxCharacters))
+      "value" -> textArea(
+        requiredKey  = Option.unless(optional)(s"$prefix.error.required"),
+        maxLengthKey = s"$prefix.error.maxLength",
+        max          = Some(maxCharacters)
+      )
     )
 }

@@ -80,11 +80,8 @@ class UninhabitableDetailsPlanHabitableViewSpec extends SpecBase {
       asDocument(applyView(form)).select(".govuk-error-summary").isEmpty mustBe true
     }
 
-    "must show the required error and link it to the textarea when nothing is entered" in {
-      val doc = asDocument(applyView(form.bind(Map("value" -> ""))))
-
-      doc.select(".govuk-error-summary").text() must include(msgs("uninhabitableDetailsPlanHabitable.error.required"))
-      doc.select(".govuk-error-summary a").attr("href") mustBe "#uninhabitable-details-plan-habitable"
+    "must show the optional hint in the heading" in {
+      asDocument(applyView(form)).select("h1").text() must endWith(" (" + "optional" + ")")
     }
 
     "must show the maximum length error when the answer is too long" in {

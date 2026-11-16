@@ -101,6 +101,104 @@ class ReviewOverviewControllerSpec extends SpecBase {
       }
     }
 
+    "must show the demolished formal review in English and Welsh, and continue to the reason" in {
+      val application = applicationBuilder(userAnswers = Some(demolishedAnswers(None))).build()
+
+      running(application) {
+        val english = contentAsString(route(application, FakeRequest(GET, routes.ReviewOverviewController.formalReview().url)).value)
+        english must include("property has been demolished completely and cannot be lived in")
+        english must include("section 80/81 Notice of Demolition")
+        english must include(routes.ReviewOverviewController.continueToLogin("demolished").url)
+
+        val welsh = contentAsString(route(application,
+          FakeRequest(GET, routes.ReviewOverviewController.formalReview().url).withCookies(play.api.mvc.Cookie("PLAY_LANG", "cy"))).value)
+        welsh must not include "reviewOverview.demolished"
+
+        val result = route(application, FakeRequest(GET, routes.ReviewOverviewController.continueToLogin("demolished").url)).value
+        redirectLocation(result).value mustEqual routes.UninhabitableDetailsController.onPageLoad(NormalMode).url
+      }
+    }
+
+    "must show the major works or renovations formal review in English and Welsh, and continue to the start date" in {
+      val application = applicationBuilder(userAnswers = Some(renoAnswers)).build()
+
+      running(application) {
+        val english = contentAsString(route(application, FakeRequest(GET, routes.ReviewOverviewController.formalReview().url)).value)
+        english must include("property is having major works or renovations done and cannot be lived in")
+        english must include("A Scheme of Works document")
+        english must include(routes.ReviewOverviewController.continueToLogin("reno").url)
+
+        val welsh = contentAsString(route(application,
+          FakeRequest(GET, routes.ReviewOverviewController.formalReview().url).withCookies(play.api.mvc.Cookie("PLAY_LANG", "cy"))).value)
+        welsh must not include "reviewOverview.reno"
+
+        val result = route(application, FakeRequest(GET, routes.ReviewOverviewController.continueToLogin("reno").url)).value
+        redirectLocation(result).value mustEqual routes.RenoStartDateController.onPageLoad(NormalMode).url
+      }
+    }
+
+    "must show the part demolished formal review in English and Welsh, and continue to the demolition date" in {
+      val application = applicationBuilder(userAnswers = Some(partDemoAnswers)).build()
+
+      running(application) {
+        val english = contentAsString(route(application, FakeRequest(GET, routes.ReviewOverviewController.formalReview().url)).value)
+        english must include("property has been partially demolished and cannot be lived in")
+        english must include("Valuation Tribunal Wales")
+        english must include(routes.ReviewOverviewController.continueToLogin("partdemo").url)
+
+        val welsh = contentAsString(route(application,
+          FakeRequest(GET, routes.ReviewOverviewController.formalReview().url).withCookies(play.api.mvc.Cookie("PLAY_LANG", "cy"))).value)
+        welsh must not include "reviewOverview.partdemo"
+
+        val result = route(application, FakeRequest(GET, routes.ReviewOverviewController.continueToLogin("partdemo").url)).value
+        redirectLocation(result).value mustEqual routes.PartDemoDateController.onPageLoad(NormalMode).url
+      }
+    }
+
+    "must show the derelict formal review, going back to the property choice and on to the uninhabitable details" in {
+      val application = applicationBuilder(userAnswers = Some(derelictAnswers(None))).build()
+
+      running(application) {
+        val html = contentAsString(route(application, FakeRequest(GET, routes.ReviewOverviewController.formalReview().url)
+          .withSession("sessionId" -> userAnswersId)).value)
+
+        html must include("your property is derelict and cannot be lived in")
+        html must include("Important")
+        html must include("Photo evidence")
+        html must include("There are 2 possible outcomes:")
+        html must include("A Schedule of Condition document")
+        html must include(routes.PropertyUninhabitableController.onPageLoad(NormalMode).url)
+        html must include(routes.ReviewOverviewController.continueToLogin("derelict").url)
+        html must not include "less than 6 months"
+        html must not include "your home is deleted from the Council Tax list"
+      }
+    }
+
+    "must show the derelict formal review in Welsh without missing text" in {
+      val application = applicationBuilder(userAnswers = Some(derelictAnswers(None))).build()
+
+      running(application) {
+        val request = FakeRequest(GET, routes.ReviewOverviewController.formalReview().url)
+          .withSession("sessionId" -> userAnswersId).withCookies(play.api.mvc.Cookie("PLAY_LANG", "cy"))
+        val html = contentAsString(route(application, request).value)
+
+        html must not include "reviewOverview.derelict"
+      }
+    }
+
+    "must continue from the derelict formal review to the first uninhabitable question" in {
+      val application = applicationBuilder(userAnswers = Some(derelictAnswers(None))).build()
+
+      running(application) {
+        val request = FakeRequest(GET, routes.ReviewOverviewController.continueToLogin("derelict").url)
+          .withSession("sessionId" -> userAnswersId)
+        val result = route(application, request).value
+
+        status(result) mustBe SEE_OTHER
+        redirectLocation(result).value mustBe routes.UninhabitableDetailsController.onPageLoad(NormalMode).url
+      }
+    }
+
     "must keep the original formal review wording and three decisions for the band challenge" in {
       val answers = UserAnswers(userAnswersId).set(scenarioResponsiblePage, scenarioResponsible.Lessthan).success.value
       val application = applicationBuilder(userAnswers = Some(answers)).build()

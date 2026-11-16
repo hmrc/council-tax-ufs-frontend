@@ -41,7 +41,12 @@
         <h1 class="govuk-heading-l">@messages(s"$prefix.heading")</h1>
 
         @if(hasHint) {
-            <div class="govuk-hint" id="@{s"$id-hint"}">@messages(s"$prefix.hint")</div>
+            <div class="govuk-hint" id="@{s"$id-hint"}">
+                @messages(s"$prefix.hint")
+                @if(messages.isDefinedAt(s"$prefix.hint.more")) {
+                    <br><br>@messages(s"$prefix.hint.more")
+                }
+            </div>
         }
 
         @if(hasBody) {

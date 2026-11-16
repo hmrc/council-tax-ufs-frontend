@@ -18,7 +18,7 @@ package controllers
 
 import base.SpecBase
 import models.{CouncilTaxResponsible, Journey, ReasonForReview}
-import pages.{CouncilTaxLiabilityStartDatePage, CouncilTaxResponsiblePage, PropertyAddressPage, WhyBandIsWrongPage}
+import pages.{CouncilTaxLiabilityStartDatePage, CouncilTaxResponsiblePage, HasEvidencePage, PropertyAddressPage, UninhabitableDatePage, UninhabitableDetailsPlanPage, WhyBandIsWrongPage}
 import java.time.LocalDate
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
@@ -91,6 +91,29 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
         status(result) mustEqual OK
         contentAsString(result) must include(answer)
         contentAsString(result) must include(routes.WhyBandIsWrongController.onPageLoad(models.CheckMode).url)
+      }
+    }
+
+    "must list the derelict journey answers in order, with Change links, and no challenge details" in {
+      val date = LocalDate.of(2025, 4, 27)
+      val userAnswers = derelictAnswers()
+        .set(UninhabitableDatePage, date).success.value
+        .set(UninhabitableDetailsPlanPage, "Rebuild the roof").success.value
+        .set(HasEvidencePage, false).success.value
+        .set(WhyBandIsWrongPage, "left over from the band challenge").success.value
+      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
+
+      running(application) {
+        val request = FakeRequest(GET, routes.CheckYourAnswersController.onPageLoad(Journey.Deletion).url)
+        val html    = contentAsString(route(application, request).value)
+
+        html must include("Rebuild the roof")
+        html must include("27 April 2025")
+        html must include(routes.UninhabitableDateController.onPageLoad(models.CheckMode).url)
+        html must include(routes.UninhabitableDetailsPlanController.onPageLoad(models.CheckMode).url)
+        html must include(routes.HasEvidenceController.onPageLoad(models.CheckMode).url)
+        html must not include "Challenge details"
+        html must not include "left over from the band challenge"
       }
     }
 

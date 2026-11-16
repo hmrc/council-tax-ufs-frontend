@@ -239,16 +239,25 @@ class CheckAnswersSummariesSpec extends SpecBase with OptionValues {
     }
   }
 
-  "UninhabitableDateOtherSummary" - {
-    "must show the formatted date with a change link" in withMessages { implicit msgs =>
-      val answers = emptyUserAnswers.set(UninhabitableDateOtherPage, LocalDate.of(2025, 4, 27)).success.value
-      val row     = UninhabitableDateOtherSummary.row(answers).value
-      valueHtml(row) must include("27 April 2025")
-      row.actions.value.items.head.href mustBe
-        controllers.routes.UninhabitableDateOtherController.onPageLoad(CheckMode).url
+  "ChangesSummaries" - {
+    "must list only the answered questions, in the order they are asked" in withMessages { implicit msgs =>
+      val answers = emptyUserAnswers
+        .set(UninhabitableDetailsPlanPage, "plan").success.value
+        .set(UninhabitableDetailsPage, UninhabitableDetails.FireDamage).success.value
+        .set(UninhabitableDatePage, LocalDate.of(2025, 4, 27)).success.value
+        .set(HasEvidencePage, false).success.value
+
+      ChangesSummaries.rows(answers).map(row => valueHtml(row)) must have size 4
+      ChangesSummaries.rows(answers).map(_.key.content.asHtml.toString) mustBe Seq(
+        msgs("uninhabitableDetails.checkYourAnswersLabel"),
+        msgs("uninhabitableDate.checkYourAnswersLabel"),
+        msgs("uninhabitableDetailsPlan.checkYourAnswersLabel"),
+        msgs("evidence.checkYourAnswers.label")
+      )
     }
-    "must return None when unanswered" in withMessages { implicit msgs =>
-      UninhabitableDateOtherSummary.row(emptyUserAnswers) mustBe None
+
+    "must have no rows when nothing has been answered" in withMessages { implicit msgs =>
+      ChangesSummaries.rows(emptyUserAnswers) mustBe empty
     }
   }
 
