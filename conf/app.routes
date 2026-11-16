@@ -158,10 +158,10 @@ GET   /change-part-demo-details                               controllers.PartDe
 POST  /change-part-demo-details                               controllers.PartDemoDetailsController.onSubmit(mode: Mode = CheckMode)
 
 # ---- 5e. Change of use: now used as a home or a business ----
-GET   /change-of-use                                          controllers.ChangeOfUseController.onPageLoad(mode: Mode = NormalMode)
-POST  /change-of-use                                          controllers.ChangeOfUseController.onSubmit(mode: Mode = NormalMode)
-GET   /change-change-of-use                                   controllers.ChangeOfUseController.onPageLoad(mode: Mode = CheckMode)
-POST  /change-change-of-use                                   controllers.ChangeOfUseController.onSubmit(mode: Mode = CheckMode)
+GET   /property-use                                          controllers.ChangeOfUseController.onPageLoad(mode: Mode = NormalMode)
+POST  /property-use                                          controllers.ChangeOfUseController.onSubmit(mode: Mode = NormalMode)
+GET   /change-property-use                                   controllers.ChangeOfUseController.onPageLoad(mode: Mode = CheckMode)
+POST  /change-property-use                                   controllers.ChangeOfUseController.onSubmit(mode: Mode = CheckMode)
 GET   /domestic-parts                                         controllers.DomesticPartsController.onPageLoad(mode: Mode = NormalMode)
 POST  /domestic-parts                                         controllers.DomesticPartsController.onSubmit(mode: Mode = NormalMode)
 GET   /change-domestic-parts                                  controllers.DomesticPartsController.onPageLoad(mode: Mode = CheckMode)
