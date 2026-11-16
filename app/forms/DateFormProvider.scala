@@ -34,6 +34,15 @@ class DateFormProvider @Inject() extends Mappings {
     monthsBack:  Int,
     minErrorKey: Option[String] = None,
     maxErrorKey: Option[String] = None
+  )(implicit messages: Messages): Form[LocalDate] =
+    dateFormFrom(prefix, LocalDate.now(ZoneOffset.UTC).minusMonths(monthsBack), minErrorKey, maxErrorKey)
+
+  /** As [[dateForm]] but with a fixed earliest allowed date instead of a number of months back. */
+  protected def dateFormFrom(
+    prefix:       String,
+    earliestDate: LocalDate,
+    minErrorKey:  Option[String] = None,
+    maxErrorKey:  Option[String] = None
   )(implicit messages: Messages): Form[LocalDate] = {
     val today = LocalDate.now(ZoneOffset.UTC)
 
@@ -44,7 +53,7 @@ class DateFormProvider @Inject() extends Mappings {
         twoRequiredKey = s"$prefix.error.required.two",
         requiredKey    = s"$prefix.error.required"
       ).verifying(
-        minDate(today.minusMonths(monthsBack), minErrorKey.getOrElse(s"$prefix.error.range")),
+        minDate(earliestDate, minErrorKey.getOrElse(s"$prefix.error.range")),
         maxDate(today, maxErrorKey.getOrElse(s"$prefix.error.range"))
       )
     )

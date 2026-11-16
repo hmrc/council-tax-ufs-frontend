@@ -437,6 +437,24 @@ reviewOverview.informal.examples.1    = Addresses of up to 5 similar homes in a 
 reviewOverview.informal.examples.2    = The homes can be either in the same street or estate, or in the same village or area.
 reviewOverview.informal.examples.3    = The price your home or similar homes sold for between 1 April 2001 and 31 March 2005.
 reviewOverview.informal.afterDecision = The decision is final, and you cannot ask for another review.
+reviewOverview.deletion.title           = Asking for a formal review
+reviewOverview.deletion.intro           = You have told us that there have been changes made to your home or significant changes made in the local area that affect the value of your home.
+reviewOverview.deletion.description     = This means that you can ask for a formal review of your Council Tax band. This is also known as a ''Formal Challenge'' or ''Making a Proposal''.
+reviewOverview.deletion.table.heading   = How a formal review works
+reviewOverview.deletion.whatItIs        = You can ask the Valuation Office (VO) to review the Council Tax band your home is in.
+reviewOverview.deletion.whatFor         = You can ask for a formal review if you think that your home is in the wrong Council Tax band.
+reviewOverview.deletion.when.label      = When you can ask for a formal review
+reviewOverview.deletion.when.value      = You can ask for a formal review if there have been changes made to your home or the local area. For example:<ul class="govuk-list govuk-list--bullet"><li>all or part of your home has been demolished</li><li>it has been split into new homes</li><li>it has been merged into a larger, single home</li><li>something in the local area has changed that has affected the value of your home</li></ul>
+reviewOverview.deletion.duration        = Up to 16 weeks
+reviewOverview.deletion.evidence        = You do not need to provide any evidence. However, any information you give us will help the VO understand why you think your home should be in a different band.
+reviewOverview.deletion.examples.1      = addresses of similar homes in a lower band than yours.
+reviewOverview.deletion.examples.2      = the price that your home or similar homes sold for between 1 April 2001 and 31 March 2005
+reviewOverview.deletion.decision.intro  = There are 4 possible decisions that can be made:
+reviewOverview.deletion.decision.1      = your home stays in the same band
+reviewOverview.deletion.decision.2      = your home is moved into a lower band
+reviewOverview.deletion.decision.3      = your home is moved into a higher band
+reviewOverview.deletion.decision.4      = your home is deleted from the Council Tax list
+reviewOverview.deletion.afterDecision   = You have 4 months after the date of the decision to appeal to the Valuation Tribunal Wales if you are not satisfied with the outcome.
 
 # --- councilTaxLiabilityStartDate ---
 councilTaxLiabilityStartDate.title                 = When did you become responsible for paying Council Tax for your home?
@@ -496,6 +514,56 @@ deletionOptions.affected              = There have been changes to the local are
 deletionOptions.anotherReason         = Another reason
 deletionOptions.checkYourAnswersLabel = What has changed?
 deletionOptions.error.required        = Select what has changed
+
+# --- scenarioOther ---
+scenarioOther.title           = Other
+scenarioOther.heading         = Other
+scenarioOther.intro           = You have told us that you want to review your Council Tax band <strong>for some other reason</strong>.
+scenarioOther.changeSelection = You can change your selection if this option is not right for you.
+
+# --- whatHasChanged ---
+whatHasChanged.title                 = What has changed?
+whatHasChanged.heading               = What has changed?
+whatHasChanged.hint                  = Provide as much detail as possible.
+whatHasChanged.error.required        = Enter what has changed
+whatHasChanged.error.maxLength       = Enter what has changed
+whatHasChanged.checkYourAnswersLabel = Details of what has changed
+whatHasChanged.change.hidden         = details of what has changed
+
+# --- whenDidChangeHappen ---
+whenDidChangeHappen.title                 = When did this change happen?
+whenDidChangeHappen.heading               = When did this change happen?
+whenDidChangeHappen.hint                  = For example, if the change happened on 27 April 2025, enter 27 4 2025.
+whenDidChangeHappen.error.required.all    = Enter the date the change happened
+whenDidChangeHappen.error.required.two    = Enter the date the change happened
+whenDidChangeHappen.error.required        = Enter the date the change happened
+whenDidChangeHappen.error.invalid         = Enter a real date
+whenDidChangeHappen.error.future          = The date must be today or in the past
+whenDidChangeHappen.error.tooEarly        = The date your property was demolished or became uninhabitable must be between 1 April 1993 and today
+whenDidChangeHappen.checkYourAnswersLabel = When the change happened
+whenDidChangeHappen.change.hidden         = when the change happened
+
+# --- localAreaChanges ---
+localAreaChanges.title                 = What permanent changes have taken place in your local area?
+localAreaChanges.heading               = What permanent changes have taken place in your local area?
+localAreaChanges.hint                  = For example, a new supermarket or motorway has been built that you believe has affected the value of your home. Provide as much detail as possible.
+localAreaChanges.error.required        = Enter details of the changes
+localAreaChanges.error.maxLength       = Details of the changes must be 5000 characters or fewer
+localAreaChanges.checkYourAnswersLabel = Permanent changes in your local area
+localAreaChanges.change.hidden         = permanent changes in your local area
+
+# --- localAreaChangesDate ---
+localAreaChangesDate.title                 = When did these permanent changes take place?
+localAreaChangesDate.heading               = When did these permanent changes take place?
+localAreaChangesDate.hint                  = For example, if the changes in your local area happened on 27 April 2025, enter 27 4 2025.
+localAreaChangesDate.error.required.all    = Enter the date the changes took place
+localAreaChangesDate.error.required.two    = Enter the date the changes took place
+localAreaChangesDate.error.required        = Enter the date the changes took place
+localAreaChangesDate.error.invalid         = Enter a real date
+localAreaChangesDate.error.future          = The date must be today or in the past
+localAreaChangesDate.error.tooEarly        = The date your property was demolished or became uninhabitable must be between 1 April 1993 and today
+localAreaChangesDate.checkYourAnswersLabel = When the permanent changes took place
+localAreaChangesDate.change.hidden         = when the permanent changes took place
 deletionOptions.change.hidden         = deletionOptions
 
 ##############################################################################

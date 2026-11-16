@@ -101,8 +101,8 @@ GET   /change-contact-details                       controllers.ContactDetailsCo
 POST  /change-contact-details                       controllers.ContactDetailsController.onSubmit(mode: Mode = CheckMode)
 
 # ---- 8. Check your answers and submission ----
-GET   /:journey/review-details                         controllers.CheckYourAnswersController.onPageLoad(journey: Journey)
-POST  /:journey/review-details                         controllers.CheckYourAnswersController.onSubmit(journey: Journey)
+GET   /:journey/review-details                      controllers.CheckYourAnswersController.onPageLoad(journey: Journey)
+POST  /:journey/review-details                      controllers.CheckYourAnswersController.onSubmit(journey: Journey)
 GET   /request-sent                                 controllers.RequestSentController.onPageLoad()
 
 # ---- Deletion journey (pages not yet stitched) ----
@@ -110,3 +110,12 @@ GET   /deletion-options                             controllers.deletionOptionsC
 POST  /deletion-options                             controllers.deletionOptionsController.onSubmit(mode: Mode = NormalMode)
 GET   /change-deletion-options                      controllers.deletionOptionsController.onPageLoad(mode: Mode = CheckMode)
 POST  /change-deletion-options                      controllers.deletionOptionsController.onSubmit(mode: Mode = CheckMode)
+GET   /scenario-other                               controllers.ScenarioOtherController.onPageLoad()
+GET   /what-has-changed                             controllers.WhatHasChangedController.onPageLoad(mode: Mode = NormalMode)
+POST  /what-has-changed                             controllers.WhatHasChangedController.onSubmit(mode: Mode = NormalMode)
+GET   /change-what-has-changed                      controllers.WhatHasChangedController.onPageLoad(mode: Mode = CheckMode)
+POST  /change-what-has-changed                      controllers.WhatHasChangedController.onSubmit(mode: Mode = CheckMode)
+GET   /when-did-change-happen                       controllers.WhenDidChangeHappenController.onPageLoad(mode: Mode = NormalMode)
+POST  /when-did-change-happen                       controllers.WhenDidChangeHappenController.onSubmit(mode: Mode = NormalMode)
+GET   /change-when-did-change-happen                controllers.WhenDidChangeHappenController.onPageLoad(mode: Mode = CheckMode)
+POST  /change-when-did-change-happen                controllers.WhenDidChangeHappenController.onSubmit(mode: Mode = CheckMode)

@@ -4,6 +4,11 @@
 #   propertyDetail.band.expand, propertyDetail.courtCode.meaning, and the *.change.hidden keys for
 #   dateNotice, deletionOptions, noticeAlteration, reasonForReview, requestCouncilTaxBandReview,
 #   scenarioResponsible and whichBand
+# TODO translate - whenDidChangeHappen.error.tooEarly, whenDidChangeHappen.checkYourAnswersLabel,
+#   whenDidChangeHappen.change.hidden, whatHasChanged.checkYourAnswersLabel, whatHasChanged.change.hidden,
+#   reviewOverview.deletion.intro, .when.value, .decision.intro, .decision.4,
+#   localAreaChanges.error.maxLength, localAreaChanges.checkYourAnswersLabel, localAreaChanges.change.hidden,
+#   localAreaChangesDate.title, .heading, .hint, .error.tooEarly, .checkYourAnswersLabel, .change.hidden
 
 ##############################################################################
 # Global: service, common labels, errors and session
@@ -444,6 +449,20 @@ reviewOverview.informal.examples.1    = cyfeiriadau hyd at 5 cartref tebyg sydd 
 reviewOverview.informal.examples.2    = gall y cartrefi fod naill ai yn yr un stryd neu ystâd, neu yn yr un pentref neu ardal os ydych yn byw yng nghefn gwlad.
 reviewOverview.informal.examples.3    = y pris y gwerthwyd eich cartref neu gartrefi tebyg amdano rhwng 1 Ebrill 2001 a 31 Mawrth 2005.
 reviewOverview.informal.afterDecision = Mae’r penderfyniad yn derfynol, a dydych chi ddim yn gallu gofyn am adolygiad arall.
+reviewOverview.deletion.title = Gofyn am adolygiad ffurfiol
+reviewOverview.deletion.description = Mae hyn yn golygu eich bod yn gallu gofyn am adolygiad ffurfiol o’ch band Treth Gyngor. Enw arall am hyn ydy ‘Her Ffurfiol’ neu ‘Gwneud Cynnig’.
+reviewOverview.deletion.table.heading = Sut mae adolygiad ffurfiol yn gweithio
+reviewOverview.deletion.whatItIs = Rydych yn gallu gofyn i Asiantaeth y Swyddfa Brisio (VO) adolygu’r band Treth Gyngor mae eich cartref ynddo.
+reviewOverview.deletion.whatFor = Rydych yn gallu gofyn am adolygiad ffurfiol os ydych yn meddwl bod eich cartref yn y band Treth Gyngor anghywir.
+reviewOverview.deletion.when.label = Pryd rydych yn gallu gofyn am adolygiad ffurfiol
+reviewOverview.deletion.duration = Hyd at 16 wythnos
+reviewOverview.deletion.evidence = Dydych chi ddim angen rhoi unrhyw dystiolaeth. Ond, bydd unrhyw wybodaeth rydych yn ei roi yn helpu’r VO i ddeall pam rydych yn meddwl y dylai’r cartref fod mewn band gwahanol.
+reviewOverview.deletion.examples.1 = cyfeiriadau cartrefi tebyg sydd mewn band is na’ch un chi.
+reviewOverview.deletion.examples.2 = y pris y gwerthwyd eich cartref neu gartrefi tebyg amdano rhwng 1 Ebrill 2001 a 31 Mawrth 2005.
+reviewOverview.deletion.afterDecision = Os nad ydych yn hapus gyda’r canlyniad, mae gennych 4 mis ar ôl dyddiad y penderfyniad i apelio i Dribiwnlys Prisio Cymru.
+reviewOverview.deletion.decision.1 = mae eich cartref yn aros yn yr un band
+reviewOverview.deletion.decision.2 = mae eich cartref yn symud i fand is
+reviewOverview.deletion.decision.3 = mae eich cartref yn symud i fand uwch
 
 # --- councilTaxLiabilityStartDate ---
 councilTaxLiabilityStartDate.title                 = Pryd gwnaethoch chi ddod yn gyfrifol am dalu Treth Gyngor am eich cartref?
@@ -502,6 +521,42 @@ deletionOptions.affected              = Mae newidiadau yn yr ardal leol wedi eff
 deletionOptions.anotherReason         = Rheswm arall
 deletionOptions.checkYourAnswersLabel = Beth sydd wedi newid?
 deletionOptions.error.required        = Dewiswch beth sydd wedi newid
+
+# --- scenarioOther ---
+scenarioOther.title           = Arall
+scenarioOther.heading         = Arall
+scenarioOther.intro           = Rydych wedi dweud wrthym eich bod chi eisiau adolygu eich band Treth Gyngor <strong>am reswm arall</strong>.
+scenarioOther.changeSelection = Os nad yw’r opsiwn hwn yn gywir i chi, rydych yn gallu newid eich dewis.
+
+# --- whatHasChanged ---
+whatHasChanged.title                 = Beth sydd wedi newid?
+whatHasChanged.heading               = Beth sydd wedi newid?
+whatHasChanged.hint                  = Rhowch gymaint o wybodaeth â phosibl.
+whatHasChanged.error.required        = Nodwch beth sydd wedi newid
+whatHasChanged.error.maxLength       = Nodwch beth sydd wedi newid
+
+# --- whenDidChangeHappen ---
+whenDidChangeHappen.title              = Pryd ddigwyddodd y newid hwn?
+whenDidChangeHappen.heading            = Pryd ddigwyddodd y newid hwn?
+whenDidChangeHappen.hint               = Er enghraifft, os digwyddodd y newid ar 27 Ebrill 2025, rhowch 27 4 2025.
+whenDidChangeHappen.error.required.all = Nodwch y dyddiad y digwyddodd y newid
+whenDidChangeHappen.error.required.two = Nodwch y dyddiad y digwyddodd y newid
+whenDidChangeHappen.error.required     = Nodwch y dyddiad y digwyddodd y newid
+whenDidChangeHappen.error.invalid      = Nodwch ddyddiad go iawn
+whenDidChangeHappen.error.future       = Mae’n rhaid i’r dyddiad fod yn heddiw neu yn y gorffennol
+
+# --- localAreaChanges ---
+localAreaChanges.title           = Pa newidiadau parhaol sydd wedi digwydd yn eich ardal lleol?
+localAreaChanges.heading         = Pa newidiadau parhaol sydd wedi digwydd yn eich ardal lleol?
+localAreaChanges.hint            = Er enghraifft, mae archfarchnad newydd neu draffordd wedi’i adeiladu, ac rydych yn credu ei bod wedi effeithio ar werth eich cartref. Rhowch gymaint o wybodaeth â phosibl.
+localAreaChanges.error.required  = Nodwch fanylion y newidiadau
+
+# --- localAreaChangesDate ---
+localAreaChangesDate.error.required.all = Nodwch y dyddiad y digwyddodd y newidiadau
+localAreaChangesDate.error.required.two = Nodwch y dyddiad y digwyddodd y newidiadau
+localAreaChangesDate.error.required     = Nodwch y dyddiad y digwyddodd y newidiadau
+localAreaChangesDate.error.invalid      = Nodwch ddyddiad go iawn
+localAreaChangesDate.error.future       = Mae’n rhaid i’r dyddiad fod yn heddiw neu yn y gorffennol
 
 ##############################################################################
 # 7. Evidence
