@@ -34,7 +34,7 @@ class ReviewOverviewViewSpec extends AnyWordSpec with Matchers {
 
   "ReviewOverviewView" should {
     "render the formal review content and shared decision table" in {
-      val html = template.render(ReviewType.Formal, "/back-link", request, messages).body
+      val html = template.render(ReviewType.Formal, "/back-link", None, request, messages).body
 
       html should include("Asking for a formal review")
       html should include("less than 6 months")
@@ -50,7 +50,7 @@ class ReviewOverviewViewSpec extends AnyWordSpec with Matchers {
     }
 
     "render the informal review content" in {
-      val html = template.render(ReviewType.Informal, "/back-link", request, messages).body
+      val html = template.render(ReviewType.Informal, "/back-link", None, request, messages).body
 
       html should include("Asking for an informal review")
       html should include("more than 6 months")
@@ -60,7 +60,7 @@ class ReviewOverviewViewSpec extends AnyWordSpec with Matchers {
     }
 
     "use the existing formal review continuation" in {
-      val html = template.render(ReviewType.Formal, "/back-link", request, messages).body
+      val html = template.render(ReviewType.Formal, "/back-link", None, request, messages).body
 
       html should include("Asking for a formal review")
       html should include(controllers.routes.ReviewOverviewController.continueToLogin("formal").url)

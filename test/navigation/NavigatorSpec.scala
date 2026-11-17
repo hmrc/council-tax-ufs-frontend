@@ -80,6 +80,7 @@ class NavigatorSpec extends SpecBase {
         navigator.backLink(ReasonForReviewPage, NormalMode, None) mustBe routes.RequestCouncilTaxBandReviewController.onPageLoad(NormalMode)
         navigator.backLink(scenarioResponsiblePage, NormalMode, None) mustBe routes.ReasonForReviewController.onPageLoad(NormalMode)
         navigator.backLink(deletionOptionsPage, NormalMode, None) mustBe routes.ReasonForReviewController.onPageLoad(NormalMode)
+        navigator.backLink(PropertySplitOrMergePage, NormalMode, None) mustBe routes.deletionOptionsController.onPageLoad(NormalMode)
         navigator.backLink(noticeAlterationPage, NormalMode, None) mustBe routes.scenarioResponsibleController.onPageLoad(NormalMode)
       }
 
@@ -108,6 +109,150 @@ class NavigatorSpec extends SpecBase {
     }
 
     "in Normal mode" - {
+
+      "must route a split or merged property to the split or merge question" in {
+        val answers = UserAnswers("id").set(deletionOptionsPage, deletionOptions.Split).success.value
+        navigator.nextPage(deletionOptionsPage, NormalMode, answers) mustBe
+          routes.PropertySplitOrMergeController.onPageLoad(NormalMode)
+      }
+
+      "must route a merged or split property to the formal review overview" in {
+        PropertySplitOrMerge.values.foreach { value =>
+          val answers = UserAnswers("id").set(PropertySplitOrMergePage, value).success.value
+          navigator.nextPage(PropertySplitOrMergePage, NormalMode, answers) mustBe
+            routes.ReviewOverviewController.splitOrMergeFormalReview()
+        }
+      }
+
+      "must send the split or merge formal review Continue to the details page for the chosen option" in {
+        val merged = UserAnswers("id").set(PropertySplitOrMergePage, PropertySplitOrMerge.Merged).success.value
+        val split  = UserAnswers("id").set(PropertySplitOrMergePage, PropertySplitOrMerge.Split).success.value
+        navigator.splitOrMergeDetails(Some(merged)) mustBe routes.PropertyChangeDetailsController.onPageLoadMerged(NormalMode)
+        navigator.splitOrMergeDetails(Some(split)) mustBe routes.PropertyChangeDetailsController.onPageLoadSplit(NormalMode)
+        navigator.splitOrMergeDetails(None) mustBe routes.PropertySplitOrMergeController.onPageLoad(NormalMode)
+      }
+
+      "must send the merged and split details pages back to the split or merge formal review" in {
+        navigator.backLink(PropertyMergedDetailsPage, NormalMode, None) mustBe routes.ReviewOverviewController.splitOrMergeFormalReview()
+        navigator.backLink(PropertySplitDetailsPage, NormalMode, None) mustBe routes.ReviewOverviewController.splitOrMergeFormalReview()
+      }
+
+      "must route how the properties were merged to when the work was completed, and back again" in {
+        navigator.nextPage(PropertyMergedDetailsPage, NormalMode, UserAnswers("id")) mustBe
+          routes.PropertyChangeDateController.onPageLoadMerged(NormalMode)
+        navigator.backLink(PropertyMergedDatePage, NormalMode, None) mustBe
+          routes.PropertyChangeDetailsController.onPageLoadMerged(NormalMode)
+      }
+
+      "must route how the property was split to when the work was completed, and back again" in {
+        navigator.nextPage(PropertySplitDetailsPage, NormalMode, UserAnswers("id")) mustBe
+          routes.PropertyChangeDateController.onPageLoadSplit(NormalMode)
+        navigator.backLink(PropertySplitDatePage, NormalMode, None) mustBe
+          routes.PropertyChangeDetailsController.onPageLoadSplit(NormalMode)
+      }
+
+      "must route both completion dates to the new address question" in {
+        navigator.nextPage(PropertyMergedDatePage, NormalMode, UserAnswers("id")) mustBe
+          routes.PropertyChangeDetailsController.onPageLoadNewAddress(NormalMode)
+        navigator.nextPage(PropertySplitDatePage, NormalMode, UserAnswers("id")) mustBe
+          routes.PropertyChangeDetailsController.onPageLoadNewAddress(NormalMode)
+      }
+
+      "must send the new address question back to the completion date for the chosen option" in {
+        val merged = UserAnswers("id").set(PropertySplitOrMergePage, PropertySplitOrMerge.Merged).success.value
+        val split  = UserAnswers("id").set(PropertySplitOrMergePage, PropertySplitOrMerge.Split).success.value
+        navigator.backLink(PropertyNewAddressPage, NormalMode, Some(merged)) mustBe
+          routes.PropertyChangeDateController.onPageLoadMerged(NormalMode)
+        navigator.backLink(PropertyNewAddressPage, NormalMode, Some(split)) mustBe
+          routes.PropertyChangeDateController.onPageLoadSplit(NormalMode)
+      }
+
+      "must route the new address question to contact details, and contact details back to it" in {
+        navigator.nextPage(PropertyNewAddressPage, NormalMode, UserAnswers("id")) mustBe
+          routes.ContactDetailsController.onPageLoad(NormalMode)
+
+        val answers = UserAnswers("id")
+          .set(ReasonForReviewPage, ReasonForReview.Changesaffectedproperty).success.value
+          .set(deletionOptionsPage, deletionOptions.Split).success.value
+          .set(PropertySplitOrMergePage, PropertySplitOrMerge.Merged).success.value
+        navigator.backLink(ContactDetailsPage, NormalMode, Some(answers)) mustBe
+          routes.PropertyChangeDetailsController.onPageLoadNewAddress(NormalMode)
+      }
+
+      "must send contact details in the split or merge journey to the property-changes Check your answers" in {
+        val answers = UserAnswers("id")
+          .set(ReasonForReviewPage, ReasonForReview.Changesaffectedproperty).success.value
+          .set(deletionOptionsPage, deletionOptions.Split).success.value
+          .set(PropertySplitOrMergePage, PropertySplitOrMerge.Split).success.value
+        navigator.nextPage(ContactDetailsPage, NormalMode, answers) mustBe
+          routes.CheckYourAnswersController.onPageLoad(Journey.Deletion)
+      }
+
+      "must send every split or merge page, when changing an answer, back to the property-changes Check your answers" in {
+        val answers = UserAnswers("id")
+          .set(ReasonForReviewPage, ReasonForReview.Changesaffectedproperty).success.value
+          .set(deletionOptionsPage, deletionOptions.Split).success.value
+          .set(PropertySplitOrMergePage, PropertySplitOrMerge.Merged).success.value
+        Seq(
+          PropertySplitOrMergePage, PropertyMergedDetailsPage, PropertySplitDetailsPage,
+          PropertyMergedDatePage, PropertySplitDatePage, PropertyNewAddressPage, ContactDetailsPage
+        ).foreach { page =>
+          navigator.backLink(page, CheckMode, Some(answers)) mustBe routes.CheckYourAnswersController.onPageLoad(Journey.Deletion)
+        }
+      }
+
+      "must send Check your answers back to contact details" in {
+        navigator.checkYourAnswersBackLink mustBe routes.ContactDetailsController.onPageLoad(NormalMode)
+      }
+
+      "must ask the new address question in check mode when it is missing" in {
+        val answers = UserAnswers("id")
+          .set(ReasonForReviewPage, ReasonForReview.Changesaffectedproperty).success.value
+          .set(deletionOptionsPage, deletionOptions.Split).success.value
+          .set(PropertySplitOrMergePage, PropertySplitOrMerge.Split).success.value
+          .set(PropertySplitDetailsPage, "House split into two flats").success.value
+          .set(PropertySplitDatePage, java.time.LocalDate.of(2024, 3, 15)).success.value
+        navigator.nextPage(PropertySplitDatePage, CheckMode, answers) mustBe
+          routes.PropertyChangeDetailsController.onPageLoadNewAddress(CheckMode)
+      }
+
+      "must ask for the split completion date in check mode when it is missing" in {
+        val answers = UserAnswers("id")
+          .set(ReasonForReviewPage, ReasonForReview.Changesaffectedproperty).success.value
+          .set(deletionOptionsPage, deletionOptions.Split).success.value
+          .set(PropertySplitOrMergePage, PropertySplitOrMerge.Split).success.value
+          .set(PropertySplitDetailsPage, "House split into two flats").success.value
+        navigator.nextPage(PropertySplitDetailsPage, CheckMode, answers) mustBe
+          routes.PropertyChangeDateController.onPageLoadSplit(CheckMode)
+      }
+
+      "must ask for the merge completion date in check mode when it is missing" in {
+        val answers = UserAnswers("id")
+          .set(ReasonForReviewPage, ReasonForReview.Changesaffectedproperty).success.value
+          .set(deletionOptionsPage, deletionOptions.Split).success.value
+          .set(PropertySplitOrMergePage, PropertySplitOrMerge.Merged).success.value
+          .set(PropertyMergedDetailsPage, "Two flats knocked through").success.value
+        navigator.nextPage(PropertyMergedDetailsPage, CheckMode, answers) mustBe
+          routes.PropertyChangeDateController.onPageLoadMerged(CheckMode)
+      }
+
+      "must ask for the missing details in check mode for the chosen option" in {
+        val base = UserAnswers("id")
+          .set(ReasonForReviewPage, ReasonForReview.Changesaffectedproperty).success.value
+          .set(deletionOptionsPage, deletionOptions.Split).success.value
+        val merged = base.set(PropertySplitOrMergePage, PropertySplitOrMerge.Merged).success.value
+        val split  = base.set(PropertySplitOrMergePage, PropertySplitOrMerge.Split).success.value
+        navigator.nextPage(PropertySplitOrMergePage, CheckMode, merged) mustBe routes.PropertyChangeDetailsController.onPageLoadMerged(CheckMode)
+        navigator.nextPage(PropertySplitOrMergePage, CheckMode, split) mustBe routes.PropertyChangeDetailsController.onPageLoadSplit(CheckMode)
+      }
+
+      "must ask the split or merge question in check mode when it is missing" in {
+        val answers = UserAnswers("id")
+          .set(ReasonForReviewPage, ReasonForReview.Changesaffectedproperty).success.value
+          .set(deletionOptionsPage, deletionOptions.Split).success.value
+        navigator.nextPage(deletionOptionsPage, CheckMode, answers) mustBe
+          routes.PropertySplitOrMergeController.onPageLoad(CheckMode)
+      }
 
       "must route the liability start date to the reason textarea" in {
         navigator.nextPage(CouncilTaxLiabilityStartDatePage, NormalMode, UserAnswers("id")) mustBe

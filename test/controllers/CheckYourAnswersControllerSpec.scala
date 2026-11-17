@@ -116,6 +116,27 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
       }
     }
 
+    "must show how, when and the new addresses for a split or merged property under Challenge details" in {
+      val answers = emptyUserAnswers
+        .set(pages.ReasonForReviewPage, ReasonForReview.Changesaffectedproperty).success.value
+        .set(pages.deletionOptionsPage, models.deletionOptions.Split).success.value
+        .set(pages.PropertySplitOrMergePage, models.PropertySplitOrMerge.Merged).success.value
+        .set(pages.PropertyMergedDetailsPage, "Two flats knocked through").success.value
+        .set(pages.PropertyMergedDatePage, LocalDate.of(2024, 6, 1)).success.value
+        .set(pages.PropertyNewAddressPage, "10 High Street").success.value
+      val application = applicationBuilder(userAnswers = Some(answers)).build()
+
+      running(application) {
+        val html = contentAsString(route(application, FakeRequest(GET, routes.CheckYourAnswersController.onPageLoad(Journey.Deletion).url)).value)
+        val challengeDetails = html.indexOf("Challenge details")
+
+        challengeDetails must be > html.indexOf("How has the property been split or merged?")
+        Seq("Two flats knocked through", "1 June 2024", "10 High Street").foreach { answer =>
+          html.indexOf(answer) must be > challengeDetails
+        }
+      }
+    }
+
     "must show the Authority to Act notice only when acting for someone" in {
       def page(answers: models.UserAnswers) = {
         val application = applicationBuilder(userAnswers = Some(answers)).build()

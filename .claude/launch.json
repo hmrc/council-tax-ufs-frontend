@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "council-tax-ufs-frontend",
+      "runtimeExecutable": "sbt",
+      "runtimeArgs": ["run"],
+      "port": 60002
+    }
+  ]
+}

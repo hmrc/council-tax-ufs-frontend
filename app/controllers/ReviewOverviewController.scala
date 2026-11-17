@@ -43,6 +43,15 @@ class ReviewOverviewController @Inject()(
 
   def informalReview(): Action[AnyContent] = show(ReviewType.Informal)
 
+  // Split or merged property journey: same formal review page, but Back always returns to the split or merge question
+  def splitOrMergeFormalReview(): Action[AnyContent] = (sessionIdentify andThen getData) { implicit request =>
+    Ok(reviewOverviewView(
+      ReviewType.Formal,
+      routes.PropertySplitOrMergeController.onPageLoad(NormalMode).url,
+      Some(ReviewOverviewController.splitOrMergeContinue)
+    ))
+  }
+
   def continueToLogin(reviewType: String): Action[AnyContent] = (sessionIdentify andThen getData) { implicit request =>
     val continueCall = reviewType match {
       case "formal" =>
@@ -57,6 +66,7 @@ class ReviewOverviewController @Inject()(
           Some(routes.CouncilTaxLiabilityStartDateController.onPageLoad(NormalMode))
         }
       case "informal" => Some(routes.WhyBandIsWrongController.onPageLoad(NormalMode))
+      case ReviewOverviewController.splitOrMergeContinue => Some(navigator.splitOrMergeDetails(request.userAnswers))
       case _          => None
     }
 
@@ -72,4 +82,8 @@ class ReviewOverviewController @Inject()(
     Ok(reviewOverviewView(reviewType, navigator.reviewOverviewBackLink(reviewType, request.userAnswers).url))
   }
 
+}
+
+object ReviewOverviewController {
+  val splitOrMergeContinue = "split-or-merge"
 }

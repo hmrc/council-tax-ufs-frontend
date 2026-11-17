@@ -38,6 +38,32 @@ class ReviewOverviewControllerSpec extends SpecBase {
       }
     }
 
+    "must render the formal review page for a split or merged property with Back to the split or merge question" in {
+      val application = new GuiceApplicationBuilder().build()
+
+      running(application) {
+        val result = route(application, FakeRequest(GET, routes.ReviewOverviewController.splitOrMergeFormalReview().url).withSession("sessionId" -> userAnswersId)).value
+
+        status(result) mustBe OK
+        contentAsString(result) must include("Asking for a formal review")
+        contentAsString(result) must include(s"""${routes.PropertySplitOrMergeController.onPageLoad(models.NormalMode).url}" class="govuk-back-link"""")
+      }
+    }
+
+    "must continue from the split or merge formal review to the details page for the chosen option" in {
+      val answers = emptyUserAnswers.set(pages.PropertySplitOrMergePage, models.PropertySplitOrMerge.Split).success.value
+      val application = applicationBuilder(userAnswers = Some(answers)).build()
+
+      running(application) {
+        val page = route(application, FakeRequest(GET, routes.ReviewOverviewController.splitOrMergeFormalReview().url)).value
+        contentAsString(page) must include(routes.ReviewOverviewController.continueToLogin(ReviewOverviewController.splitOrMergeContinue).url)
+
+        val result = route(application, FakeRequest(GET, routes.ReviewOverviewController.continueToLogin(ReviewOverviewController.splitOrMergeContinue).url)).value
+        status(result) mustBe SEE_OTHER
+        redirectLocation(result).value mustBe routes.PropertyChangeDetailsController.onPageLoadSplit(models.NormalMode).url
+      }
+    }
+
     "must render the informal review page" in {
       val application = new GuiceApplicationBuilder().build()
 

@@ -52,6 +52,7 @@ POST  /notice-alteration                            controllers.noticeAlteration
 GET   /change-notice-alteration                     controllers.noticeAlterationController.onPageLoad(mode: Mode = CheckMode)
 POST  /change-notice-alteration                     controllers.noticeAlterationController.onSubmit(mode: Mode = CheckMode)
 GET   /formal-review                                controllers.ReviewOverviewController.formalReview()
+GET   /property-split-or-merge/formal-review        controllers.ReviewOverviewController.splitOrMergeFormalReview()
 GET   /informal-review                              controllers.ReviewOverviewController.informalReview()
 GET   /review/continue/:reviewType                  controllers.ReviewOverviewController.continueToLogin(reviewType: String)
 
@@ -110,3 +111,32 @@ GET   /deletion-options                             controllers.deletionOptionsC
 POST  /deletion-options                             controllers.deletionOptionsController.onSubmit(mode: Mode = NormalMode)
 GET   /change-deletion-options                      controllers.deletionOptionsController.onPageLoad(mode: Mode = CheckMode)
 POST  /change-deletion-options                      controllers.deletionOptionsController.onSubmit(mode: Mode = CheckMode)
+
+GET   /property-split-or-merge                     controllers.PropertySplitOrMergeController.onPageLoad(mode: Mode = NormalMode)
+POST  /property-split-or-merge                     controllers.PropertySplitOrMergeController.onSubmit(mode: Mode = NormalMode)
+GET   /change-property-split-or-merge              controllers.PropertySplitOrMergeController.onPageLoad(mode: Mode = CheckMode)
+POST  /change-property-split-or-merge              controllers.PropertySplitOrMergeController.onSubmit(mode: Mode = CheckMode)
+
+GET   /how-properties-merged                       controllers.PropertyChangeDetailsController.onPageLoadMerged(mode: Mode = NormalMode)
+POST  /how-properties-merged                       controllers.PropertyChangeDetailsController.onSubmitMerged(mode: Mode = NormalMode)
+GET   /change-how-properties-merged                controllers.PropertyChangeDetailsController.onPageLoadMerged(mode: Mode = CheckMode)
+POST  /change-how-properties-merged                controllers.PropertyChangeDetailsController.onSubmitMerged(mode: Mode = CheckMode)
+
+GET   /how-property-split                          controllers.PropertyChangeDetailsController.onPageLoadSplit(mode: Mode = NormalMode)
+POST  /how-property-split                          controllers.PropertyChangeDetailsController.onSubmitSplit(mode: Mode = NormalMode)
+GET   /change-how-property-split                   controllers.PropertyChangeDetailsController.onPageLoadSplit(mode: Mode = CheckMode)
+POST  /change-how-property-split                   controllers.PropertyChangeDetailsController.onSubmitSplit(mode: Mode = CheckMode)
+
+GET   /when-properties-merged                      controllers.PropertyChangeDateController.onPageLoadMerged(mode: Mode = NormalMode)
+POST  /when-properties-merged                      controllers.PropertyChangeDateController.onSubmitMerged(mode: Mode = NormalMode)
+GET   /change-when-properties-merged               controllers.PropertyChangeDateController.onPageLoadMerged(mode: Mode = CheckMode)
+POST  /change-when-properties-merged               controllers.PropertyChangeDateController.onSubmitMerged(mode: Mode = CheckMode)
+GET   /when-property-split                         controllers.PropertyChangeDateController.onPageLoadSplit(mode: Mode = NormalMode)
+POST  /when-property-split                         controllers.PropertyChangeDateController.onSubmitSplit(mode: Mode = NormalMode)
+GET   /change-when-property-split                  controllers.PropertyChangeDateController.onPageLoadSplit(mode: Mode = CheckMode)
+POST  /change-when-property-split                  controllers.PropertyChangeDateController.onSubmitSplit(mode: Mode = CheckMode)
+
+GET   /new-address                                 controllers.PropertyChangeDetailsController.onPageLoadNewAddress(mode: Mode = NormalMode)
+POST  /new-address                                 controllers.PropertyChangeDetailsController.onSubmitNewAddress(mode: Mode = NormalMode)
+GET   /change-new-address                          controllers.PropertyChangeDetailsController.onPageLoadNewAddress(mode: Mode = CheckMode)
+POST  /change-new-address                          controllers.PropertyChangeDetailsController.onSubmitNewAddress(mode: Mode = CheckMode)

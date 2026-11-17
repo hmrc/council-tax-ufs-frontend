@@ -21,7 +21,7 @@
   govukButton: GovukButton
 )
 
-@(reviewType: ReviewType, backLinkUrl: String)(implicit request: Request[_], messages: Messages)
+@(reviewType: ReviewType, backLinkUrl: String, continueRoute: Option[String] = None)(implicit request: Request[_], messages: Messages)
 
 @messagePrefix = @{ s"reviewOverview.${reviewType.messageKey}" }
 @detailRows = @{
@@ -47,7 +47,7 @@
   <div class="govuk-button-group">
     @govukButton(
       ButtonViewModel(messages("site.continue"))
-        .asLink(routes.ReviewOverviewController.continueToLogin(reviewType.continueRoute).url)
+        .asLink(routes.ReviewOverviewController.continueToLogin(continueRoute.getOrElse(reviewType.continueRoute)).url)
     )
   </div>
 

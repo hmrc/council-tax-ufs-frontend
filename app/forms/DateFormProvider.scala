@@ -49,4 +49,15 @@ class DateFormProvider @Inject() extends Mappings {
       )
     )
   }
+
+  /** A date that can be any time up to and including today, with no earliest date. Future dates use `<prefix>.error.future`. */
+  protected def pastDateForm(prefix: String)(implicit messages: Messages): Form[LocalDate] =
+    Form(
+      "value" -> localDate(
+        invalidKey     = s"$prefix.error.invalid",
+        allRequiredKey = s"$prefix.error.required.all",
+        twoRequiredKey = s"$prefix.error.required.two",
+        requiredKey    = s"$prefix.error.required"
+      ).verifying(maxDate(LocalDate.now(ZoneOffset.UTC), s"$prefix.error.future"))
+    )
 }

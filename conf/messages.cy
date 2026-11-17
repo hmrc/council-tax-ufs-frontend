@@ -503,6 +503,66 @@ deletionOptions.anotherReason         = Rheswm arall
 deletionOptions.checkYourAnswersLabel = Beth sydd wedi newid?
 deletionOptions.error.required        = Dewiswch beth sydd wedi newid
 
+# --- propertySplitOrMerge ---
+propertySplitOrMerge.title                 = Sut mae’r eiddo wedi’i rannu neu ei gyfuno?
+propertySplitOrMerge.heading               = Sut mae’r eiddo wedi’i rannu neu ei gyfuno?
+propertySplitOrMerge.merged                = Mae’r eiddo wedi’i gyfuno ag un eiddo arall neu fwy i greu eiddo mwy
+propertySplitOrMerge.split                 = Mae’r eiddo wedi’i rannu’n ddau eiddo ar wahân neu fwy i greu eiddo llai
+propertySplitOrMerge.checkYourAnswersLabel = Sut mae’r eiddo wedi’i rannu neu ei gyfuno?
+propertySplitOrMerge.error.required        = Dewiswch opsiwn
+propertySplitOrMerge.change.hidden         = sut mae’r eiddo wedi’i rannu neu ei gyfuno
+
+# --- propertyMergedDetails ---
+# title, heading and hint are the supplied translation; the rest are adapted from it and need confirming
+propertyMergedDetails.title                 = Sut mae eich eiddo wedi eu huno?
+propertyMergedDetails.heading               = Sut mae eich eiddo wedi eu huno?
+propertyMergedDetails.hint                  = Er enghraifft, mae dau fflat wedi eu huno’n un cartref. Rhowch gymaint o wybodaeth â phosibl.
+propertyMergedDetails.checkYourAnswersLabel = Sut mae eich eiddo wedi eu huno
+propertyMergedDetails.error.required        = Nodwch fanylion y cyfuno eiddo
+propertyMergedDetails.error.maxLength       = Mae’n rhaid i’r disgrifiad o sut mae eich eiddo wedi eu huno fod yn 5000 o gymeriadau neu lai
+propertyMergedDetails.change.hidden         = sut mae eich eiddo wedi eu huno
+
+# --- propertyMergedDate ---
+# title, heading and hint are the supplied translation; the rest are adapted from it and need confirming
+propertyMergedDate.title                 = Pryd cafodd y gwaith i uno eich eiddo ei gwblhau?
+propertyMergedDate.heading               = Pryd cafodd y gwaith i uno eich eiddo ei gwblhau?
+propertyMergedDate.hint                  = Er enghraifft, os cafodd y gwaith ei gwblhau ar 27 Ebrill 2025, nodwch 27 4 2025.
+propertyMergedDate.checkYourAnswersLabel = Pryd cafodd y gwaith i uno eich eiddo ei gwblhau
+propertyMergedDate.error.required.all    = Nodwch ddyddiad cwblhau'’r cyfuno eiddo
+propertyMergedDate.error.future          = Mae’n rhaid i’r dyddiad fod yn heddiw neu yn y gorffennol
+propertyMergedDate.change.hidden         = pryd cafodd y gwaith i uno eich eiddo ei gwblhau
+
+# --- propertySplitDetails ---
+propertySplitDetails.title                  = Sut mae’r eiddo wedi’i rannu?
+propertySplitDetails.heading                = Sut mae’r eiddo wedi’i rannu?
+propertySplitDetails.hint                   = Er enghraifft, mae eich cartref wedi’i rannu’n ddwy fflat neu fwy. Rhowch gymaint o fanylion â phosibl.
+propertySplitDetails.checkYourAnswersLabel  = Sut mae’r eiddo wedi’i rannu
+propertySplitDetails.error.required         = Nodwch fanylion gwahanu’'r eiddo
+propertySplitDetails.error.maxLength        = Mae’n rhaid i’r disgrifiad o sut mae’r eiddo wedi’i rannu fod yn 5000 o gymeriadau neu lai
+propertySplitDetails.change.hidden          = sut mae’r eiddo wedi’i rannu
+
+# --- propertySplitDate ---
+propertySplitDate.title                 = Pryd cafodd y gwaith i rannu eich cartref ei gwblhau?
+propertySplitDate.heading               = Pryd cafodd y gwaith i rannu eich cartref ei gwblhau?
+propertySplitDate.hint                  = Er enghraifft, os cafodd y gwaith ei gwblhau ar 27 Ebrill 2025, rhowch 27 4 2025.
+propertySplitDate.checkYourAnswersLabel = Pryd cafodd y gwaith i rannu eich cartref ei gwblhau
+propertySplitDate.error.required.all    = Nodwch ddyddiad gwahanu’r eiddo
+propertySplitDate.error.required.two    = Rhaid i''r dyddiad y cafodd y gwaith ei gwblhau gynnwys {0} a {1}
+propertySplitDate.error.required        = Rhaid i''r dyddiad y cafodd y gwaith ei gwblhau gynnwys {0}
+propertySplitDate.error.invalid         = Nodwch ddyddiad go iawn
+propertySplitDate.error.future          = Mae’n rhaid i’r dyddiad fod yn heddiw neu yn y gorffennol
+propertySplitDate.change.hidden         = pryd cafodd y gwaith i rannu eich cartref ei gwblhau
+
+# --- propertyNewAddress ---
+# title, heading and hint are the supplied translation; the rest are adapted from it and need confirming
+propertyNewAddress.title                 = Ydy cyfeiriad eich cartref wedi newid?
+propertyNewAddress.heading               = Ydy cyfeiriad eich cartref wedi newid?
+propertyNewAddress.hint                  = Rhowch fanylion unrhyw gyfeiriadau newydd isod
+propertyNewAddress.checkYourAnswersLabel = Cyfeiriadau newydd
+propertyNewAddress.error.required        = Dewiswch a yw’r cyfeiriad wedi newid
+propertyNewAddress.error.maxLength       = Mae’n rhaid i fanylion unrhyw gyfeiriadau newydd fod yn 5000 o gymeriadau neu lai
+propertyNewAddress.change.hidden         = manylion unrhyw gyfeiriadau newydd
+
 ##############################################################################
 # 7. Evidence
 ##############################################################################

@@ -30,6 +30,13 @@ class Navigator @Inject()() {
     case CouncilTaxResponsiblePage        => councilTaxResponsibleRoutes
     case RequestCouncilTaxBandReviewPage  => _ => routes.ReasonForReviewController.onPageLoad(NormalMode)
     case ReasonForReviewPage              => reasonForReviewRoutes
+    case `deletionOptionsPage`            => deletionOptionsRoutes
+    case PropertySplitOrMergePage         => propertySplitOrMergeRoutes
+    case PropertyMergedDetailsPage        => _ => routes.PropertyChangeDateController.onPageLoadMerged(NormalMode)
+    case PropertySplitDetailsPage         => _ => routes.PropertyChangeDateController.onPageLoadSplit(NormalMode)
+    case PropertyMergedDatePage           => _ => routes.PropertyChangeDetailsController.onPageLoadNewAddress(NormalMode)
+    case PropertySplitDatePage            => _ => routes.PropertyChangeDetailsController.onPageLoadNewAddress(NormalMode)
+    case PropertyNewAddressPage           => _ => routes.ContactDetailsController.onPageLoad(NormalMode)
     case `scenarioResponsiblePage`        => scenarioResponsibleRoutes
     case `noticeAlterationPage`           => noticeAlterationRoutes
     case CouncilTaxLiabilityStartDatePage => _ => routes.WhyBandIsWrongController.onPageLoad(NormalMode)
@@ -56,6 +63,12 @@ class Navigator @Inject()() {
     if (isActingFor(answers)) routes.CouncilTaxPayerDetailsController.onPageLoad(NormalMode)
     else routes.ContactDetailsController.onPageLoad(NormalMode)
 
+  // property changes -> split or merged, with the split or merge question answered
+  private def isSplitOrMergeJourney(answers: UserAnswers): Boolean =
+    answers.get(ReasonForReviewPage).contains(ReasonForReview.Changesaffectedproperty) &&
+      answers.get(deletionOptionsPage).contains(deletionOptions.Split) &&
+      answers.get(PropertySplitOrMergePage).isDefined
+
   private def isActingFor(answers: UserAnswers): Boolean =
     answers.get(CouncilTaxResponsiblePage).contains(CouncilTaxResponsible.ActingFor)
 
@@ -71,6 +84,19 @@ class Navigator @Inject()() {
       case Some(ReasonForReview.Bandiswrong) => routes.scenarioResponsibleController.onPageLoad(NormalMode)
       case Some(ReasonForReview.Changesaffectedproperty) => routes.deletionOptionsController.onPageLoad(NormalMode)
       case _                             => journeyRecovery
+    }
+
+  private def deletionOptionsRoutes(answers: UserAnswers): Call =
+    answers.get(deletionOptionsPage) match {
+      case Some(deletionOptions.Split) => routes.PropertySplitOrMergeController.onPageLoad(NormalMode)
+      case _                           => journeyRecovery
+    }
+
+  // merged and split both need a formal review
+  private def propertySplitOrMergeRoutes(answers: UserAnswers): Call =
+    answers.get(PropertySplitOrMergePage) match {
+      case Some(_) => routes.ReviewOverviewController.splitOrMergeFormalReview()
+      case None    => journeyRecovery
     }
 
   private def scenarioResponsibleRoutes(answers: UserAnswers): Call =
@@ -111,7 +137,31 @@ class Navigator @Inject()() {
         ).collectFirst { case (true, call) => call }
 
       case ReasonForReview.Changesaffectedproperty =>
-        Option.when(answers.get(deletionOptionsPage).isEmpty)(routes.deletionOptionsController.onPageLoad(CheckMode))
+        val deletion     = answers.get(deletionOptionsPage)
+        val splitOrMerge = answers.get(PropertySplitOrMergePage)
+
+        Seq(
+          deletion.isEmpty                                                              -> routes.deletionOptionsController.onPageLoad(CheckMode),
+          (deletion.contains(deletionOptions.Split)
+            && answers.get(PropertySplitOrMergePage).isEmpty)                           -> routes.PropertySplitOrMergeController.onPageLoad(CheckMode),
+          (deletion.contains(deletionOptions.Split)
+            && splitOrMerge.contains(PropertySplitOrMerge.Merged)
+            && answers.get(PropertyMergedDetailsPage).isEmpty)                          -> routes.PropertyChangeDetailsController.onPageLoadMerged(CheckMode),
+          (deletion.contains(deletionOptions.Split)
+            && splitOrMerge.contains(PropertySplitOrMerge.Merged)
+            && answers.get(PropertyMergedDatePage).isEmpty)                             -> routes.PropertyChangeDateController.onPageLoadMerged(CheckMode),
+          (deletion.contains(deletionOptions.Split)
+            && splitOrMerge.contains(PropertySplitOrMerge.Split)
+            && answers.get(PropertySplitDetailsPage).isEmpty)                           -> routes.PropertyChangeDetailsController.onPageLoadSplit(CheckMode),
+          (deletion.contains(deletionOptions.Split)
+            && splitOrMerge.contains(PropertySplitOrMerge.Split)
+            && answers.get(PropertySplitDatePage).isEmpty)                              -> routes.PropertyChangeDateController.onPageLoadSplit(CheckMode),
+          (deletion.contains(deletionOptions.Split)
+            && splitOrMerge.isDefined
+            && answers.get(PropertyNewAddressPage).isEmpty)                             -> routes.PropertyChangeDetailsController.onPageLoadNewAddress(CheckMode),
+          (deletion.contains(deletionOptions.Split)
+            && answers.get(ContactDetailsPage).isEmpty)                                 -> routes.ContactDetailsController.onPageLoad(CheckMode)
+        ).collectFirst { case (true, call) => call }
 
       case _ => None
     }
@@ -151,6 +201,14 @@ class Navigator @Inject()() {
         case ReasonForReviewPage             => routes.RequestCouncilTaxBandReviewController.onPageLoad(NormalMode)
         case `scenarioResponsiblePage`       => routes.ReasonForReviewController.onPageLoad(NormalMode)
         case `deletionOptionsPage`           => routes.ReasonForReviewController.onPageLoad(NormalMode)
+        case PropertySplitOrMergePage        => routes.deletionOptionsController.onPageLoad(NormalMode)
+        case PropertyMergedDetailsPage       => routes.ReviewOverviewController.splitOrMergeFormalReview()
+        case PropertySplitDetailsPage        => routes.ReviewOverviewController.splitOrMergeFormalReview()
+        case PropertyMergedDatePage          => routes.PropertyChangeDetailsController.onPageLoadMerged(NormalMode)
+        case PropertySplitDatePage           => routes.PropertyChangeDetailsController.onPageLoadSplit(NormalMode)
+        case PropertyNewAddressPage =>
+          if (answers.get(PropertySplitOrMergePage).contains(PropertySplitOrMerge.Split)) routes.PropertyChangeDateController.onPageLoadSplit(NormalMode)
+          else routes.PropertyChangeDateController.onPageLoadMerged(NormalMode)
         case `noticeAlterationPage`          => routes.scenarioResponsibleController.onPageLoad(NormalMode)
         case CouncilTaxLiabilityStartDatePage => routes.ReviewOverviewController.formalReview()
         case WhyBandIsWrongPage =>
@@ -170,8 +228,14 @@ class Navigator @Inject()() {
           else routes.ContinueWithoutEvidenceController.onPageLoad()
         case CouncilTaxPayerDetailsPage => routes.WhichBandController.onPageLoad(NormalMode)
         case ContactDetailsPage =>
-          if (isActingFor(answers)) routes.CouncilTaxPayerDetailsController.onPageLoad(NormalMode)
-          else routes.WhichBandController.onPageLoad(NormalMode)
+          answers.get(PropertySplitOrMergePage) match {
+            case Some(_) =>
+              routes.PropertyChangeDetailsController.onPageLoadNewAddress(NormalMode)
+            case None if isActingFor(answers) =>
+              routes.CouncilTaxPayerDetailsController.onPageLoad(NormalMode)
+            case _ =>
+              routes.WhichBandController.onPageLoad(NormalMode)
+          }
         case _ =>
           routes.PostcodeSearchController.onPageLoad(NormalMode)
       }
@@ -184,6 +248,14 @@ class Navigator @Inject()() {
     case _ =>
       routes.noticeAlterationController.onPageLoad(NormalMode)
   }
+
+  /** Continue on the split or merge formal review overview: sign in, then describe the change that was chosen. */
+  def splitOrMergeDetails(userAnswers: Option[UserAnswers]): Call =
+    userAnswers.flatMap(_.get(PropertySplitOrMergePage)) match {
+      case Some(PropertySplitOrMerge.Merged) => routes.PropertyChangeDetailsController.onPageLoadMerged(NormalMode)
+      case Some(PropertySplitOrMerge.Split)  => routes.PropertyChangeDetailsController.onPageLoadSplit(NormalMode)
+      case None                              => routes.PropertySplitOrMergeController.onPageLoad(NormalMode)
+    }
 
   def checkYourAnswersBackLink: Call =
     routes.ContactDetailsController.onPageLoad(NormalMode)
