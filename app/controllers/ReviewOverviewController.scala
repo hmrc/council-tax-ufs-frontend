@@ -19,7 +19,7 @@ package controllers
 import config.FrontendAppConfig
 import controllers.actions.{DataRetrievalAction, SessionIdentifierAction}
 import models.{NormalMode, ReviewType, noticeAlteration, scenarioResponsible}
-import pages.{noticeAlterationPage, scenarioResponsiblePage}
+import pages.{FormalReviewPage, noticeAlterationPage, scenarioResponsiblePage}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
@@ -41,14 +41,15 @@ class ReviewOverviewController @Inject()(
 
   // same page and URL for both journeys, with the wording chosen from the answers given so far
   def formalReview(): Action[AnyContent] = show(answers =>
-    if (answers.exists(navigator.isLocalAreaChange)) ReviewType.Deletion else ReviewType.Formal
+    answers.flatMap(navigator.changesReviewType).getOrElse(ReviewType.Formal)
   )
 
   def informalReview(): Action[AnyContent] = show(_ => ReviewType.Informal)
 
   def continueToLogin(reviewType: String): Action[AnyContent] = (sessionIdentify andThen getData) { implicit request =>
     val continueCall = reviewType match {
-      case "deletion" => Some(routes.WhatHasChangedController.onPageLoad(NormalMode))
+      // the page after the review comes from the same list of pages as the rest of the journey
+      case "deletion" | "derelict" | "demolished" | "reno" | "partdemo" => request.userAnswers.map(navigator.nextPage(FormalReviewPage, NormalMode, _))
       case "formal" =>
         val noticeBasedFormalReview = request.userAnswers.exists { answers =>
           answers.get(scenarioResponsiblePage).contains(scenarioResponsible.Morethan) &&

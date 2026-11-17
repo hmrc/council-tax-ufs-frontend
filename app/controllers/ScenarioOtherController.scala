@@ -17,7 +17,7 @@
 package controllers
 
 import controllers.actions.{DataRetrievalAction, SessionIdentifierAction}
-import models.NormalMode
+import models.{NormalMode, UserAnswers}
 import navigation.Navigator
 import pages.scenarioOtherPage
 import play.api.i18n.{I18nSupport, MessagesApi}
@@ -41,7 +41,7 @@ class ScenarioOtherController @Inject()(
   def onPageLoad(): Action[AnyContent] = (sessionIdentify andThen getData) { implicit request =>
     Ok(view(
       backLinkUrl = navigator.backLink(scenarioOtherPage, NormalMode, request.userAnswers).url,
-      continueUrl = routes.WhatHasChangedController.onPageLoad(NormalMode).url
+      continueUrl = navigator.nextPage(scenarioOtherPage, NormalMode, request.userAnswers.getOrElse(UserAnswers(request.userId))).url
     ))
   }
 }

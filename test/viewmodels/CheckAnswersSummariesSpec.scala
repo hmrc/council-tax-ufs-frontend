@@ -150,6 +150,117 @@ class CheckAnswersSummariesSpec extends SpecBase with OptionValues {
     }
   }
 
+  "UninhabitableDetailsSummary" - {
+    "must show the selected answer with a change link" in withMessages { implicit msgs =>
+      val answers = emptyUserAnswers.set(UninhabitableDetailsPage, UninhabitableDetails.FireDamage).success.value
+      val row     = UninhabitableDetailsSummary.row(answers).value
+      valueHtml(row) must include(msgs("uninhabitableDetails.fireDamage"))
+      row.actions.value.items.head.href mustBe controllers.routes.UninhabitableDetailsController.onPageLoad(CheckMode).url
+    }
+    "must return None when unanswered" in withMessages { implicit msgs =>
+      UninhabitableDetailsSummary.row(emptyUserAnswers) mustBe None
+    }
+  }
+
+  "UninhabitableDateSummary" - {
+    "must show the formatted date with a change link" in withMessages { implicit msgs =>
+      val answers = emptyUserAnswers.set(UninhabitableDatePage, LocalDate.of(2025, 4, 27)).success.value
+      val row     = UninhabitableDateSummary.row(answers).value
+      valueHtml(row) must include("27 April 2025")
+      row.actions.value.items.head.href mustBe controllers.routes.UninhabitableDateController.onPageLoad(CheckMode).url
+    }
+    "must return None when unanswered" in withMessages { implicit msgs =>
+      UninhabitableDateSummary.row(emptyUserAnswers) mustBe None
+    }
+  }
+
+  "UninhabitableDateLastOccupiedSummary" - {
+    "must show the formatted date with a change link" in withMessages { implicit msgs =>
+      val answers = emptyUserAnswers.set(UninhabitableDateLastOccupiedPage, LocalDate.of(2024, 1, 5)).success.value
+      val row     = UninhabitableDateLastOccupiedSummary.row(answers).value
+      valueHtml(row) must include("5 January 2024")
+      row.actions.value.items.head.href mustBe
+        controllers.routes.UninhabitableDateLastOccupiedController.onPageLoad(CheckMode).url
+    }
+    "must return None when unanswered" in withMessages { implicit msgs =>
+      UninhabitableDateLastOccupiedSummary.row(emptyUserAnswers) mustBe None
+    }
+  }
+
+  "UninhabitableDetailsPlanSummary" - {
+    "must show the answer with a change link" in withMessages { implicit msgs =>
+      val answers = emptyUserAnswers.set(UninhabitableDetailsPlanPage, "Rebuild & renovate").success.value
+      val row     = UninhabitableDetailsPlanSummary.row(answers).value
+      valueHtml(row) mustBe "Rebuild &amp; renovate"
+      row.actions.value.items.head.href mustBe
+        controllers.routes.UninhabitableDetailsPlanController.onPageLoad(CheckMode).url
+    }
+    "must return None when unanswered" in withMessages { implicit msgs =>
+      UninhabitableDetailsPlanSummary.row(emptyUserAnswers) mustBe None
+    }
+  }
+
+  "UninhabitableDetailsPlanHabitableSummary" - {
+    "must show the answer with a change link" in withMessages { implicit msgs =>
+      val answers = emptyUserAnswers.set(UninhabitableDetailsPlanHabitablePage, "New roof").success.value
+      val row     = UninhabitableDetailsPlanHabitableSummary.row(answers).value
+      valueHtml(row) mustBe "New roof"
+      row.actions.value.items.head.href mustBe
+        controllers.routes.UninhabitableDetailsPlanHabitableController.onPageLoad(CheckMode).url
+    }
+    "must return None when unanswered" in withMessages { implicit msgs =>
+      UninhabitableDetailsPlanHabitableSummary.row(emptyUserAnswers) mustBe None
+    }
+  }
+
+  "UninhabitableDetailsPlanPlanningApplicationSummary" - {
+    "must show the answer with a change link" in withMessages { implicit msgs =>
+      val answers = emptyUserAnswers.set(UninhabitableDetailsPlanPlanningApplicationPage, "Ref 12345").success.value
+      val row     = UninhabitableDetailsPlanPlanningApplicationSummary.row(answers).value
+      valueHtml(row) mustBe "Ref 12345"
+      row.actions.value.items.head.href mustBe
+        controllers.routes.UninhabitableDetailsPlanPlanningApplicationController.onPageLoad(CheckMode).url
+    }
+    "must return None when unanswered" in withMessages { implicit msgs =>
+      UninhabitableDetailsPlanPlanningApplicationSummary.row(emptyUserAnswers) mustBe None
+    }
+  }
+
+  "UninhabitableDetailsOtherSummary" - {
+    "must show the answer with a change link" in withMessages { implicit msgs =>
+      val answers = emptyUserAnswers.set(UninhabitableDetailsOtherPage, "Storm damage & subsidence").success.value
+      val row     = UninhabitableDetailsOtherSummary.row(answers).value
+      valueHtml(row) mustBe "Storm damage &amp; subsidence"
+      row.actions.value.items.head.href mustBe
+        controllers.routes.UninhabitableDetailsOtherController.onPageLoad(CheckMode).url
+    }
+    "must return None when unanswered" in withMessages { implicit msgs =>
+      UninhabitableDetailsOtherSummary.row(emptyUserAnswers) mustBe None
+    }
+  }
+
+  "ChangesSummaries" - {
+    "must list only the answered questions, in the order they are asked" in withMessages { implicit msgs =>
+      val answers = emptyUserAnswers
+        .set(UninhabitableDetailsPlanPage, "plan").success.value
+        .set(UninhabitableDetailsPage, UninhabitableDetails.FireDamage).success.value
+        .set(UninhabitableDatePage, LocalDate.of(2025, 4, 27)).success.value
+        .set(HasEvidencePage, false).success.value
+
+      ChangesSummaries.rows(answers).map(row => valueHtml(row)) must have size 4
+      ChangesSummaries.rows(answers).map(_.key.content.asHtml.toString) mustBe Seq(
+        msgs("uninhabitableDetails.checkYourAnswersLabel"),
+        msgs("uninhabitableDate.checkYourAnswersLabel"),
+        msgs("uninhabitableDetailsPlan.checkYourAnswersLabel"),
+        msgs("evidence.checkYourAnswers.label")
+      )
+    }
+
+    "must have no rows when nothing has been answered" in withMessages { implicit msgs =>
+      ChangesSummaries.rows(emptyUserAnswers) mustBe empty
+    }
+  }
+
   "Page" - {
     "must implicitly convert to its string name" in {
       val name: String = PostcodeSearchPage

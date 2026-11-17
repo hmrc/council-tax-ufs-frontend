@@ -21,7 +21,7 @@ import forms.deletionOptionsFormProvider
 import javax.inject.Inject
 import models.Mode
 import navigation.Navigator
-import pages.{WhatHasChangedPage, WhenDidChangeHappenPage, deletionOptionsPage}
+import pages.{ChangesPages, deletionOptionsPage}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import repositories.SessionRepository
@@ -70,7 +70,7 @@ class deletionOptionsController @Inject()(
             )
             // the follow-up questions are worded per option, so answers given under another option no longer fit
             cleared        <- Future.fromTry(
-              if (answers.get(deletionOptionsPage).exists(_ != value)) answers.remove(WhatHasChangedPage).flatMap(_.remove(WhenDidChangeHappenPage))
+              if (answers.get(deletionOptionsPage).exists(_ != value)) answers.removeAll(ChangesPages.followUps)
               else scala.util.Success(answers)
             )
             updatedAnswers <- Future.fromTry(cleared.set(deletionOptionsPage, value))

@@ -230,7 +230,11 @@ class NavigatorSpec extends SpecBase {
       }
 
       "must give the another reason pages explicit back links" in {
-        val answers = Some(UserAnswers("id").set(ReasonForReviewPage, ReasonForReview.Changesaffectedproperty).success.value)
+        val answers = Some(
+          UserAnswers("id")
+            .set(ReasonForReviewPage, ReasonForReview.Changesaffectedproperty).success.value
+            .set(deletionOptionsPage, deletionOptions.AnotherReason).success.value
+        )
 
         navigator.backLink(scenarioOtherPage, NormalMode, answers) mustBe routes.deletionOptionsController.onPageLoad(NormalMode)
         navigator.backLink(WhatHasChangedPage, NormalMode, answers) mustBe routes.ScenarioOtherController.onPageLoad()
@@ -366,6 +370,356 @@ class NavigatorSpec extends SpecBase {
 
         case object UnknownPage extends Page
         navigator.nextPage(UnknownPage, CheckMode, UserAnswers("id")) mustBe routes.CheckYourAnswersController.onPageLoad(Journey.Challenge)
+      }
+    }
+
+    "for a property that is derelict or cannot be lived in" - {
+
+      def derelict(
+        details:   Option[UninhabitableDetails] = None,
+        evidence:  Option[Boolean]              = None,
+        actingFor: Boolean                      = false
+      ): UserAnswers = {
+        val start = UserAnswers("id")
+          .set(ReasonForReviewPage, ReasonForReview.Changesaffectedproperty).success.value
+          .set(deletionOptionsPage, deletionOptions.Demolished).success.value
+          .set(PropertyUninhabitablePage, PropertyUninhabitable.Derelict).success.value
+        val withDetails  = details.fold(start)(d => start.set(UninhabitableDetailsPage, d).success.value)
+        val withEvidence = evidence.fold(withDetails)(e => withDetails.set(HasEvidencePage, e).success.value)
+        if (actingFor) withEvidence.set(CouncilTaxResponsiblePage, CouncilTaxResponsible.ActingFor).success.value
+        else withEvidence
+      }
+
+      val fire  = derelict(Some(UninhabitableDetails.FireDamage))
+      val flood = derelict(Some(UninhabitableDetails.FloodDamage))
+      val other = derelict(Some(UninhabitableDetails.Other))
+
+      def next(page: Page, answers: UserAnswers) = navigator.nextPage(page, NormalMode, answers)
+      def back(page: Page, answers: UserAnswers) = navigator.backLink(page, NormalMode, Some(answers))
+
+      "must start from the deletion options and sign in at the formal review" in {
+        next(deletionOptionsPage, derelict()) mustBe routes.PropertyUninhabitableController.onPageLoad(NormalMode)
+        next(PropertyUninhabitablePage, derelict()) mustBe routes.ReviewOverviewController.formalReview()
+        next(FormalReviewPage, derelict()) mustBe routes.UninhabitableDetailsController.onPageLoad(NormalMode)
+        navigator.changesReviewType(derelict()) mustBe Some(ReviewType.Derelict)
+      }
+
+      "must not go past the property choice until one is made" in {
+        val unanswered = UserAnswers("id").set(deletionOptionsPage, deletionOptions.Demolished).success.value
+        next(PropertyUninhabitablePage, unanswered) mustBe routes.JourneyRecoveryController.onPageLoad()
+        navigator.changesReviewType(unanswered) mustBe None
+      }
+
+      "must ask the same questions for fire damage and flood damage, ending at the evidence question" in {
+        Seq(fire, flood).foreach { answers =>
+          next(UninhabitableDetailsPage, answers) mustBe routes.UninhabitableDateController.onPageLoad(NormalMode)
+          next(UninhabitableDatePage, answers) mustBe routes.UninhabitableDateLastOccupiedController.onPageLoad(NormalMode)
+          next(UninhabitableDateLastOccupiedPage, answers) mustBe routes.UninhabitableDetailsPlanController.onPageLoad(NormalMode)
+          next(UninhabitableDetailsPlanPage, answers) mustBe routes.UninhabitableDetailsPlanHabitableController.onPageLoad(NormalMode)
+          next(UninhabitableDetailsPlanHabitablePage, answers) mustBe
+            routes.UninhabitableDetailsPlanPlanningApplicationController.onPageLoad(NormalMode)
+          next(UninhabitableDetailsPlanPlanningApplicationPage, answers) mustBe routes.HasEvidenceController.onPageLoad(NormalMode)
+        }
+      }
+
+      "must send Other to its own details, reusing the date questions and skipping the plan questions" in {
+        next(UninhabitableDetailsPage, other) mustBe routes.UninhabitableDetailsOtherController.onPageLoad(NormalMode)
+        next(UninhabitableDetailsOtherPage, other) mustBe routes.UninhabitableDateController.onPageLoad(NormalMode)
+        next(UninhabitableDatePage, other) mustBe routes.UninhabitableDateLastOccupiedController.onPageLoad(NormalMode)
+        next(UninhabitableDateLastOccupiedPage, other) mustBe routes.HasEvidenceController.onPageLoad(NormalMode)
+      }
+
+      "must go from the evidence question to an upload or to continuing without evidence" in {
+        next(HasEvidencePage, derelict(Some(UninhabitableDetails.FireDamage), Some(true))) mustBe
+          routes.UploadEvidenceController.onPageLoad(NormalMode)
+        next(HasEvidencePage, derelict(Some(UninhabitableDetails.FireDamage), Some(false))) mustBe
+          routes.ContinueWithoutEvidenceController.onPageLoad()
+      }
+
+      "must finish at contact details, asking for payer details first when acting for someone" in {
+        val own    = derelict(Some(UninhabitableDetails.FireDamage), Some(true))
+        val acting = derelict(Some(UninhabitableDetails.FireDamage), Some(false), actingFor = true)
+
+        next(UploadEvidencePage, own) mustBe routes.ContactDetailsController.onPageLoad(NormalMode)
+        next(ContinueWithoutEvidencePage, derelict(Some(UninhabitableDetails.FireDamage), Some(false))) mustBe
+          routes.ContactDetailsController.onPageLoad(NormalMode)
+        next(ContinueWithoutEvidencePage, acting) mustBe routes.CouncilTaxPayerDetailsController.onPageLoad(NormalMode)
+        next(CouncilTaxPayerDetailsPage, acting) mustBe routes.ContactDetailsController.onPageLoad(NormalMode)
+        next(ContactDetailsPage, own) mustBe routes.CheckYourAnswersController.onPageLoad(Journey.Deletion)
+      }
+
+      "must send the formal review and the questions back to the page before them" in {
+        navigator.reviewOverviewBackLink(ReviewType.Derelict, Some(fire)) mustBe routes.PropertyUninhabitableController.onPageLoad(NormalMode)
+        back(PropertyUninhabitablePage, fire) mustBe routes.deletionOptionsController.onPageLoad(NormalMode)
+        back(UninhabitableDetailsPage, fire) mustBe routes.ReviewOverviewController.formalReview()
+        back(UninhabitableDetailsOtherPage, other) mustBe routes.UninhabitableDetailsController.onPageLoad(NormalMode)
+        back(UninhabitableDatePage, fire) mustBe routes.UninhabitableDetailsController.onPageLoad(NormalMode)
+        back(UninhabitableDatePage, other) mustBe routes.UninhabitableDetailsOtherController.onPageLoad(NormalMode)
+        back(UninhabitableDateLastOccupiedPage, fire) mustBe routes.UninhabitableDateController.onPageLoad(NormalMode)
+        back(UninhabitableDetailsPlanPage, fire) mustBe routes.UninhabitableDateLastOccupiedController.onPageLoad(NormalMode)
+        back(UninhabitableDetailsPlanHabitablePage, fire) mustBe routes.UninhabitableDetailsPlanController.onPageLoad(NormalMode)
+        back(UninhabitableDetailsPlanPlanningApplicationPage, fire) mustBe
+          routes.UninhabitableDetailsPlanHabitableController.onPageLoad(NormalMode)
+      }
+
+      "must send the evidence and contact questions back along the derelict path" in {
+        val withUpload    = derelict(Some(UninhabitableDetails.FireDamage), Some(true))
+        val withoutProof  = derelict(Some(UninhabitableDetails.FireDamage), Some(false))
+        val otherUpload   = derelict(Some(UninhabitableDetails.Other), Some(true))
+        val actingWithout = derelict(Some(UninhabitableDetails.FireDamage), Some(false), actingFor = true)
+
+        back(HasEvidencePage, fire) mustBe routes.UninhabitableDetailsPlanPlanningApplicationController.onPageLoad(NormalMode)
+        back(HasEvidencePage, other) mustBe routes.UninhabitableDateLastOccupiedController.onPageLoad(NormalMode)
+        back(UploadEvidencePage, withUpload) mustBe routes.HasEvidenceController.onPageLoad(NormalMode)
+        back(ContinueWithoutEvidencePage, withoutProof) mustBe routes.HasEvidenceController.onPageLoad(NormalMode)
+        back(ContactDetailsPage, withUpload) mustBe routes.UploadEvidenceController.onPageLoad(NormalMode)
+        back(ContactDetailsPage, otherUpload) mustBe routes.UploadEvidenceController.onPageLoad(NormalMode)
+        back(ContactDetailsPage, withoutProof) mustBe routes.ContinueWithoutEvidenceController.onPageLoad()
+        back(CouncilTaxPayerDetailsPage, actingWithout) mustBe routes.ContinueWithoutEvidenceController.onPageLoad()
+        back(ContactDetailsPage, actingWithout) mustBe routes.CouncilTaxPayerDetailsController.onPageLoad(NormalMode)
+      }
+
+      "in Check mode must ask for the first question the chosen path still needs" in {
+        def check(answers: UserAnswers) = navigator.nextPage(UninhabitableDetailsPage, CheckMode, answers)
+
+        // "Fire damage" changed to "Other": the extra details are asked, but not the plan questions
+        check(derelict(Some(UninhabitableDetails.Other))) mustBe routes.UninhabitableDetailsOtherController.onPageLoad(CheckMode)
+        check(derelict()) mustBe routes.UninhabitableDetailsController.onPageLoad(CheckMode)
+        check(fire) mustBe routes.UninhabitableDateController.onPageLoad(CheckMode)
+      }
+
+      "in Check mode must return to the answers once the path is complete" in {
+        val date = java.time.LocalDate.of(2025, 4, 27)
+        val complete = derelict(Some(UninhabitableDetails.FireDamage), Some(false))
+          .set(UninhabitableDatePage, date).success.value
+          .set(UninhabitableDateLastOccupiedPage, date).success.value
+          .set(UninhabitableDetailsPlanPage, "plan").success.value
+          .set(UninhabitableDetailsPlanHabitablePage, "habitable").success.value
+          .set(UninhabitableDetailsPlanPlanningApplicationPage, "planning").success.value
+
+        // only the contact details are still missing
+        navigator.nextPage(UninhabitableDatePage, CheckMode, complete) mustBe routes.ContactDetailsController.onPageLoad(CheckMode)
+        navigator.nextPage(UninhabitableDatePage, CheckMode, complete
+          .set(ContactDetailsPage, models.ContactDetails("A", "B", None, None, None, None, None, None, None, Set.empty)).success.value) mustBe
+          routes.CheckYourAnswersController.onPageLoad(Journey.Deletion)
+      }
+    }
+
+    "for a property that has been fully demolished" - {
+
+      def demolished(
+        details:   Option[UninhabitableDetails] = Some(UninhabitableDetails.FireDamage),
+        evidence:  Option[Boolean]              = None,
+        actingFor: Boolean                      = false
+      ): UserAnswers = {
+        val start        = UserAnswers("id")
+          .set(ReasonForReviewPage, ReasonForReview.Changesaffectedproperty).success.value
+          .set(deletionOptionsPage, deletionOptions.Demolished).success.value
+          .set(PropertyUninhabitablePage, PropertyUninhabitable.Demolished).success.value
+        val withDetails  = details.fold(start)(d => start.set(UninhabitableDetailsPage, d).success.value)
+        val withEvidence = evidence.fold(withDetails)(e => withDetails.set(HasEvidencePage, e).success.value)
+        if (actingFor) withEvidence.set(CouncilTaxResponsiblePage, CouncilTaxResponsible.ActingFor).success.value
+        else withEvidence
+      }
+
+      def next(page: Page, answers: UserAnswers) = navigator.nextPage(page, NormalMode, answers)
+      def back(page: Page, answers: UserAnswers) = navigator.backLink(page, NormalMode, Some(answers))
+
+      "must go from the property choice to its own formal review, then the reason" in {
+        next(PropertyUninhabitablePage, demolished(None)) mustBe routes.ReviewOverviewController.formalReview()
+        navigator.changesReviewType(demolished(None)) mustBe Some(ReviewType.Demolished)
+        next(FormalReviewPage, demolished(None)) mustBe routes.UninhabitableDetailsController.onPageLoad(NormalMode)
+      }
+
+      "must ask the same questions whether the reason is fire, flood or other" in {
+        Seq(UninhabitableDetails.FireDamage, UninhabitableDetails.FloodDamage, UninhabitableDetails.Other).foreach { reason =>
+          val answers = demolished(Some(reason))
+          next(UninhabitableDetailsPage, answers) mustBe routes.DemolishedDateController.onPageLoad(NormalMode)
+          next(DemolishedDatePage, answers) mustBe routes.DemolishedDetailsController.onPageLoad(NormalMode)
+          next(DemolishedDetailsPage, answers) mustBe routes.HasEvidenceController.onPageLoad(NormalMode)
+        }
+      }
+
+      "must continue from evidence to the contact details, via the payer details when acting for someone" in {
+        next(HasEvidencePage, demolished(evidence = Some(true))) mustBe routes.UploadEvidenceController.onPageLoad(NormalMode)
+        next(HasEvidencePage, demolished(evidence = Some(false))) mustBe routes.ContinueWithoutEvidenceController.onPageLoad()
+        next(UploadEvidencePage, demolished(evidence = Some(true))) mustBe routes.ContactDetailsController.onPageLoad(NormalMode)
+        next(UploadEvidencePage, demolished(evidence = Some(true), actingFor = true)) mustBe
+          routes.CouncilTaxPayerDetailsController.onPageLoad(NormalMode)
+      }
+
+      "must have back links that follow the same path" in {
+        val answers = demolished(evidence = Some(false))
+        back(DemolishedDatePage, answers) mustBe routes.UninhabitableDetailsController.onPageLoad(NormalMode)
+        back(DemolishedDetailsPage, answers) mustBe routes.DemolishedDateController.onPageLoad(NormalMode)
+        back(HasEvidencePage, answers) mustBe routes.DemolishedDetailsController.onPageLoad(NormalMode)
+        navigator.reviewOverviewBackLink(ReviewType.Demolished, Some(answers)) mustBe
+          routes.PropertyUninhabitableController.onPageLoad(NormalMode)
+      }
+
+      "in Check mode must ask for the first demolished question still missing" in {
+        val date = java.time.LocalDate.of(2025, 4, 27)
+        val start = demolished(evidence = Some(false))
+        navigator.nextPage(UninhabitableDetailsPage, CheckMode, start) mustBe routes.DemolishedDateController.onPageLoad(CheckMode)
+        val withDate = start.set(DemolishedDatePage, date).success.value
+        navigator.nextPage(DemolishedDatePage, CheckMode, withDate) mustBe routes.DemolishedDetailsController.onPageLoad(CheckMode)
+        navigator.nextPage(DemolishedDetailsPage, CheckMode, withDate.set(DemolishedDetailsPage, "gone").success.value) mustBe
+          routes.ContactDetailsController.onPageLoad(CheckMode)
+      }
+    }
+
+    "for a property having major works or renovations done" - {
+
+      def reno(evidence: Option[Boolean] = None, actingFor: Boolean = false): UserAnswers = {
+        val start = UserAnswers("id")
+          .set(ReasonForReviewPage, ReasonForReview.Changesaffectedproperty).success.value
+          .set(deletionOptionsPage, deletionOptions.Demolished).success.value
+          .set(PropertyUninhabitablePage, PropertyUninhabitable.Reno).success.value
+        val withEvidence = evidence.fold(start)(e => start.set(HasEvidencePage, e).success.value)
+        if (actingFor) withEvidence.set(CouncilTaxResponsiblePage, CouncilTaxResponsible.ActingFor).success.value
+        else withEvidence
+      }
+
+      def next(page: Page, answers: UserAnswers) = navigator.nextPage(page, NormalMode, answers)
+      def back(page: Page, answers: UserAnswers) = navigator.backLink(page, NormalMode, Some(answers))
+
+      "must go from the property choice to its own formal review, then the start date" in {
+        next(PropertyUninhabitablePage, reno()) mustBe routes.ReviewOverviewController.formalReview()
+        navigator.changesReviewType(reno()) mustBe Some(ReviewType.Reno)
+        next(FormalReviewPage, reno()) mustBe routes.RenoStartDateController.onPageLoad(NormalMode)
+      }
+
+      "must ask for the dates and details, with no reason question, before the evidence" in {
+        next(RenoStartDatePage, reno()) mustBe routes.RenoCompletionDateController.onPageLoad(NormalMode)
+        next(RenoCompletionDatePage, reno()) mustBe routes.RenoDetailsController.onPageLoad(NormalMode)
+        next(RenoDetailsPage, reno()) mustBe routes.HasEvidenceController.onPageLoad(NormalMode)
+      }
+
+      "must continue from evidence to the contact details, via the payer details when acting for someone" in {
+        next(HasEvidencePage, reno(Some(true))) mustBe routes.UploadEvidenceController.onPageLoad(NormalMode)
+        next(HasEvidencePage, reno(Some(false))) mustBe routes.ContinueWithoutEvidenceController.onPageLoad()
+        next(UploadEvidencePage, reno(Some(true), actingFor = true)) mustBe routes.CouncilTaxPayerDetailsController.onPageLoad(NormalMode)
+      }
+
+      "must have back links that follow the same path" in {
+        back(RenoStartDatePage, reno()) mustBe routes.ReviewOverviewController.formalReview()
+        back(RenoCompletionDatePage, reno()) mustBe routes.RenoStartDateController.onPageLoad(NormalMode)
+        back(RenoDetailsPage, reno()) mustBe routes.RenoCompletionDateController.onPageLoad(NormalMode)
+        back(HasEvidencePage, reno()) mustBe routes.RenoDetailsController.onPageLoad(NormalMode)
+        navigator.reviewOverviewBackLink(ReviewType.Reno, Some(reno())) mustBe routes.PropertyUninhabitableController.onPageLoad(NormalMode)
+      }
+
+      "in Check mode must ask for the first reno question still missing" in {
+        val date = java.time.LocalDate.of(2025, 4, 27)
+        navigator.nextPage(PropertyUninhabitablePage, CheckMode, reno()) mustBe routes.RenoStartDateController.onPageLoad(CheckMode)
+        val withStart = reno().set(RenoStartDatePage, date).success.value
+        navigator.nextPage(RenoStartDatePage, CheckMode, withStart) mustBe routes.RenoCompletionDateController.onPageLoad(CheckMode)
+        val withCompletion = withStart.set(RenoCompletionDatePage, date.plusDays(5)).success.value
+        navigator.nextPage(RenoCompletionDatePage, CheckMode, withCompletion) mustBe routes.RenoDetailsController.onPageLoad(CheckMode)
+      }
+    }
+
+    "for a property that has been partly demolished" - {
+
+      def partDemo(evidence: Option[Boolean] = None): UserAnswers = {
+        val start = UserAnswers("id")
+          .set(ReasonForReviewPage, ReasonForReview.Changesaffectedproperty).success.value
+          .set(deletionOptionsPage, deletionOptions.Demolished).success.value
+          .set(PropertyUninhabitablePage, PropertyUninhabitable.PartDemo).success.value
+        evidence.fold(start)(e => start.set(HasEvidencePage, e).success.value)
+      }
+
+      def next(page: Page, answers: UserAnswers) = navigator.nextPage(page, NormalMode, answers)
+      def back(page: Page, answers: UserAnswers) = navigator.backLink(page, NormalMode, Some(answers))
+
+      "must go from the property choice to its own formal review, then the demolition date" in {
+        next(PropertyUninhabitablePage, partDemo()) mustBe routes.ReviewOverviewController.formalReview()
+        navigator.changesReviewType(partDemo()) mustBe Some(ReviewType.PartDemo)
+        next(FormalReviewPage, partDemo()) mustBe routes.PartDemoDateController.onPageLoad(NormalMode)
+      }
+
+      "must ask for the date and details, with no reason question, before the evidence" in {
+        next(PartDemoDatePage, partDemo()) mustBe routes.PartDemoDetailsController.onPageLoad(NormalMode)
+        next(PartDemoDetailsPage, partDemo()) mustBe routes.HasEvidenceController.onPageLoad(NormalMode)
+        next(HasEvidencePage, partDemo(Some(true))) mustBe routes.UploadEvidenceController.onPageLoad(NormalMode)
+        next(HasEvidencePage, partDemo(Some(false))) mustBe routes.ContinueWithoutEvidenceController.onPageLoad()
+      }
+
+      "must have back links that follow the same path" in {
+        back(PartDemoDatePage, partDemo()) mustBe routes.ReviewOverviewController.formalReview()
+        back(PartDemoDetailsPage, partDemo()) mustBe routes.PartDemoDateController.onPageLoad(NormalMode)
+        back(HasEvidencePage, partDemo()) mustBe routes.PartDemoDetailsController.onPageLoad(NormalMode)
+        navigator.reviewOverviewBackLink(ReviewType.PartDemo, Some(partDemo())) mustBe routes.PropertyUninhabitableController.onPageLoad(NormalMode)
+      }
+
+      "in Check mode must ask for the first part demolished question still missing" in {
+        val date = java.time.LocalDate.of(2025, 4, 27)
+        navigator.nextPage(PropertyUninhabitablePage, CheckMode, partDemo()) mustBe routes.PartDemoDateController.onPageLoad(CheckMode)
+        navigator.nextPage(PartDemoDatePage, CheckMode, partDemo().set(PartDemoDatePage, date).success.value) mustBe
+          routes.PartDemoDetailsController.onPageLoad(CheckMode)
+      }
+    }
+
+    "for a change of use to a home" - {
+
+      def changedUse(use: Option[ChangeOfUse] = Some(ChangeOfUse.Domestic), actingFor: Boolean = false): UserAnswers = {
+        val start = UserAnswers("id")
+          .set(ReasonForReviewPage, ReasonForReview.Changesaffectedproperty).success.value
+          .set(deletionOptionsPage, deletionOptions.Changed).success.value
+        val withUse = use.fold(start)(u => start.set(ChangeOfUsePage, u).success.value)
+        if (actingFor) withUse.set(CouncilTaxResponsiblePage, CouncilTaxResponsible.ActingFor).success.value else withUse
+      }
+
+      def next(page: Page, answers: UserAnswers) = navigator.nextPage(page, NormalMode, answers)
+      def back(page: Page, answers: UserAnswers) = navigator.backLink(page, NormalMode, Some(answers))
+
+      "must ask how the use has changed, then go to the general formal review for a home" in {
+        next(deletionOptionsPage, changedUse(None)) mustBe routes.ChangeOfUseController.onPageLoad(NormalMode)
+        next(ChangeOfUsePage, changedUse()) mustBe routes.ReviewOverviewController.formalReview()
+        navigator.changesReviewType(changedUse()) mustBe Some(ReviewType.Deletion)
+        next(FormalReviewPage, changedUse()) mustBe routes.DomesticPartsController.onPageLoad(NormalMode)
+      }
+
+      "must ask the three home questions and go straight to the contact details, with no evidence" in {
+        next(DomesticPartsPage, changedUse()) mustBe routes.DomesticDateController.onPageLoad(NormalMode)
+        next(DomesticDatePage, changedUse()) mustBe routes.AddressChangedController.onPageLoad(NormalMode)
+        next(AddressChangedPage, changedUse()) mustBe routes.ContactDetailsController.onPageLoad(NormalMode)
+        next(AddressChangedPage, changedUse(actingFor = true)) mustBe routes.CouncilTaxPayerDetailsController.onPageLoad(NormalMode)
+      }
+
+      "must ask the business questions, then the shared address question, for a business" in {
+        val business = changedUse(Some(ChangeOfUse.Business))
+        next(ChangeOfUsePage, business) mustBe routes.ReviewOverviewController.formalReview()
+        navigator.changesReviewType(business) mustBe Some(ReviewType.Deletion)
+        next(FormalReviewPage, business) mustBe routes.BusinessPartsController.onPageLoad(NormalMode)
+        next(BusinessPartsPage, business) mustBe routes.BusinessDateController.onPageLoad(NormalMode)
+        next(BusinessDatePage, business) mustBe routes.AddressChangedController.onPageLoad(NormalMode)
+        next(AddressChangedPage, business) mustBe routes.ContactDetailsController.onPageLoad(NormalMode)
+        back(BusinessDatePage, business) mustBe routes.BusinessPartsController.onPageLoad(NormalMode)
+        back(AddressChangedPage, business) mustBe routes.BusinessDateController.onPageLoad(NormalMode)
+      }
+
+      "must not go past the use question until it is answered" in {
+        next(ChangeOfUsePage, changedUse(None)) mustBe routes.JourneyRecoveryController.onPageLoad()
+        navigator.changesReviewType(changedUse(None)) mustBe None
+      }
+
+      "must have back links that follow the same path" in {
+        back(ChangeOfUsePage, changedUse()) mustBe routes.deletionOptionsController.onPageLoad(NormalMode)
+        back(DomesticPartsPage, changedUse()) mustBe routes.ReviewOverviewController.formalReview()
+        back(DomesticDatePage, changedUse()) mustBe routes.DomesticPartsController.onPageLoad(NormalMode)
+        back(AddressChangedPage, changedUse()) mustBe routes.DomesticDateController.onPageLoad(NormalMode)
+        back(ContactDetailsPage, changedUse()) mustBe routes.AddressChangedController.onPageLoad(NormalMode)
+        navigator.reviewOverviewBackLink(ReviewType.Deletion, Some(changedUse())) mustBe routes.ChangeOfUseController.onPageLoad(NormalMode)
+      }
+
+      "in Check mode must ask for the first home question still missing" in {
+        val date = java.time.LocalDate.of(2025, 4, 27)
+        navigator.nextPage(ChangeOfUsePage, CheckMode, changedUse()) mustBe routes.DomesticPartsController.onPageLoad(CheckMode)
+        val withParts = changedUse().set(DomesticPartsPage, "kitchen").success.value
+        navigator.nextPage(DomesticPartsPage, CheckMode, withParts) mustBe routes.DomesticDateController.onPageLoad(CheckMode)
+        val withDate = withParts.set(DomesticDatePage, date).success.value
+        navigator.nextPage(DomesticDatePage, CheckMode, withDate) mustBe routes.AddressChangedController.onPageLoad(CheckMode)
       }
     }
   }

@@ -17,7 +17,7 @@
 package forms
 
 import forms.mappings.Mappings
-import play.api.data.Form
+import play.api.data.{Form, Mapping}
 import play.api.i18n.Messages
 
 import java.time.{LocalDate, ZoneOffset}
@@ -35,7 +35,12 @@ class DateFormProvider @Inject() extends Mappings {
     minErrorKey: Option[String] = None,
     maxErrorKey: Option[String] = None
   )(implicit messages: Messages): Form[LocalDate] =
-    dateFormFrom(prefix, LocalDate.now(ZoneOffset.UTC).minusMonths(monthsBack), minErrorKey, maxErrorKey)
+    boundedDateForm(
+      prefix      = prefix,
+      earliest    = Some(LocalDate.now(ZoneOffset.UTC).minusMonths(monthsBack)),
+      minErrorKey = minErrorKey,
+      maxErrorKey = maxErrorKey
+    )
 
   /** As [[dateForm]] but with a fixed earliest allowed date instead of a number of months back. */
   protected def dateFormFrom(
@@ -43,19 +48,31 @@ class DateFormProvider @Inject() extends Mappings {
     earliestDate: LocalDate,
     minErrorKey:  Option[String] = None,
     maxErrorKey:  Option[String] = None
+  )(implicit messages: Messages): Form[LocalDate] =
+    boundedDateForm(prefix, Some(earliestDate), minErrorKey, maxErrorKey)
+
+  /** Dates up to and including today. `earliest = None` leaves the date open ended at the
+    * start, for pages that only ask the answer not to be in the future.
+    */
+  protected def boundedDateForm(
+    prefix:      String,
+    earliest:    Option[LocalDate],
+    minErrorKey: Option[String] = None,
+    maxErrorKey: Option[String] = None
   )(implicit messages: Messages): Form[LocalDate] = {
     val today = LocalDate.now(ZoneOffset.UTC)
 
+    val date: Mapping[LocalDate] = localDate(
+      invalidKey     = s"$prefix.error.invalid",
+      allRequiredKey = s"$prefix.error.required.all",
+      twoRequiredKey = s"$prefix.error.required.two",
+      requiredKey    = s"$prefix.error.required"
+    ).verifying(maxDate(today, maxErrorKey.getOrElse(s"$prefix.error.range")))
+
     Form(
-      "value" -> localDate(
-        invalidKey     = s"$prefix.error.invalid",
-        allRequiredKey = s"$prefix.error.required.all",
-        twoRequiredKey = s"$prefix.error.required.two",
-        requiredKey    = s"$prefix.error.required"
-      ).verifying(
-        minDate(earliestDate, minErrorKey.getOrElse(s"$prefix.error.range")),
-        maxDate(today, maxErrorKey.getOrElse(s"$prefix.error.range"))
-      )
+      "value" -> earliest.fold(date) { min =>
+        date.verifying(minDate(min, minErrorKey.getOrElse(s"$prefix.error.range")))
+      }
     )
   }
 }

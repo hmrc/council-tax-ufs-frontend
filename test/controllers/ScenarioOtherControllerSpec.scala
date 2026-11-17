@@ -26,7 +26,7 @@ class ScenarioOtherControllerSpec extends SpecBase {
   "ScenarioOtherController" - {
 
     "must render the page for a user who is not signed in, with Continue going to What has changed" in {
-      val application = applicationBuilder(userAnswers = None).build()
+      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers.set(pages.deletionOptionsPage, models.deletionOptions.AnotherReason).success.value)).build()
 
       running(application) {
         val result = route(application, FakeRequest(GET, routes.ScenarioOtherController.onPageLoad().url)).value

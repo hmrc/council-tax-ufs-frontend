@@ -27,8 +27,11 @@
   label: String,
   maxLength: Option[Int],
   rows: Int = 5,
-  labelClasses: String = "govuk-visually-hidden"
+  labelClasses: String = "govuk-visually-hidden",
+  hintId: Option[String] = None
 )(implicit messages: Messages)
+
+@* a hint rendered by the caller still has to be announced with the textarea *@
 
 @maxLength.map { limit =>
 <div class="govuk-character-count"
@@ -48,7 +51,7 @@
     label = Label(content = Text(label), classes = labelClasses),
     errorMessage = field.error.map(error => ErrorMessage(content = Text(messages(error.message, error.args*)))),
     attributes = Map(
-      "aria-describedby" -> s"$id-info"
+      "aria-describedby" -> (hintId.toSeq :+ s"$id-info").mkString(" ")
     )
   ))
   <div id="@id-info" class="govuk-hint govuk-character-count__message">
@@ -64,6 +67,7 @@
     value = field.value,
     rows = rows,
     label = Label(content = Text(label), classes = labelClasses),
-    errorMessage = field.error.map(error => ErrorMessage(content = Text(messages(error.message, error.args*))))
+    errorMessage = field.error.map(error => ErrorMessage(content = Text(messages(error.message, error.args*)))),
+    attributes = hintId.fold(Map.empty[String, String])(hint => Map("aria-describedby" -> hint))
   ))
 }

@@ -1,0 +1,68 @@
+@*
+ * Copyright 2026 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *@
+
+@this(
+    layout: templates.Layout,
+    formHelper: FormWithCSRF,
+    govukErrorSummary: GovukErrorSummary,
+    characterCountTextarea: components.CharacterCountTextarea,
+    govukButton: GovukButton
+)
+
+@(form: Form[_], action: Call, prefix: String, id: String, maxLength: Option[Int] = None, backLinkUrl: Option[String] = None)(implicit request: Request[_], messages: Messages)
+
+@* Single free text question page. Content comes from <prefix>.title/.heading and, where the page
+   needs them, a grey <prefix>.hint and a <prefix>.body paragraph sitting above the text area. *@
+
+@hasHint = @{ messages.isDefinedAt(s"$prefix.hint") }
+@hasBody = @{ messages.isDefinedAt(s"$prefix.body") }
+
+@layout(backLinkUrl = backLinkUrl, pageTitle = title(form, messages(s"$prefix.title"))) {
+
+    @formHelper(action = action, Symbol("autoComplete") -> "off") {
+
+        @if(form.errors.nonEmpty) {
+            @govukErrorSummary(ErrorSummaryViewModel(form, errorLinkOverrides = Map("value" -> id)))
+        }
+
+        <h1 class="govuk-heading-l">@messages(s"$prefix.heading")</h1>
+
+        @if(hasHint) {
+            <div class="govuk-hint" id="@{s"$id-hint"}">
+                @messages(s"$prefix.hint")
+                @if(messages.isDefinedAt(s"$prefix.hint.more")) {
+                    <br><br>@messages(s"$prefix.hint.more")
+                }
+            </div>
+        }
+
+        @if(hasBody) {
+            <p class="govuk-body">@messages(s"$prefix.body")</p>
+        }
+
+        @characterCountTextarea(
+            field     = form("value"),
+            id        = id,
+            label     = messages(s"$prefix.heading"),
+            maxLength = maxLength,
+            hintId    = Option.when(hasHint)(s"$id-hint")
+        )
+
+        @govukButton(
+            ButtonViewModel(messages("site.continue"))
+        )
+    }
+}

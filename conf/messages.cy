@@ -1,14 +1,5 @@
 # grouped by journey stage, then by page, same layout as messages.en
-# TODO translate - in messages.en but not here yet (English shows until then):
-#   councilTaxPayerDetails.title, reasonForReview.checkYourAnswersLabel, noticeAlteration.error.required,
-#   propertyDetail.band.expand, propertyDetail.courtCode.meaning, and the *.change.hidden keys for
-#   dateNotice, deletionOptions, noticeAlteration, reasonForReview, requestCouncilTaxBandReview,
-#   scenarioResponsible and whichBand
-# TODO translate - whenDidChangeHappen.error.tooEarly, whenDidChangeHappen.checkYourAnswersLabel,
-#   whenDidChangeHappen.change.hidden, whatHasChanged.checkYourAnswersLabel, whatHasChanged.change.hidden,
-#   reviewOverview.deletion.intro, .when.value, .decision.intro, .decision.4,
-#   localAreaChanges.error.maxLength, localAreaChanges.checkYourAnswersLabel, localAreaChanges.change.hidden,
-#   localAreaChangesDate.title, .heading, .hint, .error.tooEarly, .checkYourAnswersLabel, .change.hidden
+# English placeholders still to be translated are listed in the last section of this file.
 
 ##############################################################################
 # Global: service, common labels, errors and session
@@ -741,3 +732,361 @@ requestSent.next.3          = Os bydd angen gwybodaeth ychwanegol arnom, byddwn 
 requestSent.next.4          = Byddwn yn cysylltu â chi drwy [lythyr/e-bost] o fewn X wythnos gyda phenderfyniad ynghylch eich cais.
 requestSent.feedback        = Beth oeddech yn ei feddwl o’r gwasanaeth hwn?
 requestSent.feedbackTime    = (mae’n cymryd 30 eiliad)
+
+propertyUninhabitable.title = Dewiswch pa un sy’n berthnasol i’ch eiddo
+propertyUninhabitable.heading = Dewiswch pa un sy’n berthnasol i’ch eiddo
+propertyUninhabitable.derelict = Mae fy eiddo yn adfeiliedig neu mewn cyflwr gwael ac ni ellir byw ynddo
+propertyUninhabitable.demolished = Mae fy eiddo wedi’i ddymchwel yn llwyr
+propertyUninhabitable.reno = Mae gwaith adeiladu mawr neu waith adnewyddu mawr yn cael ei wneud i fy eiddo ac ni ellir byw ynddo
+propertyUninhabitable.partdemo = Mae rhan o fy eiddo wedi’i dymchwel
+propertyUninhabitable.checkYourAnswersLabel = Dewiswch pa un sy’n berthnasol i’ch eiddo
+propertyUninhabitable.error.required = Dewiswch yr hyn sy’n berthnasol i’ch eiddo
+
+# --- Deletion: derelict or cannot be lived in ---
+
+# --- uninhabitableDetails ---
+uninhabitableDetails.title                 = Pam rydych yn meddwl na ellir byw yn yr eiddo?
+uninhabitableDetails.heading               = Pam rydych yn meddwl na ellir byw yn yr eiddo?
+uninhabitableDetails.fireDamage            = Difrod a achoswyd gan dân
+uninhabitableDetails.floodDamage           = Difrod a achoswyd gan lifogydd
+uninhabitableDetails.other                 = Arall
+uninhabitableDetails.checkYourAnswersLabel = Pam rydych yn meddwl na ellir byw yn yr eiddo
+uninhabitableDetails.error.required        = Dewiswch pam yr ydych yn meddwl nad yw eich eiddo yn addas i fyw ynddo
+uninhabitableDetails.change.hidden         = Pam rydych yn meddwl na ellir byw yn yr eiddo
+
+# --- uninhabitableDate ---
+uninhabitableDate.title                 = Pryd y daeth yr eiddo’n adfeiliedig neu’n anaddas i fyw ynddo?
+uninhabitableDate.heading               = Pryd y daeth yr eiddo’n adfeiliedig neu’n anaddas i fyw ynddo?
+uninhabitableDate.hint                  = Dyma’r dyddiad cynharaf pan nad oeddech yn gallu byw yn eich eiddo oherwydd cyflwr yr eiddo.
+uninhabitableDate.example               = Er enghraifft, os taw 27 Ebrill 2025 oedd y dyddiad, nodwch 27 4 2025.
+uninhabitableDate.checkYourAnswersLabel = Y dyddiad y daeth yr eiddo’n adfeiliedig neu’n anaddas i fyw ynddo
+uninhabitableDate.error.required.all    = Nodwch y dyddiad pan nad oedd modd i chi fyw yn eich eiddo mwyach
+uninhabitableDate.error.required.two    = Rhaid i’r dyddiad gynnwys dydd, mis a blwyddyn
+uninhabitableDate.error.required        = Rhaid i’r dyddiad gynnwys dydd, mis a blwyddyn
+uninhabitableDate.error.invalid         = Rhowch ddyddiad cywir
+uninhabitableDate.error.minimum         = Rhaid i’r dyddiad fod ar ôl 1 Ebrill 1993
+uninhabitableDate.error.future          = Rhaid i’r dyddiad fod yn ddyddiad heddiw neu’n ddyddiad yn y gorffennol
+uninhabitableDate.change.hidden         = Y dyddiad y daeth yr eiddo’n adfeiliedig neu’n anaddas i fyw ynddo
+
+# --- uninhabitableDateLastOccupied ---
+uninhabitableDateLastOccupied.title                 = Pryd y bu rhywun yn byw yn yr eiddo ddiwethaf?
+uninhabitableDateLastOccupied.heading               = Pryd y bu rhywun yn byw yn yr eiddo ddiwethaf?
+uninhabitableDateLastOccupied.hint                  = Er enghraifft, os taw 27 Ebrill 2025 oedd y dyddiad, nodwch 27 4 2025.
+uninhabitableDateLastOccupied.checkYourAnswersLabel = Y dyddiad y bu rhywun yn byw yn yr eiddo ddiwethaf
+uninhabitableDateLastOccupied.error.required.all    = Rhowch y dyddiad pan oedd pobl yn byw yn yr eiddo ddiwethaf
+uninhabitableDateLastOccupied.error.required.two    = Rhaid i’r dyddiad gynnwys dydd, mis a blwyddyn
+uninhabitableDateLastOccupied.error.required        = Rhaid i’r dyddiad gynnwys dydd, mis a blwyddyn
+uninhabitableDateLastOccupied.error.invalid         = Rhowch ddyddiad cywir
+uninhabitableDateLastOccupied.error.future          = Rhaid i’r dyddiad fod yn ddyddiad heddiw neu’n ddyddiad yn y gorffennol
+uninhabitableDateLastOccupied.change.hidden         = Y dyddiad y bu rhywun yn byw yn yr eiddo ddiwethaf
+
+# --- uninhabitableDetailsPlan ---
+uninhabitableDetailsPlan.title                 = Beth rydych yn bwriadu ei wneud gyda’r eiddo?
+uninhabitableDetailsPlan.heading               = Beth rydych yn bwriadu ei wneud gyda’r eiddo?
+uninhabitableDetailsPlan.hint                  = Er enghraifft, dywedwch wrthym os ydych yn bwriadu dymchwel, adnewyddu neu ailadeiladu’r eiddo.
+uninhabitableDetailsPlan.checkYourAnswersLabel = Yr hyn rydych yn bwriadu ei wneud gyda’r eiddo
+uninhabitableDetailsPlan.error.required        = Nodwch fanylion am yr eiddo
+uninhabitableDetailsPlan.error.maxLength       = Nodwch 5,000 o gymeriadau neu lai
+uninhabitableDetailsPlan.change.hidden         = Yr hyn rydych yn bwriadu ei wneud gyda’r eiddo
+
+# --- uninhabitableDetailsPlanHabitable ---
+uninhabitableDetailsPlanHabitable.title                 = Beth sydd angen i chi ei wneud i wneud yr eiddo yn addas i fyw ynddo? (dewisol)
+uninhabitableDetailsPlanHabitable.heading               = Beth sydd angen i chi ei wneud i wneud yr eiddo yn addas i fyw ynddo? (dewisol)
+uninhabitableDetailsPlanHabitable.hint                  = Er enghraifft, dywedwch wrthym am unrhyw waith mawr y bydd angen i chi ei wneud er mwyn gallu byw yn yr eiddo eto.
+uninhabitableDetailsPlanHabitable.checkYourAnswersLabel = Yr hyn sydd angen i chi ei wneud i wneud yr eiddo yn addas i fyw ynddo
+uninhabitableDetailsPlanHabitable.error.maxLength       = Nodwch 5,000 o gymeriadau neu lai
+uninhabitableDetailsPlanHabitable.change.hidden         = Yr hyn sydd angen i chi ei wneud i wneud yr eiddo yn addas i fyw ynddo
+
+# --- uninhabitableDetailsPlanPlanningApplication ---
+uninhabitableDetailsPlanPlanningApplication.title                 = Ydych chi wedi gwneud unrhyw geisiadau cynllunio ar gyfer yr eiddo? (dewisol)
+uninhabitableDetailsPlanPlanningApplication.heading               = Ydych chi wedi gwneud unrhyw geisiadau cynllunio ar gyfer yr eiddo? (dewisol)
+uninhabitableDetailsPlanPlanningApplication.hint                  = Er enghraifft, dywedwch wrthym am unrhyw geisiadau, gan gynnwys cyfeirnodau cynllunio, yr ydych wedi’u cael gan eich cyngor lleol.
+uninhabitableDetailsPlanPlanningApplication.checkYourAnswersLabel = Ceisiadau cynllunio ar gyfer yr eiddo
+uninhabitableDetailsPlanPlanningApplication.error.maxLength       = Nodwch 5,000 o gymeriadau neu lai
+uninhabitableDetailsPlanPlanningApplication.change.hidden         = Ceisiadau cynllunio ar gyfer yr eiddo
+
+# --- uninhabitableDetailsOther ---
+uninhabitableDetailsOther.title                 = Dywedwch wrthym am eich eiddo adfeiliedig a pham na ellir byw ynddo
+uninhabitableDetailsOther.heading               = Dywedwch wrthym am eich eiddo adfeiliedig a pham na ellir byw ynddo
+uninhabitableDetailsOther.hint                  = Bydd hyn yn ein helpu i wneud penderfyniad ynghylch eich cais i ddileu band Treth Gyngor eich eiddo.
+uninhabitableDetailsOther.body                  = Rhowch fanylion am eich cynlluniau ar gyfer yr eiddo os ydych yn bwriadu ei ddymchwel, ei adnewyddu neu ei ailadeiladu.
+uninhabitableDetailsOther.checkYourAnswersLabel = Am yr eiddo adfeiliedig a pham na ellir byw ynddo
+uninhabitableDetailsOther.error.required        = Nodwch fanylion am yr eiddo adfeiliedig
+uninhabitableDetailsOther.error.maxLength       = Nodwch 5,000 o gymeriadau neu lai
+uninhabitableDetailsOther.change.hidden         = Am yr eiddo adfeiliedig a pham na ellir byw ynddo
+
+# --- Deletion: fully demolished ---
+
+# --- demolishedDate ---
+demolishedDate.title                 = Pryd cafodd yr eiddo ei ddymchwel?
+demolishedDate.heading               = Pryd cafodd yr eiddo ei ddymchwel?
+demolishedDate.hint                  = Er enghraifft, os cafodd y gwaith i ddymchwel eich eiddo ei gwblhau ar 27 Ebrill 2026, rhowch 27 4 2026.
+demolishedDate.error.required.two    = Rhaid i’r dyddiad gynnwys dydd, mis a blwyddyn
+demolishedDate.error.required        = Rhaid i’r dyddiad gynnwys dydd, mis a blwyddyn
+demolishedDate.error.invalid         = Rhowch ddyddiad cywir
+demolishedDate.error.minimum         = Rhaid i’r dyddiad fod ar ôl 1 Ebrill 1993
+demolishedDate.error.future          = Rhaid i’r dyddiad fod yn ddyddiad heddiw neu’n ddyddiad yn y gorffennol
+
+# --- demolishedDetails ---
+demolishedDetails.title                 = Rhowch wybodaeth i ni am eich eiddo sydd wedi’i ddymchwel yn llwyr
+demolishedDetails.heading               = Rhowch wybodaeth i ni am eich eiddo sydd wedi’i ddymchwel yn llwyr
+demolishedDetails.hint                  = Bydd hyn yn ein helpu i wneud penderfyniad.
+demolishedDetails.error.maxLength       = Nodwch 5,000 o gymeriadau neu lai
+
+# --- Deletion: major works or renovations ---
+
+# --- renoStartDate ---
+renoStartDate.title                 = Pryd y dechreuodd y gwaith mawr neu’r gwaith adnewyddu?
+renoStartDate.heading               = Pryd y dechreuodd y gwaith mawr neu’r gwaith adnewyddu?
+renoStartDate.hint                  = Dyma’r dyddiad y dechreuodd y gwaith mawr neu’r gwaith adnewyddu ar eich eiddo, ac nad oedd modd i chi fyw ynddo o ganlyniad.
+renoStartDate.example               = Er enghraifft, os taw 27 Ebrill 2025 oedd y dyddiad, nodwch 27 4 2025.
+renoStartDate.error.required.all    = Nodwch y dyddiad y dechreuodd y gwaith adnewyddu
+renoStartDate.error.required.two    = Rhaid i’r dyddiad gynnwys dydd, mis a blwyddyn
+renoStartDate.error.required        = Rhaid i’r dyddiad gynnwys dydd, mis a blwyddyn
+renoStartDate.error.invalid         = Rhowch ddyddiad cywir
+renoStartDate.error.future          = Rhaid i’r dyddiad fod yn ddyddiad heddiw neu’n ddyddiad yn y gorffennol
+
+# --- renoCompletionDate ---
+renoCompletionDate.title                 = Beth yw’r dyddiad y cafodd y gwaith ei gwblhau?
+renoCompletionDate.heading               = Beth yw’r dyddiad y cafodd y gwaith ei gwblhau?
+renoCompletionDate.hint                  = Er enghraifft, os taw 27 Ebrill 2025 oedd y dyddiad, nodwch 27 4 2025.
+renoCompletionDate.error.required.all    = Nodwch y dyddiad cwblhau
+renoCompletionDate.error.required.two    = Rhaid i’r dyddiad gynnwys dydd, mis a blwyddyn
+renoCompletionDate.error.required        = Rhaid i’r dyddiad gynnwys dydd, mis a blwyddyn
+renoCompletionDate.error.invalid         = Rhowch ddyddiad cywir
+renoCompletionDate.error.future          = Rhaid i’r dyddiad fod yn ddyddiad heddiw neu’n ddyddiad yn y gorffennol
+renoCompletionDate.error.beforeStart     = Mae’n rhaid i’r dyddiad cwblhau fod ar ôl y dyddiad dechrau
+
+# --- renoDetails ---
+renoDetails.title                 = Dywedwch wrthym am y gwaith mawr neu’r gwaith adnewyddu ar eich eiddo
+renoDetails.heading               = Dywedwch wrthym am y gwaith mawr neu’r gwaith adnewyddu ar eich eiddo
+renoDetails.hint                  = Er enghraifft, dywedwch wrthym am y newidiadau strwythurol mawr rydych yn eu gwneud i’r eiddo, a pham nad yw’n bosibl byw ynddo. Rhowch gymaint o fanylion â phosibl.
+renoDetails.hint.more             = Bydd hyn yn ein helpu i wneud penderfyniad ar eich cais i ddileu band Treth Gyngor eich eiddo.
+renoDetails.error.required        = Nodwch fanylion am y gwaith adnewyddu
+renoDetails.error.maxLength       = Nodwch 5,000 o gymeriadau neu lai
+
+# --- reviewOverview: major works or renovations ---
+reviewOverview.reno.title           = Gofyn am adolygiad ffurfiol
+reviewOverview.reno.intro           = Rydych wedi dweud wrthym fod <strong>gwaith mawr neu waith adnewyddu yn cael ei wneud ar eich eiddo ac nad oes modd byw ynddo</strong>.
+reviewOverview.reno.description     = Mae hyn yn golygu eich bod yn gallu gofyn i’r Swyddfa Brisio dynnu eich eiddo oddi ar restr y Dreth Gyngor. Gelwir hyn yn ‘Adolygiad Ffurfiol’ neu ‘Gwneud Cynnig’.
+reviewOverview.reno.table.heading   = Sut mae adolygiad ffurfiol yn gweithio
+reviewOverview.reno.whatItIs        = Rydych yn gallu gofyn i’r Swyddfa Brisio dynnu eich eiddo oddi ar restr y Dreth Gyngor.
+reviewOverview.reno.whatFor         = Bydd hyn yn dileu band Treth Gyngor eich eiddo, ac ni fydd angen i chi dalu Treth Gyngor i’ch awdurdod lleol.
+reviewOverview.reno.important       = <p class="govuk-body">Pan fydd y newidiadau strwythurol a’r gwaith adnewyddu wedi’u cwblhau, bydd angen i chi wneud cais i ychwanegu’r eiddo yn ôl at Restr y Dreth Gyngor.</p><p class="govuk-body">Pan fydd eiddo’n cael ei ychwanegu’n ôl at Restr y Dreth Gyngor, mae’n bosibl y bydd yn cael yr un band ag o’r blaen, band is neu fand uwch. Bydd hyn yn dibynnu ar brisiad yr eiddo bryd hynny.</p>
+reviewOverview.reno.when.value      = Dim ond ar ôl i’r gwaith strwythurol neu’r gwaith adnewyddu ddechrau y gellir cyflwyno’r cais.
+reviewOverview.reno.duration        = Hyd at 16 wythnos
+reviewOverview.reno.evidence        = <p class="govuk-body">Pan fyddwch yn gwneud cais i ni ddileu band Treth Gyngor eich eiddo, byddwn yn gofyn i chi ddarparu tystiolaeth.</p><p class="govuk-body">Pan fyddwch yn darparu tystiolaeth, gall eich gweithiwr achos adolygu eich cais heb oedi, ac mae’n ein helpu i wneud penderfyniad yn gynt.</p><p class="govuk-body">Os bydd angen tystiolaeth ychwanegol ar weithiwr achos, byddan nhw’n cysylltu â chi’n uniongyrchol i ofyn amdani. Gall hyn arafu’r broses adolygu.</p>
+reviewOverview.reno.examples.intro  = <p class="govuk-body">Gallwch lanlwytho dogfennau neu luniau sy’n dangos <strong>bod gwaith mawr neu waith adnewyddu yn cael ei wneud ar eich eiddo</strong>.</p><p class="govuk-body">Gall y dystiolaeth gynnwys:</p>
+reviewOverview.reno.examples.1      = anfonebau neu dderbynebau gan gontractwyr neu gyflenwyr sy’n cadarnhau pryd y dechreuodd y gwaith ar yr eiddo;
+reviewOverview.reno.examples.2      = copi o unrhyw arolygon, cynlluniau pensaer neu ddogfennau caniatâd cynllunio;
+reviewOverview.reno.examples.3      = ffotograffau o bob ystafell fewnol yn yr eiddo;
+reviewOverview.reno.examples.4      = ffotograffau sy’n dangos y to a thu allan yr eiddo o bob ochr;
+reviewOverview.reno.examples.5      = dogfen Cwmpas y Gwaith sy’n dangos y cynlluniau manwl ar gyfer y gwaith sy’n cael ei wneud
+reviewOverview.reno.examples.outro  = <p class="govuk-body">Byddwch hefyd yn cael cyfle i roi unrhyw wybodaeth neu fanylion ychwanegol yr ydych yn meddwl sy’n bwysig.</p>
+reviewOverview.reno.photoEvidence   = <p class="govuk-body">Dylai ffotograffau fod yn ffotograffau digidol gwreiddiol. Peidiwch â lanlwytho sgrinluniau na lluniau sydd wedi’u hychwanegu at ddogfen neu gyflwyniad.</p><p class="govuk-body">You can upload photos in JPG or PNG format. Each file must be smaller than 10MB.</p>
+reviewOverview.reno.decision.intro  = Mae dau ganlyniad posibl:
+reviewOverview.reno.afterDecision   = Mae gennych 4 mis o ddyddiad y penderfyniad i apelio i’r Tribiwnlys Prisio os nad ydych yn fodlon â’r canlyniad.
+
+# --- Deletion: part of the property demolished ---
+
+# --- partDemoDate ---
+partDemoDate.title                 = Pryd cafodd rhan o’r eiddo ei dymchwel?
+partDemoDate.heading               = Pryd cafodd rhan o’r eiddo ei dymchwel?
+partDemoDate.hint                  = Er enghraifft, os mai 27 Ebrill 2025 oedd y dyddiad, rhowch 27 4 2025.
+partDemoDate.error.required.all    = Nodwch y dyddiad dymchwel
+partDemoDate.error.required.two    = Rhaid i’r dyddiad gynnwys dydd, mis a blwyddyn
+partDemoDate.error.required        = Rhaid i’r dyddiad gynnwys dydd, mis a blwyddyn
+partDemoDate.error.invalid         = Rhowch ddyddiad cywir
+partDemoDate.error.future          = Rhaid i’r dyddiad fod yn ddyddiad heddiw neu’n ddyddiad yn y gorffennol
+
+# --- partDemoDetails ---
+partDemoDetails.title                 = Rhowch fanylion am y gwaith a ddechreuwyd ar yr eiddo a’r hyn y mae’r gwaith yn ei gynnwys
+partDemoDetails.heading               = Rhowch fanylion am y gwaith a ddechreuwyd ar yr eiddo a’r hyn y mae’r gwaith yn ei gynnwys
+partDemoDetails.error.required        = Nodwch fanylion y gwaith dymchwel
+partDemoDetails.error.maxLength       = Nodwch 5,000 o gymeriadau neu lai
+
+# --- Deletion: change of use, now used as a home ---
+
+# --- changeOfUse ---
+changeOfUse.title                 = Sut mae defnydd yr eiddo wedi newid?
+changeOfUse.heading               = Sut mae defnydd yr eiddo wedi newid?
+changeOfUse.domestic              = Mae rhan o’r eiddo neu’r eiddo cyfan bellach yn cael ei ddefnyddio fel cartref
+changeOfUse.business              = Mae’r eiddo bellach yn cael ei ddefnyddio fel busnes
+changeOfUse.error.required        = Dewiswch opsiwn
+
+# --- domesticParts ---
+domesticParts.title                 = Pa rannau o’r eiddo sy’n cael eu defnyddio fel cartref erbyn hyn?
+domesticParts.heading               = Pa rannau o’r eiddo sy’n cael eu defnyddio fel cartref erbyn hyn?
+domesticParts.hint                  = Er enghraifft, rydych wedi newid rhan o gaffi yn lle i fyw. Rhowch gymaint o wybodaeth â phosibl.
+domesticParts.error.required        = Nodwch pa rannau sydd bellach yn cael eu defnyddio fel cartref
+domesticParts.error.maxLength       = Nodwch 5,000 o gymeriadau neu lai
+
+# --- domesticDate ---
+domesticDate.title                 = Pryd ddaeth eich eiddo, neu ran o’ch eiddo, yn gartref i chi?
+domesticDate.heading               = Pryd ddaeth eich eiddo, neu ran o’ch eiddo, yn gartref i chi?
+domesticDate.hint                  = Er enghraifft, os daeth rhan o’ch eiddo yn gartref i chi ar 27 Ebrill 2025, rhowch 27 4 2025.
+domesticDate.error.required.all    = Nodwch y dyddiad y digwyddodd y newid
+domesticDate.error.required.two    = Rhaid i’r dyddiad gynnwys dydd, mis a blwyddyn
+domesticDate.error.required        = Rhaid i’r dyddiad gynnwys dydd, mis a blwyddyn
+domesticDate.error.invalid         = Rhowch ddyddiad cywir
+domesticDate.error.future          = Rhaid i’r dyddiad fod yn ddyddiad heddiw neu’n ddyddiad yn y gorffennol
+
+# --- addressChanged ---
+addressChanged.title                 = Ydy cyfeiriad eich cartref wedi newid?
+addressChanged.heading               = Ydy cyfeiriad eich cartref wedi newid?
+addressChanged.hint                  = Rhowch fanylion unrhyw gyfeiriadau newydd isod
+addressChanged.error.required        = Dewiswch a yw’r cyfeiriad wedi newid
+addressChanged.error.maxLength       = Nodwch 5,000 o gymeriadau neu lai
+
+# --- businessParts ---
+businessParts.title                 = Pa rannau o’ch eiddo sy’n cael eu defnyddio ar gyfer busnes?
+businessParts.heading               = Pa rannau o’ch eiddo sy’n cael eu defnyddio ar gyfer busnes?
+businessParts.hint                  = Er enghraifft, rydych wedi trosi rhan o’r llawr gwaelod yn salon trin gwallt neu gaffi, ac rwyt ti’n dal i fyw yng ngweddill y cartref. Rhowch gymaint o wybodaeth â phosibl.
+businessParts.error.required        = Nodwch pa rannau sy’n cael eu defnyddio at ddibenion busnes
+businessParts.error.maxLength       = Nodwch 5,000 o gymeriadau neu lai
+
+# --- businessDate ---
+businessDate.title                 = Pryd ddechreuodd eich cartref, neu ran o’ch cartref, gael ei ddefnyddio at ddibenion busnes?
+businessDate.heading               = Pryd ddechreuodd eich cartref, neu ran o’ch cartref, gael ei ddefnyddio at ddibenion busnes?
+businessDate.hint                  = Er enghraifft, os wnaethoch ddechrau defnyddio rhan o’ch cartref at ddibenion busnes ar 27 Ebrill 2025, rhowch 27 4 2025.
+businessDate.error.required.all    = Nodwch y dyddiad y digwyddodd y newid
+businessDate.error.required.two    = Rhaid i’r dyddiad gynnwys dydd, mis a blwyddyn
+businessDate.error.required        = Rhaid i’r dyddiad gynnwys dydd, mis a blwyddyn
+businessDate.error.invalid         = Rhowch ddyddiad cywir
+businessDate.error.future          = Rhaid i’r dyddiad fod yn ddyddiad heddiw neu’n ddyddiad yn y gorffennol
+
+##############################################################################
+# TODO translate: English text stays here until the Welsh is supplied, so a Welsh
+# page never shows a raw message key. Move each line to its page section when translated.
+##############################################################################
+propertyDetail.band.expand                    = Council Tax bands England
+propertyDetail.courtCode.meaning              = Court codes indicate the outcome of a tribunal or court review of the Council Tax band.
+requestCouncilTaxBandReview.change.hidden         = RequestCouncilTaxBandReview
+reasonForReview.checkYourAnswersLabel     = Why do you want to review your Council Tax band?
+reasonForReview.change.hidden             = ReasonForReview
+scenarioResponsible.change.hidden         = scenarioResponsible
+noticeAlteration.change.hidden         = noticeAlteration
+reviewOverview.row.important          = Important
+reviewOverview.row.photoEvidence      = Photo evidence
+reviewOverview.deletion.intro           = You have told us that there have been changes made to your home or significant changes made in the local area that affect the value of your home.
+reviewOverview.deletion.when.value      = You can ask for a formal review if there have been changes made to your home or the local area. For example:<ul class="govuk-list govuk-list--bullet"><li>all or part of your home has been demolished</li><li>it has been split into new homes</li><li>it has been merged into a larger, single home</li><li>something in the local area has changed that has affected the value of your home</li></ul>
+reviewOverview.deletion.decision.intro  = There are 4 possible decisions that can be made:
+reviewOverview.deletion.decision.4      = your home is deleted from the Council Tax list
+reviewOverview.derelict.title           = Asking for a formal review
+reviewOverview.derelict.intro           = You have told us that <strong>your property is derelict and cannot be lived in</strong>.
+reviewOverview.derelict.description     = This means that you can ask for your property to be removed from the Council Tax list. This is known as a ‘Formal Challenge’ or ‘Making a Proposal’
+reviewOverview.derelict.table.heading   = How a formal review works
+reviewOverview.derelict.whatItIs        = You can ask the Valuation Office to delete your property from the Council Tax list.
+reviewOverview.derelict.whatFor         = This will delete your property’s Council Tax band, and you will not be required to pay Council Tax to your Local Council.
+reviewOverview.derelict.important       = <p class="govuk-body">In the future, if you make improvements to the property and the property can be lived in, you will need to apply to have the property added to the Council Tax List.</p><p class="govuk-body">When a property comes back into the Council Tax list, it could come back in at the same, lower or higher band than before. This will depend on the property valuation at that time.</p>
+reviewOverview.derelict.when.label      = When you can ask for a formal review
+reviewOverview.derelict.when.value      = The request can only be submitted after the derelict property could not be lived in.
+reviewOverview.derelict.duration        = Up to 16 weeks
+reviewOverview.derelict.evidence        = <p class="govuk-body">When you make a request for us to delete your property’s Council Tax band, we ask you for evidence.</p><p class="govuk-body">When you provide evidence, your caseworker can review your request without delays, and it helps us make a decision sooner.</p><p class="govuk-body">If a caseworker requires additional evidence, they will contact you directly to ask for this. This can slow the review process down.</p>
+reviewOverview.derelict.examples.intro  = <p class="govuk-body">You can upload documents or photos that show <strong>your property is having major works or renovations done</strong>.</p><p class="govuk-body">Evidence can include:</p>
+reviewOverview.derelict.examples.1      = copy of any structural surveys or reports
+reviewOverview.derelict.examples.2      = details of any planning applications made or planning permission documents
+reviewOverview.derelict.examples.3      = photos of all internal rooms in the property
+reviewOverview.derelict.examples.4      = photos showing the roof and outside of the property from all sides
+reviewOverview.derelict.examples.5      = A Schedule of Condition document that includes detailed inspection report noting any defects and damage.
+reviewOverview.derelict.examples.outro  = <p class="govuk-body">You will also be given the opportunity to tell us any additional information or details that you think is important.</p>
+reviewOverview.derelict.photoEvidence   = <p class="govuk-body">Photographs should be original digital photos. Do not upload screenshots or photos that have been added to a document or presentation.</p><p class="govuk-body">You can upload photos in JPG or PNG format. Each file must be smaller than 10MB.</p>
+reviewOverview.derelict.decision.intro  = There are 2 possible outcomes:
+reviewOverview.derelict.decision.1      = your property will be removed from the Council Tax list
+reviewOverview.derelict.decision.2      = your property will stay on the Council Tax list if we do not receive the evidence we need, or if your request does not meet the criteria
+reviewOverview.derelict.afterDecision   = You have 4 months after the date of the decision to appeal to the Valuation Tribunal if you are not satisfied with the outcome
+dateNotice.change.hidden         = DateNotice
+whatHasChanged.checkYourAnswersLabel = Details of what has changed
+whatHasChanged.change.hidden         = details of what has changed
+whenDidChangeHappen.error.tooEarly        = The date your property was demolished or became uninhabitable must be between 1 April 1993 and today
+whenDidChangeHappen.checkYourAnswersLabel = When the change happened
+whenDidChangeHappen.change.hidden         = when the change happened
+localAreaChanges.error.maxLength       = Details of the changes must be 5000 characters or fewer
+localAreaChanges.checkYourAnswersLabel = Permanent changes in your local area
+localAreaChanges.change.hidden         = permanent changes in your local area
+localAreaChangesDate.title                 = When did these permanent changes take place?
+localAreaChangesDate.heading               = When did these permanent changes take place?
+localAreaChangesDate.hint                  = For example, if the changes in your local area happened on 27 April 2025, enter 27 4 2025.
+localAreaChangesDate.error.tooEarly        = The date your property was demolished or became uninhabitable must be between 1 April 1993 and today
+localAreaChangesDate.checkYourAnswersLabel = When the permanent changes took place
+localAreaChangesDate.change.hidden         = when the permanent changes took place
+deletionOptions.change.hidden         = deletionOptions
+whichBand.change.hidden         = WhichBand
+councilTaxPayerDetails.title                         = What are the contact details for the property’s Council Tax payer?
+propertyUninhabitable.change.hidden = PropertyUninhabitable
+demolishedDate.checkYourAnswersLabel = Date the property was demolished
+demolishedDate.error.required.all    = Enter the date the property was demolished
+demolishedDate.change.hidden         = Date the property was demolished
+demolishedDetails.checkYourAnswersLabel = About the fully demolished property
+demolishedDetails.error.required        = Enter details about the fully demolished property
+demolishedDetails.change.hidden         = About the fully demolished property
+reviewOverview.demolished.title           = Asking for a formal review
+reviewOverview.demolished.intro           = You have told us that your <strong>property has been demolished completely and cannot be lived in</strong>.
+reviewOverview.demolished.description     = This means that you can ask for your property to be removed from the Council Tax list. This is known as a ‘Formal Challenge’ or ‘Making a Proposal’
+reviewOverview.demolished.table.heading   = How a formal review works
+reviewOverview.demolished.whatItIs        = You can ask the Valuation Office to remove your demolished property from the Council Tax list.
+reviewOverview.demolished.whatFor         = This will delete your property’s Council Tax band, and you will not be required to pay Council Tax to your Local Council.
+reviewOverview.demolished.important       = <p class="govuk-body">If your later build a new property, you will need to apply to have this added to the Council Tax List.</p><p class="govuk-body">When a property comes back into the Council Tax list it will banded as a new property.</p><p class="govuk-body">When valuing the property, we will consider all improvements made. This means your Council Tax band may be the same, lower or a higher band than before.</p>
+reviewOverview.demolished.when.label      = When you can ask for a formal review
+reviewOverview.demolished.when.value      = The request can only be submitted after the demolition of the property has been completed.
+reviewOverview.demolished.duration        = Up to 16 weeks
+reviewOverview.demolished.evidence        = <p class="govuk-body">When you make a request for us to delete your property’s Council Tax band, we ask you for evidence.</p><p class="govuk-body">When you provide evidence, your caseworker can review your request without delays, and it helps us make a decision sooner.</p><p class="govuk-body">If a caseworker requires additional evidence, they will contact you directly to ask for this.</p>
+reviewOverview.demolished.examples.intro  = <p class="govuk-body">You can upload documents or photos that show your property has been demolished.</p><p class="govuk-body">Evidence can include:</p>
+reviewOverview.demolished.examples.1      = original digital photos of the demolished property, clearly showing the location of where the property was.
+reviewOverview.demolished.examples.2      = dated copy of the contract or invoice from the company who completed the demolition.
+reviewOverview.demolished.examples.3      = copy of the section 80/81 Notice of Demolition
+reviewOverview.demolished.examples.4      = any other document or receipt that shows the date that the demolition was completed
+reviewOverview.demolished.examples.outro  = <p class="govuk-body">You will also be given the opportunity to tell us any additional information or details that you think is important.</p>
+reviewOverview.demolished.photoEvidence   = <p class="govuk-body">Photographs should be original digital photos. Do not upload screenshots or photos that have been added to a document or presentation.</p><p class="govuk-body">You can upload photos in JPG or PNG format. Each file must be smaller than 10MB.</p>
+reviewOverview.demolished.decision.intro  = There are 2 possible outcomes:
+reviewOverview.demolished.decision.1      = your property will be removed from the Council Tax list
+reviewOverview.demolished.decision.2      = your property will stay on the Council Tax list if we do not receive the evidence we need, or if your request does not meet the criteria
+reviewOverview.demolished.afterDecision   = You have 4 months after the date of the decision to appeal to the Valuation Tribunal if you are not satisfied with the outcome
+renoStartDate.checkYourAnswersLabel = Date the major works or renovation started
+renoStartDate.change.hidden         = Date the major works or renovation started
+renoCompletionDate.checkYourAnswersLabel = Date the work completed
+renoCompletionDate.change.hidden         = Date the work completed
+renoDetails.checkYourAnswersLabel = About the major works or renovation to the property
+renoDetails.change.hidden         = About the major works or renovation to the property
+reviewOverview.reno.when.label      = When you can ask for a formal review
+reviewOverview.reno.decision.1      = your property will be removed from the Council Tax list
+reviewOverview.reno.decision.2      = your property will stay on the Council Tax list if we do not receive the evidence we need, or if your request does not meet the criteria
+partDemoDate.checkYourAnswersLabel = Date part of the property was demolished
+partDemoDate.change.hidden         = Date part of the property was demolished
+partDemoDetails.checkYourAnswersLabel = Details of the demolition works
+partDemoDetails.change.hidden         = Details of the demolition works
+reviewOverview.partdemo.title           = Asking for a formal review
+reviewOverview.partdemo.intro           = You have told us that your <strong>property has been partially demolished and cannot be lived in</strong>.
+reviewOverview.partdemo.description     = This means that you can ask for your property to be removed from the Council Tax list. This is known as a ‘Formal Challenge’ or ‘Making a Proposal’
+reviewOverview.partdemo.table.heading   = How a formal review works
+reviewOverview.partdemo.whatItIs        = You can ask the Valuation Office to remove your partially demolished property from the Council Tax list.
+reviewOverview.partdemo.whatFor         = This will delete your property’s Council Tax band, and you will not be required to pay Council Tax to your Local Council.
+reviewOverview.partdemo.important       = <p class="govuk-body">If your later rebuild this property, you will need to apply to have this added to the Council Tax List.</p><p class="govuk-body">When the property comes back into the Council Tax list it will banded as a new property.</p><p class="govuk-body">When valuing the property, we will consider all improvements made. This means your Council Tax band may be the same, lower or a higher band than before.</p>
+reviewOverview.partdemo.when.label      = When you can ask for a formal review
+reviewOverview.partdemo.when.value      = The request can only be submitted after the demolition work has started.
+reviewOverview.partdemo.duration        = Up to 16 weeks
+reviewOverview.partdemo.evidence        = <p class="govuk-body">When you make a request for us to delete your property’s Council Tax band, we ask you for evidence.</p><p class="govuk-body">When you provide evidence, your caseworker can review your request without delays, and it helps us make a decision sooner.</p><p class="govuk-body">If a caseworker requires additional evidence, they will contact you directly to ask for this.</p>
+reviewOverview.partdemo.examples.intro  = <p class="govuk-body">You can upload documents or photos that show that <strong>your property has been partially demolished</strong>.</p><p class="govuk-body">Evidence can include:</p>
+reviewOverview.partdemo.examples.1      = the date that part of the property was demolished
+reviewOverview.partdemo.examples.2      = original digital photos of the property, clearly showing which parts of the property have been demolished
+reviewOverview.partdemo.examples.3      = dated copy of the contract or invoice from the company who completed the demolition.
+reviewOverview.partdemo.examples.outro  = <p class="govuk-body">You will also be given the opportunity to tell us any additional information or details that you think is important.</p>
+reviewOverview.partdemo.photoEvidence   = <p class="govuk-body">Photographs should be original digital photos. Do not upload screenshots or photos that have been added to a document or presentation.</p><p class="govuk-body">You can upload photos in JPG or PNG format. Each file must be smaller than 10MB.</p>
+reviewOverview.partdemo.decision.intro  = There are 2 possible outcomes:
+reviewOverview.partdemo.decision.1      = your property will be removed from the Council Tax list
+reviewOverview.partdemo.decision.2      = your property will stay on the Council Tax list if we do not receive the evidence we need, or if your request does not meet the criteria
+reviewOverview.partdemo.afterDecision   = You have 4 months after the date of the decision to appeal to the Valuation Tribunal Wales if you are not satisfied with the outcome.
+changeOfUse.checkYourAnswersLabel = How the use of the property has changed
+changeOfUse.change.hidden         = How the use of the property has changed
+domesticParts.checkYourAnswersLabel = Parts of the property now used as a home
+domesticParts.change.hidden         = Parts of the property now used as a home
+domesticDate.checkYourAnswersLabel = Date the property became your home
+domesticDate.change.hidden         = Date the property became your home
+addressChanged.checkYourAnswersLabel = Whether the address of your home has changed
+addressChanged.change.hidden         = Whether the address of your home has changed
+domesticDate.error.minimum         = The date your property was demolished or became uninhabitable must be between 1 April 1993 and today
+businessDate.error.minimum         = The date your property was demolished or became uninhabitable must be between 1 April 1993 and today
+businessParts.checkYourAnswersLabel = Parts of the home used for business
+businessParts.change.hidden         = Parts of the home used for business
+businessDate.checkYourAnswersLabel = Date the home changed to business use
+businessDate.change.hidden         = Date the home changed to business use

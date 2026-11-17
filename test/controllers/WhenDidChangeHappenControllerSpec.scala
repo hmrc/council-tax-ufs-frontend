@@ -33,6 +33,8 @@ import scala.concurrent.Future
 
 class WhenDidChangeHappenControllerSpec extends SpecBase with MockitoSugar {
 
+  private def anotherReason = emptyUserAnswers.set(deletionOptionsPage, deletionOptions.AnotherReason).success.value
+
   private val validDate = LocalDate.of(2025, 4, 27)
 
   private def dateBody(day: String, month: String, year: String) =
@@ -41,7 +43,7 @@ class WhenDidChangeHappenControllerSpec extends SpecBase with MockitoSugar {
   "WhenDidChangeHappenController" - {
 
     "must render the question in English with English labels" in {
-      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+      val application = applicationBuilder(userAnswers = Some(anotherReason)).build()
 
       running(application) {
         val result = route(application, FakeRequest(GET, routes.WhenDidChangeHappenController.onPageLoad(NormalMode).url)).value
@@ -94,7 +96,7 @@ class WhenDidChangeHappenControllerSpec extends SpecBase with MockitoSugar {
     "must continue to Contact Details after a valid date" in {
       val sessionRepository = mock[SessionRepository]
       when(sessionRepository.set(any())) thenReturn Future.successful(true)
-      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers))
+      val application = applicationBuilder(userAnswers = Some(anotherReason))
         .overrides(bind[SessionRepository].toInstance(sessionRepository)).build()
 
       running(application) {

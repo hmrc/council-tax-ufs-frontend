@@ -49,6 +49,9 @@ final case class UserAnswers(
     }
   }
 
+  def removeAll(pages: Seq[Settable[?]]): Try[UserAnswers] =
+    pages.foldLeft(Try(this))((answers, page) => answers.flatMap(_.remove(page)))
+
   def remove[A](page: Settable[A]): Try[UserAnswers] = {
 
     val updatedData = data.removeObject(page.path) match {
