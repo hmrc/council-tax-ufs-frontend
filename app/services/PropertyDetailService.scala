@@ -22,7 +22,7 @@ import play.api.Logging
 import play.api.i18n.Lang
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.http.ErrorResponse
-import utils.DateTimeFormats
+import utils.{DateTimeFormats, ExternalLink}
 
 import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
@@ -58,7 +58,7 @@ class PropertyDetailService @Inject() (connector: BridgeIntegrationConnector)(im
           val bands = records.flatMap { record =>
             val period = record.list_entry.period
             val entry = record.list_entry
-            val localAuthority = record.list.collection_authority.flatMap(_.code).getOrElse("Not available")
+            val localAuthority = record.list.collection_authority.flatMap(ca => ca.label.orElse(ca.code)).getOrElse("Not available")
             val councilRefNumber = entry.property.flatMap(_.collection_authority_ref).getOrElse("Not available")
             val improvementInd = entry.property.flatMap(_.workflow).flatMap(_.improvement_ind).map(indicatorToYesNo).getOrElse("Not available")
             val mixedUse = entry.use.flatMap(_.composite_ind).map(indicatorToYesNo).getOrElse("Not available")
@@ -120,9 +120,9 @@ class PropertyDetailService @Inject() (connector: BridgeIntegrationConnector)(im
               .map(formatDate)
               .getOrElse("Not available")
 
-            val localCouncil = list.collection_authority.flatMap(_.code).getOrElse("Not available")
+            val localCouncil = list.collection_authority.flatMap(ca => ca.label.orElse(ca.code)).getOrElse("Not available")
             val localCouncilCode = list.collection_authority.flatMap(_.code).getOrElse("")
-            val localCouncilLink = list.collection_authority.flatMap(_.pointer)
+            val localCouncilLink = list.collection_authority.flatMap(_.pointer).flatMap(ExternalLink.absolute)
             val councilRef = entry.property.flatMap(_.collection_authority_ref).getOrElse("Not available")
             val improvement = entry.property.flatMap(_.workflow).flatMap(_.improvement_ind).map(indicatorToYesNo).getOrElse("Not available")
             val mixedUse = entry.use.flatMap(_.composite_ind).map(indicatorToYesNo).getOrElse("Not available")

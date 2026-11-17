@@ -17,37 +17,28 @@
 package viewmodels.checkAnswers
 
 import controllers.routes
-import models.{CheckMode, PropertySplitOrMerge, UserAnswers}
-import pages.{PropertyMergedDatePage, PropertySplitDatePage, PropertySplitOrMergePage}
+import models.{CheckMode, PropertyChangePrefix, UserAnswers}
+import pages.PropertyChangeDatePage
 import play.api.i18n.{Lang, Messages}
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import utils.DateTimeFormats.dateTimeFormat
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 
-import java.time.LocalDate
-
 object PropertyChangeDateSummary {
 
-  // only the date for the option currently chosen, so a stale date from the other option is never shown
   def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
-    answers.get(PropertySplitOrMergePage).flatMap {
-      case PropertySplitOrMerge.Merged =>
-        answers.get(PropertyMergedDatePage).map(build("propertyMergedDate", _, routes.PropertyChangeDateController.onPageLoadMerged(CheckMode).url))
-      case PropertySplitOrMerge.Split =>
-        answers.get(PropertySplitDatePage).map(build("propertySplitDate", _, routes.PropertyChangeDateController.onPageLoadSplit(CheckMode).url))
-    }
+    answers.get(PropertyChangeDatePage).map { answer =>
+      implicit val lang: Lang = messages.lang
+      val prefix              = PropertyChangePrefix.date(Some(answers))
 
-  private def build(prefix: String, answer: LocalDate, changeUrl: String)(implicit messages: Messages): SummaryListRow = {
-    implicit val lang: Lang = messages.lang
-
-    SummaryListRowViewModel(
-      key     = s"$prefix.checkYourAnswersLabel",
-      value   = ValueViewModel(answer.format(dateTimeFormat())),
-      actions = Seq(
-        ActionItemViewModel("site.change", changeUrl)
-          .withVisuallyHiddenText(messages(s"$prefix.change.hidden"))
+      SummaryListRowViewModel(
+        key     = s"$prefix.checkYourAnswersLabel",
+        value   = ValueViewModel(answer.format(dateTimeFormat())),
+        actions = Seq(
+          ActionItemViewModel("site.change", routes.PropertyChangeDateController.onPageLoad(CheckMode).url)
+            .withVisuallyHiddenText(messages(s"$prefix.change.hidden"))
+        )
       )
-    )
-  }
+    }
 }

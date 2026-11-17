@@ -17,158 +17,138 @@
 package controllers
 
 import base.SpecBase
-import models.{CheckMode, NormalMode}
+import forms.PropertyChangeDetailsFormProvider
+import models.{NormalMode, UserAnswers}
 import navigation.{FakeNavigator, Navigator}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
-import pages.{PropertyMergedDetailsPage, PropertySplitDetailsPage}
+import pages.PropertyChangeDetailsPage
 import play.api.inject.bind
 import play.api.mvc.Call
 import play.api.test.FakeRequest
-import play.api.test.Helpers.*
+import play.api.test.Helpers._
 import repositories.SessionRepository
+import views.html.PropertyChangeDetailsView
 
 import scala.concurrent.Future
 
 class PropertyChangeDetailsControllerSpec extends SpecBase with MockitoSugar {
 
-  private val onwardRoute = Call("GET", "/foo")
-  private val formalReviewUrl = routes.ReviewOverviewController.splitOrMergeFormalReview().url
+  def onwardRoute: Call = Call("GET", "/foo")
 
-  "PropertyChangeDetailsController" - {
+  private val form = new PropertyChangeDetailsFormProvider()("propertySplitDetails")
 
-    "merged" - {
-      lazy val pageUrl = routes.PropertyChangeDetailsController.onPageLoadMerged(NormalMode).url
+  private val validAnswer = "Some details about the property"
 
-      "must render the merged question with Back to the formal review page" in {
-        val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+  lazy val pageRoute: String = routes.PropertyChangeDetailsController.onPageLoad(NormalMode).url
 
-        running(application) {
-          val result = route(application, FakeRequest(GET, pageUrl)).value
+  private def backLink = Some(routes.ReviewOverviewController.formalReview().url)
 
-          status(result) mustBe OK
-          contentAsString(result) must include("How have your properties been merged?")
-          contentAsString(result) must include("For example, two flats have been merged into a single home.")
-          contentAsString(result) must include(s"""$formalReviewUrl" class="govuk-back-link"""")
-        }
+  "PropertyChangeDetails Controller" - {
+
+    "must return OK and the correct view for a GET" in {
+
+      val application = applicationBuilder(userAnswers = Some(splitAnswers)).build()
+
+      running(application) {
+        val request = FakeRequest(GET, pageRoute)
+
+        val result = route(application, request).value
+
+        val view = application.injector.instanceOf[PropertyChangeDetailsView]
+
+        status(result) mustEqual OK
+        contentAsString(result) mustEqual view(form, NormalMode, backLink, "propertySplitDetails")(request, messages(application)).toString
       }
+    }
 
-      "must show the saved answer" in {
-        val answers = emptyUserAnswers.set(PropertyMergedDetailsPage, "Two flats knocked through").success.value
-        val application = applicationBuilder(userAnswers = Some(answers)).build()
+    "must populate the view correctly on a GET when the question has previously been answered" in {
 
-        running(application) {
-          val result = route(application, FakeRequest(GET, routes.PropertyChangeDetailsController.onPageLoadMerged(CheckMode).url)).value
+      val userAnswers = splitAnswers.set(PropertyChangeDetailsPage, validAnswer).success.value
 
-          status(result) mustBe OK
-          contentAsString(result) must include("Two flats knocked through")
-        }
+      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
+
+      running(application) {
+        val request = FakeRequest(GET, pageRoute)
+
+        val view = application.injector.instanceOf[PropertyChangeDetailsView]
+
+        val result = route(application, request).value
+
+        status(result) mustEqual OK
+        contentAsString(result) mustEqual
+          view(form.fill(validAnswer), NormalMode, backLink, "propertySplitDetails")(request, messages(application)).toString
       }
+    }
 
-      "must save a valid answer and redirect to the next page" in {
-        val sessionRepository = mock[SessionRepository]
-        when(sessionRepository.set(any())) thenReturn Future.successful(true)
-        val application = applicationBuilder(userAnswers = Some(emptyUserAnswers))
+    "must redirect to the next page when valid data is submitted" in {
+
+      val mockSessionRepository = mock[SessionRepository]
+
+      when(mockSessionRepository.set(any())) thenReturn Future.successful(true)
+
+      val application =
+        applicationBuilder(userAnswers = Some(splitAnswers))
           .overrides(
             bind[Navigator].toInstance(new FakeNavigator(onwardRoute)),
-            bind[SessionRepository].toInstance(sessionRepository)
+            bind[SessionRepository].toInstance(mockSessionRepository)
           )
           .build()
 
-        running(application) {
-          val request = FakeRequest(POST, routes.PropertyChangeDetailsController.onSubmitMerged(NormalMode).url)
-            .withFormUrlEncodedBody("value" -> "Two flats knocked through")
-          val result = route(application, request).value
+      running(application) {
+        val request = FakeRequest(POST, pageRoute).withFormUrlEncodedBody(("value", validAnswer))
 
-          status(result) mustBe SEE_OTHER
-          redirectLocation(result).value mustBe onwardRoute.url
-        }
-      }
+        val result = route(application, request).value
 
-      "must return Bad Request with the required error when empty" in {
-        val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
-
-        running(application) {
-          val request = FakeRequest(POST, routes.PropertyChangeDetailsController.onSubmitMerged(NormalMode).url)
-            .withFormUrlEncodedBody("value" -> "")
-          val result = route(application, request).value
-
-          status(result) mustBe BAD_REQUEST
-          contentAsString(result) must include("Enter how your properties have been merged")
-        }
+        status(result) mustEqual SEE_OTHER
+        redirectLocation(result).value mustEqual onwardRoute.url
       }
     }
 
-    "split" - {
-      lazy val pageUrl = routes.PropertyChangeDetailsController.onPageLoadSplit(NormalMode).url
+    "must return a Bad Request and errors when invalid data is submitted" in {
 
-      "must render the split question with Back to the formal review page" in {
-        val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+      val application = applicationBuilder(userAnswers = Some(splitAnswers)).build()
 
-        running(application) {
-          val result = route(application, FakeRequest(GET, pageUrl)).value
+      running(application) {
+        val request = FakeRequest(POST, pageRoute).withFormUrlEncodedBody(("value", ""))
 
-          status(result) mustBe OK
-          contentAsString(result) must include("How has the property been split?")
-          contentAsString(result) must include("For example, your home has been split into two or more flats.")
-          contentAsString(result) must include(s"""$formalReviewUrl" class="govuk-back-link"""")
-        }
-      }
+        val boundForm = form.bind(Map("value" -> ""))
 
-      "must show the saved answer" in {
-        val answers = emptyUserAnswers.set(PropertySplitDetailsPage, "House split into two flats").success.value
-        val application = applicationBuilder(userAnswers = Some(answers)).build()
+        val view = application.injector.instanceOf[PropertyChangeDetailsView]
 
-        running(application) {
-          val result = route(application, FakeRequest(GET, routes.PropertyChangeDetailsController.onPageLoadSplit(CheckMode).url)).value
+        val result = route(application, request).value
 
-          status(result) mustBe OK
-          contentAsString(result) must include("House split into two flats")
-        }
-      }
-
-      "must return Bad Request with the required error when empty" in {
-        val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
-
-        running(application) {
-          val request = FakeRequest(POST, routes.PropertyChangeDetailsController.onSubmitSplit(NormalMode).url)
-            .withFormUrlEncodedBody("value" -> "")
-          val result = route(application, request).value
-
-          status(result) mustBe BAD_REQUEST
-          contentAsString(result) must include("Enter how the property has been split")
-        }
+        status(result) mustEqual BAD_REQUEST
+        contentAsString(result) mustEqual view(boundForm, NormalMode, backLink, "propertySplitDetails")(request, messages(application)).toString
       }
     }
 
-    "new address" - {
+    "must redirect to Journey Recovery for a GET if no existing data is found" in {
 
-      "must render the question with Back to the completion date for the chosen option" in {
-        val answers = emptyUserAnswers.set(pages.PropertySplitOrMergePage, models.PropertySplitOrMerge.Split).success.value
-        val application = applicationBuilder(userAnswers = Some(answers)).build()
+      val application = applicationBuilder(userAnswers = None).build()
 
-        running(application) {
-          val result = route(application, FakeRequest(GET, routes.PropertyChangeDetailsController.onPageLoadNewAddress(NormalMode).url)).value
+      running(application) {
+        val request = FakeRequest(GET, pageRoute)
 
-          status(result) mustBe OK
-          contentAsString(result) must include("Has the address of your home changed?")
-          contentAsString(result) must include("Provide details of any new addresses below.")
-          contentAsString(result) must include(s"""${routes.PropertyChangeDateController.onPageLoadSplit(NormalMode).url}" class="govuk-back-link""")
-        }
+        val result = route(application, request).value
+
+        status(result) mustEqual SEE_OTHER
+        redirectLocation(result).value mustEqual routes.JourneyRecoveryController.onPageLoad().url
       }
+    }
 
-      "must return Bad Request with the required error when empty" in {
-        val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+    "must redirect to Journey Recovery for a POST if no existing data is found" in {
 
-        running(application) {
-          val request = FakeRequest(POST, routes.PropertyChangeDetailsController.onSubmitNewAddress(NormalMode).url)
-            .withFormUrlEncodedBody("value" -> "")
-          val result = route(application, request).value
+      val application = applicationBuilder(userAnswers = None).build()
 
-          status(result) mustBe BAD_REQUEST
-          contentAsString(result) must include("Enter details of any new addresses")
-        }
+      running(application) {
+        val request = FakeRequest(POST, pageRoute).withFormUrlEncodedBody(("value", validAnswer))
+
+        val result = route(application, request).value
+
+        status(result) mustEqual SEE_OTHER
+        redirectLocation(result).value mustEqual routes.JourneyRecoveryController.onPageLoad().url
       }
     }
   }

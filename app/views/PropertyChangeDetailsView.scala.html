@@ -14,46 +14,17 @@
  * limitations under the License.
  *@
 
-@import uk.gov.hmrc.govukfrontend.views.viewmodels.content.Text
-@import uk.gov.hmrc.govukfrontend.views.viewmodels.errormessage.ErrorMessage
-@import uk.gov.hmrc.govukfrontend.views.viewmodels.hint.Hint
-@import uk.gov.hmrc.govukfrontend.views.viewmodels.label.Label
-@import uk.gov.hmrc.govukfrontend.views.viewmodels.textarea.Textarea
-@import forms.PropertyChangeDetailsFormProvider
+@import forms.TextAreaFormProvider
 
-@this(
-    layout: templates.Layout,
-    formHelper: FormWithCSRF,
-    govukErrorSummary: GovukErrorSummary,
-    govukTextarea: GovukTextarea,
-    govukButton: GovukButton
+@this(textAreaPage: components.TextAreaPage)
+
+@(form: Form[_], mode: Mode, backLinkUrl: Option[String], prefix: String)(implicit request: Request[_], messages: Messages)
+
+@textAreaPage(
+    form        = form,
+    action      = routes.PropertyChangeDetailsController.onSubmit(mode),
+    prefix      = prefix,
+    id          = "property-change-details",
+    maxLength   = Some(TextAreaFormProvider.maxCharacters),
+    backLinkUrl = backLinkUrl
 )
-
-@(form: Form[_], messagePrefix: String, action: Call, backLinkUrl: String)(implicit request: Request[_], messages: Messages)
-
-@layout(backLinkUrl = Some(backLinkUrl), pageTitle = title(form, messages(s"$messagePrefix.title"))) {
-
-    @formHelper(action = action, Symbol("autoComplete") -> "off") {
-
-        @if(form.errors.nonEmpty) {
-            @govukErrorSummary(ErrorSummaryViewModel(form))
-        }
-
-        <h1 class="govuk-heading-l">@messages(s"$messagePrefix.heading")</h1>
-
-        @govukTextarea(Textarea(
-            id           = "value",
-            name         = form("value").name,
-            value        = form("value").value,
-            rows         = 5,
-            label        = Label(content = Text(messages(s"$messagePrefix.heading")), classes = "govuk-visually-hidden"),
-            hint         = Some(Hint(content = Text(messages(s"$messagePrefix.hint")))),
-            errorMessage = form("value").error.map(error => ErrorMessage(content = Text(messages(error.message, error.args*)))),
-            attributes   = Map("maxlength" -> PropertyChangeDetailsFormProvider.maxCharacters.toString)
-        ))
-
-        @govukButton(
-            ButtonViewModel(messages("site.continue"))
-        )
-    }
-}

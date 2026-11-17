@@ -16,13 +16,13 @@
 
 package controllers
 
-import controllers.actions.{DataRetrievalAction, IdentifierAction}
+import controllers.actions.{DataRequiredAction, DataRetrievalAction, IdentifierAction}
 import forms.PropertyChangeDetailsFormProvider
-import models.{Mode, UserAnswers}
+import models.{Mode, PropertyChangePrefix, UserAnswers}
 import navigation.Navigator
-import pages.{PropertyMergedDetailsPage, PropertyNewAddressPage, PropertySplitDetailsPage, QuestionPage}
+import pages.PropertyChangeDetailsPage
 import play.api.i18n.{I18nSupport, MessagesApi}
-import play.api.mvc.{Action, AnyContent, Call, MessagesControllerComponents}
+import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import repositories.SessionRepository
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import views.html.PropertyChangeDetailsView
@@ -30,54 +30,46 @@ import views.html.PropertyChangeDetailsView
 import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
-/** "How have your properties been merged?", "How has the property been split?" and, for both, "Has the address of your home changed?". */
+/** "How have your properties been merged?" or "How has the property been split?", worded for a merged or a split property by the answer to the split or merge question. */
 @Singleton
 class PropertyChangeDetailsController @Inject()(
-  override val messagesApi: MessagesApi,
-  sessionRepository: SessionRepository,
-  navigator: Navigator,
-  identify: IdentifierAction,
-  getData: DataRetrievalAction,
-  formProvider: PropertyChangeDetailsFormProvider,
-  val controllerComponents: MessagesControllerComponents,
-  view: PropertyChangeDetailsView
-)(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+                                override val messagesApi: MessagesApi,
+                                sessionRepository: SessionRepository,
+                                navigator: Navigator,
+                                identify: IdentifierAction,
+                                getData: DataRetrievalAction,
+                                requireData: DataRequiredAction,
+                                formProvider: PropertyChangeDetailsFormProvider,
+                                val controllerComponents: MessagesControllerComponents,
+                                view: PropertyChangeDetailsView
+                              )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
-  def onPageLoadMerged(mode: Mode): Action[AnyContent] =
-    onPageLoad(PropertyMergedDetailsPage, routes.PropertyChangeDetailsController.onSubmitMerged(mode), mode)
+  private def prefix(answers: UserAnswers): String = PropertyChangePrefix.details(Some(answers))
 
-  def onSubmitMerged(mode: Mode): Action[AnyContent] =
-    onSubmit(PropertyMergedDetailsPage, routes.PropertyChangeDetailsController.onSubmitMerged(mode), mode)
+  private def backLink(mode: Mode, answers: UserAnswers): Option[String] =
+    Some(navigator.backLink(PropertyChangeDetailsPage, mode, Some(answers)).url)
 
-  def onPageLoadSplit(mode: Mode): Action[AnyContent] =
-    onPageLoad(PropertySplitDetailsPage, routes.PropertyChangeDetailsController.onSubmitSplit(mode), mode)
+  def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
+    implicit request =>
 
-  def onSubmitSplit(mode: Mode): Action[AnyContent] =
-    onSubmit(PropertySplitDetailsPage, routes.PropertyChangeDetailsController.onSubmitSplit(mode), mode)
+      val form         = formProvider(prefix(request.userAnswers))
+      val preparedForm = request.userAnswers.get(PropertyChangeDetailsPage).fold(form)(form.fill)
 
-  def onPageLoadNewAddress(mode: Mode): Action[AnyContent] =
-    onPageLoad(PropertyNewAddressPage, routes.PropertyChangeDetailsController.onSubmitNewAddress(mode), mode)
+      Ok(view(preparedForm, mode, backLink(mode, request.userAnswers), prefix(request.userAnswers)))
+  }
 
-  def onSubmitNewAddress(mode: Mode): Action[AnyContent] =
-    onSubmit(PropertyNewAddressPage, routes.PropertyChangeDetailsController.onSubmitNewAddress(mode), mode)
+  def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
+    implicit request =>
 
-  private def onPageLoad(page: QuestionPage[String], action: Call, mode: Mode): Action[AnyContent] =
-    (identify andThen getData) { implicit request =>
-      val form         = formProvider(page.toString)
-      val preparedForm = request.userAnswers.flatMap(_.get(page)).fold(form)(form.fill)
-      Ok(view(preparedForm, page.toString, action, navigator.backLink(page, mode, request.userAnswers).url))
-    }
-
-  private def onSubmit(page: QuestionPage[String], action: Call, mode: Mode): Action[AnyContent] =
-    (identify andThen getData).async { implicit request =>
-      formProvider(page.toString).bindFromRequest().fold(
+      formProvider(prefix(request.userAnswers)).bindFromRequest().fold(
         formWithErrors =>
-          Future.successful(BadRequest(view(formWithErrors, page.toString, action, navigator.backLink(page, mode, request.userAnswers).url))),
+          Future.successful(BadRequest(view(formWithErrors, mode, backLink(mode, request.userAnswers), prefix(request.userAnswers)))),
+
         value =>
           for {
-            updatedAnswers <- Future.fromTry(request.userAnswers.getOrElse(UserAnswers(request.userId)).set(page, value))
+            updatedAnswers <- Future.fromTry(request.userAnswers.set(PropertyChangeDetailsPage, value))
             _              <- sessionRepository.set(updatedAnswers)
-          } yield Redirect(navigator.nextPage(page, mode, updatedAnswers))
+          } yield Redirect(navigator.nextPage(PropertyChangeDetailsPage, mode, updatedAnswers))
       )
-    }
+  }
 }

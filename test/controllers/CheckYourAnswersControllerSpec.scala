@@ -18,7 +18,7 @@ package controllers
 
 import base.SpecBase
 import models.{CouncilTaxResponsible, Journey, ReasonForReview}
-import pages.{CouncilTaxLiabilityStartDatePage, CouncilTaxResponsiblePage, PropertyAddressPage, WhyBandIsWrongPage}
+import pages.{AddressChangedPage, PropertyChangeDatePage, PropertyChangeDetailsPage, CouncilTaxLiabilityStartDatePage, CouncilTaxResponsiblePage, HasEvidencePage, PropertyAddressPage, UninhabitableDatePage, UninhabitableDetailsPlanPage, WhyBandIsWrongPage}
 import java.time.LocalDate
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
@@ -94,6 +94,50 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
       }
     }
 
+    "must list the derelict journey answers in order, with Change links, and no challenge details" in {
+      val date = LocalDate.of(2025, 4, 27)
+      val userAnswers = derelictAnswers()
+        .set(UninhabitableDatePage, date).success.value
+        .set(UninhabitableDetailsPlanPage, "Rebuild the roof").success.value
+        .set(HasEvidencePage, false).success.value
+        .set(WhyBandIsWrongPage, "left over from the band challenge").success.value
+      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
+
+      running(application) {
+        val request = FakeRequest(GET, routes.CheckYourAnswersController.onPageLoad(Journey.Deletion).url)
+        val html    = contentAsString(route(application, request).value)
+
+        html must include("Rebuild the roof")
+        html must include("27 April 2025")
+        html must include(routes.UninhabitableDateController.onPageLoad(models.CheckMode).url)
+        html must include(routes.UninhabitableDetailsPlanController.onPageLoad(models.CheckMode).url)
+        html must include(routes.HasEvidenceController.onPageLoad(models.CheckMode).url)
+        html must not include "Challenge details"
+        html must not include "left over from the band challenge"
+      }
+    }
+
+    "must list the split or merged property answers with the wording for the chosen option" in {
+      val userAnswers = mergedAnswers
+        .set(PropertyChangeDetailsPage, "Two flats knocked through").success.value
+        .set(PropertyChangeDatePage, LocalDate.of(2025, 4, 27)).success.value
+        .set(AddressChangedPage, "12 New Road").success.value
+      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
+
+      running(application) {
+        val html = contentAsString(route(application, FakeRequest(GET, routes.CheckYourAnswersController.onPageLoad(Journey.Deletion).url)).value)
+
+        html must include("Two flats knocked through")
+        html must include("When the work to merge your properties was completed")
+        html must include("27 April 2025")
+        html must include("12 New Road")
+        html must include(routes.PropertyChangeDetailsController.onPageLoad(models.CheckMode).url)
+        html must include(routes.PropertyChangeDateController.onPageLoad(models.CheckMode).url)
+        html must include(routes.AddressChangedController.onPageLoad(models.CheckMode).url)
+        html must not include "How the property has been split"
+      }
+    }
+
     "must group only saved answers under their categories" in {
       val userAnswers = emptyUserAnswers
         .set(PropertyAddressPage, "35 Somerby Court, Nottingham").success.value
@@ -113,27 +157,6 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
         html must include("When did you become responsible for paying Council Tax for your home?")
         html must include("Tell us why you think the Council Tax band is wrong?")
         html.indexOf("Address") must be < html.indexOf("Challenge details")
-      }
-    }
-
-    "must show how, when and the new addresses for a split or merged property under Challenge details" in {
-      val answers = emptyUserAnswers
-        .set(pages.ReasonForReviewPage, ReasonForReview.Changesaffectedproperty).success.value
-        .set(pages.deletionOptionsPage, models.deletionOptions.Split).success.value
-        .set(pages.PropertySplitOrMergePage, models.PropertySplitOrMerge.Merged).success.value
-        .set(pages.PropertyMergedDetailsPage, "Two flats knocked through").success.value
-        .set(pages.PropertyMergedDatePage, LocalDate.of(2024, 6, 1)).success.value
-        .set(pages.PropertyNewAddressPage, "10 High Street").success.value
-      val application = applicationBuilder(userAnswers = Some(answers)).build()
-
-      running(application) {
-        val html = contentAsString(route(application, FakeRequest(GET, routes.CheckYourAnswersController.onPageLoad(Journey.Deletion).url)).value)
-        val challengeDetails = html.indexOf("Challenge details")
-
-        challengeDetails must be > html.indexOf("How has the property been split or merged?")
-        Seq("Two flats knocked through", "1 June 2024", "10 High Street").foreach { answer =>
-          html.indexOf(answer) must be > challengeDetails
-        }
       }
     }
 

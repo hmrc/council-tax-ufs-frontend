@@ -19,7 +19,7 @@ package controllers
 import config.FrontendAppConfig
 import controllers.actions.{DataRetrievalAction, SessionIdentifierAction}
 import models.{NormalMode, ReviewType, noticeAlteration, scenarioResponsible}
-import pages.{noticeAlterationPage, scenarioResponsiblePage}
+import pages.{FormalReviewPage, noticeAlterationPage, scenarioResponsiblePage}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
@@ -39,21 +39,17 @@ class ReviewOverviewController @Inject()(
   navigator: Navigator
 ) extends FrontendBaseController with I18nSupport {
 
-  def formalReview(): Action[AnyContent] = show(ReviewType.Formal)
+  // same page and URL for both journeys, with the wording chosen from the answers given so far
+  def formalReview(): Action[AnyContent] = show(answers =>
+    answers.flatMap(navigator.changesReviewType).getOrElse(ReviewType.Formal)
+  )
 
-  def informalReview(): Action[AnyContent] = show(ReviewType.Informal)
-
-  // Split or merged property journey: same formal review page, but Back always returns to the split or merge question
-  def splitOrMergeFormalReview(): Action[AnyContent] = (sessionIdentify andThen getData) { implicit request =>
-    Ok(reviewOverviewView(
-      ReviewType.Formal,
-      routes.PropertySplitOrMergeController.onPageLoad(NormalMode).url,
-      Some(ReviewOverviewController.splitOrMergeContinue)
-    ))
-  }
+  def informalReview(): Action[AnyContent] = show(_ => ReviewType.Informal)
 
   def continueToLogin(reviewType: String): Action[AnyContent] = (sessionIdentify andThen getData) { implicit request =>
     val continueCall = reviewType match {
+      // the page after the review comes from the same list of pages as the rest of the journey
+      case "deletion" | "derelict" | "demolished" | "reno" | "partdemo" => request.userAnswers.map(navigator.nextPage(FormalReviewPage, NormalMode, _))
       case "formal" =>
         val noticeBasedFormalReview = request.userAnswers.exists { answers =>
           answers.get(scenarioResponsiblePage).contains(scenarioResponsible.Morethan) &&
@@ -66,7 +62,6 @@ class ReviewOverviewController @Inject()(
           Some(routes.CouncilTaxLiabilityStartDateController.onPageLoad(NormalMode))
         }
       case "informal" => Some(routes.WhyBandIsWrongController.onPageLoad(NormalMode))
-      case ReviewOverviewController.splitOrMergeContinue => Some(navigator.splitOrMergeDetails(request.userAnswers))
       case _          => None
     }
 
@@ -78,12 +73,9 @@ class ReviewOverviewController @Inject()(
     }
   }
 
-  private def show(reviewType: ReviewType): Action[AnyContent] = (sessionIdentify andThen getData) { implicit request =>
+  private def show(reviewTypeFor: Option[models.UserAnswers] => ReviewType): Action[AnyContent] = (sessionIdentify andThen getData) { implicit request =>
+    val reviewType = reviewTypeFor(request.userAnswers)
     Ok(reviewOverviewView(reviewType, navigator.reviewOverviewBackLink(reviewType, request.userAnswers).url))
   }
 
-}
-
-object ReviewOverviewController {
-  val splitOrMergeContinue = "split-or-merge"
 }

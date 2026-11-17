@@ -16,21 +16,12 @@
 
 package forms
 
-import forms.mappings.Mappings
 import play.api.data.Form
 
 import javax.inject.Inject
 
-object PropertyChangeDetailsFormProvider {
-  val maxCharacters = 5000
-}
+/** `prefix` is propertyMergedDetails or propertySplitDetails. */
+class PropertyChangeDetailsFormProvider @Inject() extends TextAreaFormProvider {
 
-/** Free-text details for a split or merged property. messagePrefix is propertyMergedDetails or propertySplitDetails. */
-class PropertyChangeDetailsFormProvider @Inject() extends Mappings {
-  import PropertyChangeDetailsFormProvider.maxCharacters
-
-  def apply(messagePrefix: String): Form[String] =
-    Form(
-      "value" -> textArea(Some(s"$messagePrefix.error.required"), s"$messagePrefix.error.maxLength", Some(maxCharacters))
-    )
+  def apply(prefix: String): Form[String] = textAreaForm(prefix)
 }

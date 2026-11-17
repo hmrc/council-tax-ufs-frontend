@@ -21,18 +21,25 @@
   govukButton: GovukButton
 )
 
-@(reviewType: ReviewType, backLinkUrl: String, continueRoute: Option[String] = None)(implicit request: Request[_], messages: Messages)
+@(reviewType: ReviewType, backLinkUrl: String)(implicit request: Request[_], messages: Messages)
 
 @messagePrefix = @{ s"reviewOverview.${reviewType.messageKey}" }
+@* a review type can give its own decisions (and any number of examples); otherwise the shared three apply *@
+@decisionPrefix = @{ if (messages.isDefinedAt(s"$messagePrefix.decision.intro")) s"$messagePrefix.decision" else "reviewOverview.decision" }
+@numbered(prefix: String) = @{ (1 to 6).filter(index => messages.isDefinedAt(s"$prefix.$index")) }
+@* a review type can add rows of its own (such as "Important") by defining their message; the rest are shared *@
+@rows(entries: (String, String)*) = @{ entries.filter { case (_, valueKey) => messages.isDefinedAt(valueKey) } }
 @detailRows = @{
-  Seq(
+  rows(
     "reviewOverview.row.whatItIs" -> s"$messagePrefix.whatItIs",
     "reviewOverview.row.whatFor" -> s"$messagePrefix.whatFor",
+    "reviewOverview.row.important" -> s"$messagePrefix.important",
     s"$messagePrefix.when.label" -> s"$messagePrefix.when.value",
     "reviewOverview.row.duration" -> s"$messagePrefix.duration",
     "reviewOverview.row.evidence" -> s"$messagePrefix.evidence"
   )
 }
+@photoRows = @{ rows("reviewOverview.row.photoEvidence" -> s"$messagePrefix.photoEvidence") }
 
 @layout(backLinkUrl = Some(backLinkUrl), pageTitle = titleNoForm(messages(s"$messagePrefix.title")),fullWidth = true) {
   <h1 class="govuk-heading-xl">@messages(s"$messagePrefix.title")</h1>
@@ -47,7 +54,7 @@
   <div class="govuk-button-group">
     @govukButton(
       ButtonViewModel(messages("site.continue"))
-        .asLink(routes.ReviewOverviewController.continueToLogin(continueRoute.getOrElse(reviewType.continueRoute)).url)
+        .asLink(routes.ReviewOverviewController.continueToLogin(reviewType.continueRoute).url)
     )
   </div>
 
@@ -64,20 +71,32 @@
       <tr class="govuk-table__row">
         <th scope="row" class="govuk-table__header">@messages("reviewOverview.row.examples")</th>
         <td class="govuk-table__cell">
+          @if(messages.isDefinedAt(s"$messagePrefix.examples.intro")) {
+            @Html(messages(s"$messagePrefix.examples.intro"))
+          }
           <ul class="govuk-list govuk-list--bullet">
-            @for(index <- 1 to 3) {
+            @for(index <- numbered(s"$messagePrefix.examples")) {
               <li>@messages(s"$messagePrefix.examples.$index")</li>
             }
           </ul>
+          @if(messages.isDefinedAt(s"$messagePrefix.examples.outro")) {
+            @Html(messages(s"$messagePrefix.examples.outro"))
+          }
         </td>
       </tr>
+      @for((labelKey, valueKey) <- photoRows) {
+        <tr class="govuk-table__row">
+          <th scope="row" class="govuk-table__header">@messages(labelKey)</th>
+          <td class="govuk-table__cell">@Html(messages(valueKey))</td>
+        </tr>
+      }
       <tr class="govuk-table__row">
         <th scope="row" class="govuk-table__header">@messages("reviewOverview.row.decision")</th>
         <td class="govuk-table__cell">
-           @messages("reviewOverview.decision.intro")
+           @messages(s"$decisionPrefix.intro")
           <ul class="govuk-list govuk-list--bullet">
-            @for(index <- 1 to 3) {
-              <li>@messages(s"reviewOverview.decision.$index")</li>
+            @for(index <- numbered(decisionPrefix)) {
+              <li>@messages(s"$decisionPrefix.$index")</li>
             }
           </ul>
         </td>

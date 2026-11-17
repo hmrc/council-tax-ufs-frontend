@@ -18,10 +18,10 @@ package controllers
 
 import com.google.inject.Inject
 import controllers.actions.{DataRequiredAction, DataRetrievalAction, IdentifierAction}
-import models.{CouncilTaxResponsible, Journey, ReasonForReview, deletionOptions, scenarioResponsible}
+import models.{CouncilTaxResponsible, Journey, ReasonForReview, scenarioResponsible}
 import navigation.Navigator
-import pages.{CouncilTaxResponsiblePage, ReasonForReviewPage, deletionOptionsPage, scenarioResponsiblePage}
-import viewmodels.checkAnswers.{ContactDetailsSummary, CouncilTaxPayerDetailsSummary, CouncilTaxLiabilityStartDateSummary, EvidenceSummary, DateNoticeSummary, PropertyAddressSummary, ReasonForReviewSummary, WhichBandSummary, deletionOptionsSummary, PropertySplitOrMergeSummary, PropertyChangeDetailsSummary, PropertyChangeDateSummary, noticeAlterationSummary, scenarioResponsibleSummary, WhyBandIsWrongSummary}
+import pages.{CouncilTaxResponsiblePage, ReasonForReviewPage, scenarioResponsiblePage}
+import viewmodels.checkAnswers.{ContactDetailsSummary, CouncilTaxPayerDetailsSummary, CouncilTaxLiabilityStartDateSummary, EvidenceSummary, DateNoticeSummary, PropertyAddressSummary, ReasonForReviewSummary, WhichBandSummary, noticeAlterationSummary, scenarioResponsibleSummary, WhyBandIsWrongSummary, ChangesSummaries}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import models.requests.DataRequest
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents, Result}
@@ -58,31 +58,24 @@ class CheckYourAnswersController @Inject()(
       val reason = request.userAnswers.get(ReasonForReviewPage)
       val bandChallenge = reason.contains(ReasonForReview.Bandiswrong)
       val propertyChanges = reason.contains(ReasonForReview.Changesaffectedproperty)
-      val propertySplit = propertyChanges && request.userAnswers.get(deletionOptionsPage).contains(deletionOptions.Split)
       val moreThanSixMonths = request.userAnswers.get(scenarioResponsiblePage).contains(scenarioResponsible.Morethan)
 
       val actingFor = request.userAnswers.get(CouncilTaxResponsiblePage).contains(CouncilTaxResponsible.ActingFor)
 
       val sections = Seq(
-        "" -> Seq(
+        "" -> (Seq(
           PropertyAddressSummary.row(request.userAnswers),
           ReasonForReviewSummary.row(request.userAnswers),
           Option.when(bandChallenge)(scenarioResponsibleSummary.row(request.userAnswers)).flatten,
-          Option.when(bandChallenge && moreThanSixMonths)(noticeAlterationSummary.row(request.userAnswers)).flatten,
-          Option.when(propertyChanges)(deletionOptionsSummary.row(request.userAnswers)).flatten,
-          Option.when(propertySplit)(PropertySplitOrMergeSummary.row(request.userAnswers)).flatten
-        ).flatten,
-        "checkYourAnswers.section.challengeDetails" -> Seq(
-          // split or merged property: how, when and any new addresses
-          Option.when(propertySplit)(PropertyChangeDetailsSummary.row(request.userAnswers)).flatten,
-          Option.when(propertySplit)(PropertyChangeDateSummary.row(request.userAnswers)).flatten,
-          Option.when(propertySplit)(PropertyChangeDetailsSummary.newAddressRow(request.userAnswers)).flatten,
+          Option.when(bandChallenge && moreThanSixMonths)(noticeAlterationSummary.row(request.userAnswers)).flatten
+        ).flatten ++ Option.when(propertyChanges)(ChangesSummaries.rows(request.userAnswers)).toSeq.flatten),
+        "checkYourAnswers.section.challengeDetails" -> Option.when(!propertyChanges)(Seq(
           CouncilTaxLiabilityStartDateSummary.row(request.userAnswers),
           DateNoticeSummary.row(request.userAnswers),
           WhyBandIsWrongSummary.row(request.userAnswers),
           EvidenceSummary.row(request.userAnswers),
           WhichBandSummary.row(request.userAnswers)
-        ).flatten,
+        ).flatten).toSeq.flatten,
         "checkYourAnswers.section.councilTaxPayer" -> Option.when(actingFor)(CouncilTaxPayerDetailsSummary.rows(request.userAnswers)).toSeq.flatten,
         "checkYourAnswers.section.contactDetails" -> ContactDetailsSummary.rows(request.userAnswers),
         "checkYourAnswers.section.preferredContact" -> ContactDetailsSummary.preferredContactRows(request.userAnswers)

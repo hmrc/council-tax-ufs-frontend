@@ -16,41 +16,51 @@
 
 package forms
 
-import org.scalatest.freespec.AnyFreeSpec
-import org.scalatest.matchers.must.Matchers
+import forms.behaviours.DateBehaviours
+import play.api.data.FormError
 import play.api.i18n.Messages
 import play.api.test.Helpers.stubMessages
 
 import java.time.{LocalDate, ZoneOffset}
 
-class PropertyChangeDateFormProviderSpec extends AnyFreeSpec with Matchers {
+class PropertyChangeDateFormProviderSpec extends DateBehaviours {
 
   private implicit val messages: Messages = stubMessages()
-  private val today = LocalDate.now(ZoneOffset.UTC)
+  private val form = new PropertyChangeDateFormProvider()("propertySplitDate")
 
-  Seq("propertyMergedDate", "propertySplitDate").foreach { prefix =>
-    val form = new PropertyChangeDateFormProvider()(prefix)
+  private val earliest = UninhabitableDateFormProvider.earliestDate
+  private val today    = LocalDate.now(ZoneOffset.UTC)
 
-    def bind(date: LocalDate) =
-      form.bind(Map("value.day" -> date.getDayOfMonth.toString, "value.month" -> date.getMonthValue.toString, "value.year" -> date.getYear.toString))
+  ".value" - {
 
-    s"$prefix form" - {
+    behave like dateField(form, "value", datesBetween(min = earliest, max = today))
 
-      "must accept today" in {
-        bind(today).value mustBe Some(today)
-      }
+    behave like mandatoryDateField(form, "value", "propertySplitDate.error.required.all")
 
-      "must accept a date many years ago" in {
-        bind(today.minusYears(20)).value mustBe Some(today.minusYears(20))
-      }
+    behave like dateFieldWithMin(form, "value", earliest, FormError("value", "propertySplitDate.error.minimum"))
 
-      "must reject a future date" in {
-        bind(today.plusDays(1)).errors.map(_.message) must contain(s"$prefix.error.future")
-      }
+    behave like dateFieldWithMax(form, "value", today, FormError("value", "propertySplitDate.error.future"))
 
-      "must reject a missing date" in {
-        form.bind(Map.empty[String, String]).errors.map(_.message) must contain(s"$prefix.error.required.all")
-      }
+    "must reject a date that is not real" in {
+
+      val result = form.bind(Map("value.day" -> "31", "value.month" -> "2", "value.year" -> "2024"))
+
+      result.errors must contain only FormError("value", "propertySplitDate.error.invalid")
+    }
+
+    "must ask for the missing parts when only some of the date is entered" in {
+
+      val oneMissing = form.bind(Map("value.day" -> "1", "value.month" -> "4", "value.year" -> ""))
+      oneMissing.errors.map(_.message) must contain("propertySplitDate.error.required")
+
+      val twoMissing = form.bind(Map("value.day" -> "1", "value.month" -> "", "value.year" -> ""))
+      twoMissing.errors.map(_.message) must contain("propertySplitDate.error.required.two")
+    }
+
+    "must use the merged wording for the merged prefix" in {
+      val merged = new PropertyChangeDateFormProvider()("propertyMergedDate")
+      merged.bind(Map("value.day" -> "1", "value.month" -> "1", "value.year" -> "1990")).errors.map(_.message) must contain only
+        "propertyMergedDate.error.minimum"
     }
   }
 }

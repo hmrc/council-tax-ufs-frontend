@@ -149,8 +149,8 @@ advancedPropertySearch.postcode                            = Postcode
 advancedPropertySearch.checkYourAnswersLabel               = Advanced property search
 advancedPropertySearch.error.propertyNameOrNumber.required = Enter property name or number
 advancedPropertySearch.error.street.required               = Enter street
-advancedPropertySearch.error.propertyNameOrNumber.length   = Property name or number must be 80 characters or less
-advancedPropertySearch.error.street.length                 = Street must be 80 characters or less
+advancedPropertySearch.error.propertyNameOrNumber.length   = Property name or number must be 80 characters or fewer
+advancedPropertySearch.error.street.length                 = Street must be 80 characters or fewer
 advancedPropertySearch.propertyNameOrNumber.change.hidden  = property name or number
 advancedPropertySearch.street.change.hidden                = street
 advancedPropertySearch.showSearchFilters                   = Show search filters
@@ -165,10 +165,10 @@ advancedPropertySearch.courtCode.hint                      = The property will h
 advancedPropertySearch.propertyUse                         = Property use
 advancedPropertySearch.propertyUse.hint                    = For example, just domestic use, or for both domestic and business.
 advancedPropertySearch.change.hidden                       = advanced property search
-advancedPropertySearch.error.postcode.required             = Enter a postcode
+advancedPropertySearch.error.postcode.required             = Enter a postcode, like AA1 1AA
 advancedPropertySearch.error.postcode.length               = Enter a real postcode
-advancedPropertySearch.error.postcode.invalid              = Enter a valid postcode
-advancedPropertySearch.error.townOrCity.length             = Town or city must be 80 characters or less
+advancedPropertySearch.error.postcode.invalid              = Enter a real postcode
+advancedPropertySearch.error.townOrCity.length             = Town must be 80 characters or fewer
 advancedPropertySearch.error.laReferenceNumber.length      = Local authority reference number must be 20 characters or fewer
 advancedPropertySearch.localAuthority.default              = Choose an option
 advancedPropertySearch.councilTaxBand.allBands             = All bands
@@ -405,6 +405,8 @@ reviewOverview.row.evidence           = Evidence required
 reviewOverview.row.examples           = Examples of evidence
 reviewOverview.row.decision           = Decision
 reviewOverview.row.afterDecision      = After a decision has been made
+reviewOverview.row.important          = Important
+reviewOverview.row.photoEvidence      = Photo evidence
 reviewOverview.decision.intro         = There are 3 possible decisions that can be made:
 reviewOverview.decision.1             = your home stays in the same band
 reviewOverview.decision.2             = your home is moved into a lower band
@@ -437,6 +439,49 @@ reviewOverview.informal.examples.1    = Addresses of up to 5 similar homes in a 
 reviewOverview.informal.examples.2    = The homes can be either in the same street or estate, or in the same village or area.
 reviewOverview.informal.examples.3    = The price your home or similar homes sold for between 1 April 2001 and 31 March 2005.
 reviewOverview.informal.afterDecision = The decision is final, and you cannot ask for another review.
+reviewOverview.deletion.title           = Asking for a formal review
+reviewOverview.deletion.intro           = You have told us that there have been changes made to your home or significant changes made in the local area that affect the value of your home.
+reviewOverview.deletion.description     = This means that you can ask for a formal review of your Council Tax band. This is also known as a ''Formal Challenge'' or ''Making a Proposal''.
+reviewOverview.deletion.table.heading   = How a formal review works
+reviewOverview.deletion.whatItIs        = You can ask the Valuation Office (VO) to review the Council Tax band your home is in.
+reviewOverview.deletion.whatFor         = You can ask for a formal review if you think that your home is in the wrong Council Tax band.
+reviewOverview.deletion.when.label      = When you can ask for a formal review
+reviewOverview.deletion.when.value      = You can ask for a formal review if there have been changes made to your home or the local area. For example:<ul class="govuk-list govuk-list--bullet"><li>all or part of your home has been demolished</li><li>it has been split into new homes</li><li>it has been merged into a larger, single home</li><li>something in the local area has changed that has affected the value of your home</li></ul>
+reviewOverview.deletion.duration        = Up to 16 weeks
+reviewOverview.deletion.evidence        = You do not need to provide any evidence. However, any information you give us will help the VO understand why you think your home should be in a different band.
+reviewOverview.deletion.examples.1      = addresses of similar homes in a lower band than yours.
+reviewOverview.deletion.examples.2      = the price that your home or similar homes sold for between 1 April 2001 and 31 March 2005
+reviewOverview.deletion.decision.intro  = There are 4 possible decisions that can be made:
+reviewOverview.deletion.decision.1      = your home stays in the same band
+reviewOverview.deletion.decision.2      = your home is moved into a lower band
+reviewOverview.deletion.decision.3      = your home is moved into a higher band
+reviewOverview.deletion.decision.4      = your home is deleted from the Council Tax list
+reviewOverview.deletion.afterDecision   = You have 4 months after the date of the decision to appeal to the Valuation Tribunal Wales if you are not satisfied with the outcome.
+
+# --- reviewOverview: derelict property ---
+reviewOverview.derelict.title           = Asking for a formal review
+reviewOverview.derelict.intro           = You have told us that <strong>your property is derelict and cannot be lived in</strong>.
+reviewOverview.derelict.description     = This means that you can ask for your property to be removed from the Council Tax list. This is known as a ‘Formal Challenge’ or ‘Making a Proposal’
+reviewOverview.derelict.table.heading   = How a formal review works
+reviewOverview.derelict.whatItIs        = You can ask the Valuation Office to delete your property from the Council Tax list.
+reviewOverview.derelict.whatFor         = This will delete your property’s Council Tax band, and you will not be required to pay Council Tax to your Local Council.
+reviewOverview.derelict.important       = <p class="govuk-body">In the future, if you make improvements to the property and the property can be lived in, you will need to apply to have the property added to the Council Tax List.</p><p class="govuk-body">When a property comes back into the Council Tax list, it could come back in at the same, lower or higher band than before. This will depend on the property valuation at that time.</p>
+reviewOverview.derelict.when.label      = When you can ask for a formal review
+reviewOverview.derelict.when.value      = The request can only be submitted after the derelict property could not be lived in.
+reviewOverview.derelict.duration        = Up to 16 weeks
+reviewOverview.derelict.evidence        = <p class="govuk-body">When you make a request for us to delete your property’s Council Tax band, we ask you for evidence.</p><p class="govuk-body">When you provide evidence, your caseworker can review your request without delays, and it helps us make a decision sooner.</p><p class="govuk-body">If a caseworker requires additional evidence, they will contact you directly to ask for this. This can slow the review process down.</p>
+reviewOverview.derelict.examples.intro  = <p class="govuk-body">You can upload documents or photos that show <strong>your property is having major works or renovations done</strong>.</p><p class="govuk-body">Evidence can include:</p>
+reviewOverview.derelict.examples.1      = copy of any structural surveys or reports
+reviewOverview.derelict.examples.2      = details of any planning applications made or planning permission documents
+reviewOverview.derelict.examples.3      = photos of all internal rooms in the property
+reviewOverview.derelict.examples.4      = photos showing the roof and outside of the property from all sides
+reviewOverview.derelict.examples.5      = A Schedule of Condition document that includes detailed inspection report noting any defects and damage.
+reviewOverview.derelict.examples.outro  = <p class="govuk-body">You will also be given the opportunity to tell us any additional information or details that you think is important.</p>
+reviewOverview.derelict.photoEvidence   = <p class="govuk-body">Photographs should be original digital photos. Do not upload screenshots or photos that have been added to a document or presentation.</p><p class="govuk-body">You can upload photos in JPG or PNG format. Each file must be smaller than 10MB.</p>
+reviewOverview.derelict.decision.intro  = There are 2 possible outcomes:
+reviewOverview.derelict.decision.1      = your property will be removed from the Council Tax list
+reviewOverview.derelict.decision.2      = your property will stay on the Council Tax list if we do not receive the evidence we need, or if your request does not meet the criteria
+reviewOverview.derelict.afterDecision   = You have 4 months after the date of the decision to appeal to the Valuation Tribunal if you are not satisfied with the outcome
 
 # --- councilTaxLiabilityStartDate ---
 councilTaxLiabilityStartDate.title                 = When did you become responsible for paying Council Tax for your home?
@@ -496,6 +541,56 @@ deletionOptions.affected              = There have been changes to the local are
 deletionOptions.anotherReason         = Another reason
 deletionOptions.checkYourAnswersLabel = What has changed?
 deletionOptions.error.required        = Select what has changed
+
+# --- scenarioOther ---
+scenarioOther.title           = Other
+scenarioOther.heading         = Other
+scenarioOther.intro           = You have told us that you want to review your Council Tax band <strong>for some other reason</strong>.
+scenarioOther.changeSelection = You can change your selection if this option is not right for you.
+
+# --- whatHasChanged ---
+whatHasChanged.title                 = What has changed?
+whatHasChanged.heading               = What has changed?
+whatHasChanged.hint                  = Provide as much detail as possible.
+whatHasChanged.error.required        = Enter what has changed
+whatHasChanged.error.maxLength       = Enter what has changed
+whatHasChanged.checkYourAnswersLabel = Details of what has changed
+whatHasChanged.change.hidden         = details of what has changed
+
+# --- whenDidChangeHappen ---
+whenDidChangeHappen.title                 = When did this change happen?
+whenDidChangeHappen.heading               = When did this change happen?
+whenDidChangeHappen.hint                  = For example, if the change happened on 27 April 2025, enter 27 4 2025.
+whenDidChangeHappen.error.required.all    = Enter the date the change happened
+whenDidChangeHappen.error.required.two    = Enter the date the change happened
+whenDidChangeHappen.error.required        = Enter the date the change happened
+whenDidChangeHappen.error.invalid         = Enter a real date
+whenDidChangeHappen.error.future          = The date must be today or in the past
+whenDidChangeHappen.error.tooEarly        = The date your property was demolished or became uninhabitable must be between 1 April 1993 and today
+whenDidChangeHappen.checkYourAnswersLabel = When the change happened
+whenDidChangeHappen.change.hidden         = when the change happened
+
+# --- localAreaChanges ---
+localAreaChanges.title                 = What permanent changes have taken place in your local area?
+localAreaChanges.heading               = What permanent changes have taken place in your local area?
+localAreaChanges.hint                  = For example, a new supermarket or motorway has been built that you believe has affected the value of your home. Provide as much detail as possible.
+localAreaChanges.error.required        = Enter details of the changes
+localAreaChanges.error.maxLength       = Details of the changes must be 5000 characters or fewer
+localAreaChanges.checkYourAnswersLabel = Permanent changes in your local area
+localAreaChanges.change.hidden         = permanent changes in your local area
+
+# --- localAreaChangesDate ---
+localAreaChangesDate.title                 = When did these permanent changes take place?
+localAreaChangesDate.heading               = When did these permanent changes take place?
+localAreaChangesDate.hint                  = For example, if the changes in your local area happened on 27 April 2025, enter 27 4 2025.
+localAreaChangesDate.error.required.all    = Enter the date the changes took place
+localAreaChangesDate.error.required.two    = Enter the date the changes took place
+localAreaChangesDate.error.required        = Enter the date the changes took place
+localAreaChangesDate.error.invalid         = Enter a real date
+localAreaChangesDate.error.future          = The date must be today or in the past
+localAreaChangesDate.error.tooEarly        = The date your property was demolished or became uninhabitable must be between 1 April 1993 and today
+localAreaChangesDate.checkYourAnswersLabel = When the permanent changes took place
+localAreaChangesDate.change.hidden         = when the permanent changes took place
 deletionOptions.change.hidden         = deletionOptions
 
 # --- propertySplitOrMerge ---
@@ -513,7 +608,7 @@ propertyMergedDetails.heading               = How have your properties been merg
 propertyMergedDetails.hint                  = For example, two flats have been merged into a single home. Provide as much detail as possible.
 propertyMergedDetails.checkYourAnswersLabel = How your properties have been merged
 propertyMergedDetails.error.required        = Enter details of the property merge
-propertyMergedDetails.error.maxLength       = How your properties have been merged must be 5000 characters or fewer
+propertyMergedDetails.error.maxLength       = Enter 5,000 characters or less
 propertyMergedDetails.change.hidden         = how your properties have been merged
 
 # --- propertyMergedDate ---
@@ -526,6 +621,7 @@ propertyMergedDate.error.required.two    = The date the work was completed must 
 propertyMergedDate.error.required        = The date the work was completed must include {0}
 propertyMergedDate.error.invalid         = Enter a real date
 propertyMergedDate.error.future          = The date must be today or in the past
+propertyMergedDate.error.minimum         = Date must be between 1 April 1993 and today
 propertyMergedDate.change.hidden         = when the work to merge your properties was completed
 
 # --- propertySplitDetails ---
@@ -534,7 +630,7 @@ propertySplitDetails.heading                = How has the property been split?
 propertySplitDetails.hint                   = For example, your home has been split into two or more flats. Provide as much detail as possible.
 propertySplitDetails.checkYourAnswersLabel  = How the property has been split
 propertySplitDetails.error.required         = Enter details of the property split
-propertySplitDetails.error.maxLength        = How the property has been split must be 5000 characters or fewer
+propertySplitDetails.error.maxLength        = Enter 5,000 characters or less
 propertySplitDetails.change.hidden          = how the property has been split
 
 # --- propertySplitDate ---
@@ -547,16 +643,9 @@ propertySplitDate.error.required.two    = The date the work was completed must i
 propertySplitDate.error.required        = The date the work was completed must include {0}
 propertySplitDate.error.invalid         = Enter a real date
 propertySplitDate.error.future          = The date must be today or in the past
+propertySplitDate.error.minimum         = Date must be between 1 April 1993 and today
 propertySplitDate.change.hidden         = when the work to split your home was completed
 
-# --- propertyNewAddress ---
-propertyNewAddress.title                 = Has the address of your home changed?
-propertyNewAddress.heading               = Has the address of your home changed?
-propertyNewAddress.hint                  = Provide details of any new addresses below.
-propertyNewAddress.checkYourAnswersLabel = New addresses
-propertyNewAddress.error.required        = Select whether the address has changed
-propertyNewAddress.error.maxLength       = Details of any new addresses must be 5000 characters or fewer
-propertyNewAddress.change.hidden         = details of any new addresses
 
 ##############################################################################
 # 7. Evidence
@@ -633,8 +722,8 @@ whichBand.change.hidden         = WhichBand
 ##############################################################################
 
 # --- councilTaxPayerDetails ---
-councilTaxPayerDetails.title                         = What are the contact details for the property's Council Tax payer?
-councilTaxPayerDetails.heading                       = What are the contact details for the property's Council Tax payer?
+councilTaxPayerDetails.title                         = What are the contact details for the property’s Council Tax payer?
+councilTaxPayerDetails.heading                       = What are the contact details for the property’s Council Tax payer?
 councilTaxPayerDetails.firstName                     = First name
 councilTaxPayerDetails.lastName                      = Last name
 councilTaxPayerDetails.email                         = Email address
@@ -645,7 +734,7 @@ councilTaxPayerDetails.error.lastName.required       = Enter your last name
 councilTaxPayerDetails.error.lastName.invalid        = Last name must only contain letters, spaces, hyphens and apostrophes
 councilTaxPayerDetails.error.lastName.length         = Last name must be 100 characters or less
 councilTaxPayerDetails.error.email.required          = Enter an email address
-councilTaxPayerDetails.error.email.invalid           = Enter an email address in the correct format ,like name@example.com.
+councilTaxPayerDetails.error.email.invalid           = Enter an email address in the correct format, like name@example.com.
 councilTaxPayerDetails.checkYourAnswers.name         = Name
 councilTaxPayerDetails.checkYourAnswers.name.hidden  = Council Tax payer name
 councilTaxPayerDetails.checkYourAnswers.email        = Email address
@@ -659,7 +748,7 @@ contactDetails.subheading1                            = Your details
 contactDetails.firstName                              = First name
 contactDetails.lastName                               = Last name
 contactDetails.email                                  = Email address
-contactDetails.phoneNumber                            = Phone number
+contactDetails.phoneNumber                            = Telephone number
 contactDetails.subheading2                            = Correspondence address
 contactDetails.addressLine1                           = Address Line 1
 contactDetails.addressLine2                           = Address Line 2 (optional)
@@ -675,7 +764,7 @@ contactDetails.error.lastName.required                = Enter your last name
 contactDetails.error.lastName.invalid                 = Last name must only include letters, hyphens, apostrophes and spaces
 contactDetails.error.lastName.length                  = Last name must be 100 characters or less
 contactDetails.error.email.required                   = Enter an email address
-contactDetails.error.email.invalid                    = Enter an email address in the correct format ,like name@example.com.
+contactDetails.error.email.invalid                    = Enter an email address in the correct format, like name@example.com.
 contactDetails.error.phoneNumber.required             = Enter a telephone number
 contactDetails.error.phoneNumber.invalid              = Enter a valid telephone number
 contactDetails.error.phoneNumber.tooShort             = Enter at least 10 digits
@@ -694,8 +783,8 @@ contactDetails.checkYourAnswers.name                  = Name
 contactDetails.checkYourAnswers.name.hidden           = name
 contactDetails.checkYourAnswers.email                 = Email address
 contactDetails.checkYourAnswers.email.hidden          = email address
-contactDetails.checkYourAnswers.phoneNumber           = Phone number
-contactDetails.checkYourAnswers.phoneNumber.hidden    = phone number
+contactDetails.checkYourAnswers.phoneNumber           = Telephone number
+contactDetails.checkYourAnswers.phoneNumber.hidden    = telephone number
 contactDetails.checkYourAnswers.address               = Correspondence address
 contactDetails.checkYourAnswers.address.hidden        = correspondence address
 contactDetails.checkYourAnswers.contactMethods        = Preferred contact
@@ -743,3 +832,306 @@ requestSent.next.3          = If we require additional information we will conta
 requestSent.next.4          = We will contact you by [letter/email] within X weeks with a decision about your request.
 requestSent.feedback        = What did you think of this service?
 requestSent.feedbackTime    = (takes 30 seconds)
+
+propertyUninhabitable.title = Choose which applies to your property
+propertyUninhabitable.heading = Choose which applies to your property
+propertyUninhabitable.derelict = My property is derelict or in a state of disrepair and cannot be lived in
+propertyUninhabitable.demolished = My property has been fully demolished
+propertyUninhabitable.reno = My property is having major works or renovations done and cannot be lived in
+propertyUninhabitable.partdemo = Part of the property has been demolished
+propertyUninhabitable.checkYourAnswersLabel = Choose which applies to your property
+propertyUninhabitable.error.required = Select which applies to your property
+propertyUninhabitable.change.hidden = PropertyUninhabitable
+
+# --- Deletion: derelict or cannot be lived in ---
+
+# --- uninhabitableDetails ---
+uninhabitableDetails.title                 = Why do you think the property cannot be lived in?
+uninhabitableDetails.heading               = Why do you think the property cannot be lived in?
+uninhabitableDetails.fireDamage            = Fire damage
+uninhabitableDetails.floodDamage           = Flood damage
+uninhabitableDetails.other                 = Other
+uninhabitableDetails.checkYourAnswersLabel = Why you think the property cannot be lived in
+uninhabitableDetails.error.required        = Select why you think your property cannot be lived in
+uninhabitableDetails.change.hidden         = Why you think the property cannot be lived in
+
+# --- uninhabitableDate ---
+uninhabitableDate.title                 = When did the property become derelict or could not be lived in?
+uninhabitableDate.heading               = When did the property become derelict or could not be lived in?
+uninhabitableDate.hint                  = This is the earliest date that you were unable to live in it because of the condition of the property.
+uninhabitableDate.example               = For example, if the date was 27 April 2025, enter 27 4 2025.
+uninhabitableDate.checkYourAnswersLabel = Date the property became derelict or could not be lived in
+uninhabitableDate.error.required.all    = Enter the date you could no longer live in your property
+uninhabitableDate.error.required.two    = Date must include a day, month and year
+uninhabitableDate.error.required        = Date must include a day, month and year
+uninhabitableDate.error.invalid         = Enter a real date
+uninhabitableDate.error.minimum         = Date must be on or after 1 April 1993
+uninhabitableDate.error.future          = Date must be today or in the past
+uninhabitableDate.change.hidden         = Date the property became derelict or could not be lived in
+
+# --- uninhabitableDateLastOccupied ---
+uninhabitableDateLastOccupied.title                 = When did someone last live in the property?
+uninhabitableDateLastOccupied.heading               = When did someone last live in the property?
+uninhabitableDateLastOccupied.hint                  = For example, if the date was 27 April 2025, enter 27 4 2025.
+uninhabitableDateLastOccupied.checkYourAnswersLabel = Date someone last lived in the property
+uninhabitableDateLastOccupied.error.required.all    = Enter the date the property was last occupied
+uninhabitableDateLastOccupied.error.required.two    = Date must include a day, month and year
+uninhabitableDateLastOccupied.error.required        = Date must include a day, month and year
+uninhabitableDateLastOccupied.error.invalid         = Enter a real date
+uninhabitableDateLastOccupied.error.future          = Date must be today or in the past
+uninhabitableDateLastOccupied.change.hidden         = Date someone last lived in the property
+
+# --- uninhabitableDetailsPlan ---
+uninhabitableDetailsPlan.title                 = What do you plan to do with the property?
+uninhabitableDetailsPlan.heading               = What do you plan to do with the property?
+uninhabitableDetailsPlan.hint                  = For example, tell us if you are going to demolish, renovate or rebuild the property.
+uninhabitableDetailsPlan.checkYourAnswersLabel = What you plan to do with the property
+uninhabitableDetailsPlan.error.required        = Enter details about your plans for the property
+uninhabitableDetailsPlan.error.maxLength       = Enter 5,000 characters or less
+uninhabitableDetailsPlan.change.hidden         = What you plan to do with the property
+
+# --- uninhabitableDetailsPlanHabitable ---
+uninhabitableDetailsPlanHabitable.title                 = What do you need to do to make the property habitable? (optional)
+uninhabitableDetailsPlanHabitable.heading               = What do you need to do to make the property habitable? (optional)
+uninhabitableDetailsPlanHabitable.hint                  = For example, tell us about any major work you will have to do so the property can be lived in again.
+uninhabitableDetailsPlanHabitable.checkYourAnswersLabel = What you need to do to make the property habitable
+uninhabitableDetailsPlanHabitable.error.maxLength       = Enter 5,000 characters or less
+uninhabitableDetailsPlanHabitable.change.hidden         = What you need to do to make the property habitable
+
+# --- uninhabitableDetailsPlanPlanningApplication ---
+uninhabitableDetailsPlanPlanningApplication.title                 = Have you made any planning applications for the property? (optional)
+uninhabitableDetailsPlanPlanningApplication.heading               = Have you made any planning applications for the property? (optional)
+uninhabitableDetailsPlanPlanningApplication.hint                  = For example, tell us about any applications including planning reference numbers you have received from your local council.
+uninhabitableDetailsPlanPlanningApplication.checkYourAnswersLabel = Planning applications for the property
+uninhabitableDetailsPlanPlanningApplication.error.maxLength       = Enter 5,000 characters or less
+uninhabitableDetailsPlanPlanningApplication.change.hidden         = Planning applications for the property
+
+# --- uninhabitableDetailsOther ---
+uninhabitableDetailsOther.title                 = Tell us about your derelict property and why it cannot be lived in
+uninhabitableDetailsOther.heading               = Tell us about your derelict property and why it cannot be lived in
+uninhabitableDetailsOther.hint                  = This will help us make a decision on your request to delete your property’s Council Tax band.
+uninhabitableDetailsOther.body                  = Provide details of the property plans if you intend to demolish, renovate or reconfigure
+uninhabitableDetailsOther.checkYourAnswersLabel = About the derelict property and why it cannot be lived in
+uninhabitableDetailsOther.error.required        = Enter details about the derelict property
+uninhabitableDetailsOther.error.maxLength       = Enter 5,000 characters or less
+uninhabitableDetailsOther.change.hidden         = About the derelict property and why it cannot be lived in
+
+# --- Deletion: fully demolished ---
+
+# --- demolishedDate ---
+demolishedDate.title                 = When was the property demolished?
+demolishedDate.heading               = When was the property demolished?
+demolishedDate.hint                  = For example, if the date that the work to demolish your property was completed on 27 April 2026, enter 27 4 2026
+demolishedDate.checkYourAnswersLabel = Date the property was demolished
+demolishedDate.error.required.all    = Enter the date the property was demolished
+demolishedDate.error.required.two    = Date must include a day, month and year
+demolishedDate.error.required        = Date must include a day, month and year
+demolishedDate.error.invalid         = Enter a real date
+demolishedDate.error.minimum         = Date must be on or after 1 April 1993
+demolishedDate.error.future          = Date must be today or in the past
+demolishedDate.change.hidden         = Date the property was demolished
+
+# --- demolishedDetails ---
+demolishedDetails.title                 = Tell us about your fully demolished property
+demolishedDetails.heading               = Tell us about your fully demolished property
+demolishedDetails.hint                  = This will help us make a decision.
+demolishedDetails.checkYourAnswersLabel = About the fully demolished property
+demolishedDetails.error.required        = Enter details about the fully demolished property
+demolishedDetails.error.maxLength       = Enter 5,000 characters or less
+demolishedDetails.change.hidden         = About the fully demolished property
+
+# --- reviewOverview: demolished property ---
+reviewOverview.demolished.title           = Asking for a formal review
+reviewOverview.demolished.intro           = You have told us that your <strong>property has been demolished completely and cannot be lived in</strong>.
+reviewOverview.demolished.description     = This means that you can ask for your property to be removed from the Council Tax list. This is known as a ‘Formal Challenge’ or ‘Making a Proposal’
+reviewOverview.demolished.table.heading   = How a formal review works
+reviewOverview.demolished.whatItIs        = You can ask the Valuation Office to remove your demolished property from the Council Tax list.
+reviewOverview.demolished.whatFor         = This will delete your property’s Council Tax band, and you will not be required to pay Council Tax to your Local Council.
+reviewOverview.demolished.important       = <p class="govuk-body">If your later build a new property, you will need to apply to have this added to the Council Tax List.</p><p class="govuk-body">When a property comes back into the Council Tax list it will banded as a new property.</p><p class="govuk-body">When valuing the property, we will consider all improvements made. This means your Council Tax band may be the same, lower or a higher band than before.</p>
+reviewOverview.demolished.when.label      = When you can ask for a formal review
+reviewOverview.demolished.when.value      = The request can only be submitted after the demolition of the property has been completed.
+reviewOverview.demolished.duration        = Up to 16 weeks
+reviewOverview.demolished.evidence        = <p class="govuk-body">When you make a request for us to delete your property’s Council Tax band, we ask you for evidence.</p><p class="govuk-body">When you provide evidence, your caseworker can review your request without delays, and it helps us make a decision sooner.</p><p class="govuk-body">If a caseworker requires additional evidence, they will contact you directly to ask for this.</p>
+reviewOverview.demolished.examples.intro  = <p class="govuk-body">You can upload documents or photos that show your property has been demolished.</p><p class="govuk-body">Evidence can include:</p>
+reviewOverview.demolished.examples.1      = original digital photos of the demolished property, clearly showing the location of where the property was.
+reviewOverview.demolished.examples.2      = dated copy of the contract or invoice from the company who completed the demolition.
+reviewOverview.demolished.examples.3      = copy of the section 80/81 Notice of Demolition
+reviewOverview.demolished.examples.4      = any other document or receipt that shows the date that the demolition was completed
+reviewOverview.demolished.examples.outro  = <p class="govuk-body">You will also be given the opportunity to tell us any additional information or details that you think is important.</p>
+reviewOverview.demolished.photoEvidence   = <p class="govuk-body">Photographs should be original digital photos. Do not upload screenshots or photos that have been added to a document or presentation.</p><p class="govuk-body">You can upload photos in JPG or PNG format. Each file must be smaller than 10MB.</p>
+reviewOverview.demolished.decision.intro  = There are 2 possible outcomes:
+reviewOverview.demolished.decision.1      = your property will be removed from the Council Tax list
+reviewOverview.demolished.decision.2      = your property will stay on the Council Tax list if we do not receive the evidence we need, or if your request does not meet the criteria
+reviewOverview.demolished.afterDecision   = You have 4 months after the date of the decision to appeal to the Valuation Tribunal if you are not satisfied with the outcome
+
+# --- Deletion: major works or renovations ---
+
+# --- renoStartDate ---
+renoStartDate.title                 = When did the major works or renovation start?
+renoStartDate.heading               = When did the major works or renovation start?
+renoStartDate.hint                  = This is the date that the major works or renovations to your property were started and you were unable to live in it.
+renoStartDate.example               = For example, if the date was 27 April 2025, enter 27 4 2025.
+renoStartDate.checkYourAnswersLabel = Date the major works or renovation started
+renoStartDate.error.required.all    = Enter the date the renovation started
+renoStartDate.error.required.two    = Date must include a day, month and year
+renoStartDate.error.required        = Date must include a day, month and year
+renoStartDate.error.invalid         = Enter a real date
+renoStartDate.error.future          = The date must be today or in the past
+renoStartDate.change.hidden         = Date the major works or renovation started
+
+# --- renoCompletionDate ---
+renoCompletionDate.title                 = What is the date that the work completed?
+renoCompletionDate.heading               = What is the date that the work completed?
+renoCompletionDate.hint                  = For example, if the date was 27 April 2025, enter 27 4 2025.
+renoCompletionDate.checkYourAnswersLabel = Date the work completed
+renoCompletionDate.error.required.all    = Enter the completion date
+renoCompletionDate.error.required.two    = Date must include a day, month and year
+renoCompletionDate.error.required        = Date must include a day, month and year
+renoCompletionDate.error.invalid         = Enter a real date
+renoCompletionDate.error.future          = The date must be today or in the past
+renoCompletionDate.error.beforeStart     = Completion date must be after the start date
+renoCompletionDate.change.hidden         = Date the work completed
+
+# --- renoDetails ---
+renoDetails.title                 = Tell us about the major works or renovation to your property
+renoDetails.heading               = Tell us about the major works or renovation to your property
+renoDetails.hint                  = For example, include details about the major structural changes you are making to the property, and why it cannot be lived in. Provide as much detail as possible.
+renoDetails.hint.more             = This will help us make a decision on your request to delete your property’s Council Tax band.
+renoDetails.checkYourAnswersLabel = About the major works or renovation to the property
+renoDetails.error.required        = Enter details about the renovation
+renoDetails.error.maxLength       = Enter 5,000 characters or less
+renoDetails.change.hidden         = About the major works or renovation to the property
+
+# --- reviewOverview: major works or renovations ---
+reviewOverview.reno.title           = Asking for a formal review
+reviewOverview.reno.intro           = You have told us that your <strong>property is having major works or renovations done and cannot be lived in</strong>.
+reviewOverview.reno.description     = This means that you can ask for your property to be removed from the Council Tax list. This is known as a ‘Formal Challenge’ or ‘Making a Proposal’
+reviewOverview.reno.table.heading   = How a formal review works
+reviewOverview.reno.whatItIs        = You can ask the Valuation Office to delete your property from the Council Tax list.
+reviewOverview.reno.whatFor         = This will delete your property’s Council Tax band, and you will not be required to pay Council Tax to your Local Council.
+reviewOverview.reno.important       = <p class="govuk-body">When the structural changes and renovation work have been completed, you will need to apply to have the property added to the Council Tax List.</p><p class="govuk-body">When a property comes back into the Council Tax list, it could come back in at the same, lower or higher band than before. This will depend on the property valuation at that time.</p>
+reviewOverview.reno.when.label      = When you can ask for a formal review
+reviewOverview.reno.when.value      = The request can only be submitted after the structural work or renovations have started.
+reviewOverview.reno.duration        = Up to 16 weeks
+reviewOverview.reno.evidence        = <p class="govuk-body">When you make a request for us to delete your property’s Council Tax band, we ask you for evidence.</p><p class="govuk-body">When you provide evidence, your caseworker can review your request without delays, and it helps us make a decision sooner.</p><p class="govuk-body">If a caseworker requires additional evidence, they will contact you directly to ask for this. This can slow the review process down.</p>
+reviewOverview.reno.examples.intro  = <p class="govuk-body">You can upload documents or photos that show <strong>your property is having major works or renovations done</strong>.</p><p class="govuk-body">Evidence can include:</p>
+reviewOverview.reno.examples.1      = Invoices or receipts from contractors or suppliers which confirm when the work started on the property
+reviewOverview.reno.examples.2      = copy of any surveys, architect plans or planning permission documents
+reviewOverview.reno.examples.3      = photos of all internal rooms in the property
+reviewOverview.reno.examples.4      = photos showing the roof and outside of the property from all sides
+reviewOverview.reno.examples.5      = A Scheme of Works document that shows the detailed plans for the work being done.
+reviewOverview.reno.examples.outro  = <p class="govuk-body">You will also be given the opportunity to tell us any additional information or details that you think is important.</p>
+reviewOverview.reno.photoEvidence   = <p class="govuk-body">Photographs should be original digital photos. Do not upload screenshots or photos that have been added to a document or presentation.</p><p class="govuk-body">You can upload photos in JPG or PNG format. Each file must be smaller than 10MB.</p>
+reviewOverview.reno.decision.intro  = There are 2 possible outcomes:
+reviewOverview.reno.decision.1      = your property will be removed from the Council Tax list
+reviewOverview.reno.decision.2      = your property will stay on the Council Tax list if we do not receive the evidence we need, or if your request does not meet the criteria
+reviewOverview.reno.afterDecision   = You have 4 months after the date of the decision to appeal to the Valuation Tribunal if you are not satisfied with the outcome
+
+# --- Deletion: part of the property demolished ---
+
+# --- partDemoDate ---
+partDemoDate.title                 = When was part of the property demolished?
+partDemoDate.heading               = When was part of the property demolished?
+partDemoDate.hint                  = For example, if the date was 27 April 2025, enter 27 4 2025.
+partDemoDate.checkYourAnswersLabel = Date part of the property was demolished
+partDemoDate.error.required.all    = Enter the demolition date
+partDemoDate.error.required.two    = Date must include a day, month and year
+partDemoDate.error.required        = Date must include a day, month and year
+partDemoDate.error.invalid         = Enter a real date
+partDemoDate.error.future          = The date must be today or in the past
+partDemoDate.change.hidden         = Date part of the property was demolished
+
+# --- partDemoDetails ---
+partDemoDetails.title                 = Provide details of the works started on the property and what the works consist of
+partDemoDetails.heading               = Provide details of the works started on the property and what the works consist of
+partDemoDetails.checkYourAnswersLabel = Details of the demolition works
+partDemoDetails.error.required        = Enter details of the demolition works
+partDemoDetails.error.maxLength       = Enter 5,000 characters or less
+partDemoDetails.change.hidden         = Details of the demolition works
+
+# --- reviewOverview: part of the property demolished ---
+reviewOverview.partdemo.title           = Asking for a formal review
+reviewOverview.partdemo.intro           = You have told us that your <strong>property has been partially demolished and cannot be lived in</strong>.
+reviewOverview.partdemo.description     = This means that you can ask for your property to be removed from the Council Tax list. This is known as a ‘Formal Challenge’ or ‘Making a Proposal’
+reviewOverview.partdemo.table.heading   = How a formal review works
+reviewOverview.partdemo.whatItIs        = You can ask the Valuation Office to remove your partially demolished property from the Council Tax list.
+reviewOverview.partdemo.whatFor         = This will delete your property’s Council Tax band, and you will not be required to pay Council Tax to your Local Council.
+reviewOverview.partdemo.important       = <p class="govuk-body">If your later rebuild this property, you will need to apply to have this added to the Council Tax List.</p><p class="govuk-body">When the property comes back into the Council Tax list it will banded as a new property.</p><p class="govuk-body">When valuing the property, we will consider all improvements made. This means your Council Tax band may be the same, lower or a higher band than before.</p>
+reviewOverview.partdemo.when.label      = When you can ask for a formal review
+reviewOverview.partdemo.when.value      = The request can only be submitted after the demolition work has started.
+reviewOverview.partdemo.duration        = Up to 16 weeks
+reviewOverview.partdemo.evidence        = <p class="govuk-body">When you make a request for us to delete your property’s Council Tax band, we ask you for evidence.</p><p class="govuk-body">When you provide evidence, your caseworker can review your request without delays, and it helps us make a decision sooner.</p><p class="govuk-body">If a caseworker requires additional evidence, they will contact you directly to ask for this.</p>
+reviewOverview.partdemo.examples.intro  = <p class="govuk-body">You can upload documents or photos that show that <strong>your property has been partially demolished</strong>.</p><p class="govuk-body">Evidence can include:</p>
+reviewOverview.partdemo.examples.1      = the date that part of the property was demolished
+reviewOverview.partdemo.examples.2      = original digital photos of the property, clearly showing which parts of the property have been demolished
+reviewOverview.partdemo.examples.3      = dated copy of the contract or invoice from the company who completed the demolition.
+reviewOverview.partdemo.examples.outro  = <p class="govuk-body">You will also be given the opportunity to tell us any additional information or details that you think is important.</p>
+reviewOverview.partdemo.photoEvidence   = <p class="govuk-body">Photographs should be original digital photos. Do not upload screenshots or photos that have been added to a document or presentation.</p><p class="govuk-body">You can upload photos in JPG or PNG format. Each file must be smaller than 10MB.</p>
+reviewOverview.partdemo.decision.intro  = There are 2 possible outcomes:
+reviewOverview.partdemo.decision.1      = your property will be removed from the Council Tax list
+reviewOverview.partdemo.decision.2      = your property will stay on the Council Tax list if we do not receive the evidence we need, or if your request does not meet the criteria
+reviewOverview.partdemo.afterDecision   = You have 4 months after the date of the decision to appeal to the Valuation Tribunal Wales if you are not satisfied with the outcome.
+
+# --- Deletion: change of use, now used as a home ---
+
+# --- changeOfUse ---
+changeOfUse.title                 = How has the use of the property changed?
+changeOfUse.heading               = How has the use of the property changed?
+changeOfUse.domestic              = Part or all of the property is now used as a home
+changeOfUse.business              = The property is now used as a business
+changeOfUse.checkYourAnswersLabel = How the use of the property has changed
+changeOfUse.error.required        = Select an option
+changeOfUse.change.hidden         = How the use of the property has changed
+
+# --- domesticParts ---
+domesticParts.title                 = Which parts of the property are now used as a home?
+domesticParts.heading               = Which parts of the property are now used as a home?
+domesticParts.hint                  = For example, you have converted part of a café back into a living space. Provide as much detail as possible.
+domesticParts.checkYourAnswersLabel = Parts of the property now used as a home
+domesticParts.error.required        = Enter which parts are now used as a home
+domesticParts.error.maxLength       = Enter 5,000 characters or less
+domesticParts.change.hidden         = Parts of the property now used as a home
+
+# --- domesticDate ---
+domesticDate.title                 = When did all or part of your property become your home?
+domesticDate.heading               = When did all or part of your property become your home?
+domesticDate.hint                  = For example, if part of your property became your home on 27 April 2025, enter 27 4 2025.
+domesticDate.checkYourAnswersLabel = Date the property became your home
+domesticDate.error.required.all    = Enter the date the change occurred
+domesticDate.error.required.two    = Date must include a day, month and year
+domesticDate.error.required        = Date must include a day, month and year
+domesticDate.error.invalid         = Enter a real date
+domesticDate.error.future          = The date must be today or in the past
+domesticDate.error.minimum         = The date your property was demolished or became uninhabitable must be between 1 April 1993 and today
+domesticDate.change.hidden         = Date the property became your home
+
+# --- addressChanged ---
+addressChanged.title                 = Has the address of your home changed?
+addressChanged.heading               = Has the address of your home changed?
+addressChanged.hint                  = Provide details of any new addresses below.
+addressChanged.checkYourAnswersLabel = Whether the address of your home has changed
+addressChanged.error.required        = Select whether the address has changed
+addressChanged.error.maxLength       = Enter 5,000 characters or less
+addressChanged.change.hidden         = Whether the address of your home has changed
+
+# --- businessParts ---
+businessParts.title                 = Which parts of your home are being used for business?
+businessParts.heading               = Which parts of your home are being used for business?
+businessParts.hint                  = For example, you have converted part of the ground floor into a hairdressing salon or café, and you still live in the rest of the home. Provide as much detail as possible.
+businessParts.checkYourAnswersLabel = Parts of the home used for business
+businessParts.error.required        = Enter which parts are used for business
+businessParts.error.maxLength       = Enter 5,000 characters or less
+businessParts.change.hidden         = Parts of the home used for business
+
+# --- businessDate ---
+businessDate.title                 = When did all or part of your home change to business use?
+businessDate.heading               = When did all or part of your home change to business use?
+businessDate.hint                  = For example, if you started using part of your home for business on 27 April 2025, enter 27 4 2025.
+businessDate.checkYourAnswersLabel = Date the home changed to business use
+businessDate.error.required.all    = Enter the date the change occurred
+businessDate.error.required.two    = Date must include a day, month and year
+businessDate.error.required        = Date must include a day, month and year
+businessDate.error.invalid         = Enter a real date
+businessDate.error.future          = The date must be today or in the past
+businessDate.error.minimum         = The date your property was demolished or became uninhabitable must be between 1 April 1993 and today
+businessDate.change.hidden         = Date the home changed to business use

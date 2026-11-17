@@ -16,6 +16,6 @@
 
 @this(datePage: components.DatePage)
 
-@(form: Form[_], messagePrefix: String, action: Call, backLinkUrl: String)(implicit request: Request[_], messages: Messages)
+@(form: Form[_], mode: Mode, backLinkUrl: Option[String], prefix: String)(implicit request: Request[_], messages: Messages)
 
-@datePage(form, action, messagePrefix, Some(backLinkUrl))
+@datePage(form, routes.PropertyChangeDateController.onSubmit(mode), prefix, backLinkUrl)

@@ -16,26 +16,27 @@
 
 package forms
 
-import forms.behaviours.StringFieldBehaviours
-import play.api.data.FormError
+import org.scalatest.matchers.should.Matchers
+import org.scalatest.wordspec.AnyWordSpec
 
-class PropertyChangeDetailsFormProviderSpec extends StringFieldBehaviours {
+class PropertyChangeDetailsFormProviderSpec extends AnyWordSpec with Matchers {
 
-  Seq("propertyMergedDetails", "propertySplitDetails").foreach { prefix =>
-    s"$prefix .value" - {
-      val form = new PropertyChangeDetailsFormProvider()(prefix)
+  private val form = new PropertyChangeDetailsFormProvider()("propertySplitDetails")
 
-      behave like mandatoryField(form, "value", FormError("value", s"$prefix.error.required"))
+  "PropertyChangeDetailsFormProvider" should {
 
-      "must reject text over the maximum length" in {
-        val result = form.bind(Map("value" -> "a" * (PropertyChangeDetailsFormProvider.maxCharacters + 1)))
-        result.errors.map(_.message) must contain(s"$prefix.error.maxLength")
-      }
+    "bind an answer up to 5,000 characters" in {
+      val answer = "a" * 5000
+      form.bind(Map("value" -> answer)).get shouldBe answer
+    }
 
-      "must accept text at the maximum length" in {
-        val result = form.bind(Map("value" -> "a" * PropertyChangeDetailsFormProvider.maxCharacters))
-        result.errors mustBe empty
-      }
+    "reject answers over 5,000 characters" in {
+      val bound = form.bind(Map("value" -> ("a" * 5001)))
+      bound.errors.map(_.message) should contain("propertySplitDetails.error.maxLength")
+    }
+
+    "require an answer" in {
+      form.bind(Map("value" -> " ")).errors.map(_.message) should contain("propertySplitDetails.error.required")
     }
   }
 }

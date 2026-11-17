@@ -19,4 +19,16 @@ package models
 enum ReviewType(val messageKey: String, val continueRoute: String) {
   case Formal   extends ReviewType("formal", "formal")
   case Informal extends ReviewType("informal", "informal")
+  // formal review wording for changes to the property or local area
+  case Deletion extends ReviewType("deletion", "deletion")
+  // formal review wording for a property that is derelict and cannot be lived in
+  case Derelict extends ReviewType("derelict", "derelict")
+  // formal review wording for a property that has been fully demolished
+  case Demolished extends ReviewType("demolished", "demolished")
+  // formal review wording for a property having major works or renovations done
+  case Reno extends ReviewType("reno", "reno")
+  // formal review wording for a property that has been partly demolished
+  case PartDemo extends ReviewType("partdemo", "partdemo")
+  // a merged or split property uses the general formal review wording, then carries on like the other changes
+  case SplitOrMerge extends ReviewType("formal", "deletion")
 }

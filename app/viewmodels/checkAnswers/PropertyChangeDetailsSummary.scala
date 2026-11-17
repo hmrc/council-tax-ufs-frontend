@@ -17,35 +17,28 @@
 package viewmodels.checkAnswers
 
 import controllers.routes
-import models.{CheckMode, PropertySplitOrMerge, UserAnswers}
-import pages.{PropertyMergedDetailsPage, PropertyNewAddressPage, PropertySplitDetailsPage, PropertySplitOrMergePage}
+import models.{CheckMode, PropertyChangePrefix, UserAnswers}
+import pages.PropertyChangeDetailsPage
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat
+import uk.gov.hmrc.govukfrontend.views.viewmodels.content.HtmlContent
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 
 object PropertyChangeDetailsSummary {
 
-  // only the details for the option currently chosen, so a stale answer from the other option is never shown
   def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
-    answers.get(PropertySplitOrMergePage).flatMap {
-      case PropertySplitOrMerge.Merged =>
-        answers.get(PropertyMergedDetailsPage).map(build("propertyMergedDetails", _, routes.PropertyChangeDetailsController.onPageLoadMerged(CheckMode).url))
-      case PropertySplitOrMerge.Split =>
-        answers.get(PropertySplitDetailsPage).map(build("propertySplitDetails", _, routes.PropertyChangeDetailsController.onPageLoadSplit(CheckMode).url))
-    }
+    answers.get(PropertyChangeDetailsPage).map { answer =>
+      val prefix = PropertyChangePrefix.details(Some(answers))
 
-  def newAddressRow(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
-    answers.get(PropertyNewAddressPage).map(build("propertyNewAddress", _, routes.PropertyChangeDetailsController.onPageLoadNewAddress(CheckMode).url))
-
-  private def build(prefix: String, answer: String, changeUrl: String)(implicit messages: Messages): SummaryListRow =
-    SummaryListRowViewModel(
-      key     = s"$prefix.checkYourAnswersLabel",
-      value   = ValueViewModel(HtmlFormat.escape(answer).toString),
-      actions = Seq(
-        ActionItemViewModel("site.change", changeUrl)
-          .withVisuallyHiddenText(messages(s"$prefix.change.hidden"))
+      SummaryListRowViewModel(
+        key     = s"$prefix.checkYourAnswersLabel",
+        value   = ValueViewModel(HtmlContent(HtmlFormat.escape(answer))),
+        actions = Seq(
+          ActionItemViewModel("site.change", routes.PropertyChangeDetailsController.onPageLoad(CheckMode).url)
+            .withVisuallyHiddenText(messages(s"$prefix.change.hidden"))
+        )
       )
-    )
+    }
 }

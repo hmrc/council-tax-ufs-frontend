@@ -22,9 +22,14 @@ import play.api.i18n.Messages
 import java.time.LocalDate
 import javax.inject.Inject
 
-/** Date the merge or split work was completed. messagePrefix is propertyMergedDate or propertySplitDate. */
+/** The date the work was completed: from 1 April 1993 up to today. `prefix` is propertyMergedDate or propertySplitDate. */
 class PropertyChangeDateFormProvider @Inject() extends DateFormProvider {
 
-  def apply(messagePrefix: String)(implicit messages: Messages): Form[LocalDate] =
-    pastDateForm(messagePrefix)
+  def apply(prefix: String)(implicit messages: Messages): Form[LocalDate] =
+    boundedDateForm(
+      prefix      = prefix,
+      earliest    = Some(UninhabitableDateFormProvider.earliestDate),
+      minErrorKey = Some(s"$prefix.error.minimum"),
+      maxErrorKey = Some(s"$prefix.error.future")
+    )
 }

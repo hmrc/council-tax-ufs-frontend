@@ -21,7 +21,7 @@ import forms.PropertySplitOrMergeFormProvider
 import javax.inject.Inject
 import models.{Mode, UserAnswers}
 import navigation.Navigator
-import pages.PropertySplitOrMergePage
+import pages.{PropertyChangeDatePage, PropertyChangeDetailsPage, PropertySplitOrMergePage}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import repositories.SessionRepository
@@ -67,7 +67,12 @@ class PropertySplitOrMergeController @Inject()(
         value =>
           for {
             answers        <- Future.successful(request.userAnswers.getOrElse(UserAnswers(request.userId)))
-            updatedAnswers <- Future.fromTry(answers.set(PropertySplitOrMergePage, value))
+            // the next two questions are worded per answer, so an answer given for the other choice no longer fits
+            cleared        <- Future.fromTry(
+              if (answers.get(PropertySplitOrMergePage).exists(_ != value)) answers.removeAll(Seq(PropertyChangeDetailsPage, PropertyChangeDatePage))
+              else scala.util.Success(answers)
+            )
+            updatedAnswers <- Future.fromTry(cleared.set(PropertySplitOrMergePage, value))
             _              <- sessionRepository.set(updatedAnswers)
           } yield Redirect(navigator.nextPage(PropertySplitOrMergePage, mode, updatedAnswers))
       )

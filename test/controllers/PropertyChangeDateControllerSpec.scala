@@ -17,119 +17,145 @@
 package controllers
 
 import base.SpecBase
-import models.{CheckMode, NormalMode}
+import forms.PropertyChangeDateFormProvider
+import models.{NormalMode, UserAnswers}
 import navigation.{FakeNavigator, Navigator}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
-import pages.{PropertyMergedDatePage, PropertySplitDatePage}
+import pages.PropertyChangeDatePage
+import play.api.i18n.Messages
 import play.api.inject.bind
-import play.api.mvc.Call
+import play.api.mvc.{AnyContentAsEmpty, AnyContentAsFormUrlEncoded, Call}
 import play.api.test.FakeRequest
-import play.api.test.Helpers.*
+import play.api.test.Helpers._
 import repositories.SessionRepository
+import views.html.PropertyChangeDateView
 
-import java.time.LocalDate
+import java.time.{LocalDate, ZoneOffset}
 import scala.concurrent.Future
 
 class PropertyChangeDateControllerSpec extends SpecBase with MockitoSugar {
 
-  private val onwardRoute = Call("GET", "/foo")
+  private implicit val messages: Messages = stubMessages()
 
-  private case class Journey(
-    name: String,
-    pageUrl: String,
-    checkUrl: String,
-    submitUrl: String,
-    backUrl: String,
-    heading: String,
-    requiredError: String,
-    setSaved: LocalDate => models.UserAnswers
-  )
+  private def form = new PropertyChangeDateFormProvider()("propertySplitDate")
 
-  private lazy val journeys = Seq(
-    Journey(
-      "merged",
-      routes.PropertyChangeDateController.onPageLoadMerged(NormalMode).url,
-      routes.PropertyChangeDateController.onPageLoadMerged(CheckMode).url,
-      routes.PropertyChangeDateController.onSubmitMerged(NormalMode).url,
-      routes.PropertyChangeDetailsController.onPageLoadMerged(NormalMode).url,
-      "When was the work to merge your properties completed?",
-      "Enter the date the work to merge your properties was completed",
-      date => emptyUserAnswers.set(PropertyMergedDatePage, date).success.value
-    ),
-    Journey(
-      "split",
-      routes.PropertyChangeDateController.onPageLoadSplit(NormalMode).url,
-      routes.PropertyChangeDateController.onPageLoadSplit(CheckMode).url,
-      routes.PropertyChangeDateController.onSubmitSplit(NormalMode).url,
-      routes.PropertyChangeDetailsController.onPageLoadSplit(NormalMode).url,
-      "When was the work to split your home completed?",
-      "Enter the date the work to split your home was completed",
-      date => emptyUserAnswers.set(PropertySplitDatePage, date).success.value
-    )
-  )
+  def onwardRoute: Call = Call("GET", "/foo")
 
-  "PropertyChangeDateController" - {
-    journeys.foreach { j =>
-      j.name - {
+  val validAnswer: LocalDate = LocalDate.now(ZoneOffset.UTC)
 
-        "must render the question with Back to the details page" in {
-          val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+  lazy val pageRoute: String = routes.PropertyChangeDateController.onPageLoad(NormalMode).url
 
-          running(application) {
-            val result = route(application, FakeRequest(GET, j.pageUrl)).value
+  private def backLink = Some(routes.PropertyChangeDetailsController.onPageLoad(NormalMode).url)
 
-            status(result) mustBe OK
-            contentAsString(result) must include(j.heading)
-            contentAsString(result) must include("For example, if the work was completed on 27 April 2025, enter 27 4 2025.")
-            contentAsString(result) must include(s"""${j.backUrl}" class="govuk-back-link""")
-          }
-        }
+  def getRequest(): FakeRequest[AnyContentAsEmpty.type] =
+    FakeRequest(GET, pageRoute)
 
-        "must show the saved date" in {
-          val application = applicationBuilder(userAnswers = Some(j.setSaved(LocalDate.of(2024, 3, 15)))).build()
+  def postRequest(): FakeRequest[AnyContentAsFormUrlEncoded] =
+    FakeRequest(POST, pageRoute)
+      .withFormUrlEncodedBody(
+        "value.day"   -> validAnswer.getDayOfMonth.toString,
+        "value.month" -> validAnswer.getMonthValue.toString,
+        "value.year"  -> validAnswer.getYear.toString
+      )
 
-          running(application) {
-            val result = route(application, FakeRequest(GET, j.checkUrl)).value
+  "PropertyChangeDate Controller" - {
 
-            status(result) mustBe OK
-            contentAsString(result) must include("value=\"2024\"")
-          }
-        }
+    "must return OK and the correct view for a GET" in {
 
-        "must save a valid date and redirect to the next page" in {
-          val sessionRepository = mock[SessionRepository]
-          when(sessionRepository.set(any())) thenReturn Future.successful(true)
-          val application = applicationBuilder(userAnswers = Some(emptyUserAnswers))
-            .overrides(
-              bind[Navigator].toInstance(new FakeNavigator(onwardRoute)),
-              bind[SessionRepository].toInstance(sessionRepository)
-            )
-            .build()
+      val application = applicationBuilder(userAnswers = Some(splitAnswers)).build()
 
-          running(application) {
-            val request = FakeRequest(POST, j.submitUrl)
-              .withFormUrlEncodedBody("value.day" -> "15", "value.month" -> "3", "value.year" -> "2024")
-            val result = route(application, request).value
+      running(application) {
+        val result = route(application, getRequest()).value
 
-            status(result) mustBe SEE_OTHER
-            redirectLocation(result).value mustBe onwardRoute.url
-          }
-        }
+        val view = application.injector.instanceOf[PropertyChangeDateView]
 
-        "must return Bad Request when the date is missing" in {
-          val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+        status(result) mustEqual OK
+        contentAsString(result) mustEqual view(form, NormalMode, backLink, "propertySplitDate")(getRequest(), messages(application)).toString
+      }
+    }
 
-          running(application) {
-            val request = FakeRequest(POST, j.submitUrl)
-              .withFormUrlEncodedBody("value.day" -> "", "value.month" -> "", "value.year" -> "")
-            val result = route(application, request).value
+    "must populate the view correctly on a GET when the question has previously been answered" in {
 
-            status(result) mustBe BAD_REQUEST
-            contentAsString(result) must include(j.requiredError)
-          }
-        }
+      val userAnswers = splitAnswers.set(PropertyChangeDatePage, validAnswer).success.value
+
+      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
+
+      running(application) {
+        val view = application.injector.instanceOf[PropertyChangeDateView]
+
+        val result = route(application, getRequest()).value
+
+        status(result) mustEqual OK
+        contentAsString(result) mustEqual
+          view(form.fill(validAnswer), NormalMode, backLink, "propertySplitDate")(getRequest(), messages(application)).toString
+      }
+    }
+
+    "must redirect to the next page when valid data is submitted" in {
+
+      val mockSessionRepository = mock[SessionRepository]
+
+      when(mockSessionRepository.set(any())) thenReturn Future.successful(true)
+
+      val application =
+        applicationBuilder(userAnswers = Some(splitAnswers))
+          .overrides(
+            bind[Navigator].toInstance(new FakeNavigator(onwardRoute)),
+            bind[SessionRepository].toInstance(mockSessionRepository)
+          )
+          .build()
+
+      running(application) {
+        val result = route(application, postRequest()).value
+
+        status(result) mustEqual SEE_OTHER
+        redirectLocation(result).value mustEqual onwardRoute.url
+      }
+    }
+
+    "must return a Bad Request and errors when invalid data is submitted" in {
+
+      val application = applicationBuilder(userAnswers = Some(splitAnswers)).build()
+
+      val request =
+        FakeRequest(POST, pageRoute)
+          .withFormUrlEncodedBody(("value", "invalid value"))
+
+      running(application) {
+        val boundForm = form.bind(Map("value" -> "invalid value"))
+
+        val view = application.injector.instanceOf[PropertyChangeDateView]
+
+        val result = route(application, request).value
+
+        status(result) mustEqual BAD_REQUEST
+        contentAsString(result) mustEqual view(boundForm, NormalMode, backLink, "propertySplitDate")(request, messages(application)).toString
+      }
+    }
+
+    "must redirect to Journey Recovery for a GET if no existing data is found" in {
+
+      val application = applicationBuilder(userAnswers = None).build()
+
+      running(application) {
+        val result = route(application, getRequest()).value
+
+        status(result) mustEqual SEE_OTHER
+        redirectLocation(result).value mustEqual routes.JourneyRecoveryController.onPageLoad().url
+      }
+    }
+
+    "must redirect to Journey Recovery for a POST if no existing data is found" in {
+
+      val application = applicationBuilder(userAnswers = None).build()
+
+      running(application) {
+        val result = route(application, postRequest()).value
+
+        status(result) mustEqual SEE_OTHER
+        redirectLocation(result).value mustEqual routes.JourneyRecoveryController.onPageLoad().url
       }
     }
   }

@@ -19,7 +19,7 @@ package controllers
 import controllers.actions._
 import forms.PostcodeSearchFormProvider
 import javax.inject.Inject
-import models.Mode
+import models.{Mode, SearchOrigin}
 import models.audit.PropertySearchAuditEvent
 import services.AuditService
 import utils.UrlEncryptor
@@ -48,6 +48,12 @@ class PostcodeSearchController @Inject()(
 
   val form = formProvider()
 
+  // searches made from the results / no results pages post here, so their own page is recorded instead
+  private def searchPage(request: play.api.mvc.Request[_]): String =
+    SearchOrigin
+      .fromQuery(request.getQueryString(SearchOrigin.QueryKey))
+      .fold(request.path)(origin => request.path.stripSuffix("/postcode-search") + origin.path)
+
   def onPageLoad(mode: Mode): Action[AnyContent] =
     (sessionIdentify andThen getData) { implicit request =>
       val preparedForm = request.userAnswers.flatMap(_.get(PostcodeSearchPage)) match {
@@ -74,7 +80,7 @@ class PostcodeSearchController @Inject()(
       updatedAnswers <- Future.fromTry(clearedAnswers.set(PostcodeSearchPage, value))
       _              <- sessionRepository.set(updatedAnswers)
     } yield {
-      auditService.auditPropertySearch(PropertySearchAuditEvent.standard(request.userId, request.path, value))
+      auditService.auditPropertySearch(PropertySearchAuditEvent.standard(request.userId, searchPage(request), value))
       val encoded =  urlEncryptor.encrypt(value)
       Redirect(routes.SearchResultsController.show(encoded, 1))
     }

@@ -113,6 +113,39 @@ class PostcodeSearchControllerSpec extends SpecBase with MockitoSugar {
       }
     }
 
+    "must record the originating page in the audit event for searches from the results and no results pages" in {
+
+      val mockSessionRepository = mock[SessionRepository]
+      val mockAuditService      = mock[services.AuditService]
+      when(mockSessionRepository.set(any())).thenReturn(Future.successful(true))
+
+      val application =
+        applicationBuilder(userAnswers = Some(emptyUserAnswers))
+          .overrides(
+            bind[SessionRepository].toInstance(mockSessionRepository),
+            bind[services.AuditService].toInstance(mockAuditService)
+          )
+          .build()
+
+      running(application) {
+        val session = uk.gov.hmrc.http.SessionKeys.sessionId -> "session-1"
+        val prefix  = postcodeSearchRoute.stripSuffix("/postcode-search")
+
+        def post(origin: String) =
+          status(route(application, FakeRequest(POST, s"$postcodeSearchRoute?origin=$origin").withSession(session).withFormUrlEncodedBody("value" -> "CF14 1AA")).value)
+
+        post("search-results") mustEqual SEE_OTHER
+        post("search-no-results") mustEqual SEE_OTHER
+        post("https://evil.example") mustEqual SEE_OTHER
+
+        List(s"$prefix/search-results", s"$prefix/search-no-results", postcodeSearchRoute).foreach { page =>
+          org.mockito.Mockito.verify(mockAuditService).auditPropertySearch(
+            org.mockito.ArgumentMatchers.eq(models.audit.PropertySearchAuditEvent.standard("session-1", page, "CF14 1AA"))
+          )(any())
+        }
+      }
+    }
+
     "must redirect to search results when valid data is submitted" in {
 
       val mockSessionRepository = mock[SessionRepository]

@@ -16,63 +16,60 @@
 
 package controllers
 
-import controllers.actions.{DataRetrievalAction, IdentifierAction}
+import controllers.actions.{DataRequiredAction, DataRetrievalAction, IdentifierAction}
 import forms.PropertyChangeDateFormProvider
-import models.{Mode, UserAnswers}
+import models.{Mode, PropertyChangePrefix, UserAnswers}
 import navigation.Navigator
-import pages.{PropertyMergedDatePage, PropertySplitDatePage, QuestionPage}
+import pages.PropertyChangeDatePage
 import play.api.i18n.{I18nSupport, MessagesApi}
-import play.api.mvc.{Action, AnyContent, Call, MessagesControllerComponents}
+import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import repositories.SessionRepository
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import views.html.PropertyChangeDateView
 
-import java.time.LocalDate
 import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
-/** "When was the work to merge your properties completed?" and "When was the work to split your home completed?". */
+/** "When was the work to merge your properties completed?" or "When was the work to split your home completed?", worded for a merged or a split property by the answer to the split or merge question. */
 @Singleton
 class PropertyChangeDateController @Inject()(
-  override val messagesApi: MessagesApi,
-  sessionRepository: SessionRepository,
-  navigator: Navigator,
-  identify: IdentifierAction,
-  getData: DataRetrievalAction,
-  formProvider: PropertyChangeDateFormProvider,
-  val controllerComponents: MessagesControllerComponents,
-  view: PropertyChangeDateView
-)(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+                                override val messagesApi: MessagesApi,
+                                sessionRepository: SessionRepository,
+                                navigator: Navigator,
+                                identify: IdentifierAction,
+                                getData: DataRetrievalAction,
+                                requireData: DataRequiredAction,
+                                formProvider: PropertyChangeDateFormProvider,
+                                val controllerComponents: MessagesControllerComponents,
+                                view: PropertyChangeDateView
+                              )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
-  def onPageLoadMerged(mode: Mode): Action[AnyContent] =
-    onPageLoad(PropertyMergedDatePage, routes.PropertyChangeDateController.onSubmitMerged(mode), mode)
+  private def prefix(answers: UserAnswers): String = PropertyChangePrefix.date(Some(answers))
 
-  def onSubmitMerged(mode: Mode): Action[AnyContent] =
-    onSubmit(PropertyMergedDatePage, routes.PropertyChangeDateController.onSubmitMerged(mode), mode)
+  private def backLink(mode: Mode, answers: UserAnswers): Option[String] =
+    Some(navigator.backLink(PropertyChangeDatePage, mode, Some(answers)).url)
 
-  def onPageLoadSplit(mode: Mode): Action[AnyContent] =
-    onPageLoad(PropertySplitDatePage, routes.PropertyChangeDateController.onSubmitSplit(mode), mode)
+  def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
+    implicit request =>
 
-  def onSubmitSplit(mode: Mode): Action[AnyContent] =
-    onSubmit(PropertySplitDatePage, routes.PropertyChangeDateController.onSubmitSplit(mode), mode)
+      val form         = formProvider(prefix(request.userAnswers))
+      val preparedForm = request.userAnswers.get(PropertyChangeDatePage).fold(form)(form.fill)
 
-  private def onPageLoad(page: QuestionPage[LocalDate], action: Call, mode: Mode): Action[AnyContent] =
-    (identify andThen getData) { implicit request =>
-      val form         = formProvider(page.toString)
-      val preparedForm = request.userAnswers.flatMap(_.get(page)).fold(form)(form.fill)
-      Ok(view(preparedForm, page.toString, action, navigator.backLink(page, mode, request.userAnswers).url))
-    }
+      Ok(view(preparedForm, mode, backLink(mode, request.userAnswers), prefix(request.userAnswers)))
+  }
 
-  private def onSubmit(page: QuestionPage[LocalDate], action: Call, mode: Mode): Action[AnyContent] =
-    (identify andThen getData).async { implicit request =>
-      formProvider(page.toString).bindFromRequest().fold(
+  def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
+    implicit request =>
+
+      formProvider(prefix(request.userAnswers)).bindFromRequest().fold(
         formWithErrors =>
-          Future.successful(BadRequest(view(formWithErrors, page.toString, action, navigator.backLink(page, mode, request.userAnswers).url))),
+          Future.successful(BadRequest(view(formWithErrors, mode, backLink(mode, request.userAnswers), prefix(request.userAnswers)))),
+
         value =>
           for {
-            updatedAnswers <- Future.fromTry(request.userAnswers.getOrElse(UserAnswers(request.userId)).set(page, value))
+            updatedAnswers <- Future.fromTry(request.userAnswers.set(PropertyChangeDatePage, value))
             _              <- sessionRepository.set(updatedAnswers)
-          } yield Redirect(navigator.nextPage(page, mode, updatedAnswers))
+          } yield Redirect(navigator.nextPage(PropertyChangeDatePage, mode, updatedAnswers))
       )
-    }
+  }
 }
