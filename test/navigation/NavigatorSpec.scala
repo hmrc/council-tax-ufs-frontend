@@ -722,5 +722,66 @@ class NavigatorSpec extends SpecBase {
         navigator.nextPage(DomesticDatePage, CheckMode, withDate) mustBe routes.AddressChangedController.onPageLoad(CheckMode)
       }
     }
+
+    "for a split or merged property" - {
+
+      def splitMerge(choice: Option[PropertySplitOrMerge] = Some(PropertySplitOrMerge.Split), actingFor: Boolean = false): UserAnswers = {
+        val start = UserAnswers("id")
+          .set(ReasonForReviewPage, ReasonForReview.Changesaffectedproperty).success.value
+          .set(deletionOptionsPage, deletionOptions.Split).success.value
+        val withChoice = choice.fold(start)(c => start.set(PropertySplitOrMergePage, c).success.value)
+        if (actingFor) withChoice.set(CouncilTaxResponsiblePage, CouncilTaxResponsible.ActingFor).success.value else withChoice
+      }
+
+      def next(page: Page, answers: UserAnswers) = navigator.nextPage(page, NormalMode, answers)
+      def back(page: Page, answers: UserAnswers) = navigator.backLink(page, NormalMode, Some(answers))
+
+      "must ask the split or merge question, then the formal review, then the details" in {
+        next(deletionOptionsPage, splitMerge(None)) mustBe routes.PropertySplitOrMergeController.onPageLoad(NormalMode)
+        PropertySplitOrMerge.values.foreach { choice =>
+          val answers = splitMerge(Some(choice))
+          next(PropertySplitOrMergePage, answers) mustBe routes.ReviewOverviewController.formalReview()
+          navigator.changesReviewType(answers) mustBe Some(ReviewType.SplitOrMerge)
+          next(FormalReviewPage, answers) mustBe routes.PropertyChangeDetailsController.onPageLoad(NormalMode)
+        }
+      }
+
+      "must ask the same questions for a split and a merge, with no evidence, ending at contact details" in {
+        PropertySplitOrMerge.values.foreach { choice =>
+          val answers = splitMerge(Some(choice))
+          next(PropertyChangeDetailsPage, answers) mustBe routes.PropertyChangeDateController.onPageLoad(NormalMode)
+          next(PropertyChangeDatePage, answers) mustBe routes.AddressChangedController.onPageLoad(NormalMode)
+          next(AddressChangedPage, answers) mustBe routes.ContactDetailsController.onPageLoad(NormalMode)
+        }
+        next(AddressChangedPage, splitMerge(actingFor = true)) mustBe routes.CouncilTaxPayerDetailsController.onPageLoad(NormalMode)
+      }
+
+      "must have back links that follow the same path" in {
+        val answers = splitMerge()
+        back(PropertySplitOrMergePage, answers) mustBe routes.deletionOptionsController.onPageLoad(NormalMode)
+        back(PropertyChangeDetailsPage, answers) mustBe routes.ReviewOverviewController.formalReview()
+        back(PropertyChangeDatePage, answers) mustBe routes.PropertyChangeDetailsController.onPageLoad(NormalMode)
+        back(AddressChangedPage, answers) mustBe routes.PropertyChangeDateController.onPageLoad(NormalMode)
+        back(ContactDetailsPage, answers) mustBe routes.AddressChangedController.onPageLoad(NormalMode)
+        navigator.reviewOverviewBackLink(ReviewType.SplitOrMerge, Some(answers)) mustBe routes.PropertySplitOrMergeController.onPageLoad(NormalMode)
+      }
+
+      "must not go past the split or merge question until it is answered" in {
+        next(PropertySplitOrMergePage, splitMerge(None)) mustBe routes.JourneyRecoveryController.onPageLoad()
+      }
+
+      "in Check mode must ask for the first question still missing, then return to the answers" in {
+        val date  = java.time.LocalDate.of(2025, 4, 27)
+        val start = splitMerge()
+        navigator.nextPage(PropertySplitOrMergePage, CheckMode, start) mustBe routes.PropertyChangeDetailsController.onPageLoad(CheckMode)
+        val withDetails = start.set(PropertyChangeDetailsPage, "two flats").success.value
+        navigator.nextPage(PropertyChangeDetailsPage, CheckMode, withDetails) mustBe routes.PropertyChangeDateController.onPageLoad(CheckMode)
+        val withDate = withDetails.set(PropertyChangeDatePage, date).success.value
+        navigator.nextPage(PropertyChangeDatePage, CheckMode, withDate) mustBe routes.AddressChangedController.onPageLoad(CheckMode)
+        val complete = withDate.set(AddressChangedPage, "no").success.value
+          .set(ContactDetailsPage, models.ContactDetails("A", "B", None, None, None, None, None, None, None, Set.empty)).success.value
+        navigator.nextPage(PropertyChangeDatePage, CheckMode, complete) mustBe routes.CheckYourAnswersController.onPageLoad(Journey.Deletion)
+      }
+    }
   }
 }

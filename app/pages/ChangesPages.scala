@@ -67,11 +67,16 @@ object ChangesPages {
   // answered after "There has been a change of use to my property" is chosen
   val domesticOnly: Seq[Settable[?]] = Seq(DomesticPartsPage, DomesticDatePage)
   val businessOnly: Seq[Settable[?]] = Seq(BusinessPartsPage, BusinessDatePage)
-  // both choices end by asking whether the address has changed
-  val changeOfUse: Seq[Settable[?]] = ChangeOfUsePage +: (domesticOnly ++ businessOnly) :+ AddressChangedPage
+  val changeOfUse: Seq[Settable[?]] = ChangeOfUsePage +: (domesticOnly ++ businessOnly)
+
+  // answered after "My property has been split into multiple properties or merged ..." is chosen
+  val splitOrMerge: Seq[Settable[?]] = Seq(PropertySplitOrMergePage, PropertyChangeDetailsPage, PropertyChangeDatePage)
+
+  // "Has the address of your home changed?" ends both the change of use and the split or merge journeys
+  val addressChanged: Seq[Settable[?]] = Seq(AddressChangedPage)
 
   // every question that follows the deletion options page
-  val followUps: Seq[Settable[?]] = changeDetails ++ demolishedJourney ++ changeOfUse ++ evidence
+  val followUps: Seq[Settable[?]] = changeDetails ++ demolishedJourney ++ changeOfUse ++ splitOrMerge ++ addressChanged ++ evidence
 
   // the band challenge journey's own questions
   val bandChallenge: Seq[Settable[?]] = Seq(

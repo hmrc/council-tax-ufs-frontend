@@ -29,4 +29,6 @@ enum ReviewType(val messageKey: String, val continueRoute: String) {
   case Reno extends ReviewType("reno", "reno")
   // formal review wording for a property that has been partly demolished
   case PartDemo extends ReviewType("partdemo", "partdemo")
+  // a merged or split property uses the general formal review wording, then carries on like the other changes
+  case SplitOrMerge extends ReviewType("formal", "deletion")
 }

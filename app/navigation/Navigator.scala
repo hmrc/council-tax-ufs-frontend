@@ -55,7 +55,7 @@ class Navigator @Inject()() {
   }
 
   def reviewOverviewBackLink(reviewType: ReviewType, userAnswers: Option[UserAnswers]): Call = reviewType match {
-    case ReviewType.Deletion | ReviewType.Derelict | ReviewType.Demolished | ReviewType.Reno | ReviewType.PartDemo =>
+    case ReviewType.Deletion | ReviewType.Derelict | ReviewType.Demolished | ReviewType.Reno | ReviewType.PartDemo | ReviewType.SplitOrMerge =>
       userAnswers
         .flatMap(ChangesJourney.previous(FormalReviewPage, _))
         .getOrElse(routes.deletionOptionsController.onPageLoad(NormalMode))
@@ -72,6 +72,7 @@ class Navigator @Inject()() {
       answers.get(deletionOptionsPage) match {
         // local area changes and a change of use share the general "changes" wording
         case Some(deletionOptions.Affected | deletionOptions.Changed) => ReviewType.Deletion
+        case Some(deletionOptions.Split)                               => ReviewType.SplitOrMerge
         case _ =>
           answers.get(PropertyUninhabitablePage) match {
             case Some(PropertyUninhabitable.Demolished) => ReviewType.Demolished

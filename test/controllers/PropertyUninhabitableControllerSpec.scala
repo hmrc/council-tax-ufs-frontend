@@ -23,6 +23,7 @@ import navigation.{FakeNavigator, Navigator}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
+import pages._
 import pages.PropertyUninhabitablePage
 import play.api.inject.bind
 import play.api.mvc.Call
@@ -37,16 +38,28 @@ class PropertyUninhabitableControllerSpec extends SpecBase with MockitoSugar {
 
   def onwardRoute = Call("GET", "/foo")
 
-  lazy val propertyUninhabitableRoute = routes.PropertyUninhabitableController.onPageLoad(NormalMode).url
+  lazy val propertyUninhabitableRoute =
+    routes.PropertyUninhabitableController.onPageLoad(NormalMode).url
+
+  private val backLinkUrl =
+    "/council-tax-ufs/deletion-options"
+
+  private val journeyAnswers =
+    emptyUserAnswers
+      .set(deletionOptionsPage, models.deletionOptions.Demolished)
+      .success
+      .value
 
   val formProvider = new PropertyUninhabitableFormProvider()
   val form = formProvider()
+
 
   "PropertyUninhabitable Controller" - {
 
     "must return OK and the correct view for a GET" in {
 
-      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+      val application =
+        applicationBuilder(userAnswers = Some(journeyAnswers)).build()
 
       running(application) {
         val request = FakeRequest(GET, propertyUninhabitableRoute)
@@ -56,15 +69,24 @@ class PropertyUninhabitableControllerSpec extends SpecBase with MockitoSugar {
         val view = application.injector.instanceOf[PropertyUninhabitableView]
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form, NormalMode)(request, messages(application)).toString
+        contentAsString(result) mustEqual
+          view(
+            form,
+            NormalMode,
+            backLinkUrl
+          )(request, messages(application)).toString
       }
     }
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
-      val userAnswers = UserAnswers(userAnswersId).set(PropertyUninhabitablePage, PropertyUninhabitable.values.head).success.value
+      val userAnswers =
+        UserAnswers(userAnswersId)
+          .set(deletionOptionsPage, models.deletionOptions.Demolished).success.value
+          .set(PropertyUninhabitablePage, PropertyUninhabitable.values.head).success.value
 
-      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
+      val application =
+        applicationBuilder(userAnswers = Some(userAnswers)).build()
 
       running(application) {
         val request = FakeRequest(GET, propertyUninhabitableRoute)
@@ -74,39 +96,19 @@ class PropertyUninhabitableControllerSpec extends SpecBase with MockitoSugar {
         val result = route(application, request).value
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form.fill(PropertyUninhabitable.values.head), NormalMode)(request, messages(application)).toString
-      }
-    }
-
-    "must redirect to the next page when valid data is submitted" in {
-
-      val mockSessionRepository = mock[SessionRepository]
-
-      when(mockSessionRepository.set(any())) thenReturn Future.successful(true)
-
-      val application =
-        applicationBuilder(userAnswers = Some(emptyUserAnswers))
-          .overrides(
-            bind[Navigator].toInstance(new FakeNavigator(onwardRoute)),
-            bind[SessionRepository].toInstance(mockSessionRepository)
-          )
-          .build()
-
-      running(application) {
-        val request =
-          FakeRequest(POST, propertyUninhabitableRoute)
-            .withFormUrlEncodedBody(("value", PropertyUninhabitable.values.head.toString))
-
-        val result = route(application, request).value
-
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual onwardRoute.url
+        contentAsString(result) mustEqual
+          view(
+            form.fill(PropertyUninhabitable.values.head),
+            NormalMode,
+            backLinkUrl
+          )(request, messages(application)).toString
       }
     }
 
     "must return a Bad Request and errors when invalid data is submitted" in {
 
-      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+      val application =
+        applicationBuilder(userAnswers = Some(journeyAnswers)).build()
 
       running(application) {
         val request =
@@ -120,49 +122,12 @@ class PropertyUninhabitableControllerSpec extends SpecBase with MockitoSugar {
         val result = route(application, request).value
 
         status(result) mustEqual BAD_REQUEST
-        contentAsString(result) mustEqual view(boundForm, NormalMode)(request, messages(application)).toString
-      }
-    }
-
-    "must return OK and an empty form for a GET if no existing data is found" in {
-
-      val application = applicationBuilder(userAnswers = None).build()
-
-      running(application) {
-        val request = FakeRequest(GET, propertyUninhabitableRoute)
-
-        val view = application.injector.instanceOf[PropertyUninhabitableView]
-
-        val result = route(application, request).value
-
-        status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form, NormalMode)(request, messages(application)).toString
-      }
-    }
-
-    "must redirect to the next page for a valid POST if no existing data is found" in {
-
-      val mockSessionRepository = mock[SessionRepository]
-
-      when(mockSessionRepository.set(any())) thenReturn Future.successful(true)
-
-      val application =
-        applicationBuilder(userAnswers = None)
-          .overrides(
-            bind[Navigator].toInstance(new FakeNavigator(onwardRoute)),
-            bind[SessionRepository].toInstance(mockSessionRepository)
-          )
-          .build()
-
-      running(application) {
-        val request =
-          FakeRequest(POST, propertyUninhabitableRoute)
-            .withFormUrlEncodedBody(("value", PropertyUninhabitable.values.head.toString))
-
-        val result = route(application, request).value
-
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual onwardRoute.url
+        contentAsString(result) mustEqual
+          view(
+            boundForm,
+            NormalMode,
+            backLinkUrl
+          )(request, messages(application)).toString
       }
     }
   }

@@ -93,7 +93,7 @@
         ("propertyDetail.beforeYouContinue.viewPrevious", true),
         ("propertyDetail.beforeYouContinue.challenge",    false),
         ("propertyDetail.beforeYouContinue.remove",       false)
-    )
+    ).filter { case (_, isLink) => !isLink || viewModel.hasHistoricBands }
 }
 
 @propertyId = @{ viewModel.propertyId.toLowerCase(java.util.Locale.ROOT) }

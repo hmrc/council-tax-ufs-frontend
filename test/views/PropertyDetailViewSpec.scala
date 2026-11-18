@@ -44,7 +44,8 @@ class PropertyDetailViewSpec extends AnyWordSpec with Matchers {
     improvementInd = "No",
     mixedUse = "No",
     courtCode = "V",
-    country = "E92000001"
+    country = "E92000001",
+    hasHistoricBands = true
   )
 
   "PropertyDetailView" should {
@@ -111,6 +112,12 @@ class PropertyDetailViewSpec extends AnyWordSpec with Matchers {
 
       html should include(s"href=\"${controllers.routes.HistoricBandsController.onPageLoad(viewModel.propertyId.toLowerCase).url}\"")
       html should include("View previous Council Tax bands for this property")
+    }
+
+    "not link to the historic bands when there is only one record" in {
+      val html = template.render(viewModel.copy(hasHistoricBands = false), request, messages).body
+
+      html should not include "View previous Council Tax bands for this property"
     }
 
     "render a local council link" in {

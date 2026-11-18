@@ -63,6 +63,9 @@ private[navigation] object ChangesJourney {
   private val businessParts        = question(BusinessPartsPage, routes.BusinessPartsController.onPageLoad)
   private val businessDate         = question(BusinessDatePage, routes.BusinessDateController.onPageLoad)
   private val addressChanged      = question(AddressChangedPage, routes.AddressChangedController.onPageLoad)
+  private val splitOrMerge        = question(PropertySplitOrMergePage, routes.PropertySplitOrMergeController.onPageLoad)
+  private val changeDetails       = question(PropertyChangeDetailsPage, routes.PropertyChangeDetailsController.onPageLoad)
+  private val changeDate          = question(PropertyChangeDatePage, routes.PropertyChangeDateController.onPageLoad)
   private val hasEvidence        = question(HasEvidencePage, routes.HasEvidenceController.onPageLoad)
   private val uploadEvidence     = Step(UploadEvidencePage, routes.UploadEvidenceController.onPageLoad, _.get(UploadEvidencePage).exists(_.nonEmpty))
   private val noEvidence         = info(ContinueWithoutEvidencePage, routes.ContinueWithoutEvidenceController.onPageLoad())
@@ -103,6 +106,9 @@ private[navigation] object ChangesJourney {
 
   private val business: Seq[Step] = Seq(formalReview, businessParts, businessDate, addressChanged)
 
+  // a merged or split property: the questions are worded by the answer, and no evidence is asked
+  private val mergedOrSplit: Seq[Step] = Seq(formalReview, changeDetails, changeDate, addressChanged)
+
   private val reno: Seq[Step] = Seq(formalReview, renoStart, renoCompletion, renoDetails)
 
   /** The pages for the chosen option, and whether that option's journey is built through to the end. */
@@ -123,6 +129,11 @@ private[navigation] object ChangesJourney {
           case Some(ChangeOfUse.Domestic) => (changeOfUse +: domestic, true)
           case Some(ChangeOfUse.Business) => (changeOfUse +: business, true)
           case None                       => (Seq(changeOfUse), false)
+        }
+      case Some(models.deletionOptions.Split) =>
+        answers.get(PropertySplitOrMergePage) match {
+          case Some(_) => (splitOrMerge +: mergedOrSplit, true)
+          case None    => (Seq(splitOrMerge), false)
         }
       case _ => (Nil, false)
     }

@@ -955,6 +955,59 @@ businessDate.error.required        = Rhaid i’r dyddiad gynnwys dydd, mis a blw
 businessDate.error.invalid         = Rhowch ddyddiad cywir
 businessDate.error.future          = Rhaid i’r dyddiad fod yn ddyddiad heddiw neu’n ddyddiad yn y gorffennol
 
+# --- propertySplitOrMerge ---
+propertySplitOrMerge.title                 = Sut mae’r eiddo wedi’i rannu neu ei gyfuno?
+propertySplitOrMerge.heading               = Sut mae’r eiddo wedi’i rannu neu ei gyfuno?
+propertySplitOrMerge.merged                = Mae’r eiddo wedi’i gyfuno ag un eiddo arall neu fwy i greu eiddo mwy
+propertySplitOrMerge.split                 = Mae’r eiddo wedi’i rannu’n ddau eiddo ar wahân neu fwy i greu eiddo llai
+propertySplitOrMerge.checkYourAnswersLabel = Sut mae’r eiddo wedi’i rannu neu ei gyfuno?
+propertySplitOrMerge.error.required        = Dewiswch opsiwn
+propertySplitOrMerge.change.hidden         = sut mae’r eiddo wedi’i rannu neu ei gyfuno
+
+# --- propertyMergedDetails ---
+# title, heading and hint are the supplied translation; the rest are adapted from it and need confirming
+propertyMergedDetails.title                 = Sut mae eich eiddo wedi eu huno?
+propertyMergedDetails.heading               = Sut mae eich eiddo wedi eu huno?
+propertyMergedDetails.hint                  = Er enghraifft, mae dau fflat wedi eu huno’n un cartref. Rhowch gymaint o wybodaeth â phosibl.
+propertyMergedDetails.checkYourAnswersLabel = Sut mae eich eiddo wedi eu huno
+propertyMergedDetails.error.required        = Nodwch fanylion y cyfuno eiddo
+propertyMergedDetails.error.maxLength       = Nodwch 5,000 o gymeriadau neu lai
+propertyMergedDetails.change.hidden         = sut mae eich eiddo wedi eu huno
+
+# --- propertyMergedDate ---
+# title, heading and hint are the supplied translation; the rest are adapted from it and need confirming
+propertyMergedDate.title                 = Pryd cafodd y gwaith i uno eich eiddo ei gwblhau?
+propertyMergedDate.heading               = Pryd cafodd y gwaith i uno eich eiddo ei gwblhau?
+propertyMergedDate.hint                  = Er enghraifft, os cafodd y gwaith ei gwblhau ar 27 Ebrill 2025, nodwch 27 4 2025.
+propertyMergedDate.checkYourAnswersLabel = Pryd cafodd y gwaith i uno eich eiddo ei gwblhau
+propertyMergedDate.error.required.all    = Nodwch ddyddiad cwblhau’r cyfuno eiddo
+propertyMergedDate.error.required.two    = Rhaid i’r dyddiad y cafodd y gwaith ei gwblhau gynnwys {0} a {1}
+propertyMergedDate.error.required        = Rhaid i’r dyddiad y cafodd y gwaith ei gwblhau gynnwys {0}
+propertyMergedDate.error.invalid         = Nodwch ddyddiad go iawn
+propertyMergedDate.error.future          = Mae’n rhaid i’r dyddiad fod yn heddiw neu yn y gorffennol
+propertyMergedDate.change.hidden         = pryd cafodd y gwaith i uno eich eiddo ei gwblhau
+
+# --- propertySplitDetails ---
+propertySplitDetails.title                  = Sut mae’r eiddo wedi’i rannu?
+propertySplitDetails.heading                = Sut mae’r eiddo wedi’i rannu?
+propertySplitDetails.hint                   = Er enghraifft, mae eich cartref wedi’i rannu’n ddwy fflat neu fwy. Rhowch gymaint o fanylion â phosibl.
+propertySplitDetails.checkYourAnswersLabel  = Sut mae’r eiddo wedi’i rannu
+propertySplitDetails.error.required         = Nodwch fanylion gwahanu’r eiddo
+propertySplitDetails.error.maxLength        = Nodwch 5,000 o gymeriadau neu lai
+propertySplitDetails.change.hidden          = sut mae’r eiddo wedi’i rannu
+
+# --- propertySplitDate ---
+propertySplitDate.title                 = Pryd cafodd y gwaith i rannu eich cartref ei gwblhau?
+propertySplitDate.heading               = Pryd cafodd y gwaith i rannu eich cartref ei gwblhau?
+propertySplitDate.hint                  = Er enghraifft, os cafodd y gwaith ei gwblhau ar 27 Ebrill 2025, rhowch 27 4 2025.
+propertySplitDate.checkYourAnswersLabel = Pryd cafodd y gwaith i rannu eich cartref ei gwblhau
+propertySplitDate.error.required.all    = Nodwch ddyddiad gwahanu’r eiddo
+propertySplitDate.error.required.two    = Rhaid i’r dyddiad y cafodd y gwaith ei gwblhau gynnwys {0} a {1}
+propertySplitDate.error.required        = Rhaid i’r dyddiad y cafodd y gwaith ei gwblhau gynnwys {0}
+propertySplitDate.error.invalid         = Nodwch ddyddiad go iawn
+propertySplitDate.error.future          = Mae’n rhaid i’r dyddiad fod yn heddiw neu yn y gorffennol
+propertySplitDate.change.hidden         = pryd cafodd y gwaith i rannu eich cartref ei gwblhau
+
 ##############################################################################
 # TODO translate: English text stays here until the Welsh is supplied, so a Welsh
 # page never shows a raw message key. Move each line to its page section when translated.
@@ -1084,9 +1137,13 @@ domesticDate.checkYourAnswersLabel = Date the property became your home
 domesticDate.change.hidden         = Date the property became your home
 addressChanged.checkYourAnswersLabel = Whether the address of your home has changed
 addressChanged.change.hidden         = Whether the address of your home has changed
-domesticDate.error.minimum         = The date your property was demolished or became uninhabitable must be between 1 April 1993 and today
-businessDate.error.minimum         = The date your property was demolished or became uninhabitable must be between 1 April 1993 and today
+domesticDate.error.minimum = Rhaid i’r dyddiad y cafodd eich eiddo ei ddymchwel neu y daeth yn anaddas i fyw ynddo fod rhwng 1 Ebrill 1993 a heddiw
+businessDate.error.minimum = Rhaid i’r dyddiad y cafodd eich eiddo ei ddymchwel neu y daeth yn anaddas i fyw ynddo fod rhwng 1 Ebrill 1993 a heddiw
 businessParts.checkYourAnswersLabel = Parts of the home used for business
 businessParts.change.hidden         = Parts of the home used for business
 businessDate.checkYourAnswersLabel = Date the home changed to business use
 businessDate.change.hidden         = Date the home changed to business use
+propertyMergedDate.error.minimum = Rhaid i’r dyddiad fod rhwng 1 Ebrill 1993 a heddiw
+propertySplitDate.error.minimum = Rhaid i’r dyddiad fod rhwng 1 Ebrill 1993 a heddiw
+checkYourAnswers.submissionError.title = Roedd problem wrth anfon eich cais
+checkYourAnswers.submissionError.body = Nid yw eich cais wedi cael ei anfon ac mae eich atebion wedi cael eu cadw. Dewiswch ''Cadarnhau ac anfon'' i roi cynnig arall arni.

@@ -24,6 +24,9 @@ import uk.gov.hmrc.http.HttpReads.Implicits.*
 import uk.gov.hmrc.http.client.HttpClientV2
 import uk.gov.hmrc.http.{HeaderCarrier, HttpResponse}
 import models.{PostcodeSearchResult, PropertyDetailResponse, SearchQuery}
+import models.submission.SubmissionPayload
+import play.api.libs.json.Json
+import play.api.libs.ws.writeableOf_JsValue
 
 import java.net.{URI, URLEncoder}
 import java.nio.charset.StandardCharsets
@@ -129,5 +132,31 @@ class BridgeIntegrationConnector @Inject()(
           Left(ErrorResponse(INTERNAL_SERVER_ERROR, "Call to bridge-integration property detail failed"))
       }
   }
- 
+
+  /** Posts an enquiry against the latest list entry of a property (listType is CVE or CVW). Right on a 2xx, Left with a reason otherwise. */
+  def submitEnquiry(listEntryId: String, listType: String, payload: SubmissionPayload)(implicit hc: HeaderCarrier): Future[Either[String, Unit]] = {
+    val url = uri(s"enquiries/${URLEncoder.encode(listEntryId, StandardCharsets.UTF_8)}/$listType").toURL
+    logger.info(s"[BridgeIntegrationConnector][submitEnquiry] POST $url for ${payload.submissionId}")
+
+    http.post(url)
+      .withBody(Json.toJson(payload))
+      .execute[HttpResponse]
+      .map { response =>
+        response.status match {
+          case OK | CREATED | ACCEPTED | NO_CONTENT => Right(())
+          case CONFLICT =>
+            logger.warn(s"[BridgeIntegrationConnector][submitEnquiry] Duplicate submission ${payload.submissionId}")
+            Left(s"Duplicate submission ${payload.submissionId}")
+          case status =>
+            logger.error(s"[BridgeIntegrationConnector][submitEnquiry] Unexpected status=$status for ${payload.submissionId}")
+            Left(s"Submit enquiry failed with status $status")
+        }
+      }
+      .recover {
+        case NonFatal(ex) =>
+          logger.error(s"[BridgeIntegrationConnector][submitEnquiry] Request failed: ${ex.getClass.getSimpleName}")
+          Left("Call to bridge-integration submit enquiry failed")
+      }
+  }
+
 }

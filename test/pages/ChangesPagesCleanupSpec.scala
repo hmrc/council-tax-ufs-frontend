@@ -227,4 +227,34 @@ class ChangesPagesCleanupSpec extends SpecBase {
       result.get(HasEvidencePage) mustBe None
     }
   }
+
+  "Split or merged property" - {
+    val split = splitAnswers
+      .set(PropertyChangeDetailsPage, "two flats").success.value
+      .set(PropertyChangeDatePage, date).success.value
+      .set(AddressChangedPage, "none").success.value
+      .set(WhatHasChangedPage, "x").success.value
+
+    "must keep its answers when the option is unchanged" in {
+      val result = split.set(deletionOptionsPage, deletionOptions.Split).success.value
+      result.get(PropertyChangeDetailsPage) mustBe Some("two flats")
+      result.get(AddressChangedPage) mustBe Some("none")
+      result.get(WhatHasChangedPage) mustBe None
+    }
+
+    "must keep the address answer, but drop the split answers, when the option becomes a change of use" in {
+      val result = split.set(deletionOptionsPage, deletionOptions.Changed).success.value
+      result.get(PropertySplitOrMergePage) mustBe None
+      result.get(PropertyChangeDetailsPage) mustBe None
+      result.get(AddressChangedPage) mustBe Some("none")
+    }
+
+    "must drop everything, including the address answer, when the option becomes another one" in {
+      Seq(deletionOptions.Demolished, deletionOptions.Affected, deletionOptions.AnotherReason).foreach { option =>
+        val result = split.set(deletionOptionsPage, option).success.value
+        Seq[QuestionPage[?]](PropertySplitOrMergePage, PropertyChangeDetailsPage, PropertyChangeDatePage, AddressChangedPage)
+          .foreach(page => result.data.value.contains(page.toString) mustBe false)
+      }
+    }
+  }
 }

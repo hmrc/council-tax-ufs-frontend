@@ -108,7 +108,7 @@ class PostcodeSearchControllerSpec extends SpecBase with MockitoSugar {
 
         status(route(application, FakeRequest(POST, postcodeSearchRoute).withSession(session).withFormUrlEncodedBody("value" -> "CF14 1AA")).value) mustEqual SEE_OTHER
         org.mockito.Mockito.verify(mockAuditService).auditPropertySearch(
-          org.mockito.ArgumentMatchers.eq(models.audit.PropertySearchAuditEvent.standard("session-1", postcodeSearchRoute, "CF14 1AA"))
+          org.mockito.ArgumentMatchers.eq(models.audit.PropertySearchAuditEvent.standard("", postcodeSearchRoute, "CF14 1AA"))
         )(any())
       }
     }
@@ -140,7 +140,7 @@ class PostcodeSearchControllerSpec extends SpecBase with MockitoSugar {
 
         List(s"$prefix/search-results", s"$prefix/search-no-results", postcodeSearchRoute).foreach { page =>
           org.mockito.Mockito.verify(mockAuditService).auditPropertySearch(
-            org.mockito.ArgumentMatchers.eq(models.audit.PropertySearchAuditEvent.standard("session-1", page, "CF14 1AA"))
+            org.mockito.ArgumentMatchers.eq(models.audit.PropertySearchAuditEvent.standard("", page, "CF14 1AA"))
           )(any())
         }
       }

@@ -31,12 +31,14 @@ case object deletionOptionsPage extends QuestionPage[deletionOptions] {
   override def cleanup(value: Option[deletionOptions], userAnswers: UserAnswers): Try[UserAnswers] =
     value match {
       case Some(deletionOptions.AnotherReason) | Some(deletionOptions.Affected) =>
-        userAnswers.removeAll(ChangesPages.demolishedJourney ++ ChangesPages.changeOfUse ++ ChangesPages.evidence)
+        userAnswers.removeAll(ChangesPages.demolishedJourney ++ ChangesPages.changeOfUse ++ ChangesPages.splitOrMerge ++ ChangesPages.addressChanged ++ ChangesPages.evidence)
       case Some(deletionOptions.Demolished) =>
-        userAnswers.removeAll(ChangesPages.changeDetails ++ ChangesPages.changeOfUse)
+        userAnswers.removeAll(ChangesPages.changeDetails ++ ChangesPages.changeOfUse ++ ChangesPages.splitOrMerge ++ ChangesPages.addressChanged)
+      // change of use and split or merge both end with the address question, so it is kept when switching between them
       case Some(deletionOptions.Changed) =>
-        userAnswers.removeAll(ChangesPages.changeDetails ++ ChangesPages.demolishedJourney ++ ChangesPages.evidence)
-      case Some(_) => userAnswers.removeAll(ChangesPages.followUps)
-      case None    => super.cleanup(value, userAnswers)
+        userAnswers.removeAll(ChangesPages.changeDetails ++ ChangesPages.demolishedJourney ++ ChangesPages.splitOrMerge ++ ChangesPages.evidence)
+      case Some(deletionOptions.Split) =>
+        userAnswers.removeAll(ChangesPages.changeDetails ++ ChangesPages.demolishedJourney ++ ChangesPages.changeOfUse ++ ChangesPages.evidence)
+      case None => super.cleanup(value, userAnswers)
     }
 }

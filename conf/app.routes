@@ -178,6 +178,22 @@ GET   /business-date                                          controllers.Busine
 POST  /business-date                                          controllers.BusinessDateController.onSubmit(mode: Mode = NormalMode)
 GET   /change-business-date                                   controllers.BusinessDateController.onPageLoad(mode: Mode = CheckMode)
 POST  /change-business-date                                   controllers.BusinessDateController.onSubmit(mode: Mode = CheckMode)
+
+# ---- 5f. Split or merged property ----
+GET   /property-split-or-merge                                controllers.PropertySplitOrMergeController.onPageLoad(mode: Mode = NormalMode)
+POST  /property-split-or-merge                                controllers.PropertySplitOrMergeController.onSubmit(mode: Mode = NormalMode)
+GET   /change-property-split-or-merge                         controllers.PropertySplitOrMergeController.onPageLoad(mode: Mode = CheckMode)
+POST  /change-property-split-or-merge                         controllers.PropertySplitOrMergeController.onSubmit(mode: Mode = CheckMode)
+GET   /property-change-details                                controllers.PropertyChangeDetailsController.onPageLoad(mode: Mode = NormalMode)
+POST  /property-change-details                                controllers.PropertyChangeDetailsController.onSubmit(mode: Mode = NormalMode)
+GET   /change-property-change-details                         controllers.PropertyChangeDetailsController.onPageLoad(mode: Mode = CheckMode)
+POST  /change-property-change-details                         controllers.PropertyChangeDetailsController.onSubmit(mode: Mode = CheckMode)
+GET   /property-change-date                                   controllers.PropertyChangeDateController.onPageLoad(mode: Mode = NormalMode)
+POST  /property-change-date                                   controllers.PropertyChangeDateController.onSubmit(mode: Mode = NormalMode)
+GET   /change-property-change-date                            controllers.PropertyChangeDateController.onPageLoad(mode: Mode = CheckMode)
+POST  /change-property-change-date                            controllers.PropertyChangeDateController.onSubmit(mode: Mode = CheckMode)
+
+# ---- 5g. Address changed (change of use and split or merge) ----
 GET   /address-changed                                        controllers.AddressChangedController.onPageLoad(mode: Mode = NormalMode)
 POST  /address-changed                                        controllers.AddressChangedController.onSubmit(mode: Mode = NormalMode)
 GET   /change-address-changed                                 controllers.AddressChangedController.onPageLoad(mode: Mode = CheckMode)

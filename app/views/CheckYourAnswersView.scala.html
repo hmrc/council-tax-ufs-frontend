@@ -23,10 +23,11 @@
     layout: templates.Layout,
     govukSummaryList: GovukSummaryList,
     govukButton: GovukButton,
+    govukErrorSummary: GovukErrorSummary,
     formHelper: FormWithCSRF
 )
 
-@(sections: Seq[(String, SummaryList)], backLinkUrl: String, actingFor: Boolean = false, journey: Journey = Journey.Challenge)(implicit request: Request[_], messages: Messages)
+@(sections: Seq[(String, SummaryList)], backLinkUrl: String, actingFor: Boolean = false, journey: Journey = Journey.Challenge, submissionError: Boolean = false)(implicit request: Request[_], messages: Messages)
 
 @scripts = {
     <script @CSPNonce.attr src='@controllers.routes.Assets.versioned("javascripts/print.js")'></script>
@@ -35,6 +36,13 @@
 @layout(backLinkUrl = Some(backLinkUrl), scripts = Some(scripts), pageTitle = titleNoForm(messages("checkYourAnswers.title"))) {
 
     <link href='@routes.Assets.versioned("stylesheets/print_page.css")' rel="stylesheet" type="text/css" />
+    @if(submissionError) {
+        @govukErrorSummary(ErrorSummary(
+            title = Text(messages("checkYourAnswers.submissionError.title")),
+            description = Text(messages("checkYourAnswers.submissionError.body"))
+        ))
+    }
+
     <h1 class="govuk-heading-xl">@messages("checkYourAnswers.heading")</h1>
 
     @for((heading, list) <- sections) {

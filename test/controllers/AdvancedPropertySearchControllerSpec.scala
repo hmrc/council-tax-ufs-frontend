@@ -128,7 +128,7 @@ class AdvancedPropertySearchControllerSpec extends SpecBase with MockitoSugar {
         captor.getValue.get(AdvancedPropertySearchPage) mustBe Some(validSearch)
 
         verify(mockAuditService).auditPropertySearch(
-          eqTo(PropertySearchAuditEvent.advanced("session-1", submitRoute, validSearch))
+          eqTo(PropertySearchAuditEvent.advanced("", submitRoute, validSearch))
         )(any())
       }
     }

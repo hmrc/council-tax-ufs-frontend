@@ -593,6 +593,60 @@ localAreaChangesDate.checkYourAnswersLabel = When the permanent changes took pla
 localAreaChangesDate.change.hidden         = when the permanent changes took place
 deletionOptions.change.hidden         = deletionOptions
 
+# --- propertySplitOrMerge ---
+propertySplitOrMerge.title                 = How has the property been split or merged?
+propertySplitOrMerge.heading               = How has the property been split or merged?
+propertySplitOrMerge.merged                = The property has been merged with one or more other properties to make a larger property
+propertySplitOrMerge.split                 = The property has been split into two or more separate properties to make smaller properties
+propertySplitOrMerge.checkYourAnswersLabel = How has the property been split or merged?
+propertySplitOrMerge.error.required        = Select an option
+propertySplitOrMerge.change.hidden         = how the property has been split or merged
+
+# --- propertyMergedDetails ---
+propertyMergedDetails.title                 = How have your properties been merged?
+propertyMergedDetails.heading               = How have your properties been merged?
+propertyMergedDetails.hint                  = For example, two flats have been merged into a single home. Provide as much detail as possible.
+propertyMergedDetails.checkYourAnswersLabel = How your properties have been merged
+propertyMergedDetails.error.required        = Enter details of the property merge
+propertyMergedDetails.error.maxLength       = Enter 5,000 characters or less
+propertyMergedDetails.change.hidden         = how your properties have been merged
+
+# --- propertyMergedDate ---
+propertyMergedDate.title                 = When was the work to merge your properties completed?
+propertyMergedDate.heading               = When was the work to merge your properties completed?
+propertyMergedDate.hint                  = For example, if the work was completed on 27 April 2025, enter 27 4 2025.
+propertyMergedDate.checkYourAnswersLabel = When the work to merge your properties was completed
+propertyMergedDate.error.required.all    = Enter the merge completion date
+propertyMergedDate.error.required.two    = The date the work was completed must include {0} and {1}
+propertyMergedDate.error.required        = The date the work was completed must include {0}
+propertyMergedDate.error.invalid         = Enter a real date
+propertyMergedDate.error.future          = The date must be today or in the past
+propertyMergedDate.error.minimum         = Date must be between 1 April 1993 and today
+propertyMergedDate.change.hidden         = when the work to merge your properties was completed
+
+# --- propertySplitDetails ---
+propertySplitDetails.title                  = How has the property been split?
+propertySplitDetails.heading                = How has the property been split?
+propertySplitDetails.hint                   = For example, your home has been split into two or more flats. Provide as much detail as possible.
+propertySplitDetails.checkYourAnswersLabel  = How the property has been split
+propertySplitDetails.error.required         = Enter details of the property split
+propertySplitDetails.error.maxLength        = Enter 5,000 characters or less
+propertySplitDetails.change.hidden          = how the property has been split
+
+# --- propertySplitDate ---
+propertySplitDate.title                 = When was the work to split your home completed?
+propertySplitDate.heading               = When was the work to split your home completed?
+propertySplitDate.hint                  = For example, if the work was completed on 27 April 2025, enter 27 4 2025.
+propertySplitDate.checkYourAnswersLabel = When the work to split your home was completed
+propertySplitDate.error.required.all    = Enter the split completion date
+propertySplitDate.error.required.two    = The date the work was completed must include {0} and {1}
+propertySplitDate.error.required        = The date the work was completed must include {0}
+propertySplitDate.error.invalid         = Enter a real date
+propertySplitDate.error.future          = The date must be today or in the past
+propertySplitDate.error.minimum         = Date must be between 1 April 1993 and today
+propertySplitDate.change.hidden         = when the work to split your home was completed
+
+
 ##############################################################################
 # 7. Evidence
 ##############################################################################
@@ -1081,3 +1135,5 @@ businessDate.error.invalid         = Enter a real date
 businessDate.error.future          = The date must be today or in the past
 businessDate.error.minimum         = The date your property was demolished or became uninhabitable must be between 1 April 1993 and today
 businessDate.change.hidden         = Date the home changed to business use
+checkYourAnswers.submissionError.title = There was a problem sending your request
+checkYourAnswers.submissionError.body = Your request has not been sent and your answers have been kept. Select ''Confirm and send'' to try again.

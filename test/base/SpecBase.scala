@@ -17,8 +17,8 @@
 package base
 
 import controllers.actions._
-import models.{ChangeOfUse, ReasonForReview, PropertyUninhabitable, UninhabitableDetails, UserAnswers, deletionOptions}
-import pages.{ChangeOfUsePage, PropertyUninhabitablePage, ReasonForReviewPage, UninhabitableDetailsPage, deletionOptionsPage}
+import models.{PropertySplitOrMerge, ChangeOfUse, ReasonForReview, PropertyUninhabitable, UninhabitableDetails, UserAnswers, deletionOptions}
+import pages.{PropertySplitOrMergePage, ChangeOfUsePage, PropertyUninhabitablePage, ReasonForReviewPage, UninhabitableDetailsPage, deletionOptionsPage}
 import org.scalatest.concurrent.{IntegrationPatience, ScalaFutures}
 import org.scalatest.freespec.AnyFreeSpec
 import org.scalatest.matchers.must.Matchers
@@ -83,6 +83,17 @@ trait SpecBase
   /** Answers for someone partway through the "change of use: now a business" journey. */
   def businessUseAnswers: UserAnswers =
     changedUseAnswers.set(ChangeOfUsePage, ChangeOfUse.Business).success.value
+
+  /** Answers for someone partway through the "split or merged property" journey. */
+  def splitAnswers: UserAnswers = splitOrMergeAnswers(PropertySplitOrMerge.Split)
+
+  def mergedAnswers: UserAnswers = splitOrMergeAnswers(PropertySplitOrMerge.Merged)
+
+  private def splitOrMergeAnswers(choice: PropertySplitOrMerge): UserAnswers =
+    emptyUserAnswers
+      .set(ReasonForReviewPage, ReasonForReview.Changesaffectedproperty).success.value
+      .set(deletionOptionsPage, deletionOptions.Split).success.value
+      .set(PropertySplitOrMergePage, choice).success.value
 
   def messages(app: Application): Messages = app.injector.instanceOf[MessagesApi].preferred(FakeRequest())
 

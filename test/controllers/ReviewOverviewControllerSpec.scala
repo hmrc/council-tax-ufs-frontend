@@ -199,6 +199,22 @@ class ReviewOverviewControllerSpec extends SpecBase {
       }
     }
 
+    "must show the formal review for a split or merged property, going back to the question and on to the details" in {
+      val application = applicationBuilder(userAnswers = Some(mergedAnswers)).build()
+
+      running(application) {
+        val page = route(application, FakeRequest(GET, routes.ReviewOverviewController.formalReview().url)).value
+        status(page) mustBe OK
+        val html = contentAsString(page)
+        html must include(routes.PropertySplitOrMergeController.onPageLoad(NormalMode).url)
+        html must include(routes.ReviewOverviewController.continueToLogin("deletion").url)
+
+        val result = route(application, FakeRequest(GET, routes.ReviewOverviewController.continueToLogin("deletion").url)
+          .withSession("sessionId" -> userAnswersId)).value
+        redirectLocation(result).value mustBe routes.PropertyChangeDetailsController.onPageLoad(NormalMode).url
+      }
+    }
+
     "must keep the original formal review wording and three decisions for the band challenge" in {
       val answers = UserAnswers(userAnswersId).set(scenarioResponsiblePage, scenarioResponsible.Lessthan).success.value
       val application = applicationBuilder(userAnswers = Some(answers)).build()

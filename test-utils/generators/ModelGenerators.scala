@@ -82,6 +82,11 @@ trait ModelGenerators {
       Gen.oneOf(deletionOptions.values.toSeq)
     }
 
+  implicit lazy val arbitraryPropertySplitOrMerge: Arbitrary[PropertySplitOrMerge] =
+    Arbitrary {
+      Gen.oneOf(PropertySplitOrMerge.values.toSeq)
+    }
+
   implicit lazy val arbitraryscenarioResponsible: Arbitrary[scenarioResponsible] =
     Arbitrary {
       Gen.oneOf(scenarioResponsible.values.toSeq)
