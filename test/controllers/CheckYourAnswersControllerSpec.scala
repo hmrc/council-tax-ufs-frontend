@@ -17,7 +17,7 @@
 package controllers
 
 import base.SpecBase
-import models.{CouncilTaxResponsible, Journey, ReasonForReview}
+import models.{ContactDetails, CouncilTaxResponsible, Journey, ReasonForReview, WhichBand, noticeAlteration, scenarioResponsible}
 import pages.{AddressChangedPage, PropertyChangeDatePage, PropertyChangeDetailsPage, CouncilTaxLiabilityStartDatePage, CouncilTaxResponsiblePage, HasEvidencePage, PropertyAddressPage, UninhabitableDatePage, UninhabitableDetailsPlanPage, WhyBandIsWrongPage}
 import java.time.LocalDate
 import play.api.test.FakeRequest
@@ -211,12 +211,58 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
     }
 
     "must submit and redirect to the request sent page" in {
-      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+      val answers = emptyUserAnswers
+        .set(pages.ReasonForReviewPage, ReasonForReview.Bandiswrong).success.value
+        .set(pages.scenarioResponsiblePage, scenarioResponsible.Morethan).success.value
+        .set(pages.noticeAlterationPage, noticeAlteration.No).success.value
+        .set(pages.WhyBandIsWrongPage, "Neighbours are in a lower band").success.value
+        .set(pages.WhichBandPage, WhichBand.Bandc).success.value
+        .set(pages.ContactDetailsPage, ContactDetails("John", "Smith", Some("john@example.com"), None, None, None, None, None, None, Set("email"))).success.value
+        .set(pages.PropertyIdPage, "PROP-1").success.value
+      val details = org.scalatestplus.mockito.MockitoSugar.mock[services.PropertyDetailService]
+      val bridge  = org.scalatestplus.mockito.MockitoSugar.mock[connectors.BridgeIntegrationConnector]
+      org.mockito.Mockito.when(details.getLatestListEntry(org.mockito.ArgumentMatchers.any())(org.mockito.ArgumentMatchers.any()))
+        .thenReturn(scala.concurrent.Future.successful(Right(models.LatestListEntry("LATEST", "CVE"))))
+      org.mockito.Mockito.when(bridge.submitEnquiry(org.mockito.ArgumentMatchers.any(), org.mockito.ArgumentMatchers.any(), org.mockito.ArgumentMatchers.any())(org.mockito.ArgumentMatchers.any()))
+        .thenReturn(scala.concurrent.Future.successful(Right(())))
+      val application = applicationBuilder(userAnswers = Some(answers))
+        .overrides(
+          play.api.inject.bind[services.PropertyDetailService].toInstance(details),
+          play.api.inject.bind[connectors.BridgeIntegrationConnector].toInstance(bridge)
+        ).build()
 
       running(application) {
         val result = route(application, FakeRequest(POST, routes.CheckYourAnswersController.onSubmit(Journey.Challenge).url)).value
         status(result) mustEqual SEE_OTHER
         redirectLocation(result).value mustEqual routes.RequestSentController.onPageLoad().url
+      }
+    }
+
+    "must return to check your answers with an error, keeping the answers, when the submission fails" in {
+      val answers = emptyUserAnswers
+        .set(pages.ReasonForReviewPage, ReasonForReview.Bandiswrong).success.value
+        .set(pages.PropertyIdPage, "PROP-1").success.value
+      val details = org.scalatestplus.mockito.MockitoSugar.mock[services.PropertyDetailService]
+      org.mockito.Mockito.when(details.getLatestListEntry(org.mockito.ArgumentMatchers.any())(org.mockito.ArgumentMatchers.any()))
+        .thenReturn(scala.concurrent.Future.successful(Left("down")))
+      val application = applicationBuilder(userAnswers = Some(answers))
+        .overrides(play.api.inject.bind[services.PropertyDetailService].toInstance(details)).build()
+
+      running(application) {
+        val result = route(application, FakeRequest(POST, routes.CheckYourAnswersController.onSubmit(Journey.Challenge).url)).value
+        status(result) mustEqual SEE_OTHER
+        redirectLocation(result).value mustEqual routes.CheckYourAnswersController.onPageLoad(Journey.Challenge).url
+        flash(result).get("submissionError") mustEqual Some("true")
+      }
+    }
+
+    "must go to Journey Recovery and not submit when the answers do not make up a journey" in {
+      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+
+      running(application) {
+        val result = route(application, FakeRequest(POST, routes.CheckYourAnswersController.onSubmit(Journey.Challenge).url)).value
+        status(result) mustEqual SEE_OTHER
+        redirectLocation(result).value mustEqual routes.JourneyRecoveryController.onPageLoad().url
       }
     }
 

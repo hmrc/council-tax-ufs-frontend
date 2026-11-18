@@ -48,6 +48,7 @@ object PropertyDetailCountry {
 case class PropertyDetailList(
   id:                   Option[PropertyDetailId],
   classification:       Option[PropertyDetailClassification],
+  `class`:              Option[PropertyDetailClassification] = None,
   collection_authority: Option[PropertyDetailCollectionAuthority],
   country:              Option[PropertyDetailCountry]
 
@@ -83,6 +84,7 @@ object PropertyDetailCollectionAuthority {
 }
 
 case class PropertyDetailListEntry(
+  id:             Option[PropertyDetailId] = None,
   valuation:      Option[PropertyDetailValuation],
   period:         Option[PropertyDetailPeriod],
   administration: Option[PropertyDetailAdministration],
@@ -159,6 +161,9 @@ object PropertyDetailProperty {
   implicit val format: OFormat[PropertyDetailProperty] = Json.format
 }
 
+/** The entry an enquiry is posted against: the latest list entry and the list it belongs to (CVE or CVW). */
+case class LatestListEntry(listEntryId: String, listType: String)
+
 // View model — display model passed to PropertyDetailView
 
 case class PropertyDetailViewModel(
@@ -173,7 +178,8 @@ case class PropertyDetailViewModel(
   improvementInd:    String,
   mixedUse:          String,
   courtCode:         String,
-  country:           String
+  country:           String,
+  hasHistoricBands:  Boolean = false
 )
 
 case class HistoricBandEntry(

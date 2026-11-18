@@ -43,6 +43,8 @@ class CheckYourAnswersController @Inject()(
                                             submissionService: SubmissionService
                                           )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
+  private val SubmissionErrorFlash = "submissionError"
+
   // url names the other journey -> send them to the one they actually chose
   private def wrongJourney(journey: Journey, answers: models.UserAnswers): Option[Result] =
     Journey.chosen(answers).filter(_ != journey).map(chosen => Redirect(routes.CheckYourAnswersController.onPageLoad(chosen)))
@@ -83,7 +85,7 @@ class CheckYourAnswersController @Inject()(
         case (heading, rows) if rows.nonEmpty => heading -> SummaryListViewModel(rows)
       }
 
-      Ok(view(sections, navigator.checkYourAnswersBackLink.url, actingFor, journey))
+      Ok(view(sections, navigator.checkYourAnswersBackLink.url, actingFor, journey, request.flash.get(SubmissionErrorFlash).contains("true")))
   }
 
   def onSubmit(journey: Journey): Action[AnyContent] = (identify andThen getData andThen requireData).async {
@@ -93,7 +95,10 @@ class CheckYourAnswersController @Inject()(
         case None =>
           submissionService.submit(request.userAnswers).map {
             case Right(_) => Redirect(routes.RequestSentController.onPageLoad())
-            case Left(_)  => Redirect(routes.JourneyRecoveryController.onPageLoad())
+            // a real journey is being followed: keep the answers and let the user try again
+            case Left(_) if Journey.chosen(request.userAnswers).isDefined =>
+              Redirect(routes.CheckYourAnswersController.onPageLoad(journey)).flashing(SubmissionErrorFlash -> "true")
+            case Left(_) => Redirect(routes.JourneyRecoveryController.onPageLoad())
           }
       }
   }

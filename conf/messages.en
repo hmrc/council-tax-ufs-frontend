@@ -1135,3 +1135,5 @@ businessDate.error.invalid         = Enter a real date
 businessDate.error.future          = The date must be today or in the past
 businessDate.error.minimum         = The date your property was demolished or became uninhabitable must be between 1 April 1993 and today
 businessDate.change.hidden         = Date the home changed to business use
+checkYourAnswers.submissionError.title = There was a problem sending your request
+checkYourAnswers.submissionError.body = Your request has not been sent and your answers have been kept. Select ''Confirm and send'' to try again.

@@ -1145,3 +1145,5 @@ businessDate.checkYourAnswersLabel = Date the home changed to business use
 businessDate.change.hidden         = Date the home changed to business use
 propertyMergedDate.error.minimum = Rhaid i’r dyddiad fod rhwng 1 Ebrill 1993 a heddiw
 propertySplitDate.error.minimum = Rhaid i’r dyddiad fod rhwng 1 Ebrill 1993 a heddiw
+checkYourAnswers.submissionError.title = Roedd problem wrth anfon eich cais
+checkYourAnswers.submissionError.body = Nid yw eich cais wedi cael ei anfon ac mae eich atebion wedi cael eu cadw. Dewiswch ''Cadarnhau ac anfon'' i roi cynnig arall arni.

@@ -41,11 +41,13 @@ class PropertyDetailService @Inject() (connector: BridgeIntegrationConnector)(im
         Left(error)
 
       case Right(response) =>
-        val records = response.results.records.map(_.data)
-        if (records.isEmpty) {
+        val allRecords = sortByEffectiveFrom(response.results.records.map(_.data))
+        // Latest record is the current band; the rest are historic, most recent first
+        val records = allRecords.drop(1)
+        if (allRecords.isEmpty) {
           Right(None)
         } else {
-          val address = records.iterator
+          val address = allRecords.iterator
             .flatMap { record =>
               Iterator(
                 record.list_entry.addresses.flatMap(_.full),
@@ -66,11 +68,10 @@ class PropertyDetailService @Inject() (connector: BridgeIntegrationConnector)(im
             for {
               band <- entry.valuation.flatMap(_.value)
               effectiveFrom <- period.flatMap(_.effective_from_date)
-              effectiveTo <- period.flatMap(_.effective_to_date).filter(_.nonEmpty)
             } yield HistoricBandEntry(
               band = band,
               effectiveFromDate = formatDate(effectiveFrom),
-              effectiveToDate = formatDate(effectiveTo),
+              effectiveToDate = period.flatMap(_.effective_to_date).filter(_.nonEmpty).map(formatDate).getOrElse("Not available"),
               localAuthority = localAuthority,
               councilRefNumber = councilRefNumber,
               improvementInd = improvementInd,
@@ -83,6 +84,30 @@ class PropertyDetailService @Inject() (connector: BridgeIntegrationConnector)(im
           Right(Some(HistoricBandsViewModel(propertyId, address, bands)))
         }
     }
+
+  /** The current (latest effective_from_date) record's list entry id and list type, never a historic band. */
+  def getLatestListEntry(propertyId: String)(implicit hc: HeaderCarrier): Future[Either[String, LatestListEntry]] =
+    connector.propertyDetail(propertyId).map {
+      case Left(error) => Left(s"Could not retrieve property $propertyId: status ${error.statusCode}")
+      case Right(response) =>
+        sortByEffectiveFrom(response.results.records.map(_.data)).headOption match {
+          case None => Left(s"No records found for property $propertyId")
+          case Some(latest) =>
+            for {
+              id       <- latest.list_entry.id.flatMap(_.value).filter(_.trim.nonEmpty)
+                            .toRight(s"No list entry id found for property $propertyId")
+              listType <- listTypeOf(latest).toRight(s"Could not tell whether property $propertyId is on the CVE or CVW list")
+            } yield LatestListEntry(id, listType)
+        }
+    }
+
+  // CVE (England) or CVW (Wales): the list's own class code, else the country code (E92... / W92...)
+  private def listTypeOf(record: PropertyDetailResult): Option[String] =
+    record.list.`class`.flatMap(_.code).map(_.trim.toUpperCase).filter(Set("CVE", "CVW"))
+      .orElse(record.list.country.flatMap(_.code).map(_.trim.toUpperCase).collect {
+        case c if c.startsWith("E") => "CVE"
+        case c if c.startsWith("W") => "CVW"
+      })
 
   def getHistoricBand(propertyId: String, bandIndex: Int)(implicit
       hc: HeaderCarrier,
@@ -105,7 +130,8 @@ class PropertyDetailService @Inject() (connector: BridgeIntegrationConnector)(im
         Left(error)
 
       case Right(result) =>
-        result.results.records.headOption.map(_.data) match {
+        val sorted = sortByEffectiveFrom(result.results.records.map(_.data))
+        sorted.headOption match {
           case None =>
             Right(None)
 
@@ -145,12 +171,19 @@ class PropertyDetailService @Inject() (connector: BridgeIntegrationConnector)(im
                   improvementInd = improvement,
                   mixedUse = mixedUse,
                   courtCode = courtCode,
-                  country = country
+                  country = country,
+                  hasHistoricBands = sorted.size > 1
                 )
               )
             )
         }
     }
+
+  /** Records ordered by effective_from_date, latest first. Records without a date go last. */
+  private def sortByEffectiveFrom(records: Seq[PropertyDetailResult]): Seq[PropertyDetailResult] =
+    records.sortBy(r => r.list_entry.period.flatMap(_.effective_from_date).map(_.filter(_.isDigit).take(8)).getOrElse(""))(
+      Ordering[String].reverse
+    )
 
   private def formatDate(raw: String)(implicit lang: Lang): String =
     DateTimeFormats.formatDate(raw).getOrElse(raw)
