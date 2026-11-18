@@ -34,11 +34,17 @@ class PropertyUninhabitableViewSpec extends SpecBase {
 
   val application = applicationBuilder(userAnswers = None).build()
   val view        = application.injector.instanceOf[PropertyUninhabitableView]
+  private val backLink =
+    routes.deletionOptionsController.onPageLoad(NormalMode).url
 
   implicit val fakeRequest: FakeRequest[AnyContentAsEmpty.type] = FakeRequest()
 
   def applyView(form: Form[PropertyUninhabitable]): HtmlFormat.Appendable =
-    view(form, NormalMode)(fakeRequest, messages(application))
+    view(
+      form,
+      NormalMode,
+      backLink
+    )(fakeRequest, messages(application))
 
   def asDocument(html: HtmlFormat.Appendable): Document =
     Jsoup.parse(html.toString)

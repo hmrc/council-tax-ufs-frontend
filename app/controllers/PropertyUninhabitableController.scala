@@ -45,6 +45,8 @@ class PropertyUninhabitableController @Inject()(
   val form = formProvider()
 
   private def backLink(mode: Mode, answers: Option[UserAnswers]): String =
+    println(s"ANSWERS = $answers")
+    println(s"BACKLINK = ${navigator.backLink(PropertyUninhabitablePage, mode, answers)}")
     navigator.backLink(PropertyUninhabitablePage, mode, answers).url
 
   def onPageLoad(mode: Mode): Action[AnyContent] = (sessionIdentify andThen getData) {
