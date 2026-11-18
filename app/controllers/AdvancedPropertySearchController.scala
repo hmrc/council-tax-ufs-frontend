@@ -74,7 +74,7 @@ class AdvancedPropertySearchController @Inject()(
             updatedAnswers <- Future.fromTry(clearedAnswers.set(AdvancedPropertySearchPage, value))
             _              <- sessionRepository.set(updatedAnswers)
           } yield {
-            auditService.auditPropertySearch(PropertySearchAuditEvent.advanced(request.userId, request.path, value))
+            auditService.auditPropertySearch(PropertySearchAuditEvent.advanced(PropertySearchAuditEvent.auditUserId(request.userId), request.path, value))
             val encryptedPostcode = urlEncryptor.encrypt(value.postcode)
             Redirect(routes.SearchResultsController.show(encryptedPostcode, 1))
           }

@@ -18,6 +18,8 @@ package models.audit
 
 import models.AdvancedPropertySearch
 import play.api.libs.json.{Json, OWrites}
+import play.api.mvc.RequestHeader
+import uk.gov.hmrc.http.SessionKeys
 
 /**
  * Detail for the `PropertySearch` explicit audit event, sent when the user presses Search.
@@ -41,6 +43,13 @@ object PropertySearchAuditEvent {
   val Advanced: String = "advanced"
 
   implicit val writes: OWrites[PropertySearchAuditEvent] = Json.writes[PropertySearchAuditEvent]
+
+  /**
+   * The identifier is the internalId when signed in, otherwise the mdtp sessionId. The sessionId
+   * is not a user identifier, so it is sent blank for unauthenticated users.
+   */
+  def auditUserId(userId: String)(implicit request: RequestHeader): String =
+    if (request.session.get(SessionKeys.sessionId).contains(userId)) "" else userId
 
   val PostcodePrefixKey: String = "postcodePrefix"
 
