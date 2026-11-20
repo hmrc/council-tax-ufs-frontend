@@ -17,21 +17,33 @@
 package controllers
 
 import base.SpecBase
+import org.mockito.ArgumentMatchers.any
+import org.mockito.Mockito.{atLeastOnce, verify, when}
+import org.scalatestplus.mockito.MockitoSugar
 import pages.SubmissionReferencePage
+import play.api.inject.bind
+import repositories.SessionRepository
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 
-class RequestSentControllerSpec extends SpecBase {
+import scala.concurrent.Future
+
+class RequestSentControllerSpec extends SpecBase with MockitoSugar {
 
   "RequestSent Controller" - {
 
     "must show the reference number and what happens next" in {
       val answers = emptyUserAnswers.set(SubmissionReferencePage, "HDJ2123FK7BN").success.value
-      val application = applicationBuilder(userAnswers = Some(answers)).build()
+      val mockSessionRepository = mock[SessionRepository]
+      when(mockSessionRepository.clear(any())).thenReturn(Future.successful(true))
+      val application = applicationBuilder(userAnswers = Some(answers))
+        .overrides(bind[SessionRepository].toInstance(mockSessionRepository))
+        .build()
 
       running(application) {
         val result = route(application, FakeRequest(GET, routes.RequestSentController.onPageLoad().url)).value
         val html = contentAsString(result)
+        verify(mockSessionRepository, atLeastOnce()).clear(any())
 
         status(result) mustEqual OK
         html must include("Your request has been sent")

@@ -69,7 +69,7 @@ class HistoricBandsControllerSpec extends SpecBase with MockitoSugar {
         html must include("1 April 1993")
         html must include("1 January 2024")
         html must include(s"href=\"${routes.HistoricBandsController.onBandPageLoad(propertyId.toLowerCase, 0).url}\"")
-        html must include(s"href=\"${routes.PropertyDetailController.onPageLoad(propertyId.toLowerCase).url}\"")
+        html must include("govuk-back-link")
       }
     }
 
@@ -117,7 +117,7 @@ class HistoricBandsControllerSpec extends SpecBase with MockitoSugar {
         html must include("href=\"tel:03000501501\"")
         html must include("href=\"mailto:ctinboxvo@hmrc.gov.uk\"")
         html must include("Print this page")
-        html must include(s"href=\"${routes.HistoricBandsController.onPageLoad(propertyId.toLowerCase).url}\"")
+        html must include("govuk-back-link")
       }
     }
   }

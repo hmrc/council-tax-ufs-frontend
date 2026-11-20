@@ -20,10 +20,13 @@ import controllers.actions.{DataRequiredAction, DataRetrievalAction, IdentifierA
 import pages.SubmissionReferencePage
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
+import repositories.SessionRepository
+import uk.gov.hmrc.http.SessionKeys
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import views.html.RequestSentView
 
 import javax.inject.{Inject, Singleton}
+import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
 class RequestSentController @Inject()(
@@ -32,13 +35,19 @@ class RequestSentController @Inject()(
   getData: DataRetrievalAction,
   requireData: DataRequiredAction,
   val controllerComponents: MessagesControllerComponents,
-  view: RequestSentView
-) extends FrontendBaseController with I18nSupport {
+  view: RequestSentView,
+  sessionRepository: SessionRepository
+)(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
-  def onPageLoad(): Action[AnyContent] = (identify andThen getData andThen requireData) { implicit request =>
+  def onPageLoad(): Action[AnyContent] = (identify andThen getData andThen requireData).async { implicit request =>
     request.userAnswers.get(SubmissionReferencePage) match {
-      case Some(reference) => Ok(view(reference))
-      case None            => Redirect(routes.CheckYourAnswersController.onPageLoad(models.Journey.from(request.userAnswers)))
+      case Some(reference) =>
+        // the request is done: wipe the answers so starting again begins with a clean journey
+        Future
+          .sequence((request.userId +: request.session.get(SessionKeys.sessionId).toSeq).distinct.map(sessionRepository.clear))
+          .map(_ => Ok(view(reference)))
+      case None =>
+        Future.successful(Redirect(routes.CheckYourAnswersController.onPageLoad(models.Journey.from(request.userAnswers))))
     }
   }
 }
