@@ -31,6 +31,10 @@ class FrontendAppConfig @Inject() (configuration: Configuration, servicesConfig:
   private val contactHost = configuration.get[String]("contact-frontend.host")
   private val contactFormServiceIdentifier = "council-tax-ufs-frontend"
   val bridgeIntegration: String = servicesConfig.baseUrl("bridge-integration")
+  val emailService: String      = servicesConfig.baseUrl("email")
+
+  def enquirySubmittedEmailTemplate(welsh: Boolean): String =
+    configuration.get[String](s"email.templates.enquirySubmitted.${if (welsh) "cy" else "en"}")
 
   // logs the submission JSON, which holds personal details: on in Play dev mode (local), off everywhere else unless set
   val logSubmissionPayload: Boolean =

@@ -38,11 +38,12 @@ class SubmissionService @Inject()(
   payloadBuilder: SubmissionPayloadBuilder,
   referenceGenerator: ReferenceGenerator,
   sessionRepository: SessionRepository,
-  appConfig: FrontendAppConfig
+  appConfig: FrontendAppConfig,
+  enquiryEmailService: EnquiryEmailService
 )(implicit ec: ExecutionContext) extends Logging {
 
-  // submitting twice returns the first reference and doesn't send again
-  def submit(answers: UserAnswers)(implicit hc: HeaderCarrier): Future[Either[String, String]] =
+  // submitting twice returns the first reference and doesn't send again (so no second email either)
+  def submit(answers: UserAnswers, welsh: Boolean = false)(implicit hc: HeaderCarrier): Future[Either[String, String]] =
     answers.get(SubmissionReferencePage) match {
       case Some(existing) => Future.successful(Right(existing))
       case None =>
@@ -63,6 +64,7 @@ class SubmissionService @Inject()(
                 for {
                   updated <- Future.fromTry(answers.set(SubmissionReferencePage, reference))
                   _       <- sessionRepository.set(updated)
+                  _       <- enquiryEmailService.sendConfirmation(answers, reference, welsh)
                 } yield Right(reference)
             }.recover {
               case NonFatal(ex) =>

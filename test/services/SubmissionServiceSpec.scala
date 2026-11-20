@@ -43,7 +43,17 @@ class SubmissionServiceSpec extends AsyncFreeSpec with Matchers with MockitoSuga
 
   private val answers = UserAnswers("id").set(PropertyIdPage, "PROP-1").success.value
 
-  private def build(result: Either[String, Unit], listEntry: Either[String, LatestListEntry] = Right(LatestListEntry("LATEST-ENTRY", "CVE"))) = {
+  private def emailService(): EnquiryEmailService = {
+    val email = mock[EnquiryEmailService]
+    when(email.sendConfirmation(any(), any(), any())(any())).thenReturn(Future.unit)
+    email
+  }
+
+  private def build(
+    result: Either[String, Unit],
+    listEntry: Either[String, LatestListEntry] = Right(LatestListEntry("LATEST-ENTRY", "CVE")),
+    email: EnquiryEmailService = emailService()
+  ) = {
     val details   = mock[PropertyDetailService]
     val connector = mock[BridgeIntegrationConnector]
     val builder   = mock[SubmissionPayloadBuilder]
@@ -54,7 +64,7 @@ class SubmissionServiceSpec extends AsyncFreeSpec with Matchers with MockitoSuga
     when(details.getLatestListEntry(eqTo("PROP-1"))(any())).thenReturn(Future.successful(listEntry))
     when(connector.submitEnquiry(any(), any(), any())(any())).thenReturn(Future.successful(result))
     when(repo.set(any())).thenReturn(Future.successful(true))
-    (new SubmissionService(connector, details, builder, generator, repo, mock[config.FrontendAppConfig]), connector, repo)
+    (new SubmissionService(connector, details, builder, generator, repo, mock[config.FrontendAppConfig], email), connector, repo)
   }
 
   "SubmissionService" - {
@@ -105,10 +115,38 @@ class SubmissionServiceSpec extends AsyncFreeSpec with Matchers with MockitoSuga
       val details   = mock[PropertyDetailService]
       when(generator.generate()).thenReturn("HDJ2123F")
       when(builder.build(any(), any())).thenReturn(Left(Seq("No answer for P01")))
-      new SubmissionService(connector, details, builder, generator, repo, mock[config.FrontendAppConfig]).submit(answers).map { result =>
+      new SubmissionService(connector, details, builder, generator, repo, mock[config.FrontendAppConfig], emailService()).submit(answers).map { result =>
         result mustBe Left("No answer for P01")
         verify(connector, never()).submitEnquiry(any(), any(), any())(any())
         verify(repo, never()).set(any())
+        succeed
+      }
+    }
+
+    "must send the confirmation email once the submission succeeds, in the user's language" in {
+      val email = emailService()
+      val (service, _, _) = build(Right(()), email = email)
+      service.submit(answers, welsh = true).map { _ =>
+        verify(email).sendConfirmation(eqTo(answers), eqTo("HDJ2123F"), eqTo(true))(any())
+        succeed
+      }
+    }
+
+    "must not send the confirmation email when the submission fails" in {
+      val email = emailService()
+      val (service, _, _) = build(Left("boom"), email = email)
+      service.submit(answers).map { _ =>
+        verify(email, never()).sendConfirmation(any(), any(), any())(any())
+        succeed
+      }
+    }
+
+    "must not send a second email when the enquiry was already submitted" in {
+      val email = emailService()
+      val (service, _, _) = build(Right(()), email = email)
+      val submitted = UserAnswers("id").set(SubmissionReferencePage, "ABC2345D").success.value
+      service.submit(submitted).map { _ =>
+        verify(email, never()).sendConfirmation(any(), any(), any())(any())
         succeed
       }
     }

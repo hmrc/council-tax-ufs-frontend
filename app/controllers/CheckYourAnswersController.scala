@@ -93,7 +93,7 @@ class CheckYourAnswersController @Inject()(
       wrongJourney(journey, request.userAnswers) match {
         case Some(redirect) => Future.successful(redirect)
         case None =>
-          submissionService.submit(request.userAnswers).map {
+          submissionService.submit(request.userAnswers, welsh = messagesApi.preferred(request).lang.code == "cy").map {
             case Right(_) => Redirect(routes.RequestSentController.onPageLoad())
             // a real journey is being followed: keep the answers and let the user try again
             case Left(_) if Journey.chosen(request.userAnswers).isDefined =>
