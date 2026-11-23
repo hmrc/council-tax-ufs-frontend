@@ -33,14 +33,30 @@ object ContactDetailsSummary {
   // name, email, phone and correspondence address
   def rows(answers: UserAnswers)(implicit messages: Messages): Seq[SummaryListRow] =
     answers.get(ContactDetailsPage).toSeq.flatMap { answer =>
-      val address = Seq(answer.addressLine1, answer.addressLine2, answer.townOrCity, answer.county, answer.postcode).flatten
-
       Seq(
         Some("contactDetails.checkYourAnswers.name" -> Seq(s"${answer.firstName} ${answer.lastName}")),
         answer.email.map("contactDetails.checkYourAnswers.email" -> Seq(_)),
-        answer.phoneNumber.map("contactDetails.checkYourAnswers.phoneNumber" -> Seq(_)),
-        Option.when(address.nonEmpty)("contactDetails.checkYourAnswers.address" -> address)
+        answer.phoneNumber.map("contactDetails.checkYourAnswers.phoneNumber" -> Seq(_))
       ).flatten.map { case (key, lines) => row(key, lines) }
+    }
+
+  def addressRows(answers: UserAnswers)(implicit messages: Messages): Seq[SummaryListRow] =
+    answers.get(ContactDetailsPage).toSeq.flatMap { answer =>
+      val address = Seq(
+        "contactDetails.checkYourAnswers.addressLine1" -> answer.addressLine1,
+        "contactDetails.checkYourAnswers.addressLine2" -> answer.addressLine2,
+        "contactDetails.checkYourAnswers.townOrCity"    -> answer.townOrCity,
+        "contactDetails.checkYourAnswers.county"        -> answer.county,
+        "contactDetails.checkYourAnswers.postcode"      -> answer.postcode
+      )
+
+      if (address.exists(_._2.nonEmpty)) {
+        address.map { case (key, value) =>
+          row(key, value.toSeq, Some(s"$key.hidden"))
+        }
+      } else {
+        Seq.empty
+      }
     }
 
   // preferred contact methods on one line, always Email,Phone,Post order
@@ -50,13 +66,13 @@ object ContactDetailsSummary {
         Seq(contactMethodOrder.filter(answer.value.contains).map(m => messages(s"contactMethod.$m")).mkString(",")))
     }
 
-  private def row(key: String, lines: Seq[String])(implicit messages: Messages): SummaryListRow =
+  private def row(key: String, lines: Seq[String], hiddenTextKey: Option[String] = None)(implicit messages: Messages): SummaryListRow =
     SummaryListRowViewModel(
       key     = key,
       value   = ValueViewModel(HtmlContent(lines.map(HtmlFormat.escape(_).toString).mkString("<br/>"))),
       actions = Seq(
         ActionItemViewModel("site.change", routes.ContactDetailsController.onPageLoad(CheckMode).url)
-          .withVisuallyHiddenText(messages(s"$key.hidden"))
+          .withVisuallyHiddenText(messages(hiddenTextKey.getOrElse(s"$key.hidden")))
       )
     )
 }

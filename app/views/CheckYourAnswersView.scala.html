@@ -70,7 +70,9 @@
         @PrintLink(messages("button.print"))
     </div>
 
-    @formHelper(action = routes.CheckYourAnswersController.onSubmit(journey), Symbol("autoComplete") -> "off") {
-        @govukButton(ButtonViewModel(messages("checkYourAnswers.confirmAndSend")).preventingDoubleClick())
-    }
+    <div class="govuk-!-display-none-print">
+        @formHelper(action = routes.CheckYourAnswersController.onSubmit(journey), Symbol("autoComplete") -> "off") {
+            @govukButton(ButtonViewModel(messages("checkYourAnswers.confirmAndSend")).preventingDoubleClick())
+        }
+    </div>
 }

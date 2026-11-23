@@ -19,7 +19,7 @@ package views
 import base.SpecBase
 import controllers.routes
 import forms.WhichBandFormProvider
-import models.{WhichBand, NormalMode}
+import models.{CheckMode, WhichBand, NormalMode}
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import play.api.data.Form
@@ -43,8 +43,12 @@ class WhichBandViewSpec extends SpecBase {
   val walesCountry   = BandCountry.Wales
   val currentBand    = "D"
 
-  def applyView(form: Form[WhichBand], country: BandCountry = englandCountry): HtmlFormat.Appendable =
-    view(form, NormalMode, country, currentBand)(fakeRequest, messages(application))
+  def applyView(
+    form: Form[WhichBand],
+    country: BandCountry = englandCountry,
+    mode: models.Mode = NormalMode
+  ): HtmlFormat.Appendable =
+    view(form, mode, country, currentBand)(fakeRequest, messages(application))
 
   def asDocument(html: HtmlFormat.Appendable): Document =
     Jsoup.parse(html.toString)
@@ -96,6 +100,11 @@ class WhichBandViewSpec extends SpecBase {
     "must render 10 radio buttons for Wales (A to I plus not sure)" in {
       val doc = asDocument(applyView(form, walesCountry))
       doc.select(".govuk-radios__item").size() mustBe 10
+    }
+
+    "must retain the saved selection when changing the answer" in {
+      val doc = asDocument(applyView(form.fill(WhichBand.Bandd), mode = CheckMode))
+      doc.select("input[value=bandD]").hasAttr("checked") mustBe true
     }
 
     "must render the band details expand component" in {

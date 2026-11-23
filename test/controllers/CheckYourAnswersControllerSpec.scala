@@ -24,6 +24,7 @@ import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import viewmodels.govuk.SummaryListFluency
 import views.html.CheckYourAnswersView
+import org.jsoup.Jsoup
 
 class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
 
@@ -200,6 +201,40 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
       acting must include(routes.CouncilTaxPayerDetailsController.onPageLoad(models.CheckMode).url)
     }
 
+    "must show correspondence address fields as separate rows" in {
+      val details = ContactDetails(
+        "Jo",
+        "Bloggs",
+        None,
+        Some("07324330170"),
+        Some("19 Somerby Court"),
+        None,
+        Some("Nottingham"),
+        None,
+        Some("NG9 3NB"),
+        Set("post")
+      )
+      val answers = emptyUserAnswers.set(pages.ContactDetailsPage, details).success.value
+      val application = applicationBuilder(userAnswers = Some(answers)).build()
+
+      running(application) {
+        val html = contentAsString(route(application, FakeRequest(
+          GET,
+          routes.CheckYourAnswersController.onPageLoad(Journey.Challenge).url
+        )).value)
+        val doc = Jsoup.parse(html)
+
+        html must include("Correspondence address")
+        html must include("Address line 1")
+        html must include("Town or city")
+        html must include("Postcode")
+        html must include("19 Somerby Court")
+        html must include("Nottingham")
+        html must include("NG9 3NB")
+        doc.select("a[href=" + routes.ContactDetailsController.onPageLoad(models.CheckMode).url + "]").size() mustBe 8
+      }
+    }
+
     "must offer a Confirm and send button that posts to the submit route" in {
       val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
 
@@ -207,6 +242,7 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
         val html = contentAsString(route(application, FakeRequest(GET, routes.CheckYourAnswersController.onPageLoad(Journey.Challenge).url)).value)
         html must include("Confirm and send")
         html must include(routes.CheckYourAnswersController.onSubmit(Journey.Challenge).url)
+        Jsoup.parse(html).select("div[class=govuk-!-display-none-print] form").size() mustBe 1
       }
     }
 

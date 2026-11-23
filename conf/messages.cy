@@ -511,7 +511,7 @@ deletionOptions.changed               = Mae’r ffordd y mae fy eiddo yn cael ei
 deletionOptions.affected              = Mae newidiadau yn yr ardal leol wedi effeithio ar fy eiddo
 deletionOptions.anotherReason         = Rheswm arall
 deletionOptions.checkYourAnswersLabel = Beth sydd wedi newid?
-deletionOptions.error.required        = Dewiswch beth sydd wedi newid
+deletionOptions.error.required        = Dewiswch yr hyn rydych am ei newid
 
 # --- scenarioOther ---
 scenarioOther.title           = Arall
@@ -686,6 +686,16 @@ contactDetails.checkYourAnswers.phoneNumber           = Rhif ffôn
 contactDetails.checkYourAnswers.phoneNumber.hidden    = rhif ffôn
 contactDetails.checkYourAnswers.address               = Cyfeiriad ar gyfer gohebiaeth
 contactDetails.checkYourAnswers.address.hidden        = cyfeiriad ar gyfer gohebiaeth
+contactDetails.checkYourAnswers.addressLine1          = Llinell cyfeiriad 1
+contactDetails.checkYourAnswers.addressLine1.hidden   = llinell cyfeiriad 1
+contactDetails.checkYourAnswers.addressLine2          = Llinell cyfeiriad 2
+contactDetails.checkYourAnswers.addressLine2.hidden   = llinell cyfeiriad 2
+contactDetails.checkYourAnswers.townOrCity            = Tref neu ddinas
+contactDetails.checkYourAnswers.townOrCity.hidden     = tref neu ddinas
+contactDetails.checkYourAnswers.county                = Sir
+contactDetails.checkYourAnswers.county.hidden         = sir
+contactDetails.checkYourAnswers.postcode              = Cod post
+contactDetails.checkYourAnswers.postcode.hidden       = cod post
 contactDetails.checkYourAnswers.contactMethods        = Cyswllt a ffefrir
 contactDetails.checkYourAnswers.contactMethods.hidden = cyswllt a ffefrir
 contactDetails.title                                  = Beth yw eich manylion cyswllt?

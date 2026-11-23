@@ -113,6 +113,43 @@ class CheckAnswersSummariesSpec extends SpecBase with OptionValues {
     }
   }
 
+  "ContactDetailsSummary address rows" - {
+    "must show each correspondence address field separately with its own accessible Change link" in withMessages { implicit msgs =>
+      val contactDetails = ContactDetails(
+        "Jo",
+        "Bloggs",
+        None,
+        None,
+        Some("19 Somerby Court"),
+        None,
+        Some("Nottingham"),
+        None,
+        Some("NG9 3NB"),
+        Set("post")
+      )
+      val answers = emptyUserAnswers.set(ContactDetailsPage, contactDetails).success.value
+      val rows    = ContactDetailsSummary.addressRows(answers)
+
+      rows.map(_.key.content.asHtml.toString) mustBe Seq(
+        msgs("contactDetails.checkYourAnswers.addressLine1"),
+        msgs("contactDetails.checkYourAnswers.addressLine2"),
+        msgs("contactDetails.checkYourAnswers.townOrCity"),
+        msgs("contactDetails.checkYourAnswers.county"),
+        msgs("contactDetails.checkYourAnswers.postcode")
+      )
+      rows.map(valueHtml) mustBe Seq("19 Somerby Court", "", "Nottingham", "", "NG9 3NB")
+      rows.foreach(_.actions.value.items.head.href mustBe controllers.routes.ContactDetailsController.onPageLoad(CheckMode).url)
+    }
+
+    "must return no address rows when the address is empty" in withMessages { implicit msgs =>
+      val answers = emptyUserAnswers
+        .set(ContactDetailsPage, ContactDetails("Jo", "Bloggs", None, None, None, None, None, None, None, Set("post")))
+        .success.value
+
+      ContactDetailsSummary.addressRows(answers) mustBe empty
+    }
+  }
+
   "PostcodeSearchSummary" - {
     "must show the escaped postcode with a change link" in withMessages { implicit msgs =>
       val answers = emptyUserAnswers.set(PostcodeSearchPage, "CF5 <4GP>").success.value

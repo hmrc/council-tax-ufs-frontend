@@ -787,6 +787,16 @@ contactDetails.checkYourAnswers.phoneNumber           = Telephone number
 contactDetails.checkYourAnswers.phoneNumber.hidden    = telephone number
 contactDetails.checkYourAnswers.address               = Correspondence address
 contactDetails.checkYourAnswers.address.hidden        = correspondence address
+contactDetails.checkYourAnswers.addressLine1          = Address line 1
+contactDetails.checkYourAnswers.addressLine1.hidden   = address line 1
+contactDetails.checkYourAnswers.addressLine2          = Address line 2
+contactDetails.checkYourAnswers.addressLine2.hidden   = address line 2
+contactDetails.checkYourAnswers.townOrCity            = Town or city
+contactDetails.checkYourAnswers.townOrCity.hidden     = town or city
+contactDetails.checkYourAnswers.county                = County
+contactDetails.checkYourAnswers.county.hidden         = county
+contactDetails.checkYourAnswers.postcode              = Postcode
+contactDetails.checkYourAnswers.postcode.hidden       = postcode
 contactDetails.checkYourAnswers.contactMethods        = Preferred contact
 contactDetails.checkYourAnswers.contactMethods.hidden = preferred contact
 

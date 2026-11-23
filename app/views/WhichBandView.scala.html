@@ -53,7 +53,9 @@ govukButton: GovukButton
                 idPrefix     = Some("value"),
                 name         = "value",
                 errorMessage = form("value").error.map(err => ErrorMessage(content = Text(messages(err.message)))),
-                items        = WhichBand.options(country)
+                items        = WhichBand.options(country).map { item =>
+                    item.copy(checked = form("value").value.isDefined && form("value").value == item.value)
+                }
             )
         )
 
