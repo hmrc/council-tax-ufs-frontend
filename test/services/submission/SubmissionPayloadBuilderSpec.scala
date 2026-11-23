@@ -100,7 +100,9 @@ class SubmissionPayloadBuilderSpec extends JourneyFixtures {
       (json \ "submissionId").as[String] mustBe "UFSJ30001EQ"
       (json \ "files").as[Seq[JsObject]] mustBe empty
       (json \ "product" \ "person" \ "communications" \ "forenames").as[String] mustBe "John"
-      (json \ "product" \ "person" \ "capacity" \ "code").as[String] mustBe "TXP"
+      (json \ "product" \ "person" \ "customerCapacity" \ "code").as[String] mustBe "TXP"
+      (json \ "product" \ "person" \ "capacity").toOption mustBe None
+      (json \ "product" \ "person" \ "taxPayerCapacity").toOption mustBe None
       (json \ "product" \ "relationship" \ "class" \ "code").as[String] mustBe "COUNCIL_TAX"
       (json \ "premises" \ 0 \ "unique_statutory_ref").as[String] mustBe "J03"
       Json.parse((json \ "premises" \ 0 \ "statements" \ 0 \ "text").as[String]) mustBe
@@ -120,6 +122,9 @@ class SubmissionPayloadBuilderSpec extends JourneyFixtures {
       acting.councilTaxPayerEmail mustBe Some("jane@example.com")
       acting.councilTaxPayerContactPreference mustBe Some("EMAIL")
       acting.councilTaxPayerContactAddress mustBe Some("1 High Street, London, SW1A 1AA")
+
+      val actingJson = Json.toJson(build(set(set(complete("J02"), CouncilTaxPayerDetailsPage, payer), CouncilTaxResponsiblePage, CouncilTaxResponsible.ActingFor)).value)
+      (actingJson \ "product" \ "person" \ "taxPayerCapacity" \ "code").as[String] mustBe "TXP"
     }
 
     "must list the uploaded files, and none when the user has no evidence" in {

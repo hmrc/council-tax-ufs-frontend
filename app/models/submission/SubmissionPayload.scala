@@ -56,7 +56,7 @@ final case class SubmissionPayload(
 object SubmissionPayload {
 
   // capacity and relationship are fixed for now; they may become dynamic or be dropped
-  private val capacity: JsObject = Json.obj("code" -> "TXP", "meaning" -> "Council Tax Payer")
+  private val customerCapacity: JsObject = Json.obj("code" -> "TXP", "meaning" -> "Council Tax Payer")
 
   private val relationship: JsObject = Json.obj(
     "manifestation" -> Json.obj(
@@ -93,13 +93,23 @@ object SubmissionPayload {
         c.councilTaxPayerContactAddress.map("CouncilTaxPayerContactAddress" -> JsString(_))
       ).flatten)
 
+  private def personJson(c: Communications): JsObject = {
+    val person = Json.obj(
+      "communications"   -> communicationsJson(c),
+      "customerCapacity" -> customerCapacity
+    )
+
+    if (c.councilTaxPayerFirstName.isDefined) person ++ Json.obj("taxPayerCapacity" -> customerCapacity)
+    else person
+  }
+
   implicit val writes: OWrites[SubmissionPayload] = OWrites { p =>
     Json.obj(
       "submissionId"    -> p.submissionId,
       "submission_date" -> p.submissionDate,
       "files"           -> Json.toJson(p.files)(Writes.seq(fileWrites)),
       "product" -> Json.obj(
-        "person"       -> Json.obj("communications" -> communicationsJson(p.communications), "capacity" -> capacity),
+        "person"       -> personJson(p.communications),
         "relationship" -> relationship
       ),
       "premises" -> p.premises.map { pr =>

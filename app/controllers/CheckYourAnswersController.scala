@@ -80,6 +80,7 @@ class CheckYourAnswersController @Inject()(
         ).flatten).toSeq.flatten,
         "checkYourAnswers.section.councilTaxPayer" -> Option.when(actingFor)(CouncilTaxPayerDetailsSummary.rows(request.userAnswers)).toSeq.flatten,
         "checkYourAnswers.section.contactDetails" -> ContactDetailsSummary.rows(request.userAnswers),
+        "contactDetails.checkYourAnswers.address" -> ContactDetailsSummary.addressRows(request.userAnswers),
         "checkYourAnswers.section.preferredContact" -> ContactDetailsSummary.preferredContactRows(request.userAnswers)
       ).collect {
         case (heading, rows) if rows.nonEmpty => heading -> SummaryListViewModel(rows)

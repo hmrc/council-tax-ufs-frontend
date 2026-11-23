@@ -48,6 +48,7 @@ class Navigator @Inject()() {
    * production) after login, wherever the sign-in point sits in the journey.
    */
   def backLink(page: Page, mode: Mode, userAnswers: Option[UserAnswers]): Call = mode match {
+    case CheckMode if page == deletionOptionsPage => routes.ReasonForReviewController.onPageLoad(CheckMode)
     case CheckMode  => checkYourAnswers(userAnswers.getOrElse(UserAnswers("")))
     case NormalMode =>
       val answers = userAnswers.getOrElse(UserAnswers(""))

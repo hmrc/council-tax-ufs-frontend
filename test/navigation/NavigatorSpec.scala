@@ -105,6 +105,11 @@ class NavigatorSpec extends SpecBase {
         navigator.backLink(CouncilTaxLiabilityStartDatePage, CheckMode, None) mustBe routes.CheckYourAnswersController.onPageLoad(Journey.Challenge)
         navigator.backLink(WhyBandIsWrongPage, CheckMode, None) mustBe routes.CheckYourAnswersController.onPageLoad(Journey.Challenge)
       }
+
+      "must return from the property changes options to the reason question in Check mode" in {
+        navigator.backLink(deletionOptionsPage, CheckMode, None) mustBe
+          routes.ReasonForReviewController.onPageLoad(CheckMode)
+      }
     }
 
     "in Normal mode" - {
