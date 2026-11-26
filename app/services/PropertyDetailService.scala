@@ -63,7 +63,7 @@ class PropertyDetailService @Inject() (connector: BridgeIntegrationConnector)(im
             val localAuthority = record.list.collection_authority.flatMap(ca => ca.label.orElse(ca.code)).getOrElse("Not available")
             val councilRefNumber = entry.property.flatMap(_.collection_authority_ref).getOrElse("Not available")
             val improvementInd = entry.property.flatMap(_.workflow).flatMap(_.improvement_ind).map(indicatorToYesNo).getOrElse("Not available")
-            val mixedUse = entry.use.flatMap(_.composite_ind).map(indicatorToYesNo).getOrElse("Not available")
+            val mixedUse = entry.use.flatMap(_.composite_ind).map(PropertyDetailService.compositeToYesNo).getOrElse("Not available")
             val valuationList = record.list.id.flatMap(_.value).getOrElse("Not available")
             for {
               band <- entry.valuation.flatMap(_.value)
@@ -151,7 +151,7 @@ class PropertyDetailService @Inject() (connector: BridgeIntegrationConnector)(im
             val localCouncilLink = list.collection_authority.flatMap(_.pointer).flatMap(ExternalLink.absolute)
             val councilRef = entry.property.flatMap(_.collection_authority_ref).getOrElse("Not available")
             val improvement = entry.property.flatMap(_.workflow).flatMap(_.improvement_ind).map(indicatorToYesNo).getOrElse("Not available")
-            val mixedUse = entry.use.flatMap(_.composite_ind).map(indicatorToYesNo).getOrElse("Not available")
+            val mixedUse = entry.use.flatMap(_.composite_ind).map(PropertyDetailService.compositeToYesNo).getOrElse("Not available")
             val courtCode = entry.administration.flatMap(_.judicially_ordered_by).getOrElse("None")
             val country = list.country
               .flatMap(country => country.label.orElse(country.code))
@@ -190,4 +190,15 @@ class PropertyDetailService @Inject() (connector: BridgeIntegrationConnector)(im
 
   private def indicatorToYesNo(value: String): String =
     if (value.trim.equalsIgnoreCase("Y") || value.trim.equalsIgnoreCase("yes")) "Yes" else "No"
+}
+
+object PropertyDetailService {
+
+  // Mixed use comes from use.composite_ind: "C" (composite) is mixed use, "N" is domestic use only.
+  def compositeToYesNo(value: String): String =
+    value.trim.toUpperCase(java.util.Locale.ROOT) match {
+      case "C" => "Yes"
+      case "N" => "No"
+      case _ => "Not available"
+    }
 }
