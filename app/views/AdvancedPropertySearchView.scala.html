@@ -77,7 +77,7 @@
                 govukSelect(SelectFieldHelper.select(form, "advancedPropertySearch", "localAuthority", AdvancedSearchDropdowns.localAuthorityList.valuesWithLabels)).toString +
                 govukInput(
                     InputViewModel(
-                        field = form("laReferenceNumber"),
+                        field = form("localAuthorityReferenceNumber"),
                         label = LabelViewModel(messages("advancedPropertySearch.laReferenceNumber"))
                     ).withHint(HintViewModel(messages("advancedPropertySearch.laReferenceNumber.hint")))
                     .withWidth(Fixed20)
